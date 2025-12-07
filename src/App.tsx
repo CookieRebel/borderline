@@ -8,22 +8,18 @@ function App() {
   const { gameState, handleGuess, handleGiveUp, difficulty, setDifficulty } = useGameLogic();
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: 'var(--color-bg-primary)',
-      padding: 'var(--spacing-xl) var(--spacing-md)'
-    }}>
+    <div className="app-container">
       <Container style={{ maxWidth: '900px' }}>
         {/* Header */}
         <div style={{
           textAlign: 'center',
-          marginBottom: 'var(--spacing-xl)',
+          marginBottom: 'var(--spacing-md)', // Reduced from xl
           animation: 'fadeIn 0.5s ease-out'
         }}>
           <h1 style={{
             fontSize: '2.5rem',
             fontWeight: '700',
-            marginBottom: 'var(--spacing-sm)',
+            marginBottom: 'var(--spacing-xs)', // Reduced from sm
             background: 'linear-gradient(135deg, var(--color-accent) 0%, #059669 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -34,7 +30,7 @@ function App() {
           <p style={{
             color: 'var(--color-text-secondary)',
             fontSize: '0.95rem',
-            marginBottom: 'var(--spacing-lg)'
+            marginBottom: 'var(--spacing-md)' // Reduced from lg
           }}>
             Guess the country or territory from its outline
           </p>
@@ -43,7 +39,7 @@ function App() {
           <div style={{
             display: 'inline-flex',
             backgroundColor: 'var(--color-bg-elevated)',
-            padding: '4px',
+            padding: '2px', // Reduced from 4px
             borderRadius: 'var(--radius-md)',
             border: '1px solid var(--color-border)'
           }}>
@@ -52,7 +48,7 @@ function App() {
                 key={level}
                 onClick={() => setDifficulty(level)}
                 style={{
-                  padding: '6px 16px',
+                  padding: '4px 12px', // Reduced from 6px 16px
                   borderRadius: 'calc(var(--radius-md) - 2px)',
                   border: 'none',
                   backgroundColor: difficulty === level ? 'white' : 'transparent',
@@ -72,7 +68,7 @@ function App() {
         </div>
 
         {/* Game Card */}
-        <div style={{
+        <div className="game-card" style={{
           backgroundColor: 'var(--color-bg-card)',
           borderRadius: 'var(--radius-lg)',
           boxShadow: 'var(--shadow-lg)',

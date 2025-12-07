@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Responsive App Container */
+.app-container {
+  min-height: 100vh;
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 0;
+  }
+  
+  /* Remove border radius on mobile for the main card if we want it flush */
+  .game-card {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+}
