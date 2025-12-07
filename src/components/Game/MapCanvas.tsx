@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useRef, useEffect, memo } from 'react';
 import { geoPath, geoGraticule, geoOrthographic, geoCentroid } from 'd3-geo';
 import { zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
-import { drag as d3Drag } from 'd3-drag';
 import { select } from 'd3-selection';
 import { motion } from 'framer-motion';
 import type { Feature } from 'geojson';
@@ -89,48 +88,50 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         if (!svgRef.current) return;
         const svg = select(svgRef.current);
 
-        // Zoom Behavior
+        // Store previous transform to calculate deltas
+        // We initialize it to match the current scale
+        let previousTransform = zoomIdentity.scale(scale);
+
+        // Zoom Behavior (Handles both Pan (Rotation) and Zoom (Scale))
         const zoomBehavior = d3Zoom<SVGSVGElement, unknown>()
             .scaleExtent([100, 5000]) // Min/Max zoom
-            .filter((event: any) => {
-                // Allow wheel (scroll) and pinch (touch)
-                // Prevent mousedown (panning) so drag can handle it
-                return event.type === 'wheel' || event.type === 'touchstart' || event.type === 'touchmove' || event.type === 'touchend';
-            })
             .on('zoom', (event) => {
-                setScale(event.transform.k);
+                const { transform } = event;
+                const { k, x, y } = transform;
+
+                const dx = x - previousTransform.x;
+                const dy = y - previousTransform.y;
+
+                // Update Scale
+                setScale(k);
+
+                // Update Rotation
+                if (k > 0) {
+                    const sensitivity = 75 / k;
+                    setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
+                }
+
+                previousTransform = transform;
             });
 
-        // Drag Behavior (Rotation)
-        const dragBehavior = d3Drag<SVGSVGElement, unknown>()
-            .on('drag', (event: any) => {
-                setRotation(curr => {
-                    const [r0, r1] = curr;
-                    // Sensitivity: slower rotation when zoomed in
-                    const sensitivity = 75 / scale;
-                    return [r0 + event.dx * sensitivity, r1 - event.dy * sensitivity];
-                });
-            });
+        // Remove any existing listeners
+        svg.on('.zoom', null);
+        svg.on('.drag', null);
 
         svg.call(zoomBehavior);
-        svg.call(dragBehavior);
 
-        // Initialize zoom transform to current scale
-        // This ensures the first scroll doesn't jump the scale
-        svg.call(zoomBehavior.transform, zoomIdentity.scale(scale));
+        // Initialize zoom transform
+        // We reset the zoom transform to match the current scale whenever this effect runs.
+        // This effect runs when `targetCountry` changes (because `scale` changes).
+        // This effectively resets the view for each new round.
+        const initialTransform = zoomIdentity.scale(scale);
+        svg.call(zoomBehavior.transform, initialTransform);
+        previousTransform = initialTransform;
 
         return () => {
             svg.on('.zoom', null);
-            svg.on('.drag', null);
         };
-    }, [scale]); // Re-binding on scale change might be inefficient, but ensures drag sensitivity is updated? 
-    // Actually, drag sensitivity uses 'scale' from closure. If we don't depend on scale, it uses stale scale.
-    // Better: Use a ref for scale in the drag handler, or just let it re-bind. Re-binding is fine for this.
-    // BUT re-binding zoom resets the transform if we're not careful.
-    // We should probably separate the initialization of behaviors from the updates.
-    // However, for simplicity in this component, re-running the effect is acceptable if we preserve the transform.
-    // Wait, if we re-run the effect, `svg.call(zoomBehavior.transform, ...)` will reset it to `scale` state.
-    // That matches the current state, so it shouldn't jump.
+    }, [scale]); // Re-bind when scale changes (which happens on new round)
 
     // Projection derived from state
     const projection = useMemo(() => {
