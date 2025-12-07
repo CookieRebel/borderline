@@ -72,7 +72,7 @@ function App() {
           backgroundColor: 'var(--color-bg-card)',
           borderRadius: 'var(--radius-lg)',
           boxShadow: 'var(--shadow-lg)',
-          padding: 'var(--spacing-xl)',
+          padding: '5px',
           marginBottom: 'var(--spacing-lg)',
           animation: 'fadeIn 0.6s ease-out 0.1s both'
         }}>

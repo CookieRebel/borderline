@@ -35,7 +35,15 @@ export interface GameState {
 const EASY_COUNTRIES = ['USA', 'MEX', 'CHL', 'ARG', 'GBR', 'GRC', 'AUS', 'ITA', 'NZL'];
 
 export const useGameLogic = () => {
-    const [difficulty, setDifficulty] = useState<Difficulty>('easy');
+    const [difficulty, setDifficulty] = useState<Difficulty>(() => {
+        const saved = localStorage.getItem('borderline_difficulty');
+        return (saved === 'easy' || saved === 'medium' || saved === 'hard') ? saved : 'easy';
+    });
+
+    useEffect(() => {
+        localStorage.setItem('borderline_difficulty', difficulty);
+    }, [difficulty]);
+
     const [gameState, setGameState] = useState<GameState>({
         targetCountry: null,
         revealedNeighbors: [],
@@ -44,7 +52,7 @@ export const useGameLogic = () => {
         message: 'Guess the country!',
         wrongGuesses: 0,
         guessHistory: [],
-        difficulty: 'easy'
+        difficulty: difficulty
     });
 
     const data = useMemo(() => {
