@@ -124,6 +124,7 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
                     <Button
                         color="primary"
                         type="submit"
+                        style={{ padding: '0.375rem 0.75rem' }}
                         disabled={
                             disabled ||
                             !value.trim() ||
@@ -131,7 +132,7 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
                             guessHistory.some(g => g.name.toLowerCase() === value.trim().toLowerCase())
                         }
                     >
-                        Guess
+                        Go
                     </Button>
                 </InputGroup>
             </form>

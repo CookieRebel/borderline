@@ -84,10 +84,11 @@ function App() {
           <div style={{
             backgroundColor: '#ffffff',
             borderRadius: 'var(--radius-md)',
-            padding: '1rem',
+            padding: '5px',
             marginBottom: 'var(--spacing-lg)',
             border: '1px solid var(--color-border)',
-            minHeight: '600px'
+            aspectRatio: '4/3',
+            width: '100%'
           }}>
             <MapCanvas
               targetCountry={gameState.targetCountry}
@@ -144,7 +145,7 @@ function App() {
                 onClick={handleGiveUp}
                 disabled={gameState.status !== 'playing'}
                 style={{
-                  padding: '0.375rem 0.75rem',
+                  padding: '0.375rem 0.5rem',
                   backgroundColor: 'var(--color-bg-elevated)',
                   border: '1px solid var(--color-border)',
                   borderRadius: 'var(--radius-md)',
