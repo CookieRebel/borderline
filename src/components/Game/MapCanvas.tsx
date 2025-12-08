@@ -224,17 +224,14 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                     {/* Render Faint World Map (Easy Mode Only) */}
                     {difficulty === 'easy' && (
                         <g className="world-outlines">
-                            {allFeatures.map((feature, index) => (
-                                <path
-                                    key={`outline-${index}`}
-                                    d={pathGenerator(feature) || ''}
-                                    fill="none"
-                                    stroke="#d1d5db" // Light gray
-                                    strokeWidth="0.5"
-                                    strokeOpacity="0.5"
-                                    style={{ pointerEvents: 'none' }}
-                                />
-                            ))}
+                            <path
+                                d={pathGenerator({ type: 'FeatureCollection', features: allFeatures } as any) || ''}
+                                fill="none"
+                                stroke="#d1d5db" // Light gray
+                                strokeWidth="0.5"
+                                strokeOpacity="0.5"
+                                style={{ pointerEvents: 'none' }}
+                            />
                         </g>
                     )}
 

@@ -180,15 +180,6 @@ function App() {
           <GuessHistory guesses={gameState.guessHistory} />
         </div>
 
-        {/* Footer */}
-        <div style={{
-          textAlign: 'center',
-          color: 'var(--color-text-muted)',
-          fontSize: '0.85rem',
-          animation: 'fadeIn 0.7s ease-out 0.2s both'
-        }}>
-          Try {gameState.guessHistory.length} • Use keyboard arrows to navigate suggestions
-        </div>
       </Container>
     </div>
   );
