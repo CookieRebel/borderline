@@ -1,8 +1,7 @@
-import React, { useMemo, useState, useRef, useEffect, memo } from 'react';
-import { geoPath, geoGraticule, geoOrthographic, geoCentroid } from 'd3-geo';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { geoPath, geoOrthographic, geoGraticule, geoCentroid } from 'd3-geo';
 import { zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
 import { select } from 'd3-selection';
-import { motion } from 'framer-motion';
 import type { Feature } from 'geojson';
 
 interface MapCanvasProps {
@@ -13,50 +12,35 @@ interface MapCanvasProps {
     allFeatures: Feature[];
 }
 
-// Memoized country path component to prevent unnecessary re-renders
-const CountryPath = memo(({
-    feature,
-    pathGenerator,
-    stroke,
-    useFilter,
-    strokeWidth,
-    strokeOpacity
-}: {
-    feature: Feature;
-    pathGenerator: any;
-    stroke: string;
-    useFilter: boolean;
-    strokeWidth: string;
-    strokeOpacity?: number;
-}) => {
-    const path = pathGenerator(feature);
-    if (!path) return null;
-
-    return (
-        <path
-            d={path}
-            fill="none"
-            stroke={stroke}
-            strokeWidth={strokeWidth}
-            strokeOpacity={strokeOpacity}
-            filter={useFilter ? "url(#pencil)" : undefined}
-        />
-    );
-});
-
-CountryPath.displayName = 'CountryPath';
-
 const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeatures }) => {
-    const [dimensions] = useState({ width: 800, height: 600 });
-    const svgRef = useRef<SVGSVGElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    // State for dimensions
+    const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
 
     // State for projection parameters
     const [rotation, setRotation] = useState<[number, number]>([0, 0]);
     const [scale, setScale] = useState<number>(250);
 
+    // Handle resize
+    useEffect(() => {
+        const handleResize = () => {
+            if (containerRef.current) {
+                const { clientWidth, clientHeight } = containerRef.current;
+                setDimensions({ width: clientWidth, height: clientHeight });
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize(); // Initial size
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // Initialize/Reset view when target country changes
     useEffect(() => {
-        if (!targetCountry || !svgRef.current) return;
+        if (!targetCountry) return;
 
         // 1. Calculate center rotation
         const centroid = geoCentroid(targetCountry);
@@ -75,28 +59,18 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         const newScale = tempProj.scale();
         setScale(newScale);
 
-        // 3. Sync d3-zoom identity
-        // We need to re-apply the zoom behavior to update its internal transform
-        // Note: We can't easily access the 'zoomBehavior' instance here if it's created in another effect.
-        // So we might need to structure the effects differently or use a ref for the zoom behavior.
-        // For simplicity, we'll just let the zoom effect handle the binding, but we need to trigger it.
-        // Actually, we can just update the transform directly if we have the selection.
-        // But we need the zoom instance.
-
-    }, [targetCountry, dimensions]);
+    }, [targetCountry, dimensions.width, dimensions.height]);
 
     // Setup Interaction Behaviors (Zoom & Drag)
     useEffect(() => {
-        if (!svgRef.current) return;
-        const svg = select(svgRef.current);
+        if (!canvasRef.current) return;
+        const canvas = select(canvasRef.current);
 
         // Store previous transform to calculate deltas
-        // We initialize it to match the current scale
         let previousTransform = zoomIdentity.scale(scale);
 
-        // Zoom Behavior (Handles both Pan (Rotation) and Zoom (Scale))
-        const zoomBehavior = d3Zoom<SVGSVGElement, unknown>()
-            .scaleExtent([100, 5000]) // Min/Max zoom
+        const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
+            .scaleExtent([100, 5000])
             .on('zoom', (event) => {
                 const { transform } = event;
                 const { k, x, y } = transform;
@@ -104,10 +78,8 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 const dx = x - previousTransform.x;
                 const dy = y - previousTransform.y;
 
-                // Update Scale
                 setScale(k);
 
-                // Update Rotation
                 if (k > 0) {
                     const sensitivity = 75 / k;
                     setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
@@ -116,214 +88,163 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 previousTransform = transform;
             });
 
-        // Remove any existing listeners
-        svg.on('.zoom', null);
-        svg.on('.drag', null);
-
-        svg.call(zoomBehavior);
+        canvas.call(zoomBehavior);
 
         // Initialize zoom transform
-        // We reset the zoom transform to match the current scale whenever this effect runs.
-        // This effect runs when `targetCountry` changes (because `scale` changes).
-        // This effectively resets the view for each new round.
         const initialTransform = zoomIdentity.scale(scale);
-        svg.call(zoomBehavior.transform, initialTransform);
+        canvas.call(zoomBehavior.transform, initialTransform);
         previousTransform = initialTransform;
 
         return () => {
-            svg.on('.zoom', null);
+            canvas.on('.zoom', null);
         };
-    }, [scale]); // Re-bind when scale changes (which happens on new round)
+    }, [scale]); // Re-bind when scale changes (new round)
 
-    // Projection derived from state
+    // Projection
     const projection = useMemo(() => {
         return geoOrthographic()
-            .rotate([rotation[0], rotation[1], 0]) // Roll is 0
+            .rotate([rotation[0], rotation[1], 0])
             .scale(scale)
             .translate([dimensions.width / 2, dimensions.height / 2]);
     }, [rotation, scale, dimensions]);
 
-    const pathGenerator = useMemo(() => geoPath().projection(projection), [projection]);
-    const graticuleGenerator = useMemo(() => geoGraticule(), []);
+    // Render Loop
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
 
-    // Viewport culling logic (Simplified for Globe)
-    // For a globe, we can just rely on d3-geo's clipping (it handles hidden side).
-    const visibleNeighbors = revealedNeighbors;
+        const context = canvas.getContext('2d');
+        if (!context) return;
 
-    // Determine rendering quality based on zoom level
-    const renderQuality = useMemo(() => {
-        if (scale < 150) return 'low';
-        if (scale < 400) return 'medium';
-        return 'high';
-    }, [scale]);
+        // Handle High DPI
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = dimensions.width * dpr;
+        canvas.height = dimensions.height * dpr;
+        context.scale(dpr, dpr);
+        canvas.style.width = `${dimensions.width}px`;
+        canvas.style.height = `${dimensions.height}px`;
 
-    // Use pencil filter only at high quality
-    const usePencilFilter = renderQuality === 'high';
+        const pathGenerator = geoPath(projection, context);
+        const graticule = geoGraticule();
 
-    // Adjust stroke width based on quality
-    const strokeWidth = renderQuality === 'low' ? '1.5' : '1';
+        // Clear Canvas
+        context.clearRect(0, 0, dimensions.width, dimensions.height);
 
-    // Filter for pencil effect
-    // const usePencilFilter = false; // Disabled for now as it might be heavy
+        // 1. Globe Background (Ocean)
+        context.beginPath();
+        pathGenerator({ type: 'Sphere' } as any);
+        context.fillStyle = '#f0f9ff';
+        context.fill();
 
-    // Calculate visible neighbors (only those on the visible side of the globe)
-    // We can use d3-geo's clipping, but we also want to avoid rendering labels for hidden countries.
-    // A simple check is if the centroid is visible.
-    // For orthographic, a point is visible if the distance from the center of projection is < 90 degrees.
-    // Or simpler: d3.geoPath handles visibility for paths automatically!
-    // But for labels (text), we need to check manually.
+        // 2. Graticules
+        context.beginPath();
+        pathGenerator(graticule());
+        context.strokeStyle = 'rgba(229, 231, 235, 0.3)'; // #e5e7eb with opacity
+        context.lineWidth = 0.5;
+        context.stroke();
 
-    // Helper to check visibility of a point
-    const isVisible = (feature: Feature) => {
-        const centroid = geoCentroid(feature);
-        const p = projection(centroid);
-        return !!p; // projection returns null if clipped
-    };
+        // 3. Globe Outline
+        context.beginPath();
+        pathGenerator({ type: 'Sphere' } as any);
+        context.strokeStyle = 'rgba(229, 231, 235, 0.7)';
+        context.lineWidth = 0.5;
+        context.stroke();
 
-    const visibleNeighborsFiltered = useMemo(() => {
-        return revealedNeighbors.filter(f => isVisible(f));
-    }, [revealedNeighbors, projection]);
+        // 4. Faint World Map (Easy Mode)
+        if (difficulty === 'easy' && allFeatures.length > 0) {
+            context.beginPath();
+            // Render all features as a single path for performance
+            pathGenerator({ type: 'FeatureCollection', features: allFeatures } as any);
+            context.strokeStyle = 'rgba(209, 213, 219, 0.5)'; // #d1d5db
+            context.lineWidth = 0.5;
+            context.stroke();
+        }
 
+        // 5. Target Country
+        if (targetCountry) {
+            context.beginPath();
+            pathGenerator(targetCountry);
+            context.strokeStyle = '#000000';
+            context.lineWidth = 1.5;
+            context.stroke();
+        }
+
+        // 6. Visible Neighbors
+        revealedNeighbors.forEach(feature => {
+            // Check visibility (clipping)
+            // d3-geo's path generator handles clipping for drawing, 
+            // but we might want to skip invisible ones for slight perf gain if needed.
+            // For now, just draw them.
+
+            context.beginPath();
+            pathGenerator(feature);
+            context.strokeStyle = feature.properties?.color || "#6b7280";
+            context.lineWidth = 1;
+            context.stroke();
+        });
+
+        // 7. Labels (Game Over)
+        if (gameStatus === 'won' || gameStatus === 'given_up') {
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.lineJoin = 'round';
+
+            // Target Label
+            if (targetCountry) {
+                const centroid = pathGenerator.centroid(targetCountry);
+                // Check if centroid is visible (not clipped)
+                // geoPath.centroid returns [x, y] or undefined/NaN if clipped
+                // Actually d3-geo centroid might return a point even if clipped? 
+                // Let's use projection check.
+                const center = geoCentroid(targetCountry);
+                const projected = projection(center);
+
+                // Simple visibility check: is the point on the front hemisphere?
+                // Orthographic clipping angle is 90 deg.
+                // d3-geo projection returns null if clipped.
+
+                if (projected) {
+                    const [x, y] = projected;
+
+                    // Stroke (Halo)
+                    context.font = '700 14px Inter, sans-serif';
+                    context.strokeStyle = 'white';
+                    context.lineWidth = 3;
+                    context.strokeText(targetCountry.properties?.name, x, y);
+
+                    // Fill
+                    context.fillStyle = '#065f46';
+                    context.fillText(targetCountry.properties?.name, x, y);
+                }
+            }
+
+            // Neighbor Labels
+            context.font = '500 12px Inter, sans-serif';
+            revealedNeighbors.forEach(feature => {
+                const center = geoCentroid(feature);
+                const projected = projection(center);
+
+                if (projected) {
+                    const [x, y] = projected;
+
+                    context.strokeStyle = 'white';
+                    context.lineWidth = 3;
+                    context.strokeText(feature.properties?.name, x, y);
+
+                    context.fillStyle = '#374151';
+                    context.fillText(feature.properties?.name, x, y);
+                }
+            });
+        }
+
+    }, [dimensions, projection, targetCountry, revealedNeighbors, gameStatus, difficulty, allFeatures]);
 
     return (
-        <div className="map-container" style={{ width: '100%', height: '100%' }}>
-            <svg
-                ref={svgRef}
-                width="100%"
-                height="100%"
-                viewBox={`0 0 ${dimensions.width} ${dimensions.height}`}
-                style={{ cursor: 'grab' }}
-                shapeRendering={renderQuality === 'low' ? 'optimizeSpeed' : 'geometricPrecision'}
-            >
-                <defs>
-                    <filter id="pencil">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="noise" />
-                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" />
-                    </filter>
-                </defs>
-
-                <g>
-                    {/* Render Globe Outline */}
-                    <path
-                        d={pathGenerator({ type: 'Sphere' } as any) || ''}
-                        fill="#f8fafc"
-                        stroke="#e5e7eb"
-                        strokeWidth="0.5"
-                        strokeOpacity="0.7"
-                    />
-
-                    {/* Render Graticules */}
-                    <path
-                        d={pathGenerator(graticuleGenerator()) || ''}
-                        fill="none"
-                        stroke="#e5e7eb"
-                        strokeWidth="0.5"
-                        strokeOpacity="0.3"
-                    />
-
-                    {/* Render Faint World Map (Easy Mode Only) */}
-                    {difficulty === 'easy' && (
-                        <g className="world-outlines">
-                            <path
-                                d={pathGenerator({ type: 'FeatureCollection', features: allFeatures } as any) || ''}
-                                fill="none"
-                                stroke="#d1d5db" // Light gray
-                                strokeWidth="0.5"
-                                strokeOpacity="0.5"
-                                style={{ pointerEvents: 'none' }}
-                            />
-                        </g>
-                    )}
-
-                    {/* Render Target Country */}
-                    {targetCountry && (
-                        <motion.path
-                            d={pathGenerator(targetCountry) || ''}
-                            fill="none"
-                            stroke="#000000"
-                            strokeWidth={strokeWidth}
-                            filter={usePencilFilter ? "url(#pencil)" : undefined}
-                            initial={{ pathLength: 0 }}
-                            animate={{ pathLength: 1 }}
-                            transition={{ duration: 3, ease: "easeInOut" }}
-                        />
-                    )}
-
-                    {/* Render Visible Neighbors */}
-                    {visibleNeighborsFiltered.map((feature) => (
-                        <CountryPath
-                            key={feature.properties?.['ISO3166-1-Alpha-3']}
-                            feature={feature}
-                            pathGenerator={pathGenerator}
-                            stroke={feature.properties?.color || "#6b7280"}
-                            strokeWidth="1"
-                            strokeOpacity={0.7}
-                            useFilter={usePencilFilter}
-                        />
-                    ))}
-
-                    {/* Render Labels (Only on Game End) */}
-                    {(gameStatus === 'won' || gameStatus === 'given_up') && (
-                        <g className="labels-layer">
-                            {/* Target Country Label */}
-                            {targetCountry && (() => {
-                                const centroid = pathGenerator.centroid(targetCountry);
-                                if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return null;
-                                return (
-                                    <text
-                                        x={centroid[0]}
-                                        y={centroid[1]}
-                                        textAnchor="middle"
-                                        dominantBaseline="middle"
-                                        style={{
-                                            fontFamily: 'Inter, sans-serif',
-                                            fontSize: '14px',
-                                            fontWeight: '700',
-                                            fill: '#065f46', // Dark emerald
-                                            pointerEvents: 'none',
-                                            paintOrder: 'stroke',
-                                            stroke: 'white',
-                                            strokeWidth: '3px',
-                                            strokeLinejoin: 'round'
-                                        }}
-                                    >
-                                        {targetCountry.properties?.name}
-                                    </text>
-                                );
-                            })()}
-
-                            {/* Neighbors Labels */}
-                            {visibleNeighbors.map((feature) => {
-                                const centroid = pathGenerator.centroid(feature);
-                                if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) return null;
-                                return (
-                                    <text
-                                        key={`label-${feature.properties?.['ISO3166-1-Alpha-3']}`}
-                                        x={centroid[0]}
-                                        y={centroid[1]}
-                                        textAnchor="middle"
-                                        dominantBaseline="middle"
-                                        style={{
-                                            fontFamily: 'Inter, sans-serif',
-                                            fontSize: '12px',
-                                            fontWeight: '500',
-                                            fill: '#374151', // Dark gray
-                                            pointerEvents: 'none',
-                                            paintOrder: 'stroke',
-                                            stroke: 'white',
-                                            strokeWidth: '3px',
-                                            strokeLinejoin: 'round',
-                                            opacity: 0.9
-                                        }}
-                                    >
-                                        {feature.properties?.name}
-                                    </text>
-                                );
-                            })}
-                        </g>
-                    )}
-                </g>
-            </svg>
+        <div ref={containerRef} className="map-container" style={{ width: '100%', height: '100%' }}>
+            <canvas
+                ref={canvasRef}
+                style={{ cursor: 'grab', display: 'block' }}
+            />
 
             {/* Debug info */}
             <div style={{
@@ -336,9 +257,10 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 borderRadius: '4px',
                 fontSize: '11px',
                 border: '1px solid #e5e7eb',
-                fontWeight: '500'
+                fontWeight: '500',
+                pointerEvents: 'none'
             }}>
-                {visibleNeighbors.length + 1}/{revealedNeighbors.length + 1} • {renderQuality} quality
+                Canvas Renderer • {revealedNeighbors.length} neighbors
             </div>
         </div>
     );
