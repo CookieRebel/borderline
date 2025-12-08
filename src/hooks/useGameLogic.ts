@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { FeatureCollection, Feature } from 'geojson';
 import { geoCentroid, geoDistance, geoArea } from 'd3-geo';
-import countriesData from '../data/countries_simplified.json';
+import countriesDataLow from '../data/countries_low.json';
+import countriesDataHigh from '../data/countries_high.json';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -55,8 +56,9 @@ export const useGameLogic = () => {
         difficulty: difficulty
     });
 
-    const data = useMemo(() => {
-        const collection = countriesData as FeatureCollection;
+    // Process low-detail data (used for game logic and default rendering)
+    const dataLow = useMemo(() => {
+        const collection = countriesDataLow as FeatureCollection;
 
         // Preprocess to refine geometries
         const refinedFeatures = collection.features.map(feature => {
@@ -115,17 +117,17 @@ export const useGameLogic = () => {
 
     // Calculate Taiwan's area for "Hard" threshold
     const taiwanArea = useMemo(() => {
-        const taiwan = data.features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === 'TWN');
+        const taiwan = dataLow.features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === 'TWN');
         return taiwan ? geoArea(taiwan as any) : 0.0005; // Fallback if not found
-    }, [data]);
+    }, [dataLow]);
 
     useEffect(() => {
         // Reset game when difficulty changes or on initial load
         initializeGame();
-    }, [difficulty, data]);
+    }, [difficulty, dataLow]);
 
     const initializeGame = () => {
-        const features = data.features;
+        const features = dataLow.features;
         if (!features || features.length === 0) return;
 
         // Filter potential targets based on difficulty
@@ -181,7 +183,7 @@ export const useGameLogic = () => {
 
         // Reveal WHOLE MAP (except target)
         const targetIso = gameState.targetCountry?.properties?.['ISO3166-1-Alpha-3'];
-        const allNeighbors = data.features.filter(f =>
+        const allNeighbors = dataLow.features.filter(f =>
             f.properties?.['ISO3166-1-Alpha-3'] !== targetIso
         );
 
@@ -201,7 +203,7 @@ export const useGameLogic = () => {
         const targetIso = gameState.targetCountry?.properties?.['ISO3166-1-Alpha-3'];
 
         // Find the guessed feature
-        const guessedFeature = data.features.find((f: any) => f.properties.name.toLowerCase() === normalizedGuess);
+        const guessedFeature = dataLow.features.find((f: any) => f.properties.name.toLowerCase() === normalizedGuess);
 
         // Calculate distance
         let distance = 0;
@@ -260,12 +262,18 @@ export const useGameLogic = () => {
         }
     };
 
+    // Process high-detail data for zoomed-in rendering
+    const dataHigh = useMemo(() => {
+        return (countriesDataHigh as FeatureCollection).features;
+    }, []);
+
     return {
         gameState,
         difficulty,
         setDifficulty,
         handleGuess,
         handleGiveUp,
-        allFeatures: data.features // Expose all features for map rendering
+        allFeaturesLow: dataLow.features, // Low detail for normal view
+        allFeaturesHigh: dataHigh // High detail for zoomed-in view
     };
 };

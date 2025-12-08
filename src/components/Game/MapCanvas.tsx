@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { geoPath, geoOrthographic, geoGraticule, geoCentroid } from 'd3-geo';
+import { geoPath, geoOrthographic, geoGraticule, geoCentroid, geoDistance } from 'd3-geo';
 import { zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
 import { select } from 'd3-selection';
-import { drag as d3Drag } from 'd3-drag';
 import type { Feature } from 'geojson';
 
 interface MapCanvasProps {
@@ -10,10 +9,13 @@ interface MapCanvasProps {
     revealedNeighbors: Feature[];
     gameStatus: 'playing' | 'won' | 'lost' | 'given_up';
     difficulty: 'easy' | 'medium' | 'hard';
-    allFeatures: Feature[];
+    allFeaturesLow: Feature[];
+    allFeaturesHigh: Feature[];
 }
 
-const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeatures }) => {
+const LOD_THRESHOLD = 500; // Scale threshold for switching to high detail
+
+const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -23,6 +25,11 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
     // State for projection parameters
     const [rotation, setRotation] = useState<[number, number]>([0, 0]);
     const [scale, setScale] = useState<number>(250);
+    const [visibleCount, setVisibleCount] = useState<number>(0);
+
+    // Refs for zoom sync
+    const zoomBehaviorRef = useRef<any>(null);
+    const previousKRef = useRef<number>(250);
 
     // Handle resize
     useEffect(() => {
@@ -38,9 +45,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    // Refs for interaction to prevent stale closures and re-renders
-    const zoomBehaviorRef = useRef<any>(null);
 
     // Initialize/Reset view when target country changes
     useEffect(() => {
@@ -62,55 +66,61 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         const newScale = tempProj.scale();
         setScale(newScale);
 
-        // 3. Reset Zoom Behavior State
-        // Sync d3-zoom with new scale so next scroll starts correctly
-        if (canvasRef.current && zoomBehaviorRef.current) {
+        // 3. Sync d3-zoom transform with new scale
+        if (zoomBehaviorRef.current) {
             const canvas = select(canvasRef.current);
             const newTransform = zoomIdentity.scale(newScale);
-            // We only care about scale for zoom behavior now
             canvas.call(zoomBehaviorRef.current.transform, newTransform);
+            previousKRef.current = newScale;
         }
 
     }, [targetCountry, dimensions.width, dimensions.height]);
 
-    // Setup Interaction Behaviors (Separate Drag & Zoom) - Run ONCE
+    // Setup Interaction Behaviors (Zoom & Drag) - only once
     useEffect(() => {
         if (!canvasRef.current) return;
         const canvas = select(canvasRef.current);
 
-        // 1. Drag Behavior (Rotation)
-        const dragBehavior = d3Drag<HTMLCanvasElement, unknown>()
-            .on('drag', (event) => {
-                const { dx, dy } = event;
-                const sensitivity = 0.25;
-                setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
-            });
+        // Store previous transform
+        let previousX = 0;
+        let previousY = 0;
 
-        // 2. Zoom Behavior (Scaling only)
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([100, 5000])
-            // FILTER: Ignore mousedown/touchstart to prevent d3-zoom from capturing drag gestures
-            // This allows d3-drag to handle the pointer events for rotation
-            .filter((event) => {
-                // Allow wheel (zoom), prevent mousedown/touchstart (drag)
-                return event.type === 'wheel' || event.type === 'dblclick';
-            })
             .on('zoom', (event) => {
-                const { k } = event.transform;
-                setScale(k);
+                const { transform, sourceEvent } = event;
+                const { k, x, y } = transform;
+
+                // Only update scale (wheel/pinch events)
+                if (k !== previousKRef.current) {
+                    setScale(k);
+                    previousKRef.current = k;
+                }
+
+                // Only rotate on drag (mouse/touch move, not wheel)
+                const isWheelEvent = sourceEvent?.type === 'wheel';
+                if (!isWheelEvent && (x !== previousX || y !== previousY)) {
+                    const dx = x - previousX;
+                    const dy = y - previousY;
+                    const sensitivity = 75 / k;
+                    setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
+                }
+
+                previousX = x;
+                previousY = y;
             });
 
+        canvas.call(zoomBehavior);
         zoomBehaviorRef.current = zoomBehavior;
 
-        // Apply behaviors
-        canvas.call(dragBehavior);
-        canvas.call(zoomBehavior);
+        // Initialize zoom transform
+        const initialTransform = zoomIdentity.scale(250);
+        canvas.call(zoomBehavior.transform, initialTransform);
 
         return () => {
-            canvas.on('.drag', null);
             canvas.on('.zoom', null);
         };
-    }, []); // Run once on mount
+    }, []); // Empty dependency - only run once
 
     // Projection
     const projection = useMemo(() => {
@@ -151,7 +161,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         // 2. Graticules
         context.beginPath();
         pathGenerator(graticule());
-        context.strokeStyle = 'rgba(229, 231, 235, 0.3)'; // #e5e7eb with opacity
+        context.strokeStyle = 'rgba(229, 231, 235, 0.7)'; // #e5e7eb with opacity
         context.lineWidth = 0.5;
         context.stroke();
 
@@ -162,33 +172,73 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         context.lineWidth = 0.5;
         context.stroke();
 
-        // 4. Faint World Map (Easy Mode)
-        if (difficulty === 'easy' && allFeatures.length > 0) {
+        // 4. Faint World Map (Easy Mode) - with LOD switching
+        if (difficulty === 'easy') {
+            // Choose LOD based on zoom level
+            const isHighDetail = scale > LOD_THRESHOLD;
+            const features = isHighDetail ? allFeaturesHigh : allFeaturesLow;
+
+            // Visibility culling: calculate actual visible angle based on zoom
+            // At scale 250 (default), we see roughly the hemisphere (PI/2 radians = 90°)
+            // Higher scale = smaller visible area
+            // Formula: visible angle = arcsin(canvasRadius / scale)
+            // Since we're on a unit sphere, canvasRadius ≈ min(width, height) / 2
+            const canvasRadius = Math.min(dimensions.width, dimensions.height) / 2;
+            const visibleAngle = Math.asin(Math.min(1, canvasRadius / scale));
+
+            const viewCenter: [number, number] = [-rotation[0], -rotation[1]];
+            const visibleFeatures = features.filter(feature => {
+                const center = geoCentroid(feature);
+                // Add small buffer for features at the edge
+                return geoDistance(viewCenter, center) < visibleAngle + 0.2;
+            });
+
+            if (visibleFeatures.length > 0) {
+                context.beginPath();
+                pathGenerator({ type: 'FeatureCollection', features: visibleFeatures } as any);
+                context.strokeStyle = 'rgba(209, 213, 219, 0.9)'; // Same grey for both LOD levels
+                context.lineWidth = 0.5;
+                context.stroke();
+            }
+
+            // Update visible count for debug
+            setVisibleCount(visibleFeatures.length);
+        }
+
+        // 5. Target Country - use high-res when zoomed in
+        if (targetCountry) {
+            // If zoomed in, find and use high-detail version of target
+            let countryToRender = targetCountry;
+            if (scale > LOD_THRESHOLD) {
+                const targetIso = targetCountry.properties?.['ISO3166-1-Alpha-3'];
+                const highResVersion = allFeaturesHigh.find(
+                    f => f.properties?.['ISO3166-1-Alpha-3'] === targetIso
+                );
+                if (highResVersion) {
+                    countryToRender = highResVersion;
+                }
+            }
+
             context.beginPath();
-            // Render all features as a single path for performance
-            pathGenerator({ type: 'FeatureCollection', features: allFeatures } as any);
-            context.strokeStyle = 'rgba(156, 163, 175, 0.6)'; // #9ca3af (Darker gray)
-            context.lineWidth = 0.8; // Slightly thicker
+            pathGenerator(countryToRender);
+            context.strokeStyle = 'rgba(6, 90, 30, 0.9)';
+            context.lineWidth = 1;
             context.stroke();
         }
 
-        // 5. Visible Neighbors (Draw BEFORE target so target is on top)
+        // 6. Visible Neighbors
         revealedNeighbors.forEach(feature => {
+            // Check visibility (clipping)
+            // d3-geo's path generator handles clipping for drawing, 
+            // but we might want to skip invisible ones for slight perf gain if needed.
+            // For now, just draw them.
+
             context.beginPath();
             pathGenerator(feature);
             context.strokeStyle = feature.properties?.color || "#6b7280";
             context.lineWidth = 1;
             context.stroke();
         });
-
-        // 6. Target Country (Draw LAST to be on top)
-        if (targetCountry) {
-            context.beginPath();
-            pathGenerator(targetCountry);
-            context.strokeStyle = 'rgba(16, 185, 129, 0.8)'; // Emerald-500 with 0.8 opacity
-            context.lineWidth = 1.5; // Slightly thicker than background
-            context.stroke();
-        }
 
         // 7. Labels (Game Over)
         if (gameStatus === 'won' || gameStatus === 'given_up') {
@@ -201,6 +251,10 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 // Check if centroid is visible (not clipped)
                 const center = geoCentroid(targetCountry);
                 const projected = projection(center);
+
+                // Simple visibility check: is the point on the front hemisphere?
+                // Orthographic clipping angle is 90 deg.
+                // d3-geo projection returns null if clipped.
 
                 if (projected) {
                     const [x, y] = projected;
@@ -236,7 +290,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             });
         }
 
-    }, [dimensions, projection, targetCountry, revealedNeighbors, gameStatus, difficulty, allFeatures]);
+    }, [dimensions, projection, targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, scale, rotation]);
 
     return (
         <div ref={containerRef} className="map-container" style={{ width: '100%', height: '100%' }}>
@@ -259,7 +313,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 fontWeight: '500',
                 pointerEvents: 'none'
             }}>
-                Canvas Renderer • {revealedNeighbors.length} neighbors
+                Scale: {Math.round(scale)} • LOD: {scale > LOD_THRESHOLD ? 'HIGH' : 'LOW'} • Visible: {visibleCount}/{scale > LOD_THRESHOLD ? allFeaturesHigh.length : allFeaturesLow.length}
             </div>
         </div>
     );
