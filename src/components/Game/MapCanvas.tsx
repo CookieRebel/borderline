@@ -70,11 +70,13 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             const newTransform = zoomIdentity.scale(newScale);
 
             // Update the d3-zoom internal state
-            // We use .call() to apply the transform to the selection
-            canvas.call(zoomBehaviorRef.current.transform, newTransform);
-
-            // Update our ref to track this new state
+            // IMPORTANT: Update the ref BEFORE calling the transform to prevent the zoom handler
+            // from calculating a huge delta (jump) and rotating the map away from the center.
             previousTransformRef.current = newTransform;
+
+            // We use .call() to apply the transform to the selection
+            // This synchronously fires the 'zoom' event
+            canvas.call(zoomBehaviorRef.current.transform, newTransform);
         }
 
     }, [targetCountry, dimensions.width, dimensions.height]);
