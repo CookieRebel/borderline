@@ -38,9 +38,13 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    // Refs for interaction state to prevent stale closures and re-renders
+    const zoomBehaviorRef = useRef<any>(null);
+    const previousTransformRef = useRef<any>(zoomIdentity.scale(250));
+
     // Initialize/Reset view when target country changes
     useEffect(() => {
-        if (!targetCountry) return;
+        if (!targetCountry || !canvasRef.current) return;
 
         // 1. Calculate center rotation
         const centroid = geoCentroid(targetCountry);
@@ -48,7 +52,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         setRotation(newRotation);
 
         // 2. Calculate fit scale
-        // Create a temporary projection to find the scale that fits the country
         const padding = 50;
         const tempProj = geoOrthographic()
             .rotate(newRotation)
@@ -59,15 +62,27 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         const newScale = tempProj.scale();
         setScale(newScale);
 
+        // 3. Reset Zoom Behavior State
+        // We need to update the d3-zoom transform state to match our new manual scale/rotation
+        // so that the next user interaction starts from here, not from where the zoom behavior last was.
+        if (canvasRef.current && zoomBehaviorRef.current) {
+            const canvas = select(canvasRef.current);
+            const newTransform = zoomIdentity.scale(newScale);
+
+            // Update the d3-zoom internal state
+            // We use .call() to apply the transform to the selection
+            canvas.call(zoomBehaviorRef.current.transform, newTransform);
+
+            // Update our ref to track this new state
+            previousTransformRef.current = newTransform;
+        }
+
     }, [targetCountry, dimensions.width, dimensions.height]);
 
-    // Setup Interaction Behaviors (Zoom & Drag)
+    // Setup Interaction Behaviors (Zoom & Drag) - Run ONCE
     useEffect(() => {
         if (!canvasRef.current) return;
         const canvas = select(canvasRef.current);
-
-        // Store previous transform to calculate deltas
-        let previousTransform = zoomIdentity.scale(scale);
 
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([100, 5000])
@@ -75,30 +90,31 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 const { transform } = event;
                 const { k, x, y } = transform;
 
-                const dx = x - previousTransform.x;
-                const dy = y - previousTransform.y;
+                // Calculate delta from previous transform
+                const prev = previousTransformRef.current;
+                const dx = x - prev.x;
+                const dy = y - prev.y;
 
+                // Update Scale
                 setScale(k);
 
+                // Update Rotation (Pan)
                 if (k > 0) {
                     const sensitivity = 75 / k;
                     setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
                 }
 
-                previousTransform = transform;
+                // Update previous transform ref
+                previousTransformRef.current = transform;
             });
 
+        zoomBehaviorRef.current = zoomBehavior;
         canvas.call(zoomBehavior);
-
-        // Initialize zoom transform
-        const initialTransform = zoomIdentity.scale(scale);
-        canvas.call(zoomBehavior.transform, initialTransform);
-        previousTransform = initialTransform;
 
         return () => {
             canvas.on('.zoom', null);
         };
-    }, [scale]); // Re-bind when scale changes (new round)
+    }, []); // Run once on mount
 
     // Projection
     const projection = useMemo(() => {
