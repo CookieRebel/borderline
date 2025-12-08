@@ -25,7 +25,7 @@ function App() {
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
           }}>
-            Borderdraw
+            BorderLINE
           </h1>
           <p style={{
             color: 'var(--color-text-secondary)',
