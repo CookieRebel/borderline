@@ -5,7 +5,7 @@ import GuessHistory from './components/Game/GuessHistory';
 import { useGameLogic } from './hooks/useGameLogic';
 
 function App() {
-  const { gameState, handleGuess, handleGiveUp, difficulty, setDifficulty } = useGameLogic();
+  const { gameState, handleGuess, handleGiveUp, difficulty, setDifficulty, allFeatures } = useGameLogic();
 
   return (
     <div className="app-container">
@@ -90,6 +90,8 @@ function App() {
               targetCountry={gameState.targetCountry}
               revealedNeighbors={gameState.revealedNeighbors}
               gameStatus={gameState.status}
+              difficulty={difficulty}
+              allFeatures={allFeatures}
             />
           </div>
 

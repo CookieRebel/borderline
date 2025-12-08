@@ -9,6 +9,8 @@ interface MapCanvasProps {
     targetCountry: Feature | null;
     revealedNeighbors: Feature[];
     gameStatus: 'playing' | 'won' | 'lost' | 'given_up';
+    difficulty: 'easy' | 'medium' | 'hard';
+    allFeatures: Feature[];
 }
 
 // Memoized country path component to prevent unnecessary re-renders
@@ -44,7 +46,7 @@ const CountryPath = memo(({
 
 CountryPath.displayName = 'CountryPath';
 
-const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeatures }) => {
     const [dimensions] = useState({ width: 800, height: 600 });
     const svgRef = useRef<SVGSVGElement>(null);
 
@@ -161,6 +163,28 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
     // Adjust stroke width based on quality
     const strokeWidth = renderQuality === 'low' ? '1.5' : '1';
 
+    // Filter for pencil effect
+    // const usePencilFilter = false; // Disabled for now as it might be heavy
+
+    // Calculate visible neighbors (only those on the visible side of the globe)
+    // We can use d3-geo's clipping, but we also want to avoid rendering labels for hidden countries.
+    // A simple check is if the centroid is visible.
+    // For orthographic, a point is visible if the distance from the center of projection is < 90 degrees.
+    // Or simpler: d3.geoPath handles visibility for paths automatically!
+    // But for labels (text), we need to check manually.
+
+    // Helper to check visibility of a point
+    const isVisible = (feature: Feature) => {
+        const centroid = geoCentroid(feature);
+        const p = projection(centroid);
+        return !!p; // projection returns null if clipped
+    };
+
+    const visibleNeighborsFiltered = useMemo(() => {
+        return revealedNeighbors.filter(f => isVisible(f));
+    }, [revealedNeighbors, projection]);
+
+
     return (
         <div className="map-container" style={{ width: '100%', height: '100%' }}>
             <svg
@@ -197,12 +221,29 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                         strokeOpacity="0.3"
                     />
 
+                    {/* Render Faint World Map (Easy Mode Only) */}
+                    {difficulty === 'easy' && (
+                        <g className="world-outlines">
+                            {allFeatures.map((feature, index) => (
+                                <path
+                                    key={`outline-${index}`}
+                                    d={pathGenerator(feature) || ''}
+                                    fill="none"
+                                    stroke="#d1d5db" // Light gray
+                                    strokeWidth="0.5"
+                                    strokeOpacity="0.5"
+                                    style={{ pointerEvents: 'none' }}
+                                />
+                            ))}
+                        </g>
+                    )}
+
                     {/* Render Target Country */}
                     {targetCountry && (
                         <motion.path
                             d={pathGenerator(targetCountry) || ''}
                             fill="none"
-                            stroke="#10b981"
+                            stroke="#000000"
                             strokeWidth={strokeWidth}
                             filter={usePencilFilter ? "url(#pencil)" : undefined}
                             initial={{ pathLength: 0 }}
@@ -212,14 +253,14 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                     )}
 
                     {/* Render Visible Neighbors */}
-                    {visibleNeighbors.map((feature) => (
+                    {visibleNeighborsFiltered.map((feature) => (
                         <CountryPath
                             key={feature.properties?.['ISO3166-1-Alpha-3']}
                             feature={feature}
                             pathGenerator={pathGenerator}
                             stroke={feature.properties?.color || "#6b7280"}
                             strokeWidth="1"
-                            strokeOpacity={0.5}
+                            strokeOpacity={0.7}
                             useFilter={usePencilFilter}
                         />
                     ))}

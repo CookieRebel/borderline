@@ -265,6 +265,7 @@ export const useGameLogic = () => {
         difficulty,
         setDifficulty,
         handleGuess,
-        handleGiveUp
+        handleGiveUp,
+        allFeatures: data.features // Expose all features for map rendering
     };
 };
