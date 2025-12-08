@@ -178,8 +178,8 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         if (targetCountry) {
             context.beginPath();
             pathGenerator(targetCountry);
-            context.strokeStyle = '#000000';
-            context.lineWidth = 2; // Thicker for emphasis
+            context.strokeStyle = 'rgba(16, 185, 129, 0.8)'; // Emerald-500 with 0.8 opacity
+            context.lineWidth = 1.5; // Slightly thicker than background
             context.stroke();
         }
 
@@ -191,7 +191,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
             // Target Label
             if (targetCountry) {
-                const centroid = pathGenerator.centroid(targetCountry);
                 // Check if centroid is visible (not clipped)
                 // geoPath.centroid returns [x, y] or undefined/NaN if clipped
                 // Actually d3-geo centroid might return a point even if clipped? 
