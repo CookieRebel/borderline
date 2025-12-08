@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import { geoPath, geoOrthographic, geoGraticule, geoCentroid } from 'd3-geo';
 import { zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
 import { select } from 'd3-selection';
+import { drag as d3Drag } from 'd3-drag';
 import type { Feature } from 'geojson';
 
 interface MapCanvasProps {
@@ -38,9 +39,8 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Refs for interaction state to prevent stale closures and re-renders
+    // Refs for interaction to prevent stale closures and re-renders
     const zoomBehaviorRef = useRef<any>(null);
-    const previousTransformRef = useRef<any>(zoomIdentity.scale(250));
 
     // Initialize/Reset view when target country changes
     useEffect(() => {
@@ -63,57 +63,51 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         setScale(newScale);
 
         // 3. Reset Zoom Behavior State
-        // We need to update the d3-zoom transform state to match our new manual scale/rotation
-        // so that the next user interaction starts from here, not from where the zoom behavior last was.
+        // Sync d3-zoom with new scale so next scroll starts correctly
         if (canvasRef.current && zoomBehaviorRef.current) {
             const canvas = select(canvasRef.current);
             const newTransform = zoomIdentity.scale(newScale);
-
-            // Update the d3-zoom internal state
-            // IMPORTANT: Update the ref BEFORE calling the transform to prevent the zoom handler
-            // from calculating a huge delta (jump) and rotating the map away from the center.
-            previousTransformRef.current = newTransform;
-
-            // We use .call() to apply the transform to the selection
-            // This synchronously fires the 'zoom' event
+            // We only care about scale for zoom behavior now
             canvas.call(zoomBehaviorRef.current.transform, newTransform);
         }
 
     }, [targetCountry, dimensions.width, dimensions.height]);
 
-    // Setup Interaction Behaviors (Zoom & Drag) - Run ONCE
+    // Setup Interaction Behaviors (Separate Drag & Zoom) - Run ONCE
     useEffect(() => {
         if (!canvasRef.current) return;
         const canvas = select(canvasRef.current);
 
+        // 1. Drag Behavior (Rotation)
+        const dragBehavior = d3Drag<HTMLCanvasElement, unknown>()
+            .on('drag', (event) => {
+                const { dx, dy } = event;
+                const sensitivity = 0.25;
+                setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
+            });
+
+        // 2. Zoom Behavior (Scaling only)
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
             .scaleExtent([100, 5000])
+            // FILTER: Ignore mousedown/touchstart to prevent d3-zoom from capturing drag gestures
+            // This allows d3-drag to handle the pointer events for rotation
+            .filter((event) => {
+                // Allow wheel (zoom), prevent mousedown/touchstart (drag)
+                return event.type === 'wheel' || event.type === 'dblclick';
+            })
             .on('zoom', (event) => {
-                const { transform } = event;
-                const { k, x, y } = transform;
-
-                // Calculate delta from previous transform
-                const prev = previousTransformRef.current;
-                const dx = x - prev.x;
-                const dy = y - prev.y;
-
-                // Update Scale
+                const { k } = event.transform;
                 setScale(k);
-
-                // Update Rotation (Pan)
-                if (k > 0) {
-                    const sensitivity = 75 / k;
-                    setRotation(curr => [curr[0] + dx * sensitivity, curr[1] - dy * sensitivity]);
-                }
-
-                // Update previous transform ref
-                previousTransformRef.current = transform;
             });
 
         zoomBehaviorRef.current = zoomBehavior;
+
+        // Apply behaviors
+        canvas.call(dragBehavior);
         canvas.call(zoomBehavior);
 
         return () => {
+            canvas.on('.drag', null);
             canvas.on('.zoom', null);
         };
     }, []); // Run once on mount
@@ -180,11 +174,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
         // 5. Visible Neighbors (Draw BEFORE target so target is on top)
         revealedNeighbors.forEach(feature => {
-            // Check visibility (clipping)
-            // d3-geo's path generator handles clipping for drawing, 
-            // but we might want to skip invisible ones for slight perf gain if needed.
-            // For now, just draw them.
-
             context.beginPath();
             pathGenerator(feature);
             context.strokeStyle = feature.properties?.color || "#6b7280";
@@ -210,15 +199,8 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             // Target Label
             if (targetCountry) {
                 // Check if centroid is visible (not clipped)
-                // geoPath.centroid returns [x, y] or undefined/NaN if clipped
-                // Actually d3-geo centroid might return a point even if clipped? 
-                // Let's use projection check.
                 const center = geoCentroid(targetCountry);
                 const projected = projection(center);
-
-                // Simple visibility check: is the point on the front hemisphere?
-                // Orthographic clipping angle is 90 deg.
-                // d3-geo projection returns null if clipped.
 
                 if (projected) {
                     const [x, y] = projected;
