@@ -155,21 +155,12 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             context.beginPath();
             // Render all features as a single path for performance
             pathGenerator({ type: 'FeatureCollection', features: allFeatures } as any);
-            context.strokeStyle = 'rgba(209, 213, 219, 0.5)'; // #d1d5db
-            context.lineWidth = 0.5;
+            context.strokeStyle = 'rgba(156, 163, 175, 0.6)'; // #9ca3af (Darker gray)
+            context.lineWidth = 0.8; // Slightly thicker
             context.stroke();
         }
 
-        // 5. Target Country
-        if (targetCountry) {
-            context.beginPath();
-            pathGenerator(targetCountry);
-            context.strokeStyle = '#000000';
-            context.lineWidth = 1.5;
-            context.stroke();
-        }
-
-        // 6. Visible Neighbors
+        // 5. Visible Neighbors (Draw BEFORE target so target is on top)
         revealedNeighbors.forEach(feature => {
             // Check visibility (clipping)
             // d3-geo's path generator handles clipping for drawing, 
@@ -182,6 +173,15 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             context.lineWidth = 1;
             context.stroke();
         });
+
+        // 6. Target Country (Draw LAST to be on top)
+        if (targetCountry) {
+            context.beginPath();
+            pathGenerator(targetCountry);
+            context.strokeStyle = '#000000';
+            context.lineWidth = 2; // Thicker for emphasis
+            context.stroke();
+        }
 
         // 7. Labels (Game Over)
         if (gameStatus === 'won' || gameStatus === 'given_up') {

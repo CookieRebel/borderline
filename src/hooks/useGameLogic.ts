@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import type { FeatureCollection, Feature } from 'geojson';
 import { geoCentroid, geoDistance, geoArea } from 'd3-geo';
-import countriesData from '../data/countries.json';
+import countriesData from '../data/countries_simplified.json';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
