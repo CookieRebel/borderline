@@ -33,7 +33,57 @@ export interface GameState {
     difficulty: Difficulty;
 }
 
-const EASY_COUNTRIES = ['USA', 'MEX', 'CHL', 'ARG', 'GBR', 'GRC', 'AUS', 'ITA', 'NZL'];
+// Easy mode countries - larger, well-known countries
+const EASY_COUNTRIES = [
+    // A
+    'AFG', 'ALB', 'DZA', 'AGO', 'ARG', 'ARM', 'AUS', 'AUT', 'AZE',
+    // B  
+    'BHR', 'BGD', 'BLR', 'BEL', 'BEN', 'BTN', 'BOL', 'BIH', 'BWA', 'BRA', 'BRN', 'BGR', 'BFA', 'BDI',
+    // C
+    'KHM', 'CMR', 'CAN', 'CAF', 'TCD', 'CHL', 'CHN', 'COL', 'COG', 'COD', 'CRI', 'HRV', 'CUB', 'CYP', 'CZE',
+    // D
+    'DNK', 'DOM',
+    // E
+    'ECU', 'EGY', 'ERI', 'EST', 'ETH',
+    // F
+    'FIN', 'FRA',
+    // G
+    'GAB', 'GEO', 'DEU', 'GHA', 'GRC', 'GTM', 'GIN', 'GNB', 'GUY',
+    // H
+    'HTI', 'HND', 'HUN',
+    // I
+    'ISL', 'IND', 'IDN', 'IRN', 'IRQ', 'IRL', 'ISR', 'ITA', 'CIV',
+    // J
+    'JAM', 'JPN', 'JOR',
+    // K
+    'KAZ', 'KEN', 'XKX', 'KWT', 'KGZ',
+    // L
+    'LAO', 'LVA', 'LBN', 'LSO', 'LBR', 'LBY', 'LTU', 'LUX',
+    // M
+    'MDG', 'MWI', 'MYS', 'MDV', 'MLI', 'MHL', 'MRT', 'MEX', 'MDA', 'MCO', 'MNG', 'MNE', 'MAR', 'MOZ', 'MMR',
+    // N
+    'NAM', 'NPL', 'NLD', 'NZL', 'NIC', 'NER', 'NGA', 'PRK', 'MKD', 'NOR',
+    // O
+    'OMN',
+    // P
+    'PAK', 'PAN', 'PNG', 'PRY', 'PER', 'PHL', 'POL', 'PRT',
+    // Q
+    'QAT',
+    // R
+    'ROU', 'RUS', 'RWA',
+    // S
+    'SAU', 'SEN', 'SRB', 'SLE', 'SGP', 'SVK', 'SVN', 'SOM', 'ZAF', 'KOR', 'SSD', 'ESP', 'LKA', 'SDN', 'SUR', 'SWE', 'CHE', 'SYR',
+    // T
+    'TJK', 'TZA', 'THA', 'TLS', 'TGO', 'TUN', 'TUR', 'TKM',
+    // U
+    'UGA', 'UKR', 'ARE', 'GBR', 'USA', 'URY', 'UZB',
+    // V
+    'VEN', 'VNM',
+    // Y
+    'YEM',
+    // Z
+    'ZMB', 'ZWE'
+];
 
 export const useGameLogic = () => {
     const [difficulty, setDifficulty] = useState<Difficulty>(() => {
