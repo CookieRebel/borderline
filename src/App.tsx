@@ -133,7 +133,7 @@ function App() {
           )}
 
           {/* Guess Input */}
-          <div style={{ marginBottom: 'var(--spacing-lg)' }}>
+          <div style={{ marginBottom: '2.5rem' }}>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
               <div style={{ flex: 1 }}>
                 <GuessInput
