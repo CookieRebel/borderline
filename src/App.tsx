@@ -5,7 +5,7 @@ import GuessHistory from './components/Game/GuessHistory';
 import { useGameLogic } from './hooks/useGameLogic';
 
 function App() {
-  const { gameState, handleGuess, handleGiveUp, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh } = useGameLogic();
+  const { gameState, handleGuess, handleGiveUp, resetGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh } = useGameLogic();
 
   return (
     <div className="app-container">
@@ -93,6 +93,8 @@ function App() {
               difficulty={difficulty}
               allFeaturesLow={allFeaturesLow}
               allFeaturesHigh={allFeaturesHigh}
+              allLandLow={allLandLow}
+              allLandHigh={allLandHigh}
             />
           </div>
 
@@ -174,6 +176,28 @@ function App() {
               >
                 Give Up
               </button>
+              {(gameState.status === 'won' || gameState.status === 'given_up' || gameState.status === 'lost') && (
+                <button
+                  onClick={resetGame}
+                  style={{
+                    padding: '0.375rem 1rem',
+                    backgroundColor: 'var(--color-accent)',
+                    border: '1px solid var(--color-accent)',
+                    borderRadius: 'var(--radius-md)',
+                    color: 'white',
+                    fontSize: '0.875rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    height: '38px',
+                    whiteSpace: 'nowrap',
+                    boxShadow: 'var(--shadow-sm)',
+                    transition: 'all 0.2s ease',
+                    marginLeft: '8px'
+                  }}
+                >
+                  Play Again
+                </button>
+              )}
             </div>
           </div>
 

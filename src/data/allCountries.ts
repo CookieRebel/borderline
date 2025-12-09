@@ -25,6 +25,7 @@ export const allCountries = [
     "Tajikistan", "Tanzania", "Thailand", "East Timor", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
     "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
     "Vanuatu", "Venezuela", "Vietnam",
+    "Western Sahara",
     "Yemen",
     "Zambia", "Zimbabwe",
 
@@ -40,21 +41,22 @@ export const allCountries = [
     "Gibraltar",
     "Montserrat",
     "Pitcairn Islands",
-    "Saint Helena", // Often grouped
+    "Saint Helena",
     "Turks and Caicos Islands",
 
-    "French Guiana",
-    "Guadeloupe",
-    "Martinique",
-    "Mayotte",
-    "Réunion",
+    // TODO: Add GeoJSON data for these French territories
+    // "French Guiana",
+    // "Guadeloupe",
+    // "Martinique",
+    // "Mayotte",
+    // "Réunion",
+    // "Clipperton Island",
     "French Polynesia",
     "New Caledonia",
     "Saint Barthélemy",
     "Saint Martin",
     "Saint Pierre and Miquelon",
     "Wallis and Futuna",
-    "Clipperton Island",
 
     "American Samoa",
     "Guam",
@@ -62,14 +64,14 @@ export const allCountries = [
     "Puerto Rico",
     "U.S. Virgin Islands",
 
-    "Christmas Island",
-    "Cocos (Keeling) Islands",
+    // TODO: Add GeoJSON data for these Australian territories
+    // "Christmas Island",
+    // "Cocos (Keeling) Islands",
     "Norfolk Island",
     "Heard Island and McDonald Islands",
-    "Ashmore and Cartier Islands",
-    "Coral Sea Islands",
 
-    "Tokelau",
+    // TODO: Add GeoJSON data for these territories
+    // "Tokelau",
     "Antarctica",
     "Cook Islands",
     "Niue",
@@ -84,15 +86,23 @@ export const allCountries = [
     "Hong Kong",
     "Macau",
 
-    "Svalbard",
-    "Jan Mayen",
-    "Bouvet Island",
+    // TODO: Add GeoJSON data for these Norwegian territories
+    // "Svalbard",
+    // "Jan Mayen",
+    // "Bouvet Island",
 
-    "Azores",
-    "Madeira",
-    "Canary Islands",
-    "Ceuta",
-    "Melilla",
+    // TODO: Add GeoJSON data for these Spanish/Portuguese territories
+    // "Azores",
+    // "Madeira",
+    // "Canary Islands",
+    // "Ceuta",
+    // "Melilla",
     "Åland Islands",
-    "Taiwan"
+    "Taiwan",
+
+    // --- Crown Dependencies & Others ---
+    "Western Sahara",
+    "Jersey",
+    "Guernsey",
+    "Isle of Man",
 ].sort();

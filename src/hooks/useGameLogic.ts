@@ -3,6 +3,8 @@ import type { FeatureCollection, Feature } from 'geojson';
 import { geoCentroid, geoDistance, geoArea } from 'd3-geo';
 import countriesDataLow from '../data/countries_low.json';
 import countriesDataHigh from '../data/countries_high.json';
+import landDataLow from '../data/land_low.json';
+import landDataHigh from '../data/land_high.json';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -14,12 +16,12 @@ export interface Guess {
 
 const GUESS_COLORS = [
     '#9333ea', // Purple
+    '#1e3a8a', // Navy
     '#f97316', // Orange
     '#14b8a6', // Teal
     '#ec4899', // Pink
     '#eab308', // Gold
     '#06b6d4', // Cyan
-    '#1e3a8a', // Navy
 ];
 
 export interface GameState {
@@ -231,17 +233,16 @@ export const useGameLogic = () => {
     const handleGiveUp = () => {
         if (gameState.status !== 'playing') return;
 
-        // Reveal WHOLE MAP (except target)
-        const targetIso = gameState.targetCountry?.properties?.['ISO3166-1-Alpha-3'];
-        const allNeighbors = dataLow.features.filter(f =>
-            f.properties?.['ISO3166-1-Alpha-3'] !== targetIso
-        );
+        // On give up, we DON'T reveal all neighbors anymore, 
+        // to keep the map clean (only show guesses and target).
+        // The MapCanvas will handle showing the target label.
 
         setGameState(prev => ({
             ...prev,
             status: 'given_up',
             message: `The country was ${gameState.targetCountry?.properties?.name}.`,
-            revealedNeighbors: allNeighbors
+            // Keep existing revealed neighbors (guesses), don't add all others
+            revealedNeighbors: prev.revealedNeighbors
         }));
     };
 
@@ -312,18 +313,17 @@ export const useGameLogic = () => {
         }
     };
 
-    // Process high-detail data for zoomed-in rendering
-    const dataHigh = useMemo(() => {
-        return (countriesDataHigh as FeatureCollection).features;
-    }, []);
 
     return {
         gameState,
-        difficulty,
-        setDifficulty,
         handleGuess,
         handleGiveUp,
-        allFeaturesLow: dataLow.features, // Low detail for normal view
-        allFeaturesHigh: dataHigh // High detail for zoomed-in view
+        difficulty,
+        setDifficulty,
+        allFeaturesLow: dataLow.features as Feature[],
+        allFeaturesHigh: countriesDataHigh.features as unknown as Feature[],
+        allLandLow: (landDataLow as FeatureCollection).features as Feature[],
+        allLandHigh: (landDataHigh as FeatureCollection).features as Feature[],
+        resetGame: initializeGame
     };
 };

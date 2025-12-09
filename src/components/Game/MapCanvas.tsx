@@ -11,11 +11,13 @@ interface MapCanvasProps {
     difficulty: 'easy' | 'medium' | 'hard';
     allFeaturesLow: Feature[];
     allFeaturesHigh: Feature[];
+    allLandLow: Feature[];
+    allLandHigh: Feature[];
 }
 
 const LOD_THRESHOLD = 500; // Scale threshold for switching to high detail
 
-const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh }) => {
+const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh }) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -63,7 +65,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 [[padding, padding], [dimensions.width - padding, dimensions.height - padding]],
                 targetCountry
             );
-        const newScale = tempProj.scale();
+        const newScale = Math.min(tempProj.scale(), 12000); // Clamp to max zoom
         setScale(newScale);
 
         // 3. Sync d3-zoom transform with new scale
@@ -86,7 +88,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         let previousY = 0;
 
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
-            .scaleExtent([100, 5000])
+            .scaleExtent([100, 12000]) // Increased to 12000 for smaller islands
             .on('zoom', (event) => {
                 const { transform, sourceEvent } = event;
                 const { k, x, y } = transform;
@@ -172,11 +174,17 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         context.lineWidth = 0.5;
         context.stroke();
 
-        // 4. Faint World Map (Easy Mode) - with LOD switching
-        if (difficulty === 'easy') {
+        // 4. Faint World Map (Easy & Medium Mode) - with LOD switching
+        if (difficulty === 'easy' || difficulty === 'medium') {
             // Choose LOD based on zoom level
             const isHighDetail = scale > LOD_THRESHOLD;
-            const features = isHighDetail ? allFeaturesHigh : allFeaturesLow;
+
+            // Easy Mode: Show Country Borders
+            // Medium Mode: Show Continents (Land Mass) only
+            let features = isHighDetail ? allFeaturesHigh : allFeaturesLow;
+            if (difficulty === 'medium') {
+                features = isHighDetail ? allLandHigh : allLandLow;
+            }
 
             // Visibility culling: calculate actual visible angle based on zoom
             // At scale 250 (default), we see roughly the hemisphere (PI/2 radians = 90°)
@@ -187,11 +195,20 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             const visibleAngle = Math.asin(Math.min(1, canvasRadius / scale));
 
             const viewCenter: [number, number] = [-rotation[0], -rotation[1]];
-            const visibleFeatures = features.filter(feature => {
+
+            // For continents (land data), always render them to avoid culling issues with large polygons
+            // Land features typically have empty or minimal properties compared to countries
+            const isLandFeature = (f: Feature) => !f.properties || Object.keys(f.properties).length === 0;
+
+            const isFeatureVisible = (feature: Feature) => {
                 const center = geoCentroid(feature);
-                // Add small buffer for features at the edge
-                return geoDistance(viewCenter, center) < visibleAngle + 0.2;
-            });
+                // Add larger buffer for features at the edge, especially at high zoom
+                // Use a minimum visible angle to prevent over-aggressive culling
+                const effectiveVisibleAngle = Math.max(visibleAngle + 0.5, Math.PI / 4); // At least 45 degrees
+                return geoDistance(viewCenter, center) < effectiveVisibleAngle;
+            };
+
+            const visibleFeatures = features.filter(f => isLandFeature(f) || isFeatureVisible(f));
 
             if (visibleFeatures.length > 0) {
                 context.beginPath();
@@ -210,9 +227,10 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             // If zoomed in, find and use high-detail version of target
             let countryToRender = targetCountry;
             if (scale > LOD_THRESHOLD) {
-                const targetIso = targetCountry.properties?.['ISO3166-1-Alpha-3'];
+                // Use name for lookup, not ISO code (22 countries share ISO -99)
+                const targetName = targetCountry.properties?.name;
                 const highResVersion = allFeaturesHigh.find(
-                    f => f.properties?.['ISO3166-1-Alpha-3'] === targetIso
+                    f => f.properties?.name === targetName
                 );
                 if (highResVersion) {
                     countryToRender = highResVersion;
@@ -221,6 +239,10 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
             context.beginPath();
             pathGenerator(countryToRender);
+            // Filled grey with 0.1 opacity
+            context.fillStyle = 'rgba(128, 128, 128, 0.1)';
+            context.fill();
+            // Stroke border
             context.strokeStyle = 'rgba(6, 90, 30, 0.9)';
             context.lineWidth = 1;
             context.stroke();
@@ -290,7 +312,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             });
         }
 
-    }, [dimensions, projection, targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, scale, rotation]);
+    }, [dimensions, projection, targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh, scale, rotation]);
 
     return (
         <div ref={containerRef} className="map-container" style={{ width: '100%', height: '100%' }}>
