@@ -35,13 +35,17 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
         setValue(userInput);
         setSelectedIndex(-1);
 
+        // Normalize text to remove diacritics (e.g., Å -> A)
+        const normalize = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
         if (userInput.trim().length > 0) {
-            // Filter countries: contains input AND not already guessed (case-insensitive)
-            const normalizedHistory = guessHistory.map(g => g.name.toLowerCase());
+            // Filter countries: contains input AND not already guessed (accent-insensitive)
+            const normalizedHistory = guessHistory.map(g => normalize(g.name));
+            const normalizedInput = normalize(userInput);
             const filtered = allCountries.filter(
                 country =>
-                    country.toLowerCase().includes(userInput.toLowerCase()) &&
-                    !normalizedHistory.includes(country.toLowerCase())
+                    normalize(country).includes(normalizedInput) &&
+                    !normalizedHistory.includes(normalize(country))
             );
             setSuggestions(filtered);
             setShowSuggestions(filtered.length > 0);
