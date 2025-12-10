@@ -140,6 +140,7 @@ function App() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              gap: '8px',
               backgroundColor: gameState.status === 'won'
                 ? 'var(--color-accent-light)'
                 : gameState.status === 'given_up'
@@ -162,6 +163,24 @@ function App() {
               marginRight: '8px'
             }}>
               {gameState.message}
+              {(gameState.status === 'won' || gameState.status === 'given_up') && (
+                <button
+                  onClick={resetGame}
+                  style={{
+                    padding: '2px 10px',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    backgroundColor: gameState.status === 'won' ? 'var(--color-accent)' : '#ef4444',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  Play Again
+                </button>
+              )}
             </span>
             <select
               value={difficulty}
