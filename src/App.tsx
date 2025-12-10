@@ -76,32 +76,10 @@ function App() {
           marginBottom: 'var(--spacing-lg)',
           animation: 'fadeIn 0.6s ease-out 0.1s both'
         }}>
-          {/* Map Frame */}
-          <div style={{
-            backgroundColor: '#ffffff',
-            borderRadius: 'var(--radius-md)',
-            padding: '5px',
-            marginBottom: 'var(--spacing-lg)',
-            border: '1px solid var(--color-border)',
-            aspectRatio: '4/3',
-            width: '100%'
-          }}>
-            <MapCanvas
-              targetCountry={gameState.targetCountry}
-              revealedNeighbors={gameState.revealedNeighbors}
-              gameStatus={gameState.status}
-              difficulty={difficulty}
-              allFeaturesLow={allFeaturesLow}
-              allFeaturesHigh={allFeaturesHigh}
-              allLandLow={allLandLow}
-              allLandHigh={allLandHigh}
-            />
-          </div>
-
-          {/* Message Alert */}
+          {/* Message Alert - Above Map */}
           {gameState.message && (
             <div style={{
-              marginBottom: 'var(--spacing-md)',
+              marginBottom: '4px',
               animation: 'slideIn 0.3s ease-out'
             }}>
               <Alert
@@ -124,13 +102,37 @@ function App() {
                       : '#3b82f6',
                   borderRadius: 'var(--radius-md)',
                   textAlign: 'center',
-                  fontWeight: '500'
+                  fontWeight: '500',
+                  padding: '0.5rem',
+                  marginBottom: 0
                 }}
               >
                 {gameState.message}
               </Alert>
             </div>
           )}
+
+          {/* Map Frame */}
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: 'var(--radius-md)',
+            padding: '5px',
+            marginBottom: 'var(--spacing-sm)',
+            border: '1px solid var(--color-border)',
+            aspectRatio: '4/3',
+            width: '100%'
+          }}>
+            <MapCanvas
+              targetCountry={gameState.targetCountry}
+              revealedNeighbors={gameState.revealedNeighbors}
+              gameStatus={gameState.status}
+              difficulty={difficulty}
+              allFeaturesLow={allFeaturesLow}
+              allFeaturesHigh={allFeaturesHigh}
+              allLandLow={allLandLow}
+              allLandHigh={allLandHigh}
+            />
+          </div>
 
           {/* Guess Input */}
           <div style={{ marginBottom: '2.5rem' }}>
