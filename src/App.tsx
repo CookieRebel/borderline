@@ -38,7 +38,7 @@ function App() {
           backgroundColor: '#f3f4f6',
           border: '1px dashed #d1d5db',
           borderRadius: 'var(--radius-md)',
-          padding: '8px',
+          padding: '16px',
           marginBottom: '8px',
           textAlign: 'center',
           fontSize: '0.75rem',
