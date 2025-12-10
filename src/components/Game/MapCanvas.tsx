@@ -99,9 +99,12 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                     previousKRef.current = k;
                 }
 
-                // Only rotate on drag (mouse/touch move, not wheel)
+                // Only rotate on single-finger drag (not wheel or multi-touch pinch)
                 const isWheelEvent = sourceEvent?.type === 'wheel';
-                if (!isWheelEvent && (x !== previousX || y !== previousY)) {
+                const isPinchGesture = sourceEvent?.touches?.length >= 2;
+                const isSingleFingerDrag = !isWheelEvent && !isPinchGesture && (x !== previousX || y !== previousY);
+
+                if (isSingleFingerDrag) {
                     const dx = x - previousX;
                     const dy = y - previousY;
                     const sensitivity = 75 / k;
