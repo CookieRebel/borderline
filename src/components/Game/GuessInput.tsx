@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import { Input, Button, InputGroup, ListGroup, ListGroupItem } from 'reactstrap';
 import { allCountries } from '../../data/allCountries';
 import type { Guess } from '../../hooks/useGameLogic';
-import Keyboard from './Keyboard';
 
 interface GuessInputProps {
     onGuess: (guess: string) => void;
@@ -10,7 +9,13 @@ interface GuessInputProps {
     guessHistory: Guess[];
 }
 
-const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory }) => {
+export interface GuessInputRef {
+    handleKeyPress: (key: string) => void;
+    handleBackspace: () => void;
+    handleEnter: () => void;
+}
+
+const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabled, guessHistory }, ref) => {
     const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -110,27 +115,26 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
         }
     };
 
-    // Keyboard handlers
-    const handleKeyboardPress = (key: string) => {
-        const newValue = value + key;
-        setValue(newValue);
-        updateSuggestions(newValue);
-    };
-
-    const handleKeyboardBackspace = () => {
-        const newValue = value.slice(0, -1);
-        setValue(newValue);
-        updateSuggestions(newValue);
-    };
-
-    const handleKeyboardEnter = () => {
-        // If there are suggestions, select the first one
-        if (suggestions.length > 0) {
-            handleSuggestionClick(suggestions[0]);
-        } else {
-            handleSubmit();
+    // Expose keyboard handlers via ref
+    useImperativeHandle(ref, () => ({
+        handleKeyPress: (key: string) => {
+            const newValue = value + key;
+            setValue(newValue);
+            updateSuggestions(newValue);
+        },
+        handleBackspace: () => {
+            const newValue = value.slice(0, -1);
+            setValue(newValue);
+            updateSuggestions(newValue);
+        },
+        handleEnter: () => {
+            if (suggestions.length > 0) {
+                handleSuggestionClick(suggestions[0]);
+            } else {
+                handleSubmit();
+            }
         }
-    };
+    }));
 
     const canSubmit = !disabled &&
         value.trim() &&
@@ -164,6 +168,7 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
                 </InputGroup>
             </form>
 
+            {/* Dropdown above input */}
             {showSuggestions && suggestions.length > 0 && (
                 <ListGroup className="position-absolute w-100" style={{ zIndex: 1000, maxHeight: '200px', overflowY: 'auto', bottom: '100%', marginBottom: '4px' }}>
                     {suggestions.map((suggestion, index) => (
@@ -182,18 +187,8 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
                     ))}
                 </ListGroup>
             )}
-
-            {/* On-screen Keyboard */}
-            <div style={{ marginTop: '12px', width: '100vw', marginLeft: 'calc(-50vw + 50%)', display: 'flex', justifyContent: 'center' }}>
-                <Keyboard
-                    onKeyPress={handleKeyboardPress}
-                    onBackspace={handleKeyboardBackspace}
-                    onEnter={handleKeyboardEnter}
-                    disabled={disabled}
-                />
-            </div>
         </div>
     );
-};
+});
 
 export default GuessInput;

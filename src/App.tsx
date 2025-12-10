@@ -1,11 +1,15 @@
+import { useRef } from 'react';
 import { Container, Alert } from 'reactstrap';
 import MapCanvas from './components/Game/MapCanvas';
 import GuessInput from './components/Game/GuessInput';
+import type { GuessInputRef } from './components/Game/GuessInput';
 import GuessHistory from './components/Game/GuessHistory';
+import Keyboard from './components/Game/Keyboard';
 import { useGameLogic } from './hooks/useGameLogic';
 
 function App() {
   const { gameState, handleGuess, handleGiveUp, resetGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh } = useGameLogic();
+  const guessInputRef = useRef<GuessInputRef>(null);
 
   return (
     <div className="app-container">
@@ -129,11 +133,12 @@ function App() {
             />
           </div>
 
-          {/* Guess Input */}
+          {/* Input Row with Buttons + Keyboard */}
           <div style={{ marginBottom: '8px', padding: '0 4px' }}>
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+            <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-start', marginBottom: '8px' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <GuessInput
+                  ref={guessInputRef}
                   onGuess={handleGuess}
                   disabled={gameState.status !== 'playing'}
                   guessHistory={gameState.guessHistory}
@@ -159,7 +164,8 @@ function App() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  flexShrink: 0
                 }}
               >
                 ✕
@@ -182,12 +188,21 @@ function App() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   boxShadow: 'var(--shadow-sm)',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  flexShrink: 0
                 }}
               >
                 ↻
               </button>
             </div>
+
+            {/* Keyboard - Full width */}
+            <Keyboard
+              onKeyPress={(key) => guessInputRef.current?.handleKeyPress(key)}
+              onBackspace={() => guessInputRef.current?.handleBackspace()}
+              onEnter={() => guessInputRef.current?.handleEnter()}
+              disabled={gameState.status !== 'playing'}
+            />
           </div>
 
           {/* Guess History */}
