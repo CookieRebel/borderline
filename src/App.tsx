@@ -20,7 +20,7 @@ const playSparkleSound = () => {
 };
 
 function App() {
-  const { gameState, handleGuess, handleGiveUp, resetGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh } = useGameLogic();
+  const { gameState, handleGuess, handleGiveUp, resetGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh, highScore, liveScore } = useGameLogic();
   const guessInputRef = useRef<GuessInputRef>(null);
   const hasPlayedCelebration = useRef(false);
 
@@ -182,22 +182,58 @@ function App() {
               allLandHigh={allLandHigh}
             />
 
-            {/* Score Overlay - Top Left */}
+            {/* Score Overlays - Top Left */}
             <div style={{
               position: 'absolute',
               top: '5px',
               left: '5px',
               zIndex: 100,
-              backgroundColor: 'rgba(255,255,255,0.95)',
-              border: '1px solid #e5e7eb',
-              borderRadius: '4px',
-              padding: '4px 8px',
-              fontSize: '0.7rem',
-              fontWeight: '600',
-              color: '#374151',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px'
             }}>
-              Score: {gameState.score}
+              {highScore > 0 && (
+                <div style={{
+                  backgroundColor: 'rgba(255,215,0,0.95)',
+                  border: '1px solid #eab308',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  fontSize: '0.7rem',
+                  fontWeight: '600',
+                  color: '#92400e',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                }}>
+                  🏆 Best: {highScore}
+                </div>
+              )}
+              {gameState.status === 'playing' && (
+                <div style={{
+                  backgroundColor: 'rgba(255,255,255,0.95)',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  fontSize: '0.7rem',
+                  fontWeight: '600',
+                  color: '#374151',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                }}>
+                  Score: {liveScore}
+                </div>
+              )}
+              {gameState.status === 'won' && (
+                <div style={{
+                  backgroundColor: 'rgba(16,185,129,0.95)',
+                  border: '1px solid #10b981',
+                  borderRadius: '4px',
+                  padding: '4px 8px',
+                  fontSize: '0.7rem',
+                  fontWeight: '600',
+                  color: 'white',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                }}>
+                  Score: {gameState.score}
+                </div>
+              )}
             </div>
 
             <GuessHistory guesses={gameState.guessHistory} />

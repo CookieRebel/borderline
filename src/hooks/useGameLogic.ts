@@ -129,6 +129,23 @@ export const useGameLogic = () => {
     // Timer for scoring
     const roundStartTime = useRef<number>(Date.now());
 
+    // Live score that updates as timer ticks
+    const [liveScore, setLiveScore] = useState<number>(0);
+
+    // Update live score every 100ms while playing
+    useEffect(() => {
+        if (gameState.status !== 'playing') return;
+
+        const interval = setInterval(() => {
+            const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
+            const guessNumber = gameState.guessHistory.length + 1; // Next guess number
+            const potentialScore = scoreRound(guessNumber, timeSeconds);
+            setLiveScore(potentialScore);
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, [gameState.status, gameState.guessHistory.length]);
+
     // Process low-detail data (used for game logic and default rendering)
     const dataLow = useMemo(() => {
         const collection = countriesDataLow as FeatureCollection;
@@ -371,6 +388,8 @@ export const useGameLogic = () => {
         allFeaturesHigh: countriesDataHigh.features as unknown as Feature[],
         allLandLow: (landDataLow as FeatureCollection).features as Feature[],
         allLandHigh: (landDataHigh as FeatureCollection).features as Feature[],
-        resetGame: initializeGame
+        resetGame: initializeGame,
+        highScore,
+        liveScore
     };
 };
