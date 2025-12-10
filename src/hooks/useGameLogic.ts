@@ -196,10 +196,12 @@ export const useGameLogic = () => {
                 return area <= taiwanArea && area > 0;
             });
         } else {
-            // Medium: All countries larger than Taiwan (excludes small islands)
+            // Medium: All countries larger than Taiwan, excluding very obvious ones
+            const MEDIUM_EXCLUSIONS = ['USA', 'AUS', 'ITA', 'CHL'];
             potentialTargets = features.filter((f: any) => {
+                const iso = f.properties['ISO3166-1-Alpha-3'];
                 const area = geoArea(f as any);
-                return area > taiwanArea;
+                return area > taiwanArea && !MEDIUM_EXCLUSIONS.includes(iso);
             });
         }
 
