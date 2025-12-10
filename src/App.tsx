@@ -189,7 +189,7 @@ function App() {
               left: '5px',
               zIndex: 100,
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'row',
               gap: '4px'
             }}>
               {highScore > 0 && (
