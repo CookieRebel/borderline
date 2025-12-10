@@ -64,6 +64,10 @@ function App() {
           }}>
             <span style={{
               flex: 1,
+              height: '28px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               backgroundColor: gameState.status === 'won'
                 ? 'var(--color-accent-light)'
                 : gameState.status === 'given_up'
@@ -81,10 +85,9 @@ function App() {
                   : '#3b82f6',
               borderRadius: 'var(--radius-md)',
               fontWeight: '500',
-              padding: '0.25rem 0.75rem',
+              padding: '0 0.75rem',
               fontSize: '0.875rem',
-              marginRight: '8px',
-              textAlign: 'center'
+              marginRight: '8px'
             }}>
               {gameState.message}
             </span>
@@ -92,7 +95,8 @@ function App() {
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value as 'easy' | 'medium' | 'hard')}
               style={{
-                padding: '0.25rem 0.5rem',
+                height: '28px',
+                padding: '0 0.5rem',
                 borderRadius: 'var(--radius-md)',
                 border: '1px solid var(--color-border)',
                 backgroundColor: 'white',
@@ -100,7 +104,8 @@ function App() {
                 fontSize: '0.875rem',
                 fontWeight: '500',
                 cursor: 'pointer',
-                textTransform: 'capitalize'
+                textTransform: 'capitalize',
+                flexShrink: 0
               }}
             >
               <option value="easy">Easy</option>
