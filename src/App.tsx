@@ -181,6 +181,25 @@ function App() {
               allLandLow={allLandLow}
               allLandHigh={allLandHigh}
             />
+
+            {/* Score Overlay - Top Left */}
+            <div style={{
+              position: 'absolute',
+              top: '5px',
+              left: '5px',
+              zIndex: 100,
+              backgroundColor: 'rgba(255,255,255,0.95)',
+              border: '1px solid #e5e7eb',
+              borderRadius: '4px',
+              padding: '4px 8px',
+              fontSize: '0.7rem',
+              fontWeight: '600',
+              color: '#374151',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            }}>
+              Score: {gameState.score}
+            </div>
+
             <GuessHistory guesses={gameState.guessHistory} />
           </div>
 

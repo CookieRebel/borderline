@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import type { FeatureCollection, Feature } from 'geojson';
 import { geoCentroid, geoDistance, geoArea } from 'd3-geo';
 import countriesDataLow from '../data/countries_low.json';
@@ -28,11 +28,22 @@ export interface GameState {
     targetCountry: Feature | null;
     revealedNeighbors: Feature[];
     score: number;
+    roundScore: number;
     status: 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
     wrongGuesses: number;
     guessHistory: Guess[];
     difficulty: Difficulty;
+}
+
+// Scoring system
+const GUESS_POINTS = [0, 700, 500, 380, 290, 220, 160, 110, 70];
+
+function scoreRound(guessNumber: number, timeSeconds: number): number {
+    const g = Math.max(1, Math.min(guessNumber, 8));
+    const guessPoints = GUESS_POINTS[g];
+    const timeBonus = Math.max(0, 300 - (timeSeconds - 5) * 7);
+    return Math.round(guessPoints + timeBonus);
 }
 
 // Easy mode countries - larger, well-known countries
@@ -100,13 +111,17 @@ export const useGameLogic = () => {
     const [gameState, setGameState] = useState<GameState>({
         targetCountry: null,
         revealedNeighbors: [],
-        score: 5000,
+        score: 0,
+        roundScore: 0,
         status: 'playing',
         message: 'Guess the country or territory!',
         wrongGuesses: 0,
         guessHistory: [],
         difficulty: difficulty
     });
+
+    // Timer for scoring
+    const roundStartTime = useRef<number>(Date.now());
 
     // Process low-detail data (used for game logic and default rendering)
     const dataLow = useMemo(() => {
@@ -216,16 +231,20 @@ export const useGameLogic = () => {
         const target = potentialTargets[randomIndex];
         const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
 
-        setGameState({
+        setGameState(prev => ({
             targetCountry: target,
             revealedNeighbors: [],
-            score: 5000,
+            score: prev.score, // Keep cumulative score
+            roundScore: 0,
             status: 'playing',
             message: 'Guess the country or territory!',
             wrongGuesses: 0,
             guessHistory: [],
             difficulty: difficulty
-        });
+        }));
+
+        // Reset timer for new round
+        roundStartTime.current = Date.now();
 
         console.log(`Difficulty: ${difficulty}`);
         console.log(`Target: ${target.properties?.name} (${targetIso})`);
@@ -276,11 +295,18 @@ export const useGameLogic = () => {
         const newGuessHistory = [...gameState.guessHistory, newGuess];
 
         if (normalizedGuess === targetName) {
+            // Calculate score based on guesses and time
+            const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
+            const guessNumber = newGuessHistory.length;
+            const roundScore = scoreRound(guessNumber, timeSeconds);
+
             setGameState(prev => ({
                 ...prev,
                 status: 'won',
-                message: `Correct! It is ${gameState.targetCountry?.properties?.name}.`,
-                guessHistory: newGuessHistory
+                message: `Correct! +${roundScore} pts`,
+                guessHistory: newGuessHistory,
+                roundScore: roundScore,
+                score: prev.score + roundScore
             }));
         } else {
             // Wrong guess
