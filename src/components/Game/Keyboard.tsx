@@ -30,10 +30,9 @@ const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, onBackspace, onEnter, d
         <div style={{
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             gap: '6px',
-            padding: '8px',
-            backgroundColor: 'var(--color-bg-elevated)',
-            borderRadius: 'var(--radius-md)',
+            padding: '8px 0',
             userSelect: 'none'
         }}>
             {KEYBOARD_ROWS.map((row, rowIndex) => (
@@ -53,27 +52,28 @@ const Keyboard: React.FC<KeyboardProps> = ({ onKeyPress, onBackspace, onEnter, d
                                     minWidth: isWideKey ? '52px' : '32px',
                                     height: '42px',
                                     padding: '0 8px',
-                                    border: 'none',
+                                    border: '1px solid #d1d5db',
                                     borderRadius: '4px',
-                                    backgroundColor: disabled ? '#9ca3af' : '#374151',
-                                    color: 'white',
+                                    backgroundColor: disabled ? '#e5e7eb' : '#ffffff',
+                                    color: disabled ? '#9ca3af' : '#1f2937',
                                     fontSize: isWideKey ? '11px' : '14px',
                                     fontWeight: '600',
                                     cursor: disabled ? 'not-allowed' : 'pointer',
-                                    opacity: disabled ? 0.5 : 1,
+                                    opacity: disabled ? 0.7 : 1,
                                     transition: 'background-color 0.1s',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    justifyContent: 'center'
+                                    justifyContent: 'center',
+                                    boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
                                 }}
                                 onTouchStart={(e) => {
                                     if (!disabled) {
-                                        e.currentTarget.style.backgroundColor = '#4b5563';
+                                        e.currentTarget.style.backgroundColor = '#e5e7eb';
                                     }
                                 }}
                                 onTouchEnd={(e) => {
                                     if (!disabled) {
-                                        e.currentTarget.style.backgroundColor = '#374151';
+                                        e.currentTarget.style.backgroundColor = '#ffffff';
                                     }
                                 }}
                             >
