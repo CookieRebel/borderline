@@ -239,12 +239,9 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
             context.beginPath();
             pathGenerator(countryToRender);
-            // Filled grey with 0.1 opacity
-            context.fillStyle = 'rgba(128, 128, 128, 0.1)';
-            context.fill();
-            // Stroke border
+            // Only stroke the border (fill can bleed on orthographic projection)
             context.strokeStyle = 'rgba(6, 90, 30, 0.9)';
-            context.lineWidth = 1;
+            context.lineWidth = 1.5;
             context.stroke();
         }
 
