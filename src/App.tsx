@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Container style={{ maxWidth: '900px' }}>
+      <Container className="p-0" style={{ maxWidth: '900px' }}>
         {/* Header */}
         <div style={{
           textAlign: 'center',
@@ -70,16 +70,14 @@ function App() {
         {/* Game Card */}
         <div className="game-card" style={{
           backgroundColor: 'var(--color-bg-card)',
-          borderRadius: 'var(--radius-lg)',
-          boxShadow: 'var(--shadow-lg)',
-          padding: '5px',
-          marginBottom: 'var(--spacing-lg)',
+          marginBottom: 'var(--spacing-sm)',
           animation: 'fadeIn 0.6s ease-out 0.1s both'
         }}>
           {/* Message Alert - Above Map */}
           {gameState.message && (
             <div style={{
               marginBottom: '4px',
+              padding: '0 4px',
               animation: 'slideIn 0.3s ease-out'
             }}>
               <Alert
@@ -112,13 +110,10 @@ function App() {
             </div>
           )}
 
-          {/* Map Frame */}
+          {/* Map Frame - Edge to Edge */}
           <div style={{
             backgroundColor: '#ffffff',
-            borderRadius: 'var(--radius-md)',
-            padding: '5px',
-            marginBottom: 'var(--spacing-sm)',
-            border: '1px solid var(--color-border)',
+            marginBottom: '4px',
             aspectRatio: '4/3',
             width: '100%'
           }}>
@@ -135,7 +130,7 @@ function App() {
           </div>
 
           {/* Guess Input */}
-          <div style={{ marginBottom: '2.5rem' }}>
+          <div style={{ marginBottom: '8px', padding: '0 4px' }}>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
               <div style={{ flex: 1 }}>
                 <GuessInput
@@ -204,7 +199,9 @@ function App() {
           </div>
 
           {/* Guess History */}
-          <GuessHistory guesses={gameState.guessHistory} />
+          <div style={{ padding: '0 4px' }}>
+            <GuessHistory guesses={gameState.guessHistory} />
+          </div>
         </div>
 
       </Container>

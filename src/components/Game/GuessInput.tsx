@@ -165,7 +165,7 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
             </form>
 
             {showSuggestions && suggestions.length > 0 && (
-                <ListGroup className="position-absolute w-100" style={{ zIndex: 1000, maxHeight: '200px', overflowY: 'auto' }}>
+                <ListGroup className="position-absolute w-100" style={{ zIndex: 1000, maxHeight: '200px', overflowY: 'auto', bottom: '100%', marginBottom: '4px' }}>
                     {suggestions.map((suggestion, index) => (
                         <ListGroupItem
                             key={index}
