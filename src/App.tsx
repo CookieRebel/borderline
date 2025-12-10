@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Container } from 'reactstrap';
+import confetti from 'canvas-confetti';
 import MapCanvas from './components/Game/MapCanvas';
 import GuessInput from './components/Game/GuessInput';
 import type { GuessInputRef } from './components/Game/GuessInput';
@@ -7,9 +8,57 @@ import GuessHistory from './components/Game/GuessHistory';
 import Keyboard from './components/Game/Keyboard';
 import { useGameLogic } from './hooks/useGameLogic';
 
+// Play sparkle sound
+const playSparkleSound = () => {
+  try {
+    const audio = new Audio('/sparkle.mp3');
+    audio.volume = 0.5;
+    audio.play();
+  } catch (e) {
+    console.log('Audio not supported');
+  }
+};
+
 function App() {
   const { gameState, handleGuess, handleGiveUp, resetGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh } = useGameLogic();
   const guessInputRef = useRef<GuessInputRef>(null);
+  const hasPlayedCelebration = useRef(false);
+
+  // Trigger confetti and sound on win
+  useEffect(() => {
+    if (gameState.status === 'won' && !hasPlayedCelebration.current) {
+      hasPlayedCelebration.current = true;
+
+      // Play sound
+      playSparkleSound();
+
+      // Fire confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+
+      // Second burst
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+      }, 200);
+    } else if (gameState.status === 'playing') {
+      hasPlayedCelebration.current = false;
+    }
+  }, [gameState.status]);
+
 
   return (
     <div className="app-container">
