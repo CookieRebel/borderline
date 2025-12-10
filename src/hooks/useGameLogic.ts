@@ -46,7 +46,9 @@ function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Diffic
     if (difficulty === 'easy') {
         return guessPoints;
     }
-    const timeBonus = Math.max(0, 300 - (timeSeconds - 5) * 7);
+    // Time bonus: decays slowly, minimum 50 points even after 5 minutes
+    // Starts at 300, loses 1 point per second after 5s grace period
+    const timeBonus = Math.max(50, 300 - Math.max(0, timeSeconds - 5));
     return Math.round(guessPoints + timeBonus);
 }
 
@@ -124,14 +126,29 @@ export const useGameLogic = () => {
         difficulty: difficulty
     });
 
-    // High score from localStorage
-    const [highScore, setHighScore] = useState<number>(() => {
-        const saved = localStorage.getItem('borderline_highscore');
-        return saved ? parseInt(saved, 10) : 0;
+    // High scores per difficulty from localStorage
+    const [highScores, setHighScores] = useState<Record<Difficulty, number>>(() => {
+        const saved = localStorage.getItem('borderline_highscores');
+        if (saved) {
+            try {
+                return JSON.parse(saved);
+            } catch {
+                return { easy: 0, medium: 0, hard: 0 };
+            }
+        }
+        return { easy: 0, medium: 0, hard: 0 };
     });
+
+    // Current difficulty's high score
+    const highScore = highScores[difficulty];
 
     // Timer for scoring
     const roundStartTime = useRef<number>(Date.now());
+
+    // Reset timer when difficulty changes
+    useEffect(() => {
+        roundStartTime.current = Date.now();
+    }, [difficulty]);
 
     // Live score that updates as timer ticks
     const [liveScore, setLiveScore] = useState<number>(0);
@@ -330,11 +347,12 @@ export const useGameLogic = () => {
             const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
             const guessNumber = newGuessHistory.length;
             const roundScore = scoreRound(guessNumber, timeSeconds, difficulty);
-            // Check for high score
+            // Check for high score (per difficulty)
             const isHighScore = roundScore > highScore;
             if (isHighScore) {
-                setHighScore(roundScore);
-                localStorage.setItem('borderline_highscore', roundScore.toString());
+                const newHighScores = { ...highScores, [difficulty]: roundScore };
+                setHighScores(newHighScores);
+                localStorage.setItem('borderline_highscores', JSON.stringify(newHighScores));
             }
 
             const winMessage = isHighScore
