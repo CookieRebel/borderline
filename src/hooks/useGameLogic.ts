@@ -120,6 +120,12 @@ export const useGameLogic = () => {
         difficulty: difficulty
     });
 
+    // High score from localStorage
+    const [highScore, setHighScore] = useState<number>(() => {
+        const saved = localStorage.getItem('borderline_highscore');
+        return saved ? parseInt(saved, 10) : 0;
+    });
+
     // Timer for scoring
     const roundStartTime = useRef<number>(Date.now());
 
@@ -231,17 +237,21 @@ export const useGameLogic = () => {
         const target = potentialTargets[randomIndex];
         const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
 
-        setGameState(prev => ({
+        const highScoreMessage = highScore > 0
+            ? `Can you beat your high score of ${highScore}?`
+            : 'Can you guess the country or territory?';
+
+        setGameState({
             targetCountry: target,
             revealedNeighbors: [],
-            score: prev.score, // Keep cumulative score
+            score: 0,
             roundScore: 0,
             status: 'playing',
-            message: 'Guess the country or territory!',
+            message: highScoreMessage,
             wrongGuesses: 0,
             guessHistory: [],
             difficulty: difficulty
-        }));
+        });
 
         // Reset timer for new round
         roundStartTime.current = Date.now();
@@ -299,14 +309,24 @@ export const useGameLogic = () => {
             const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
             const guessNumber = newGuessHistory.length;
             const roundScore = scoreRound(guessNumber, timeSeconds);
+            // Check for high score
+            const isHighScore = roundScore > highScore;
+            if (isHighScore) {
+                setHighScore(roundScore);
+                localStorage.setItem('borderline_highscore', roundScore.toString());
+            }
+
+            const winMessage = isHighScore
+                ? `🏆 High Score! ${roundScore} pts`
+                : `Correct! ${roundScore} pts`;
 
             setGameState(prev => ({
                 ...prev,
                 status: 'won',
-                message: `Correct! +${roundScore} pts`,
+                message: winMessage,
                 guessHistory: newGuessHistory,
                 roundScore: roundScore,
-                score: prev.score + roundScore
+                score: roundScore
             }));
         } else {
             // Wrong guess
