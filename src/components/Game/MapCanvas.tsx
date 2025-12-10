@@ -77,6 +77,42 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
     }, [targetCountry, dimensions.width, dimensions.height]);
 
+    // Animate rotation to latest guess
+    useEffect(() => {
+        if (revealedNeighbors.length === 0 || gameStatus !== 'playing') return;
+
+        // Get the most recent guess (last in the array)
+        const latestGuess = revealedNeighbors[revealedNeighbors.length - 1];
+        if (!latestGuess) return;
+
+        const centroid = geoCentroid(latestGuess);
+        const targetRotation: [number, number] = [-centroid[0], -centroid[1]];
+
+        // Animate from current rotation to target
+        const startRotation = rotation;
+        const duration = 500; // 500ms animation
+        const startTime = Date.now();
+
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const t = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - t, 3);
+
+            const newRotation: [number, number] = [
+                startRotation[0] + (targetRotation[0] - startRotation[0]) * eased,
+                startRotation[1] + (targetRotation[1] - startRotation[1]) * eased
+            ];
+            setRotation(newRotation);
+
+            if (t < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }, [revealedNeighbors.length]); // Only trigger when a new guess is added
+
     // Setup Interaction Behaviors (Zoom & Drag) - only once
     useEffect(() => {
         if (!canvasRef.current) return;
