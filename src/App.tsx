@@ -142,59 +142,51 @@ function App() {
               <button
                 onClick={handleGiveUp}
                 disabled={gameState.status !== 'playing'}
+                title="Give Up"
                 style={{
-                  padding: '0.375rem 0.5rem',
-                  backgroundColor: 'var(--color-bg-elevated)',
-                  border: '1px solid var(--color-border)',
+                  padding: '0.375rem',
+                  backgroundColor: gameState.status === 'playing' ? '#fee2e2' : 'var(--color-bg-elevated)',
+                  border: '1px solid',
+                  borderColor: gameState.status === 'playing' ? '#fca5a5' : 'var(--color-border)',
                   borderRadius: 'var(--radius-md)',
-                  color: 'var(--color-text-secondary)',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
+                  color: gameState.status === 'playing' ? '#ef4444' : 'var(--color-text-secondary)',
+                  fontSize: '1.2rem',
+                  fontWeight: '600',
                   cursor: gameState.status === 'playing' ? 'pointer' : 'not-allowed',
-                  opacity: gameState.status === 'playing' ? 1 : 0.5,
-                  height: '38px', // Match input height
-                  whiteSpace: 'nowrap',
+                  opacity: gameState.status === 'playing' ? 1 : 0.4,
+                  width: '38px',
+                  height: '38px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   transition: 'all 0.2s ease'
                 }}
-                onMouseEnter={(e) => {
-                  if (gameState.status === 'playing') {
-                    e.currentTarget.style.backgroundColor = '#fee2e2';
-                    e.currentTarget.style.color = '#ef4444';
-                    e.currentTarget.style.borderColor = '#fca5a5';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (gameState.status === 'playing') {
-                    e.currentTarget.style.backgroundColor = 'var(--color-bg-elevated)';
-                    e.currentTarget.style.color = 'var(--color-text-secondary)';
-                    e.currentTarget.style.borderColor = 'var(--color-border)';
-                  }
+              >
+                ✕
+              </button>
+              <button
+                onClick={resetGame}
+                title="Play Again"
+                style={{
+                  padding: '0.375rem',
+                  backgroundColor: 'var(--color-accent)',
+                  border: '1px solid var(--color-accent)',
+                  borderRadius: 'var(--radius-md)',
+                  color: 'white',
+                  fontSize: '1.2rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  width: '38px',
+                  height: '38px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: 'var(--shadow-sm)',
+                  transition: 'all 0.2s ease'
                 }}
               >
-                Give Up
+                ↻
               </button>
-              {(gameState.status === 'won' || gameState.status === 'given_up' || gameState.status === 'lost') && (
-                <button
-                  onClick={resetGame}
-                  style={{
-                    padding: '0.375rem 1rem',
-                    backgroundColor: 'var(--color-accent)',
-                    border: '1px solid var(--color-accent)',
-                    borderRadius: 'var(--radius-md)',
-                    color: 'white',
-                    fontSize: '0.875rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    height: '38px',
-                    whiteSpace: 'nowrap',
-                    boxShadow: 'var(--shadow-sm)',
-                    transition: 'all 0.2s ease',
-                    marginLeft: '8px'
-                  }}
-                >
-                  Play Again
-                </button>
-              )}
             </div>
           </div>
 
