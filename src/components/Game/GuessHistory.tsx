@@ -16,8 +16,7 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses }) => {
     const reversedGuesses = [...guesses].reverse();
 
     return (
-        <div className="guess-history mt-3">
-            <h6 className="text-muted mb-2" style={{ fontSize: '0.85rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Previous Guesses</h6>
+        <div className="guess-history">
             <ListGroup flush className="d-flex flex-row flex-wrap gap-2">
                 {reversedGuesses.map((guess, index) => {
                     const originalIndex = guesses.length - 1 - index;

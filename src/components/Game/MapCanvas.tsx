@@ -27,7 +27,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
     // State for projection parameters
     const [rotation, setRotation] = useState<[number, number]>([0, 0]);
     const [scale, setScale] = useState<number>(250);
-    const [visibleCount, setVisibleCount] = useState<number>(0);
 
     // Refs for zoom sync
     const zoomBehaviorRef = useRef<any>(null);
@@ -221,9 +220,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 context.lineWidth = 0.5;
                 context.stroke();
             }
-
-            // Update visible count for debug
-            setVisibleCount(visibleFeatures.length);
         }
 
         // 5. Target Country - use high-res when zoomed in
@@ -324,23 +320,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
                 ref={canvasRef}
                 style={{ cursor: 'grab', display: 'block', width: '100%', height: '100%' }}
             />
-
-            {/* Debug info */}
-            <div style={{
-                position: 'absolute',
-                bottom: 10,
-                right: 10,
-                background: 'rgba(255,255,255,0.9)',
-                color: '#374151',
-                padding: '5px 10px',
-                borderRadius: '4px',
-                fontSize: '11px',
-                border: '1px solid #e5e7eb',
-                fontWeight: '500',
-                pointerEvents: 'none'
-            }}>
-                Scale: {Math.round(scale)} • LOD: {scale > LOD_THRESHOLD ? 'HIGH' : 'LOW'} • Visible: {visibleCount}/{scale > LOD_THRESHOLD ? allFeaturesHigh.length : allFeaturesLow.length}
-            </div>
         </div>
     );
 };
