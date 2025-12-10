@@ -31,13 +31,6 @@ function App() {
           }}>
             BorderLINE
           </h1>
-          <p style={{
-            color: 'var(--color-text-secondary)',
-            fontSize: '0.95rem',
-            marginBottom: 'var(--spacing-md)' // Reduced from lg
-          }}>
-            Guess the country or territory from its outline
-          </p>
         </div>
 
         {/* Game Card */}
@@ -104,7 +97,8 @@ function App() {
             backgroundColor: '#ffffff',
             marginBottom: '4px',
             aspectRatio: '4/3',
-            width: '100%'
+            width: '100%',
+            position: 'relative'
           }}>
             <MapCanvas
               targetCountry={gameState.targetCountry}
@@ -116,6 +110,7 @@ function App() {
               allLandLow={allLandLow}
               allLandHigh={allLandHigh}
             />
+            <GuessHistory guesses={gameState.guessHistory} />
           </div>
 
           {/* Input Row with Buttons + Keyboard */}
@@ -134,18 +129,18 @@ function App() {
                 disabled={gameState.status !== 'playing'}
                 title="Give Up"
                 style={{
-                  padding: '0.375rem',
+                  padding: '0.25rem',
                   backgroundColor: gameState.status === 'playing' ? '#fee2e2' : 'var(--color-bg-elevated)',
                   border: '1px solid',
                   borderColor: gameState.status === 'playing' ? '#fca5a5' : 'var(--color-border)',
                   borderRadius: 'var(--radius-md)',
                   color: gameState.status === 'playing' ? '#ef4444' : 'var(--color-text-secondary)',
-                  fontSize: '1.2rem',
+                  fontSize: '1rem',
                   fontWeight: '600',
                   cursor: gameState.status === 'playing' ? 'pointer' : 'not-allowed',
                   opacity: gameState.status === 'playing' ? 1 : 0.4,
-                  width: '38px',
-                  height: '38px',
+                  width: '32px',
+                  height: '32px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -159,16 +154,16 @@ function App() {
                 onClick={resetGame}
                 title="Play Again"
                 style={{
-                  padding: '0.375rem',
+                  padding: '0.25rem',
                   backgroundColor: 'var(--color-accent)',
                   border: '1px solid var(--color-accent)',
                   borderRadius: 'var(--radius-md)',
                   color: 'white',
-                  fontSize: '1.2rem',
+                  fontSize: '1rem',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  width: '38px',
-                  height: '38px',
+                  width: '32px',
+                  height: '32px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -188,11 +183,6 @@ function App() {
               onEnter={() => guessInputRef.current?.handleEnter()}
               disabled={gameState.status !== 'playing'}
             />
-          </div>
-
-          {/* Guess History */}
-          <div style={{ padding: '0 4px' }}>
-            <GuessHistory guesses={gameState.guessHistory} />
           </div>
         </div>
 

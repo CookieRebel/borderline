@@ -1,6 +1,4 @@
-import React from 'react';
-import { ListGroup, ListGroupItem } from 'reactstrap';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
 import type { Guess } from '../../hooks/useGameLogic';
 
 interface GuessHistoryProps {
@@ -8,6 +6,8 @@ interface GuessHistoryProps {
 }
 
 const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses }) => {
+    const [isExpanded, setIsExpanded] = useState(true);
+
     if (guesses.length === 0) {
         return null;
     }
@@ -16,71 +16,92 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses }) => {
     const reversedGuesses = [...guesses].reverse();
 
     return (
-        <div className="guess-history">
-            <ListGroup flush className="d-flex flex-row flex-wrap gap-2">
-                {reversedGuesses.map((guess, index) => {
-                    const originalIndex = guesses.length - 1 - index;
+        <div style={{
+            position: 'absolute',
+            top: '8px',
+            right: '8px',
+            zIndex: 100,
+            maxWidth: '150px'
+        }}>
+            {/* Toggle button */}
+            <button
+                onClick={() => setIsExpanded(!isExpanded)}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    padding: '4px 8px',
+                    backgroundColor: 'rgba(255,255,255,0.95)',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '4px',
+                    fontSize: '0.7rem',
+                    fontWeight: '600',
+                    color: '#374151',
+                    cursor: 'pointer',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                    marginLeft: 'auto'
+                }}
+            >
+                Guesses ({guesses.length})
+                <span style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                    ▾
+                </span>
+            </button>
 
-                    return (
-                        <motion.div
-                            key={originalIndex}
-                            initial={{ opacity: 0, y: 10, scale: 0.9 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.3, delay: index * 0.05 }}
-                        >
-                            <ListGroupItem
-                                className="border-0 py-2 px-3 d-flex align-items-center gap-2 shadow-sm"
+            {/* Collapsible list */}
+            {isExpanded && (
+                <div style={{
+                    marginTop: '4px',
+                    backgroundColor: 'rgba(255,255,255,0.95)',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '4px',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    maxHeight: '150px',
+                    overflowY: 'auto'
+                }}>
+                    {reversedGuesses.map((guess, index) => {
+                        const originalIndex = guesses.length - 1 - index;
+                        return (
+                            <div
+                                key={originalIndex}
                                 style={{
-                                    fontSize: '0.95rem',
-                                    fontWeight: '500',
-                                    borderRadius: 'var(--radius-md)',
-                                    backgroundColor: 'var(--color-bg-elevated)',
-                                    color: 'var(--color-text-primary)',
-                                    border: '1px solid var(--color-border)',
-                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                                    cursor: 'default'
-                                }}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-2px)';
-                                    e.currentTarget.style.boxShadow = 'var(--shadow-md)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+                                    padding: '3px 6px',
+                                    fontSize: '0.65rem',
+                                    borderBottom: index < reversedGuesses.length - 1 ? '1px solid #f3f4f6' : 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '4px'
                                 }}
                             >
                                 <span style={{
-                                    display: 'inline-flex',
+                                    width: '14px',
+                                    height: '14px',
+                                    borderRadius: '50%',
+                                    backgroundColor: '#f3f4f6',
+                                    color: '#6b7280',
+                                    fontSize: '0.55rem',
+                                    display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    width: '20px',
-                                    height: '20px',
-                                    borderRadius: '50%',
-                                    backgroundColor: 'var(--color-bg-secondary)',
-                                    color: 'var(--color-text-secondary)',
-                                    fontSize: '0.75rem',
-                                    fontWeight: '600',
-                                    marginRight: '4px'
+                                    flexShrink: 0
                                 }}>
                                     {originalIndex + 1}
                                 </span>
-                                <span style={{ color: guess.color || 'inherit' }}>
+                                <span style={{
+                                    color: guess.color || '#374151',
+                                    fontWeight: '500',
+                                    whiteSpace: 'nowrap',
+                                    overflow: 'hidden',
+                                    textOverflow: 'ellipsis',
+                                    flex: 1
+                                }}>
                                     {guess.name}
                                 </span>
-
-                                <span style={{
-                                    fontSize: '0.85rem',
-                                    color: 'var(--color-text-secondary)',
-                                    marginLeft: '4px',
-                                    fontWeight: '400'
-                                }}>
-                                    {Math.round(guess.distance)} km
-                                </span>
-                            </ListGroupItem>
-                        </motion.div>
-                    );
-                })}
-            </ListGroup>
+                            </div>
+                        );
+                    })}
+                </div>
+            )}
         </div>
     );
 };

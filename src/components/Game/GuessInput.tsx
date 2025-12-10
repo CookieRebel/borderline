@@ -148,7 +148,7 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
                     <Input
                         innerRef={inputRef}
                         type="text"
-                        placeholder="Enter country name..."
+                        placeholder="Enter country..."
                         value={value}
                         onChange={handleChange}
                         onKeyDown={handleKeyDown}
@@ -156,6 +156,7 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
                         className="bg-dark text-light border-secondary"
                         autoComplete="off"
                         readOnly // Prevent native keyboard on mobile
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.875rem', height: '32px' }}
                     />
                     <Button
                         color="primary"
