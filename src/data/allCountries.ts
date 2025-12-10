@@ -101,7 +101,6 @@ export const allCountries = [
     "Taiwan",
 
     // --- Crown Dependencies & Others ---
-    "Western Sahara",
     "Jersey",
     "Guernsey",
     "Isle of Man",

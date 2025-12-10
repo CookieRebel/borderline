@@ -102,7 +102,7 @@ export const useGameLogic = () => {
         revealedNeighbors: [],
         score: 5000,
         status: 'playing',
-        message: 'Guess the country!',
+        message: 'Guess the country or territory!',
         wrongGuesses: 0,
         guessHistory: [],
         difficulty: difficulty
@@ -220,7 +220,7 @@ export const useGameLogic = () => {
             revealedNeighbors: [],
             score: 5000,
             status: 'playing',
-            message: 'Guess the country!',
+            message: 'Guess the country or territory!',
             wrongGuesses: 0,
             guessHistory: [],
             difficulty: difficulty
