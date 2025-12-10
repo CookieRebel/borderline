@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Input, Button, InputGroup, ListGroup, ListGroupItem } from 'reactstrap';
 import { allCountries } from '../../data/allCountries';
 import type { Guess } from '../../hooks/useGameLogic';
+import Keyboard from './Keyboard';
 
 interface GuessInputProps {
     onGuess: (guess: string) => void;
@@ -30,18 +31,13 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
         };
     }, []);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const userInput = e.target.value;
-        setValue(userInput);
-        setSelectedIndex(-1);
+    // Normalize text to remove diacritics (e.g., Å -> A)
+    const normalize = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
-        // Normalize text to remove diacritics (e.g., Å -> A)
-        const normalize = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-        if (userInput.trim().length > 0) {
-            // Filter countries: contains input AND not already guessed (accent-insensitive)
+    const updateSuggestions = (input: string) => {
+        if (input.trim().length > 0) {
             const normalizedHistory = guessHistory.map(g => normalize(g.name));
-            const normalizedInput = normalize(userInput);
+            const normalizedInput = normalize(input);
             const filtered = allCountries.filter(
                 country =>
                     normalize(country).includes(normalizedInput) &&
@@ -55,12 +51,18 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
         }
     };
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const userInput = e.target.value;
+        setValue(userInput);
+        setSelectedIndex(-1);
+        updateSuggestions(userInput);
+    };
+
     const handleSuggestionClick = (suggestion: string) => {
         setValue(suggestion);
         setSuggestions([]);
         setShowSuggestions(false);
         setSelectedIndex(-1);
-        // Focus the input so user can press Go or Enter
         inputRef.current?.focus();
     };
 
@@ -91,14 +93,11 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleSubmit = (e?: React.FormEvent) => {
+        e?.preventDefault();
 
-        // Only allow submission if value exactly matches a country (case-insensitive)
         const normalizedValue = value.trim().toLowerCase();
         const matchingCountry = allCountries.find(c => c.toLowerCase() === normalizedValue);
-
-        // Check if already guessed (case-insensitive)
         const normalizedHistory = guessHistory.map(g => g.name.toLowerCase());
         const alreadyGuessed = matchingCountry && normalizedHistory.includes(matchingCountry.toLowerCase());
 
@@ -110,6 +109,33 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
             setSelectedIndex(-1);
         }
     };
+
+    // Keyboard handlers
+    const handleKeyboardPress = (key: string) => {
+        const newValue = value + key;
+        setValue(newValue);
+        updateSuggestions(newValue);
+    };
+
+    const handleKeyboardBackspace = () => {
+        const newValue = value.slice(0, -1);
+        setValue(newValue);
+        updateSuggestions(newValue);
+    };
+
+    const handleKeyboardEnter = () => {
+        // If there are suggestions, select the first one
+        if (suggestions.length > 0) {
+            handleSuggestionClick(suggestions[0]);
+        } else {
+            handleSubmit();
+        }
+    };
+
+    const canSubmit = !disabled &&
+        value.trim() &&
+        allCountries.some(c => c.toLowerCase() === value.trim().toLowerCase()) &&
+        !guessHistory.some(g => g.name.toLowerCase() === value.trim().toLowerCase());
 
     return (
         <div ref={wrapperRef} className="position-relative">
@@ -125,17 +151,13 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
                         disabled={disabled}
                         className="bg-dark text-light border-secondary"
                         autoComplete="off"
+                        readOnly // Prevent native keyboard on mobile
                     />
                     <Button
                         color="primary"
                         type="submit"
                         style={{ padding: '0.375rem 0.75rem' }}
-                        disabled={
-                            disabled ||
-                            !value.trim() ||
-                            !allCountries.some(c => c.toLowerCase() === value.trim().toLowerCase()) ||
-                            guessHistory.some(g => g.name.toLowerCase() === value.trim().toLowerCase())
-                        }
+                        disabled={!canSubmit}
                     >
                         Go
                     </Button>
@@ -160,6 +182,16 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
                     ))}
                 </ListGroup>
             )}
+
+            {/* On-screen Keyboard */}
+            <div style={{ marginTop: '12px' }}>
+                <Keyboard
+                    onKeyPress={handleKeyboardPress}
+                    onBackspace={handleKeyboardBackspace}
+                    onEnter={handleKeyboardEnter}
+                    disabled={disabled}
+                />
+            </div>
         </div>
     );
 };
