@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { Container, Alert } from 'reactstrap';
+import { Container } from 'reactstrap';
 import MapCanvas from './components/Game/MapCanvas';
 import GuessInput from './components/Game/GuessInput';
 import type { GuessInputRef } from './components/Game/GuessInput';
@@ -38,37 +38,6 @@ function App() {
           }}>
             Guess the country or territory from its outline
           </p>
-
-          {/* Difficulty Switcher */}
-          <div style={{
-            display: 'inline-flex',
-            backgroundColor: 'var(--color-bg-elevated)',
-            padding: '2px', // Reduced from 4px
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid var(--color-border)'
-          }}>
-            {(['easy', 'medium', 'hard'] as const).map((level) => (
-              <button
-                key={level}
-                onClick={() => setDifficulty(level)}
-                style={{
-                  padding: '4px 12px', // Reduced from 6px 16px
-                  borderRadius: 'calc(var(--radius-md) - 2px)',
-                  border: 'none',
-                  backgroundColor: difficulty === level ? 'white' : 'transparent',
-                  color: difficulty === level ? 'var(--color-accent)' : 'var(--color-text-secondary)',
-                  fontWeight: difficulty === level ? '600' : '500',
-                  fontSize: '0.875rem',
-                  cursor: 'pointer',
-                  boxShadow: difficulty === level ? 'var(--shadow-sm)' : 'none',
-                  transition: 'all 0.2s ease',
-                  textTransform: 'capitalize'
-                }}
-              >
-                {level}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Game Card */}
@@ -77,42 +46,58 @@ function App() {
           marginBottom: 'var(--spacing-sm)',
           animation: 'fadeIn 0.6s ease-out 0.1s both'
         }}>
-          {/* Message Alert - Above Map */}
-          {gameState.message && (
-            <div style={{
-              marginBottom: '4px',
-              padding: '0 4px',
-              animation: 'slideIn 0.3s ease-out'
+          {/* Message + Level Dropdown Row */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '4px',
+            padding: '0 4px',
+            animation: 'slideIn 0.3s ease-out'
+          }}>
+            <span style={{
+              backgroundColor: gameState.status === 'won'
+                ? 'var(--color-accent-light)'
+                : gameState.status === 'given_up'
+                  ? '#fee2e2'
+                  : 'rgba(59, 130, 246, 0.1)',
+              border: `1px solid ${gameState.status === 'won'
+                ? 'var(--color-accent)'
+                : gameState.status === 'given_up'
+                  ? '#fca5a5'
+                  : '#3b82f6'}`,
+              color: gameState.status === 'won'
+                ? 'var(--color-accent)'
+                : gameState.status === 'given_up'
+                  ? '#ef4444'
+                  : '#3b82f6',
+              borderRadius: 'var(--radius-md)',
+              fontWeight: '500',
+              padding: '0.25rem 0.75rem',
+              fontSize: '0.875rem'
             }}>
-              <Alert
-                color={gameState.status === 'won' ? 'success' : gameState.status === 'given_up' ? 'danger' : 'info'}
-                style={{
-                  backgroundColor: gameState.status === 'won'
-                    ? 'var(--color-accent-light)'
-                    : gameState.status === 'given_up'
-                      ? '#fee2e2'
-                      : 'rgba(59, 130, 246, 0.1)',
-                  border: `1px solid ${gameState.status === 'won'
-                    ? 'var(--color-accent)'
-                    : gameState.status === 'given_up'
-                      ? '#fca5a5'
-                      : '#3b82f6'}`,
-                  color: gameState.status === 'won'
-                    ? 'var(--color-accent)'
-                    : gameState.status === 'given_up'
-                      ? '#ef4444'
-                      : '#3b82f6',
-                  borderRadius: 'var(--radius-md)',
-                  textAlign: 'center',
-                  fontWeight: '500',
-                  padding: '0.5rem',
-                  marginBottom: 0
-                }}
-              >
-                {gameState.message}
-              </Alert>
-            </div>
-          )}
+              {gameState.message}
+            </span>
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value as 'easy' | 'medium' | 'hard')}
+              style={{
+                padding: '0.25rem 0.5rem',
+                borderRadius: 'var(--radius-md)',
+                border: '1px solid var(--color-border)',
+                backgroundColor: 'white',
+                color: 'var(--color-text-primary)',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                cursor: 'pointer',
+                textTransform: 'capitalize'
+              }}
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+          </div>
 
           {/* Map Frame - Edge to Edge */}
           <div style={{
