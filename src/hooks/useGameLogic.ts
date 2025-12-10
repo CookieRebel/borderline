@@ -196,11 +196,10 @@ export const useGameLogic = () => {
                 return area <= taiwanArea && area > 0;
             });
         } else {
-            // Medium: All other countries (not easy, and larger than Taiwan)
+            // Medium: All countries larger than Taiwan (excludes small islands)
             potentialTargets = features.filter((f: any) => {
-                const iso = f.properties['ISO3166-1-Alpha-3'];
                 const area = geoArea(f as any);
-                return !EASY_COUNTRIES.includes(iso) && area > taiwanArea;
+                return area > taiwanArea;
             });
         }
 
