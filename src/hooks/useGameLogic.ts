@@ -165,7 +165,7 @@ export const useGameLogic = () => {
         }, 100);
 
         return () => clearInterval(interval);
-    }, [gameState.status, gameState.guessHistory.length]);
+    }, [gameState.status, gameState.guessHistory.length, difficulty]);
 
     // Process low-detail data (used for game logic and default rendering)
     const dataLow = useMemo(() => {
