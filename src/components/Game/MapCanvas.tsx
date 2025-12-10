@@ -322,7 +322,7 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         <div ref={containerRef} className="map-container" style={{ width: '100%', height: '100%' }}>
             <canvas
                 ref={canvasRef}
-                style={{ cursor: 'grab', display: 'block' }}
+                style={{ cursor: 'grab', display: 'block', width: '100%', height: '100%' }}
             />
 
             {/* Debug info */}
