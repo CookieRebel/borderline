@@ -192,20 +192,18 @@ function App() {
               flexDirection: 'row',
               gap: '4px'
             }}>
-              {highScore > 0 && (
-                <div style={{
-                  backgroundColor: 'rgba(255,215,0,0.95)',
-                  border: '1px solid #eab308',
-                  borderRadius: '4px',
-                  padding: '4px 8px',
-                  fontSize: '0.7rem',
-                  fontWeight: '600',
-                  color: '#92400e',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-                }}>
-                  🏆 Best: {highScore}
-                </div>
-              )}
+              <div style={{
+                backgroundColor: 'rgba(255,215,0,0.95)',
+                border: '1px solid #eab308',
+                borderRadius: '4px',
+                padding: '4px 8px',
+                fontSize: '0.7rem',
+                fontWeight: '600',
+                color: '#92400e',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              }}>
+                🏆 Best: {highScore}
+              </div>
               {gameState.status === 'playing' && (
                 <div style={{
                   backgroundColor: 'rgba(255,255,255,0.95)',
