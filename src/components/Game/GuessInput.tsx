@@ -56,11 +56,12 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
     };
 
     const handleSuggestionClick = (suggestion: string) => {
-        setValue('');
+        setValue(suggestion);
         setSuggestions([]);
         setShowSuggestions(false);
         setSelectedIndex(-1);
-        onGuess(suggestion);
+        // Focus the input so user can press Go or Enter
+        inputRef.current?.focus();
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
