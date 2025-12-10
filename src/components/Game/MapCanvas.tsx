@@ -129,7 +129,8 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         return geoOrthographic()
             .rotate([rotation[0], rotation[1], 0])
             .scale(scale)
-            .translate([dimensions.width / 2, dimensions.height / 2]);
+            .translate([dimensions.width / 2, dimensions.height / 2])
+            .clipAngle(90); // Clip at the visible hemisphere edge
     }, [rotation, scale, dimensions]);
 
     // Render Loop
@@ -239,7 +240,10 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
 
             context.beginPath();
             pathGenerator(countryToRender);
-            // Only stroke the border (fill can bleed on orthographic projection)
+            // Filled grey with 0.1 opacity
+            context.fillStyle = 'rgba(128, 128, 128, 0.1)';
+            context.fill();
+            // Stroke border
             context.strokeStyle = 'rgba(6, 90, 30, 0.9)';
             context.lineWidth = 1.5;
             context.stroke();
