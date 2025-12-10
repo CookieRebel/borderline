@@ -132,7 +132,7 @@ function App() {
           {/* Guess Input */}
           <div style={{ marginBottom: '8px', padding: '0 4px' }}>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
-              <div style={{ flex: 1 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
                 <GuessInput
                   onGuess={handleGuess}
                   disabled={gameState.status !== 'playing'}
