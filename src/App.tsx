@@ -49,6 +49,7 @@ function App() {
             animation: 'slideIn 0.3s ease-out'
           }}>
             <span style={{
+              flex: 1,
               backgroundColor: gameState.status === 'won'
                 ? 'var(--color-accent-light)'
                 : gameState.status === 'given_up'
@@ -67,7 +68,9 @@ function App() {
               borderRadius: 'var(--radius-md)',
               fontWeight: '500',
               padding: '0.25rem 0.75rem',
-              fontSize: '0.875rem'
+              fontSize: '0.875rem',
+              marginRight: '8px',
+              textAlign: 'center'
             }}>
               {gameState.message}
             </span>

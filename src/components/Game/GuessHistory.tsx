@@ -18,8 +18,8 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses }) => {
     return (
         <div style={{
             position: 'absolute',
-            top: '8px',
-            right: '8px',
+            top: '5px',
+            right: '5px',
             zIndex: 100,
             maxWidth: '150px'
         }}>
