@@ -161,7 +161,7 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
                     <Button
                         color="primary"
                         type="submit"
-                        style={{ padding: '0.375rem 0.75rem' }}
+                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.875rem', height: '32px' }}
                         disabled={!canSubmit}
                     >
                         Go

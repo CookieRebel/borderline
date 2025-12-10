@@ -33,6 +33,20 @@ function App() {
           </h1>
         </div>
 
+        {/* Ad Banner Placeholder */}
+        <div style={{
+          backgroundColor: '#f3f4f6',
+          border: '1px dashed #d1d5db',
+          borderRadius: 'var(--radius-md)',
+          padding: '8px',
+          marginBottom: '8px',
+          textAlign: 'center',
+          fontSize: '0.75rem',
+          color: '#9ca3af'
+        }}>
+          Ad Space
+        </div>
+
         {/* Game Card */}
         <div className="game-card" style={{
           backgroundColor: 'var(--color-bg-card)',
