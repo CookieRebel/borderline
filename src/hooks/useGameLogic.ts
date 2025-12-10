@@ -29,7 +29,7 @@ export interface GameState {
     revealedNeighbors: Feature[];
     score: number;
     roundScore: number;
-    status: 'playing' | 'won' | 'lost' | 'given_up';
+    status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
     wrongGuesses: number;
     guessHistory: Guess[];
@@ -284,18 +284,25 @@ export const useGameLogic = () => {
             revealedNeighbors: [],
             score: 0,
             roundScore: 0,
-            status: 'playing',
+            status: 'ready', // Start in ready state, waiting for Go!
             message: highScoreMessage,
             wrongGuesses: 0,
             guessHistory: [],
             difficulty: difficulty
         });
 
-        // Reset timer for new round
-        roundStartTime.current = Date.now();
-
         console.log(`Difficulty: ${difficulty}`);
         console.log(`Target: ${target.properties?.name} (${targetIso})`);
+    };
+
+    // Start the game (called when user clicks Go!)
+    const startGame = () => {
+        if (gameState.status !== 'ready') return;
+        roundStartTime.current = Date.now();
+        setGameState(prev => ({
+            ...prev,
+            status: 'playing'
+        }));
     };
 
     const handleGiveUp = () => {
@@ -411,6 +418,7 @@ export const useGameLogic = () => {
         allLandLow: (landDataLow as FeatureCollection).features as Feature[],
         allLandHigh: (landDataHigh as FeatureCollection).features as Feature[],
         resetGame: initializeGame,
+        startGame,
         highScore,
         liveScore
     };

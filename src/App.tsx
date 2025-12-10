@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 import confetti from 'canvas-confetti';
 import MapCanvas from './components/Game/MapCanvas';
@@ -20,12 +20,32 @@ const playSparkleSound = () => {
 };
 
 function App() {
-  const { gameState, handleGuess, handleGiveUp, resetGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh, highScore, liveScore } = useGameLogic();
+  const { gameState, handleGuess, handleGiveUp, resetGame, startGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh, highScore, liveScore } = useGameLogic();
   const guessInputRef = useRef<GuessInputRef>(null);
   const hasPlayedCelebration = useRef(false);
 
+  // Pending difficulty change (for quit confirmation)
+  const [pendingDifficulty, setPendingDifficulty] = useState<'easy' | 'medium' | 'hard' | null>(null);
+
   // Detect mobile device (touch-capable or narrow screen)
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
+
+  // Handle difficulty change with confirmation if mid-game
+  const handleDifficultyChange = (newDifficulty: 'easy' | 'medium' | 'hard') => {
+    if (gameState.status === 'playing') {
+      setPendingDifficulty(newDifficulty);
+    } else {
+      setDifficulty(newDifficulty);
+    }
+  };
+
+  // Confirm quit and change difficulty
+  const confirmQuit = () => {
+    if (pendingDifficulty) {
+      setDifficulty(pendingDifficulty);
+      setPendingDifficulty(null);
+    }
+  };
 
   // Trigger confetti and sound on win
   useEffect(() => {
@@ -145,7 +165,7 @@ function App() {
             </span>
             <select
               value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value as 'easy' | 'medium' | 'hard')}
+              onChange={(e) => handleDifficultyChange(e.target.value as 'easy' | 'medium' | 'hard')}
               style={{
                 height: '28px',
                 padding: '0 0.5rem',
@@ -317,6 +337,112 @@ function App() {
         </div>
 
       </Container>
+
+      {/* Ready Modal */}
+      {gameState.status === 'ready' && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '32px 48px',
+            textAlign: 'center',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+          }}>
+            <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#374151' }}>Ready?</h2>
+            <p style={{ margin: '12px 0 24px', color: '#6b7280', fontSize: '0.9rem' }}>
+              {gameState.message}
+            </p>
+            <button
+              onClick={startGame}
+              style={{
+                padding: '12px 48px',
+                fontSize: '1.25rem',
+                fontWeight: '600',
+                backgroundColor: 'var(--color-accent)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(16,185,129,0.3)'
+              }}
+            >
+              Go!
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Quit Confirmation Modal */}
+      {pendingDifficulty && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '24px 32px',
+            textAlign: 'center',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+          }}>
+            <h3 style={{ margin: 0, fontSize: '1.25rem', color: '#374151' }}>Quit current game?</h3>
+            <p style={{ margin: '12px 0 20px', color: '#6b7280', fontSize: '0.875rem' }}>
+              You'll lose your progress on this round.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button
+                onClick={() => setPendingDifficulty(null)}
+                style={{
+                  padding: '10px 24px',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  backgroundColor: '#f3f4f6',
+                  color: '#374151',
+                  border: '1px solid #d1d5db',
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmQuit}
+                style={{
+                  padding: '10px 24px',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  backgroundColor: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer'
+                }}
+              >
+                Quit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

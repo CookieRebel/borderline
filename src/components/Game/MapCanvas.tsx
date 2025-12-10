@@ -7,7 +7,7 @@ import type { Feature } from 'geojson';
 interface MapCanvasProps {
     targetCountry: Feature | null;
     revealedNeighbors: Feature[];
-    gameStatus: 'playing' | 'won' | 'lost' | 'given_up';
+    gameStatus: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     difficulty: 'easy' | 'medium' | 'hard';
     allFeaturesLow: Feature[];
     allFeaturesHigh: Feature[];
@@ -258,8 +258,8 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             }
         }
 
-        // 5. Target Country - use high-res when zoomed in
-        if (targetCountry) {
+        // 5. Target Country - use high-res when zoomed in (hidden in ready state)
+        if (targetCountry && gameStatus !== 'ready') {
             // If zoomed in, find and use high-detail version of target
             let countryToRender = targetCountry;
             if (scale > LOD_THRESHOLD) {
