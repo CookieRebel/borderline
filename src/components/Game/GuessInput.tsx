@@ -184,7 +184,7 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
             )}
 
             {/* On-screen Keyboard */}
-            <div style={{ marginTop: '12px' }}>
+            <div style={{ marginTop: '12px', width: '100vw', marginLeft: 'calc(-50vw + 50%)', display: 'flex', justifyContent: 'center' }}>
                 <Keyboard
                     onKeyPress={handleKeyboardPress}
                     onBackspace={handleKeyboardBackspace}
