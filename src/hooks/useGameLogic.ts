@@ -39,9 +39,13 @@ export interface GameState {
 // Scoring system
 const GUESS_POINTS = [0, 700, 500, 380, 290, 220, 160, 110, 70];
 
-function scoreRound(guessNumber: number, timeSeconds: number): number {
+function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Difficulty): number {
     const g = Math.max(1, Math.min(guessNumber, 8));
     const guessPoints = GUESS_POINTS[g];
+    // Easy mode: no time penalty
+    if (difficulty === 'easy') {
+        return guessPoints;
+    }
     const timeBonus = Math.max(0, 300 - (timeSeconds - 5) * 7);
     return Math.round(guessPoints + timeBonus);
 }
@@ -139,7 +143,7 @@ export const useGameLogic = () => {
         const interval = setInterval(() => {
             const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
             const guessNumber = gameState.guessHistory.length + 1; // Next guess number
-            const potentialScore = scoreRound(guessNumber, timeSeconds);
+            const potentialScore = scoreRound(guessNumber, timeSeconds, difficulty);
             setLiveScore(potentialScore);
         }, 100);
 
@@ -325,7 +329,7 @@ export const useGameLogic = () => {
             // Calculate score based on guesses and time
             const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
             const guessNumber = newGuessHistory.length;
-            const roundScore = scoreRound(guessNumber, timeSeconds);
+            const roundScore = scoreRound(guessNumber, timeSeconds, difficulty);
             // Check for high score
             const isHighScore = roundScore > highScore;
             if (isHighScore) {
