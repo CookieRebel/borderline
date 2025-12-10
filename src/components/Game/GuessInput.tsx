@@ -36,11 +36,11 @@ const GuessInput: React.FC<GuessInputProps> = ({ onGuess, disabled, guessHistory
         setSelectedIndex(-1);
 
         if (userInput.trim().length > 0) {
-            // Filter countries: starts with input AND not already guessed (case-insensitive)
+            // Filter countries: contains input AND not already guessed (case-insensitive)
             const normalizedHistory = guessHistory.map(g => g.name.toLowerCase());
             const filtered = allCountries.filter(
                 country =>
-                    country.toLowerCase().startsWith(userInput.toLowerCase()) &&
+                    country.toLowerCase().includes(userInput.toLowerCase()) &&
                     !normalizedHistory.includes(country.toLowerCase())
             );
             setSuggestions(filtered);
