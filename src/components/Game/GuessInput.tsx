@@ -7,6 +7,7 @@ interface GuessInputProps {
     onGuess: (guess: string) => void;
     disabled: boolean;
     guessHistory: Guess[];
+    isMobile?: boolean;
 }
 
 export interface GuessInputRef {
@@ -15,7 +16,7 @@ export interface GuessInputRef {
     handleEnter: () => void;
 }
 
-const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabled, guessHistory }, ref) => {
+const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabled, guessHistory, isMobile = false }, ref) => {
     const [value, setValue] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -155,7 +156,7 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
                         disabled={disabled}
                         className="bg-dark text-light border-secondary"
                         autoComplete="off"
-                        readOnly // Prevent native keyboard on mobile
+                        readOnly={isMobile} // Prevent native keyboard on mobile only
                         style={{ padding: '0.25rem 0.5rem', fontSize: '0.875rem', height: '32px' }}
                     />
                     <Button

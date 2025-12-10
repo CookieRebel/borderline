@@ -24,6 +24,9 @@ function App() {
   const guessInputRef = useRef<GuessInputRef>(null);
   const hasPlayedCelebration = useRef(false);
 
+  // Detect mobile device (touch-capable or narrow screen)
+  const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
+
   // Trigger confetti and sound on win
   useEffect(() => {
     if (gameState.status === 'won' && !hasPlayedCelebration.current) {
@@ -246,6 +249,7 @@ function App() {
                   onGuess={handleGuess}
                   disabled={gameState.status !== 'playing'}
                   guessHistory={gameState.guessHistory}
+                  isMobile={isMobile}
                 />
               </div>
               <button
@@ -300,13 +304,15 @@ function App() {
               </button>
             </div>
 
-            {/* Keyboard - Full width */}
-            <Keyboard
-              onKeyPress={(key) => guessInputRef.current?.handleKeyPress(key)}
-              onBackspace={() => guessInputRef.current?.handleBackspace()}
-              onEnter={() => guessInputRef.current?.handleEnter()}
-              disabled={gameState.status !== 'playing'}
-            />
+            {/* Keyboard - Mobile only */}
+            {isMobile && (
+              <Keyboard
+                onKeyPress={(key) => guessInputRef.current?.handleKeyPress(key)}
+                onBackspace={() => guessInputRef.current?.handleBackspace()}
+                onEnter={() => guessInputRef.current?.handleEnter()}
+                disabled={gameState.status !== 'playing'}
+              />
+            )}
           </div>
         </div>
 
