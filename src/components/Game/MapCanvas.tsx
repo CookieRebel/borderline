@@ -38,18 +38,27 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
     const previousKRef = useRef<number>(250);
 
     // Animation helper function
-    const animateToCountry = useCallback((country: Feature) => {
+    const animateToCountry = useCallback((country: Feature, playSwoosh: boolean = true) => {
         const centroid = geoCentroid(country);
         const targetRotation: [number, number] = [-centroid[0], -centroid[1]];
 
-        // Play swoosh sound
-        try {
-            const audio = new Audio('/swoosh.mp3');
-            audio.volume = 0.3;
-            audio.play();
-        } catch (e) {
-            // Audio not supported
+        // Check if we actually need to move (threshold of 1 degree)
+        const rotationDiff = Math.abs(rotation[0] - targetRotation[0]) + Math.abs(rotation[1] - targetRotation[1]);
+        const needsToMove = rotationDiff > 1;
+
+        // Only play swoosh sound if we're actually moving
+        if (playSwoosh && needsToMove) {
+            try {
+                const audio = new Audio('/swoosh.mp3');
+                audio.volume = 0.3;
+                audio.play();
+            } catch (e) {
+                // Audio not supported
+            }
         }
+
+        // Skip animation if we're already centered
+        if (!needsToMove) return;
 
         // Animate from current rotation to target
         const startRotation = rotation;
