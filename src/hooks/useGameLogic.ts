@@ -381,9 +381,22 @@ export const useGameLogic = () => {
                 localStorage.setItem('borderline_highscores', JSON.stringify(newHighScores));
             }
 
+            // Generate praise based on guess count
+            const guessCount = newGuessHistory.length;
+            let praise = '';
+            if (guessCount === 1) {
+                praise = "You're amazing!";
+            } else if (guessCount <= 3) {
+                praise = 'Fantastic!';
+            } else if (guessCount <= 5) {
+                praise = 'Good!';
+            }
+
+            const countryName = gameState.targetCountry?.properties?.name || 'the country';
+            const guessWord = guessCount === 1 ? 'guess' : 'guesses';
             const winMessage = isHighScore
-                ? `🏆 High Score! ${roundScore} pts`
-                : `Correct! ${roundScore} pts`;
+                ? `🏆 ${countryName} in ${guessCount} ${guessWord}! ${praise}`
+                : `${countryName} in ${guessCount} ${guessWord}! ${praise}`;
 
             setGameState(prev => ({
                 ...prev,
