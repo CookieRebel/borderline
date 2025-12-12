@@ -88,16 +88,40 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
         const centroid = geoCentroid(latestGuess);
         const targetRotation: [number, number] = [-centroid[0], -centroid[1]];
 
+        // Play swoosh sound
+        try {
+            const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(400, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.3);
+
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        } catch (e) {
+            // Audio not supported
+        }
+
         // Animate from current rotation to target
         const startRotation = rotation;
-        const duration = 500; // 500ms animation
+        const duration = 700; // 700ms animation for smoother effect
         const startTime = Date.now();
 
         const animate = () => {
             const elapsed = Date.now() - startTime;
             const t = Math.min(elapsed / duration, 1);
-            // Ease out cubic
-            const eased = 1 - Math.pow(1 - t, 3);
+            // Ease-in-out cubic: slow start, fast middle, slow end
+            const eased = t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
             const newRotation: [number, number] = [
                 startRotation[0] + (targetRotation[0] - startRotation[0]) * eased,
