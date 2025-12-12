@@ -388,9 +388,12 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
 
                 // Simple visibility check: is the point on the front hemisphere?
                 // Orthographic clipping angle is 90 deg.
-                // d3-geo projection returns null if clipped.
+                // Check if point is on the visible side of the globe
+                const globeCenter: [number, number] = [-rotation[0], -rotation[1]];
+                const distanceFromCenter = geoDistance(center, globeCenter);
+                const isVisible = distanceFromCenter < Math.PI / 2; // 90 degrees in radians
 
-                if (projected) {
+                if (projected && isVisible) {
                     const [x, y] = projected;
 
                     // Stroke (Halo)
@@ -407,11 +410,14 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
 
             // Neighbor Labels
             context.font = '500 12px Inter, sans-serif';
+            const globeCenter: [number, number] = [-rotation[0], -rotation[1]];
             revealedNeighbors.forEach(feature => {
                 const center = geoCentroid(feature);
+                const distanceFromCenter = geoDistance(center, globeCenter);
+                const isVisible = distanceFromCenter < Math.PI / 2;
                 const projected = projection(center);
 
-                if (projected) {
+                if (projected && isVisible) {
                     const [x, y] = projected;
 
                     context.strokeStyle = 'white';
