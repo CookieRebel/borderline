@@ -79,6 +79,15 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
     // Expose rotateToCountry via ref
     useImperativeHandle(ref, () => ({
         rotateToCountry: (countryName: string) => {
+            // Always play swoosh sound when clicking
+            try {
+                const audio = new Audio('/swoosh.mp3');
+                audio.volume = 0.3;
+                audio.play();
+            } catch (e) {
+                // Audio not supported
+            }
+
             const country = allFeaturesLow.find(f => f.properties?.name === countryName);
             if (country) {
                 animateToCountry(country);
