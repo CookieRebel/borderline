@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { Container } from 'reactstrap';
 import confetti from 'canvas-confetti';
 import MapCanvas from './components/Game/MapCanvas';
+import type { MapCanvasRef } from './components/Game/MapCanvas';
 import GuessInput from './components/Game/GuessInput';
 import type { GuessInputRef } from './components/Game/GuessInput';
 import GuessHistory from './components/Game/GuessHistory';
@@ -22,6 +23,7 @@ const playSparkleSound = () => {
 function App() {
   const { gameState, handleGuess, handleGiveUp, resetGame, startGame, difficulty, setDifficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh, highScore, liveScore } = useGameLogic();
   const guessInputRef = useRef<GuessInputRef>(null);
+  const mapCanvasRef = useRef<MapCanvasRef>(null);
   const hasPlayedCelebration = useRef(false);
 
   // Detect mobile device (touch-capable or narrow screen)
@@ -173,6 +175,7 @@ function App() {
             position: 'relative'
           }}>
             <MapCanvas
+              ref={mapCanvasRef}
               targetCountry={gameState.targetCountry}
               revealedNeighbors={gameState.revealedNeighbors}
               gameStatus={gameState.status}
@@ -235,7 +238,10 @@ function App() {
               )}
             </div>
 
-            <GuessHistory guesses={gameState.guessHistory} />
+            <GuessHistory
+              guesses={gameState.guessHistory}
+              onGuessClick={(guessName) => mapCanvasRef.current?.rotateToCountry(guessName)}
+            />
           </div>
 
           {/* Input Row with Buttons + Keyboard */}

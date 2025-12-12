@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback, useImperativeHandle, forwardRef } from 'react';
 import { geoPath, geoOrthographic, geoGraticule, geoCentroid, geoDistance } from 'd3-geo';
 import { zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
 import { select } from 'd3-selection';
@@ -15,9 +15,13 @@ interface MapCanvasProps {
     allLandHigh: Feature[];
 }
 
+export interface MapCanvasRef {
+    rotateToCountry: (countryName: string) => void;
+}
+
 const LOD_THRESHOLD = 500; // Scale threshold for switching to high detail
 
-const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh }) => {
+const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,6 +35,56 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
     // Refs for zoom sync
     const zoomBehaviorRef = useRef<any>(null);
     const previousKRef = useRef<number>(250);
+
+    // Animation helper function
+    const animateToCountry = useCallback((country: Feature) => {
+        const centroid = geoCentroid(country);
+        const targetRotation: [number, number] = [-centroid[0], -centroid[1]];
+
+        // Play swoosh sound
+        try {
+            const audio = new Audio('/swoosh.mp3');
+            audio.volume = 0.3;
+            audio.play();
+        } catch (e) {
+            // Audio not supported
+        }
+
+        // Animate from current rotation to target
+        const startRotation = rotation;
+        const duration = 700;
+        const startTime = Date.now();
+
+        const animate = () => {
+            const elapsed = Date.now() - startTime;
+            const t = Math.min(elapsed / duration, 1);
+            const eased = t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            const newRotation: [number, number] = [
+                startRotation[0] + (targetRotation[0] - startRotation[0]) * eased,
+                startRotation[1] + (targetRotation[1] - startRotation[1]) * eased
+            ];
+            setRotation(newRotation);
+
+            if (t < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+
+        requestAnimationFrame(animate);
+    }, [rotation]);
+
+    // Expose rotateToCountry via ref
+    useImperativeHandle(ref, () => ({
+        rotateToCountry: (countryName: string) => {
+            const country = allFeaturesLow.find(f => f.properties?.name === countryName);
+            if (country) {
+                animateToCountry(country);
+            }
+        }
+    }), [allFeaturesLow, animateToCountry]);
 
     // Handle resize
     useEffect(() => {
@@ -369,6 +423,6 @@ const MapCanvas: React.FC<MapCanvasProps> = ({ targetCountry, revealedNeighbors,
             />
         </div>
     );
-};
+});
 
 export default MapCanvas;

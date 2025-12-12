@@ -3,9 +3,10 @@ import type { Guess } from '../../hooks/useGameLogic';
 
 interface GuessHistoryProps {
     guesses: Guess[];
+    onGuessClick?: (guessName: string) => void;
 }
 
-const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses }) => {
+const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
     if (guesses.length === 0) {
@@ -64,14 +65,19 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses }) => {
                         return (
                             <div
                                 key={originalIndex}
+                                onClick={() => onGuessClick?.(guess.name)}
                                 style={{
                                     padding: '3px 6px',
                                     fontSize: '0.65rem',
                                     borderBottom: index < reversedGuesses.length - 1 ? '1px solid #f3f4f6' : 'none',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '4px'
+                                    gap: '4px',
+                                    cursor: onGuessClick ? 'pointer' : 'default',
+                                    transition: 'background-color 0.15s ease'
                                 }}
+                                onMouseEnter={(e) => onGuessClick && (e.currentTarget.style.backgroundColor = '#f3f4f6')}
+                                onMouseLeave={(e) => onGuessClick && (e.currentTarget.style.backgroundColor = 'transparent')}
                             >
                                 <span style={{
                                     width: '14px',
