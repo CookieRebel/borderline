@@ -4,9 +4,10 @@ import type { Guess } from '../../hooks/useGameLogic';
 interface GuessHistoryProps {
     guesses: Guess[];
     onGuessClick?: (guessName: string) => void;
+    onCenterClick?: () => void;
 }
 
-const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick }) => {
+const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick, onCenterClick }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
     if (guesses.length === 0) {
@@ -22,32 +23,52 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick }) =>
             top: '5px',
             right: '5px',
             zIndex: 100,
-            maxWidth: '150px'
+            maxWidth: '180px'
         }}>
-            {/* Toggle button */}
-            <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    padding: '4px 8px',
-                    backgroundColor: 'rgba(255,255,255,0.95)',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '4px',
-                    fontSize: '0.7rem',
-                    fontWeight: '600',
-                    color: '#374151',
-                    cursor: 'pointer',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                    marginLeft: 'auto'
-                }}
-            >
-                Guesses ({guesses.length})
-                <span style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
-                    ▾
-                </span>
-            </button>
+            {/* Button row */}
+            <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end' }}>
+                {/* Re-Centre button */}
+                <button
+                    onClick={onCenterClick}
+                    title="Re-Centre on target"
+                    style={{
+                        padding: '4px 8px',
+                        backgroundColor: 'rgba(255,255,255,0.95)',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '4px',
+                        fontSize: '0.7rem',
+                        fontWeight: '600',
+                        color: '#374151',
+                        cursor: 'pointer',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                    }}
+                >
+                    ⌖
+                </button>
+                {/* Toggle button */}
+                <button
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '4px 8px',
+                        backgroundColor: 'rgba(255,255,255,0.95)',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '4px',
+                        fontSize: '0.7rem',
+                        fontWeight: '600',
+                        color: '#374151',
+                        cursor: 'pointer',
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                    }}
+                >
+                    Guesses ({guesses.length})
+                    <span style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}>
+                        ▾
+                    </span>
+                </button>
+            </div>
 
             {/* Collapsible list */}
             {isExpanded && (

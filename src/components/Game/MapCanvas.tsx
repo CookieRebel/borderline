@@ -17,6 +17,7 @@ interface MapCanvasProps {
 
 export interface MapCanvasRef {
     rotateToCountry: (countryName: string) => void;
+    centerOnTarget: () => void;
 }
 
 const LOD_THRESHOLD = 500; // Scale threshold for switching to high detail
@@ -92,8 +93,20 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             if (country) {
                 animateToCountry(country);
             }
+        },
+        centerOnTarget: () => {
+            if (targetCountry) {
+                try {
+                    const audio = new Audio('/swoosh.mp3');
+                    audio.volume = 0.3;
+                    audio.play();
+                } catch (e) {
+                    // Audio not supported
+                }
+                animateToCountry(targetCountry);
+            }
         }
-    }), [allFeaturesLow, animateToCountry]);
+    }), [allFeaturesLow, animateToCountry, targetCountry]);
 
     // Handle resize
     useEffect(() => {

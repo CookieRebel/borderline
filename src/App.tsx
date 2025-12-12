@@ -241,6 +241,7 @@ function App() {
             <GuessHistory
               guesses={gameState.guessHistory}
               onGuessClick={(guessName) => mapCanvasRef.current?.rotateToCountry(guessName)}
+              onCenterClick={() => mapCanvasRef.current?.centerOnTarget()}
             />
           </div>
 
