@@ -372,12 +372,12 @@ function App() {
                 padding: '12px 48px',
                 fontSize: '1.25rem',
                 fontWeight: '600',
-                backgroundColor: '#046307',
-                color: 'white',
+                backgroundColor: '#FFD700',
+                color: '#1a1a1a',
                 border: 'none',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(4,99,7,0.3)'
+                boxShadow: '0 4px 12px rgba(255,215,0,0.4)'
               }}
             >
               Go!
