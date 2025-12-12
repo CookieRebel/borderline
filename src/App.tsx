@@ -77,11 +77,8 @@ function App() {
           <h1 style={{
             fontSize: '2.5rem',
             fontWeight: '700',
-            marginBottom: 'var(--spacing-xs)', // Reduced from sm
-            background: 'linear-gradient(135deg, #046307 0%, #0a8f0d 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
+            marginBottom: 'var(--spacing-xs)',
+            color: '#046307'
           }}>
             BorderLINE
           </h1>
