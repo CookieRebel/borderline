@@ -149,7 +149,7 @@ function App() {
                     padding: '2px 10px',
                     fontSize: '0.75rem',
                     fontWeight: '600',
-                    backgroundColor: gameState.status === 'won' ? 'var(--color-accent)' : '#ef4444',
+                    backgroundColor: gameState.status === 'won' ? '#046307' : '#ef4444',
                     color: 'white',
                     border: 'none',
                     borderRadius: '4px',
@@ -221,7 +221,7 @@ function App() {
               )}
               {gameState.status === 'won' && (
                 <div style={{
-                  backgroundColor: 'rgba(16,185,129,0.95)',
+                  backgroundColor: 'rgba(4,99,7,0.95)',
                   border: '1px solid #046307',
                   borderRadius: '4px',
                   padding: '4px 8px',
