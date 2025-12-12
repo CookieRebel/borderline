@@ -78,7 +78,7 @@ function App() {
             fontSize: '2.5rem',
             fontWeight: '700',
             marginBottom: 'var(--spacing-xs)', // Reduced from sm
-            background: 'linear-gradient(135deg, var(--color-accent) 0%, #059669 100%)',
+            background: 'linear-gradient(135deg, #046307 0%, #0a8f0d 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -124,20 +124,20 @@ function App() {
               justifyContent: 'center',
               gap: '8px',
               backgroundColor: gameState.status === 'won'
-                ? 'var(--color-accent-light)'
+                ? 'rgba(4, 99, 7, 0.15)'
                 : gameState.status === 'given_up'
                   ? '#fee2e2'
-                  : 'rgba(59, 130, 246, 0.1)',
+                  : 'rgba(4, 99, 7, 0.1)',
               border: `1px solid ${gameState.status === 'won'
-                ? 'var(--color-accent)'
+                ? '#046307'
                 : gameState.status === 'given_up'
                   ? '#fca5a5'
-                  : '#3b82f6'}`,
+                  : '#046307'}`,
               color: gameState.status === 'won'
-                ? 'var(--color-accent)'
+                ? '#046307'
                 : gameState.status === 'given_up'
                   ? '#ef4444'
-                  : '#3b82f6',
+                  : '#046307',
               borderRadius: 'var(--radius-md)',
               fontWeight: '500',
               padding: '0 0.75rem',
@@ -372,12 +372,12 @@ function App() {
                 padding: '12px 48px',
                 fontSize: '1.25rem',
                 fontWeight: '600',
-                backgroundColor: '#FFD700',
-                color: '#1a1a1a',
+                backgroundColor: '#046307',
+                color: 'white',
                 border: 'none',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(255,215,0,0.4)'
+                boxShadow: '0 4px 12px rgba(4,99,7,0.3)'
               }}
             >
               Go!
