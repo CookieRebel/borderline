@@ -110,9 +110,11 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Initialize/Reset view when target country changes
+    // Initialize/Reset view when target country changes or game starts
     useEffect(() => {
         if (!targetCountry || !canvasRef.current) return;
+        // Only center when ready or when dimensions actually changed to something valid
+        if (dimensions.width <= 100 || dimensions.height <= 100) return;
 
         // 1. Calculate center rotation
         const centroid = geoCentroid(targetCountry);
@@ -138,7 +140,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             previousKRef.current = newScale;
         }
 
-    }, [targetCountry, dimensions.width, dimensions.height]);
+    }, [targetCountry, dimensions.width, dimensions.height, gameStatus]);
 
     // Animate rotation to latest guess
     useEffect(() => {
@@ -349,11 +351,11 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
 
             context.beginPath();
             pathGenerator(countryToRender);
-            // Filled grey with 0.1 opacity
-            context.fillStyle = 'rgba(128, 128, 128, 0.1)';
+            // Filled red with 10% opacity
+            context.fillStyle = 'rgba(239, 68, 68, 0.1)';
             context.fill();
-            // Stroke border
-            context.strokeStyle = 'rgba(6, 90, 30, 0.9)';
+            // Stroke border in red
+            context.strokeStyle = 'rgba(220, 38, 38, 0.9)';
             context.lineWidth = 1.5;
             context.stroke();
         }
