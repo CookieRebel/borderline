@@ -36,8 +36,8 @@ export interface GameState {
     difficulty: Difficulty;
 }
 
-// Scoring system
-const GUESS_POINTS = [0, 700, 500, 380, 290, 220, 160, 110, 70];
+// Scoring system - max score ~2000 (1400 guess + 600 time bonus)
+const GUESS_POINTS = [0, 1400, 1000, 760, 580, 440, 320, 220, 140];
 
 function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Difficulty): number {
     const g = Math.max(1, Math.min(guessNumber, 8));
@@ -47,15 +47,14 @@ function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Diffic
         return guessPoints;
     }
     // Time bonus with exponential decay:
-    // - Starts at 300 points
-    // - Decays faster at the beginning (~10 pts/sec), slows down over time
-    // - Formula: 300 * e^(-0.033 * time) gives ~10 pts/sec initial decay
-    // - Minimum 50 points even after long time
-    const maxTimeBonus = 300;
+    // - Starts at 600 points
+    // - Decays faster at the beginning (~20 pts/sec), slows down over time
+    // - Minimum 100 points even after long time
+    const maxTimeBonus = 600;
     const decayRate = 0.033; // Tuned for ~10 pts/sec initial decay
     const graceSeconds = 5;
     const effectiveTime = Math.max(0, timeSeconds - graceSeconds);
-    const timeBonus = Math.max(50, maxTimeBonus * Math.exp(-decayRate * effectiveTime));
+    const timeBonus = Math.max(100, maxTimeBonus * Math.exp(-decayRate * effectiveTime));
     return Math.round(guessPoints + timeBonus);
 }
 
