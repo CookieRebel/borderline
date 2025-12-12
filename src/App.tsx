@@ -332,13 +332,13 @@ function App() {
                   key={level}
                   onClick={() => setDifficulty(level)}
                   style={{
-                    padding: '8px 16px',
-                    fontSize: '0.875rem',
+                    padding: '4px 10px',
+                    fontSize: '0.75rem',
                     fontWeight: '500',
-                    backgroundColor: difficulty === level ? 'var(--color-accent)' : '#f3f4f6',
+                    backgroundColor: difficulty === level ? '#10b981' : '#f3f4f6',
                     color: difficulty === level ? 'white' : '#374151',
-                    border: difficulty === level ? '1px solid var(--color-accent)' : '1px solid #d1d5db',
-                    borderRadius: '6px',
+                    border: difficulty === level ? '1px solid #10b981' : '1px solid #d1d5db',
+                    borderRadius: '4px',
                     cursor: 'pointer',
                     textTransform: 'capitalize',
                     transition: 'all 0.2s ease'
@@ -351,13 +351,13 @@ function App() {
               <button
                 disabled
                 style={{
-                  padding: '8px 16px',
-                  fontSize: '0.875rem',
+                  padding: '4px 10px',
+                  fontSize: '0.75rem',
                   fontWeight: '500',
                   backgroundColor: '#e5e7eb',
                   color: '#9ca3af',
                   border: '1px solid #d1d5db',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: 'not-allowed',
                   opacity: 0.6
                 }}
