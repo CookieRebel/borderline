@@ -128,6 +128,8 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         if (!targetCountry || !canvasRef.current) return;
         // Only center when ready or when dimensions actually changed to something valid
         if (dimensions.width <= 100 || dimensions.height <= 100) return;
+        // Only reset scale when starting a new game (ready status), not on win/give up
+        if (gameStatus !== 'ready') return;
 
         // 1. Calculate center rotation
         const centroid = geoCentroid(targetCountry);
