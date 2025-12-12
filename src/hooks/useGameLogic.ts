@@ -46,9 +46,16 @@ function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Diffic
     if (difficulty === 'easy') {
         return guessPoints;
     }
-    // Time bonus: decays slowly, minimum 50 points even after 5 minutes
-    // Starts at 300, loses 1 point per second after 5s grace period
-    const timeBonus = Math.max(50, 300 - Math.max(0, timeSeconds - 5));
+    // Time bonus with exponential decay:
+    // - Starts at 300 points
+    // - Decays faster at the beginning (~10 pts/sec), slows down over time
+    // - Formula: 300 * e^(-0.033 * time) gives ~10 pts/sec initial decay
+    // - Minimum 50 points even after long time
+    const maxTimeBonus = 300;
+    const decayRate = 0.033; // Tuned for ~10 pts/sec initial decay
+    const graceSeconds = 5;
+    const effectiveTime = Math.max(0, timeSeconds - graceSeconds);
+    const timeBonus = Math.max(50, maxTimeBonus * Math.exp(-decayRate * effectiveTime));
     return Math.round(guessPoints + timeBonus);
 }
 
