@@ -225,7 +225,7 @@ function App() {
               {gameState.status === 'won' && (
                 <div style={{
                   backgroundColor: 'rgba(16,185,129,0.95)',
-                  border: '1px solid #10b981',
+                  border: '1px solid #046307',
                   borderRadius: '4px',
                   padding: '4px 8px',
                   fontSize: '0.7rem',
@@ -335,9 +335,9 @@ function App() {
                     padding: '4px 10px',
                     fontSize: '0.75rem',
                     fontWeight: '500',
-                    backgroundColor: difficulty === level ? '#10b981' : '#f3f4f6',
+                    backgroundColor: difficulty === level ? '#046307' : '#f3f4f6',
                     color: difficulty === level ? 'white' : '#374151',
-                    border: difficulty === level ? '1px solid #10b981' : '1px solid #d1d5db',
+                    border: difficulty === level ? '1px solid #046307' : '1px solid #d1d5db',
                     borderRadius: '4px',
                     cursor: 'pointer',
                     textTransform: 'capitalize',
@@ -372,12 +372,12 @@ function App() {
                 padding: '12px 48px',
                 fontSize: '1.25rem',
                 fontWeight: '600',
-                backgroundColor: 'var(--color-accent)',
-                color: 'white',
+                backgroundColor: '#FFD700',
+                color: '#1a1a1a',
                 border: 'none',
                 borderRadius: '8px',
                 cursor: 'pointer',
-                boxShadow: '0 4px 12px rgba(16,185,129,0.3)'
+                boxShadow: '0 4px 12px rgba(255,215,0,0.4)'
               }}
             >
               Go!
