@@ -213,10 +213,10 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         requestAnimationFrame(animate);
     }, [revealedNeighbors.length]); // Only trigger when a new guess is added
 
-    // Center on target when game ends (won or given up)
+    // Center on target when game ends (won or given up) - no swoosh
     useEffect(() => {
         if ((gameStatus === 'won' || gameStatus === 'given_up') && targetCountry) {
-            animateToCountry(targetCountry);
+            animateToCountry(targetCountry, false);
         }
     }, [gameStatus]);
 
