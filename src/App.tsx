@@ -317,30 +317,6 @@ function App() {
               >
                 ✕
               </button>
-              <button
-                onClick={resetGame}
-                title="Play Again"
-                style={{
-                  padding: '0.25rem',
-                  backgroundColor: 'var(--color-accent)',
-                  border: '1px solid var(--color-accent)',
-                  borderRadius: 'var(--radius-md)',
-                  color: 'white',
-                  fontSize: '1rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: 'var(--shadow-sm)',
-                  transition: 'all 0.2s ease',
-                  flexShrink: 0
-                }}
-              >
-                ↻
-              </button>
             </div>
 
             {/* Keyboard - Mobile only */}
