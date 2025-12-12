@@ -260,11 +260,11 @@ function App() {
                 title="Give Up"
                 style={{
                   padding: '0.25rem',
-                  backgroundColor: gameState.status === 'playing' ? '#fee2e2' : 'var(--color-bg-elevated)',
+                  backgroundColor: gameState.status === 'playing' ? '#f3f4f6' : 'var(--color-bg-elevated)',
                   border: '1px solid',
-                  borderColor: gameState.status === 'playing' ? '#fca5a5' : 'var(--color-border)',
+                  borderColor: gameState.status === 'playing' ? '#d1d5db' : 'var(--color-border)',
                   borderRadius: 'var(--radius-md)',
-                  color: gameState.status === 'playing' ? '#ef4444' : 'var(--color-text-secondary)',
+                  color: gameState.status === 'playing' ? '#6b7280' : 'var(--color-text-secondary)',
                   fontSize: '1rem',
                   fontWeight: '600',
                   cursor: gameState.status === 'playing' ? 'pointer' : 'not-allowed',
