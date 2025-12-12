@@ -50,7 +50,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         if (playSwoosh && needsToMove) {
             try {
                 const audio = new Audio('/swoosh.mp3');
-                audio.volume = 0.3;
+                audio.volume = 0.2;
                 audio.play();
             } catch (e) {
                 // Audio not supported
@@ -92,7 +92,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             // Always play swoosh sound when clicking
             try {
                 const audio = new Audio('/swoosh.mp3');
-                audio.volume = 0.3;
+                audio.volume = 0.2;
                 audio.play();
             } catch (e) {
                 // Audio not supported
@@ -107,7 +107,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             if (targetCountry) {
                 try {
                     const audio = new Audio('/swoosh.mp3');
-                    audio.volume = 0.3;
+                    audio.volume = 0.2;
                     audio.play();
                 } catch (e) {
                     // Audio not supported
@@ -180,7 +180,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         // Play swoosh sound
         try {
             const audio = new Audio('/swoosh.mp3');
-            audio.volume = 0.3;
+            audio.volume = 0.2;
             audio.play();
         } catch (e) {
             // Audio not supported
