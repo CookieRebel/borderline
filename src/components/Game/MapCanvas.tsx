@@ -37,8 +37,22 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
     const zoomBehaviorRef = useRef<any>(null);
     const previousKRef = useRef<number>(250);
 
+    // Preloaded swoosh audio for instant playback
+    const swooshAudioRef = useRef<HTMLAudioElement | null>(null);
+    useEffect(() => {
+        swooshAudioRef.current = new Audio('/swoosh.mp3');
+        swooshAudioRef.current.volume = 0.2;
+    }, []);
+
+    const playSwoosh = useCallback(() => {
+        if (swooshAudioRef.current) {
+            swooshAudioRef.current.currentTime = 0;
+            swooshAudioRef.current.play().catch(() => { });
+        }
+    }, []);
+
     // Animation helper function
-    const animateToCountry = useCallback((country: Feature, playSwoosh: boolean = true) => {
+    const animateToCountry = useCallback((country: Feature, shouldPlaySwoosh: boolean = true) => {
         const centroid = geoCentroid(country);
         const targetRotation: [number, number] = [-centroid[0], -centroid[1]];
 
@@ -47,14 +61,8 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         const needsToMove = rotationDiff > 1;
 
         // Only play swoosh sound if we're actually moving
-        if (playSwoosh && needsToMove) {
-            try {
-                const audio = new Audio('/swoosh.mp3');
-                audio.volume = 0.2;
-                audio.play();
-            } catch (e) {
-                // Audio not supported
-            }
+        if (shouldPlaySwoosh && needsToMove) {
+            playSwoosh();
         }
 
         // Skip animation if we're already centered
@@ -89,33 +97,20 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
     // Expose rotateToCountry via ref
     useImperativeHandle(ref, () => ({
         rotateToCountry: (countryName: string) => {
-            // Always play swoosh sound when clicking
-            try {
-                const audio = new Audio('/swoosh.mp3');
-                audio.volume = 0.2;
-                audio.play();
-            } catch (e) {
-                // Audio not supported
-            }
-
+            // Play swoosh and animate
+            playSwoosh();
             const country = allFeaturesLow.find(f => f.properties?.name === countryName);
             if (country) {
-                animateToCountry(country);
+                animateToCountry(country, false); // false to avoid double swoosh
             }
         },
         centerOnTarget: () => {
             if (targetCountry) {
-                try {
-                    const audio = new Audio('/swoosh.mp3');
-                    audio.volume = 0.2;
-                    audio.play();
-                } catch (e) {
-                    // Audio not supported
-                }
-                animateToCountry(targetCountry);
+                playSwoosh();
+                animateToCountry(targetCountry, false);
             }
         }
-    }), [allFeaturesLow, animateToCountry, targetCountry]);
+    }), [allFeaturesLow, animateToCountry, targetCountry, playSwoosh]);
 
     // Handle resize
     useEffect(() => {
@@ -177,14 +172,8 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         const centroid = geoCentroid(latestGuess);
         const targetRotation: [number, number] = [-centroid[0], -centroid[1]];
 
-        // Play swoosh sound
-        try {
-            const audio = new Audio('/swoosh.mp3');
-            audio.volume = 0.2;
-            audio.play();
-        } catch (e) {
-            // Audio not supported
-        }
+        // Play swoosh sound using preloaded audio
+        playSwoosh();
 
         // Animate from current rotation to target
         const startRotation = rotation;
