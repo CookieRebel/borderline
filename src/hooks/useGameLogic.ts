@@ -6,7 +6,7 @@ import countriesDataHigh from '../data/countries_high.json';
 import landDataLow from '../data/land_low.json';
 import landDataHigh from '../data/land_high.json';
 
-export type Difficulty = 'easy' | 'medium' | 'hard';
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'extreme';
 
 export interface Guess {
     name: string;
@@ -131,12 +131,14 @@ export const useGameLogic = () => {
         const saved = localStorage.getItem('borderline_highscores');
         if (saved) {
             try {
-                return JSON.parse(saved);
+                const parsed = JSON.parse(saved);
+                // Ensure extreme exists (for backwards compatibility)
+                return { easy: 0, medium: 0, hard: 0, extreme: 0, ...parsed };
             } catch {
-                return { easy: 0, medium: 0, hard: 0 };
+                return { easy: 0, medium: 0, hard: 0, extreme: 0 };
             }
         }
-        return { easy: 0, medium: 0, hard: 0 };
+        return { easy: 0, medium: 0, hard: 0, extreme: 0 };
     });
 
     // Current difficulty's high score
@@ -248,11 +250,22 @@ export const useGameLogic = () => {
             potentialTargets = features.filter((f: any) =>
                 EASY_COUNTRIES.includes(f.properties['ISO3166-1-Alpha-3'])
             );
-        } else if (difficulty === 'hard') {
-            // Small island nations and territories up to the size of Taiwan
+        } else if (difficulty === 'extreme') {
+            // Extreme: Small island nations and territories smaller than Taiwan
             potentialTargets = features.filter((f: any) => {
                 const area = geoArea(f as any);
                 return area <= taiwanArea && area > 0;
+            });
+        } else if (difficulty === 'hard') {
+            // Hard: All countries except obvious ones, and larger than Taiwan
+            const HARD_EXCLUSIONS = [
+                'USA', 'CAN', 'AUS', 'RUS', 'CHN', 'IND', 'ITA',
+                'ZAF', 'GBR', 'BRA', 'CHL', 'ARG', 'DEU', 'FRA', 'ESP'
+            ];
+            potentialTargets = features.filter((f: any) => {
+                const iso = f.properties['ISO3166-1-Alpha-3'];
+                const area = geoArea(f as any);
+                return area > taiwanArea && !HARD_EXCLUSIONS.includes(iso);
             });
         } else {
             // Medium: All countries larger than Taiwan, excluding very obvious ones

@@ -320,7 +320,7 @@ function App() {
 
             {/* Difficulty Selector */}
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '20px', flexWrap: 'wrap' }}>
-              {(['easy', 'medium', 'hard'] as const).map((level) => (
+              {(['easy', 'medium', 'hard', 'extreme'] as const).map((level) => (
                 <button
                   key={level}
                   onClick={() => setDifficulty(level)}
@@ -341,22 +341,6 @@ function App() {
                 </button>
               ))}
               {/* Coming soon - greyed out */}
-              <button
-                disabled
-                style={{
-                  padding: '8px 16px',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  backgroundColor: '#e5e7eb',
-                  color: '#9ca3af',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '6px',
-                  cursor: 'not-allowed',
-                  opacity: 0.6
-                }}
-              >
-                Extreme
-              </button>
               <button
                 disabled
                 style={{

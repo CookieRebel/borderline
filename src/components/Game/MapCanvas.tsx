@@ -8,7 +8,7 @@ interface MapCanvasProps {
     targetCountry: Feature | null;
     revealedNeighbors: Feature[];
     gameStatus: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
-    difficulty: 'easy' | 'medium' | 'hard';
+    difficulty: 'easy' | 'medium' | 'hard' | 'extreme';
     allFeaturesLow: Feature[];
     allFeaturesHigh: Feature[];
     allLandLow: Feature[];
