@@ -7,22 +7,23 @@ interface InstructionsScreenProps {
 const InstructionsScreen = ({ onBack }: InstructionsScreenProps) => {
     return (
         <div className="d-flex flex-column min-vh-100 px-4 py-4" style={{ maxWidth: '600px', margin: '0 auto' }}>
-            {/* Back button */}
-            <button
-                onClick={onBack}
-                className="btn btn-link text-muted p-0 mb-3 d-inline-flex align-items-center gap-1"
-                style={{ width: 'fit-content' }}
-            >
-                ← Back
-            </button>
-
             {/* Logo */}
-            <div className="text-center mb-4">
+            <div className="text-center mb-3">
                 <img
                     src="/borderline_logo.png"
                     alt="BorderLINE"
                     style={{ height: '60px' }}
                 />
+            </div>
+
+            {/* Back button */}
+            <div className="text-center mb-4">
+                <button
+                    onClick={onBack}
+                    className="btn btn-gold px-4"
+                >
+                    ← Back
+                </button>
             </div>
 
             {/* Instructions content */}
