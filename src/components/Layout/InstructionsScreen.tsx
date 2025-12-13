@@ -17,7 +17,7 @@ const InstructionsScreen = ({ onBack }: InstructionsScreenProps) => {
             </div>
 
             {/* Back button */}
-            <div className="text-center mb-4">
+            <div className="mb-4">
                 <button
                     onClick={onBack}
                     className="btn btn-gold px-4"
