@@ -48,5 +48,13 @@ export const useUsername = () => {
         }
     }, []);
 
-    return username;
+    const updateUsername = (newUsername: string) => {
+        const trimmed = newUsername.trim();
+        if (trimmed) {
+            localStorage.setItem('borderline_username', trimmed);
+            setUsername(trimmed);
+        }
+    };
+
+    return { username, updateUsername };
 };

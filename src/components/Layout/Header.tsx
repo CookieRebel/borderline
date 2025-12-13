@@ -1,7 +1,30 @@
+import { useState } from 'react';
 import { useUsername } from '../../hooks/useUsername';
 
 const Header = () => {
-    const username = useUsername();
+    const { username, updateUsername } = useUsername();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editValue, setEditValue] = useState('');
+
+    const handleClick = () => {
+        setEditValue(username);
+        setIsEditing(true);
+    };
+
+    const handleBlur = () => {
+        if (editValue.trim()) {
+            updateUsername(editValue);
+        }
+        setIsEditing(false);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleBlur();
+        } else if (e.key === 'Escape') {
+            setIsEditing(false);
+        }
+    };
 
     return (
         <div className="position-relative text-center mb-3 fade-in">
@@ -14,11 +37,28 @@ const Header = () => {
                 BorderLINE
             </h1>
             {username && (
-                <span
-                    className="position-absolute end-0 bottom-0 text-muted small"
-                    style={{ fontSize: '0.7rem' }}
-                >
-                    {username}
+                <span className="position-absolute end-0 bottom-0">
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            onBlur={handleBlur}
+                            onKeyDown={handleKeyDown}
+                            autoFocus
+                            className="border-0 bg-transparent text-muted text-end"
+                            style={{ fontSize: '0.7rem', width: '120px', outline: 'none' }}
+                        />
+                    ) : (
+                        <span
+                            onClick={handleClick}
+                            className="text-muted"
+                            style={{ fontSize: '0.7rem', cursor: 'pointer' }}
+                            title="Click to edit"
+                        >
+                            {username}
+                        </span>
+                    )}
                 </span>
             )}
         </div>
