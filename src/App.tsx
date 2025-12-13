@@ -51,26 +51,12 @@ function App() {
       hasPlayedCelebration.current = true;
       playSparkleSound();
 
+      // Single centered confetti burst
       confetti({
         particleCount: 100,
         spread: 70,
-        origin: { y: 0.6 }
+        origin: { x: 0.5, y: 0.5 }
       });
-
-      setTimeout(() => {
-        confetti({
-          particleCount: 50,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 }
-        });
-        confetti({
-          particleCount: 50,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 }
-        });
-      }, 200);
     } else if (gameState.status === 'playing') {
       hasPlayedCelebration.current = false;
     }

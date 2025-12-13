@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const usernameWords = {
     first: [
-        "borderline",
+        "border",
         "geo",
         "map",
         "world",
@@ -31,7 +31,7 @@ const generateUsername = (): string => {
     const first = usernameWords.first[Math.floor(Math.random() * usernameWords.first.length)];
     const second = usernameWords.second[Math.floor(Math.random() * usernameWords.second.length)];
     const number = Math.floor(Math.random() * 90) + 10; // 10-99
-    return `${first}${second}${number}`;
+    return `${first}_${second}_${number}`;
 };
 
 export const useUsername = () => {
