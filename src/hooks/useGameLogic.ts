@@ -110,7 +110,36 @@ const EASY_COUNTRIES = [
     'ZMB', 'ZWE'
 ];
 
-export const useGameLogic = () => {
+// Submit game result to backend
+const submitGameResult = async (
+    userId: string,
+    level: Difficulty,
+    guesses: number,
+    timeSeconds: number,
+    score: number,
+    won: boolean
+) => {
+    if (!userId) return;
+
+    try {
+        await fetch('/api/game', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                user_id: userId,
+                level,
+                guesses,
+                time: timeSeconds,
+                score,
+                won,
+            }),
+        });
+    } catch (error) {
+        console.error('Failed to submit game result:', error);
+    }
+};
+
+export const useGameLogic = (userId?: string) => {
     const [difficulty, setDifficulty] = useState<Difficulty>(() => {
         const saved = localStorage.getItem('borderline_difficulty');
         return (saved === 'easy' || saved === 'medium' || saved === 'hard') ? saved : 'easy';
@@ -338,6 +367,13 @@ export const useGameLogic = () => {
             // Keep existing revealed neighbors (guesses), don't add all others
             revealedNeighbors: prev.revealedNeighbors
         }));
+
+        // Submit to backend (score = 0 for give up)
+        const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
+        const guessCount = gameState.guessHistory.length;
+        if (userId) {
+            submitGameResult(userId, difficulty, guessCount, elapsedSeconds, 0, false);
+        }
     };
 
     const handleGuess = (guess: string) => {
@@ -406,6 +442,12 @@ export const useGameLogic = () => {
                 roundScore: roundScore,
                 score: roundScore
             }));
+
+            // Submit to backend
+            const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
+            if (userId) {
+                submitGameResult(userId, difficulty, guessCount, elapsedSeconds, roundScore, true);
+            }
         } else {
             // Wrong guess
             const newWrongGuesses = gameState.wrongGuesses + 1;

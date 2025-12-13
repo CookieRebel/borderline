@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import type { MapCanvasRef } from './components/Game/MapCanvas';
 import type { GuessInputRef } from './components/Game/GuessInput';
 import { useGameLogic } from './hooks/useGameLogic';
+import { useUsername } from './hooks/useUsername';
 
 // Layout components
 import Header from './components/Layout/Header';
@@ -23,6 +24,8 @@ const playSparkleSound = () => {
 };
 
 function App() {
+  const { userId } = useUsername();
+
   const {
     gameState,
     handleGuess,
@@ -36,7 +39,7 @@ function App() {
     allLandLow,
     allLandHigh,
     highScore
-  } = useGameLogic();
+  } = useGameLogic(userId);
 
   const guessInputRef = useRef<GuessInputRef>(null);
   const mapCanvasRef = useRef<MapCanvasRef>(null);
