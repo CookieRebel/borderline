@@ -31,16 +31,17 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                                 {level}
                             </Button>
                         ))}
+                        <Button
+                            disabled
+                            size="sm"
+                            color="secondary"
+                            outline
+                            className={`opacity-50 ${styles.difficultyBtn}`}
+                            title="Coming Soon!"
+                        >
+                            No Move
+                        </Button>
                     </ButtonGroup>
-                    <Button
-                        disabled
-                        size="sm"
-                        color="secondary"
-                        outline
-                        className={`opacity-50 ${styles.difficultyBtn}`}
-                    >
-                        No Move
-                    </Button>
                 </div>
 
                 <Button
