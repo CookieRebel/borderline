@@ -1,0 +1,9 @@
+.giveUpBtn {
+    width: 32px;
+    height: 32px;
+    padding: 0.25rem;
+}
+
+.inputWrapper {
+    min-width: 0;
+}

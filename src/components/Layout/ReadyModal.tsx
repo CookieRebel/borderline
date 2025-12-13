@@ -1,5 +1,6 @@
 import { Modal, ModalBody, Button, ButtonGroup } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
+import styles from './ReadyModal.module.css';
 
 interface ReadyModalProps {
     message: string;
@@ -17,17 +18,15 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                 <h2 className="h4 text-dark mb-2">Ready?</h2>
                 <p className="text-muted small mb-3">{message}</p>
 
-                {/* Difficulty Selector */}
                 <div className="d-flex gap-1 justify-content-center flex-wrap mb-3">
                     <ButtonGroup size="sm">
                         {difficulties.map((level) => (
                             <Button
                                 key={level}
                                 outline={difficulty !== level}
-                                className={difficulty === level ? 'btn-emerald' : ''}
+                                className={`${difficulty === level ? 'btn-emerald' : ''} ${styles.difficultyBtn}`}
                                 color={difficulty === level ? undefined : 'secondary'}
                                 onClick={() => onDifficultyChange(level)}
-                                style={{ fontSize: '0.65rem', textTransform: 'capitalize' }}
                             >
                                 {level}
                             </Button>
@@ -38,8 +37,7 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                         size="sm"
                         color="secondary"
                         outline
-                        className="opacity-50"
-                        style={{ fontSize: '0.65rem' }}
+                        className={`opacity-50 ${styles.difficultyBtn}`}
                     >
                         No Move
                     </Button>

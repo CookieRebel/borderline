@@ -1,4 +1,5 @@
 import { Button } from 'reactstrap';
+import styles from './MessageBar.module.css';
 
 interface MessageBarProps {
     status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
@@ -28,16 +29,14 @@ const MessageBar = ({ status, message, onPlayAgain }: MessageBarProps) => {
     return (
         <div className="d-flex align-items-center justify-content-between mb-1 px-1 slide-in">
             <span
-                className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 border rounded py-1 px-3 fw-medium me-2 ${getBgClass()} ${getBorderClass()} ${getTextClass()}`}
-                style={{ height: '28px', fontSize: '0.875rem' }}
+                className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 border rounded py-1 px-3 fw-medium me-2 ${getBgClass()} ${getBorderClass()} ${getTextClass()} ${styles.messageSpan}`}
             >
                 {message}
                 {(status === 'won' || status === 'given_up') && (
                     <Button
                         size="sm"
-                        className={status === 'won' ? 'btn-emerald' : 'btn-danger'}
+                        className={`${status === 'won' ? 'btn-emerald' : 'btn-danger'} ${styles.playAgainBtn}`}
                         onClick={onPlayAgain}
-                        style={{ padding: '2px 10px', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
                     >
                         Play Again
                     </Button>

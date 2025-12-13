@@ -7,6 +7,7 @@ import MessageBar from './MessageBar';
 import InputBar from './InputBar';
 import type { GuessInputRef } from '../Game/GuessInput';
 import type { Guess, Difficulty } from '../../hooks/useGameLogic';
+import styles from './GameCard.module.css';
 
 interface GameCardProps {
     status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
@@ -52,15 +53,13 @@ const GameCard = ({
     return (
         <Card className="mb-2 border-0 fade-in">
             <CardBody className="p-0">
-                {/* Message Bar */}
                 <MessageBar
                     status={status}
                     message={message}
                     onPlayAgain={onPlayAgain}
                 />
 
-                {/* Map Frame */}
-                <div className="bg-white mb-1 position-relative" style={{ aspectRatio: '4/3', width: '100%' }}>
+                <div className={`bg-white mb-1 position-relative ${styles.mapFrame}`}>
                     <MapCanvas
                         ref={mapCanvasRef}
                         targetCountry={targetCountry}
@@ -73,14 +72,13 @@ const GameCard = ({
                         allLandHigh={allLandHigh}
                     />
 
-                    {/* Score Overlays - Top Left - only after game ends */}
                     {(status === 'won' || status === 'given_up') && (
-                        <div className="position-absolute top-0 start-0 m-1 d-flex gap-1" style={{ zIndex: 100 }}>
-                            <Badge color="warning" className="text-dark fw-semibold" style={{ fontSize: '0.7rem' }}>
+                        <div className={`position-absolute top-0 start-0 m-1 d-flex gap-1 ${styles.scoreOverlay}`}>
+                            <Badge color="warning" className={`text-dark fw-semibold ${styles.badgeText}`}>
                                 🏆 Best: {highScore}
                             </Badge>
                             {status === 'won' && (
-                                <Badge className="bg-emerald fw-semibold" style={{ fontSize: '0.7rem' }}>
+                                <Badge className={`bg-emerald fw-semibold ${styles.badgeText}`}>
                                     Score: {score}
                                 </Badge>
                             )}
@@ -94,7 +92,6 @@ const GameCard = ({
                     />
                 </div>
 
-                {/* Input Bar */}
                 <InputBar
                     ref={guessInputRef}
                     onGuess={onGuess}
