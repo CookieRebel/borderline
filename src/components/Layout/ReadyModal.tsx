@@ -14,7 +14,7 @@ interface ReadyModalProps {
 const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyModalProps) => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
     const [showToast, setShowToast] = useState(false);
-    const { username } = useUsername();
+    const { username, loading } = useUsername();
 
     const handleNoMoveClick = () => {
         setShowToast(true);
@@ -25,41 +25,51 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
         <>
             <Modal isOpen centered>
                 <ModalBody className="text-center py-4 px-5">
-                    <h2 className="h4 text-dark mb-2">Hi {username}, ready?</h2>
-                    <p className="text-muted small mb-3">{message}</p>
+                    {loading ? (
+                        <div className="py-4">
+                            <div className="spinner-border text-success" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <h2 className="h4 text-dark mb-2">Hi {username}, ready?</h2>
+                            <p className="text-muted small mb-3">{message}</p>
 
-                    <div className="d-flex gap-1 justify-content-center flex-wrap mb-3">
-                        <ButtonGroup size="sm">
-                            {difficulties.map((level) => (
-                                <Button
-                                    key={level}
-                                    outline={difficulty !== level}
-                                    className={`${difficulty === level ? 'btn-emerald' : ''} ${styles.difficultyBtn}`}
-                                    color={difficulty === level ? undefined : 'secondary'}
-                                    onClick={() => onDifficultyChange(level)}
-                                >
-                                    {level}
-                                </Button>
-                            ))}
+                            <div className="d-flex gap-1 justify-content-center flex-wrap mb-3">
+                                <ButtonGroup size="sm">
+                                    {difficulties.map((level) => (
+                                        <Button
+                                            key={level}
+                                            outline={difficulty !== level}
+                                            className={`${difficulty === level ? 'btn-emerald' : ''} ${styles.difficultyBtn}`}
+                                            color={difficulty === level ? undefined : 'secondary'}
+                                            onClick={() => onDifficultyChange(level)}
+                                        >
+                                            {level}
+                                        </Button>
+                                    ))}
+                                    <Button
+                                        size="sm"
+                                        color="secondary"
+                                        outline
+                                        className={`opacity-75 ${styles.difficultyBtn}`}
+                                        onClick={handleNoMoveClick}
+                                    >
+                                        No Move
+                                    </Button>
+                                </ButtonGroup>
+                            </div>
+
                             <Button
-                                size="sm"
-                                color="secondary"
-                                outline
-                                className={`opacity-75 ${styles.difficultyBtn}`}
-                                onClick={handleNoMoveClick}
+                                className="btn-gold px-5 py-2"
+                                size="lg"
+                                onClick={onStart}
                             >
-                                No Move
+                                Go!
                             </Button>
-                        </ButtonGroup>
-                    </div>
-
-                    <Button
-                        className="btn-gold px-5 py-2"
-                        size="lg"
-                        onClick={onStart}
-                    >
-                        Go!
-                    </Button>
+                        </>
+                    )}
                 </ModalBody>
             </Modal>
 
