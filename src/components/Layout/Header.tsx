@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
 
 const Header = () => {
@@ -57,7 +58,7 @@ const Header = () => {
                             title="Click to edit"
                         >
                             {username}
-                            <span style={{ fontSize: '0.6rem' }}>✏️</span>
+                            <Edit2 size={10} />
                         </span>
                     )}
                 </span>
