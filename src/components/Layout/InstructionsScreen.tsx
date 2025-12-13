@@ -1,4 +1,4 @@
-import { ArrowLeft } from 'react-feather';
+// No imports needed - using text arrow
 
 interface InstructionsScreenProps {
     onBack: () => void;
@@ -7,19 +7,21 @@ interface InstructionsScreenProps {
 const InstructionsScreen = ({ onBack }: InstructionsScreenProps) => {
     return (
         <div className="d-flex flex-column min-vh-100 px-4 py-4" style={{ maxWidth: '600px', margin: '0 auto' }}>
-            {/* Header with back button and logo */}
-            <div className="d-flex align-items-center mb-4">
-                <button
-                    onClick={onBack}
-                    className="btn btn-link text-muted p-0 me-3"
-                    style={{ fontSize: '1.5rem' }}
-                >
-                    <ArrowLeft size={24} />
-                </button>
+            {/* Back button */}
+            <button
+                onClick={onBack}
+                className="btn btn-link text-muted p-0 mb-3 d-inline-flex align-items-center gap-1"
+                style={{ width: 'fit-content' }}
+            >
+                ← Back
+            </button>
+
+            {/* Logo */}
+            <div className="text-center mb-4">
                 <img
                     src="/borderline_logo.png"
                     alt="BorderLINE"
-                    style={{ height: '40px' }}
+                    style={{ height: '60px' }}
                 />
             </div>
 
