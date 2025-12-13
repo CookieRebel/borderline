@@ -1,6 +1,12 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
-import { eq } from 'drizzle-orm';
+import { eq, sql, and, gte } from 'drizzle-orm';
+
+// Get start of today in UTC
+const getTodayStart = () => {
+    const now = new Date();
+    return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+};
 
 export const handler: Handler = async (event) => {
     const headers = {
@@ -62,7 +68,7 @@ export const handler: Handler = async (event) => {
             };
         }
 
-        // GET /api/user/:id - Get user by ID
+        // GET /api/user/:id - Get user by ID with day scores
         if (event.httpMethod === 'GET') {
             const id = event.path.split('/').pop();
 
@@ -86,10 +92,37 @@ export const handler: Handler = async (event) => {
                 };
             }
 
+            // Get today's total score
+            const todayStart = getTodayStart();
+            const todayScoreResult = await db.execute(sql`
+                SELECT COALESCE(SUM(score), 0) as total
+                FROM game_results
+                WHERE user_id = ${id}
+                  AND won = true
+                  AND created_at >= ${todayStart}
+            `);
+            const todayScore = Number(todayScoreResult.rows[0]?.total || 0);
+
+            // Get best day score (sum of scores grouped by day)
+            const bestDayResult = await db.execute(sql`
+                SELECT COALESCE(MAX(day_total), 0) as best
+                FROM (
+                    SELECT DATE(created_at) as game_date, SUM(score) as day_total
+                    FROM game_results
+                    WHERE user_id = ${id} AND won = true
+                    GROUP BY DATE(created_at)
+                ) daily_scores
+            `);
+            const bestDayScore = Number(bestDayResult.rows[0]?.best || 0);
+
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify(user),
+                body: JSON.stringify({
+                    ...user,
+                    todayScore,
+                    bestDayScore,
+                }),
             };
         }
 

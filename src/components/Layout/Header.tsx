@@ -3,7 +3,7 @@ import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
 
 const Header = () => {
-    const { username, updateUsername } = useUsername();
+    const { username, updateUsername, todayScore, bestDayScore } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
 
@@ -35,7 +35,8 @@ const Header = () => {
                 style={{ height: '50px' }}
             />
             {username && (
-                <span className="position-absolute end-0 bottom-0">
+                <div className="position-absolute end-0 bottom-0 text-end">
+                    {/* Username with edit */}
                     {isEditing ? (
                         <input
                             type="text"
@@ -58,7 +59,11 @@ const Header = () => {
                             <Edit2 size={10} />
                         </span>
                     )}
-                </span>
+                    {/* Day scores */}
+                    <div style={{ fontSize: '0.65rem' }} className="text-muted">
+                        Today: {todayScore.toLocaleString()} | Best: {bestDayScore.toLocaleString()}
+                    </div>
+                </div>
             )}
         </div>
     );
