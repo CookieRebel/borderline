@@ -52,11 +52,12 @@ const Header = () => {
                     ) : (
                         <span
                             onClick={handleClick}
-                            className="text-muted"
+                            className="text-muted d-inline-flex align-items-center gap-1"
                             style={{ fontSize: '0.7rem', cursor: 'pointer' }}
                             title="Click to edit"
                         >
                             {username}
+                            <span style={{ fontSize: '0.6rem' }}>✏️</span>
                         </span>
                     )}
                 </span>
