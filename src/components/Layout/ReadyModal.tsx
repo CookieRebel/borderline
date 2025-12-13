@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Modal, ModalBody, Button, ButtonGroup, Toast, ToastBody } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
+import { useUsername } from '../../hooks/useUsername';
 import styles from './ReadyModal.module.css';
 
 interface ReadyModalProps {
@@ -13,6 +14,7 @@ interface ReadyModalProps {
 const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyModalProps) => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
     const [showToast, setShowToast] = useState(false);
+    const { username } = useUsername();
 
     const handleNoMoveClick = () => {
         setShowToast(true);
@@ -23,7 +25,7 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
         <>
             <Modal isOpen centered>
                 <ModalBody className="text-center py-4 px-5">
-                    <h2 className="h4 text-dark mb-2">Ready?</h2>
+                    <h2 className="h4 text-dark mb-2">Hi {username}, ready?</h2>
                     <p className="text-muted small mb-3">{message}</p>
 
                     <div className="d-flex gap-1 justify-content-center flex-wrap mb-3">
