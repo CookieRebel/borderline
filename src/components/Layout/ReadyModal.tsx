@@ -61,8 +61,11 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                 </ModalBody>
             </Modal>
 
-            {/* Toast notification */}
-            <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 1100 }}>
+            {/* Toast notification - centered */}
+            <div
+                className="position-fixed top-50 start-50 translate-middle"
+                style={{ zIndex: 1100 }}
+            >
                 <Toast isOpen={showToast}>
                     <ToastBody className="text-center">
                         🚧 Coming soon!
