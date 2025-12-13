@@ -766,738 +766,2972 @@
     },
     {
         "country": "Democratic Republic of the Congo",
-        "facts": []
+        "facts": [
+            "The Democratic Republic of the Congo is the second-largest country in Africa by land area.",
+            "It contains vast rainforests that form part of the Congo Basin, second only to the Amazon.",
+            "The Congo River is one of the deepest rivers in the world.",
+            "Kinshasa is one of Africa’s largest cities and sits directly across from Brazzaville.",
+            "The country is incredibly rich in minerals like cobalt and copper.",
+            "Despite its size, much of the country has limited road infrastructure.",
+            "Music from the DRC has shaped modern African pop and dance styles.",
+            "The country has hundreds of ethnic groups and languages.",
+            "Wildlife includes okapis, which look like zebra-giraffe hybrids.",
+            "Its name has changed several times during its modern history."
+        ]
     },
     {
         "country": "Denmark",
-        "facts": []
+        "facts": [
+            "Denmark consistently ranks among the happiest countries in the world.",
+            "Copenhagen is famous for cycling culture and minimalist design.",
+            "Denmark is made up of hundreds of islands, many of them uninhabited.",
+            "The Little Mermaid statue is much smaller than visitors expect.",
+            "Denmark is the birthplace of LEGO, founded in a small town.",
+            "The country has some of the world’s oldest amusement parks still operating.",
+            "Danish pastries are called ‘Viennoiserie’ by locals, not Danish pastries.",
+            "Denmark has a strong tradition of cozy living known as hygge.",
+            "The Danish royal family is one of the oldest in Europe.",
+            "Denmark is a global leader in wind energy production."
+        ]
     },
     {
         "country": "Djibouti",
-        "facts": []
+        "facts": [
+            "Djibouti sits at a strategic shipping chokepoint near the Red Sea.",
+            "Multiple countries operate military bases within Djibouti’s borders.",
+            "Lake Assal is one of the saltiest bodies of water on Earth.",
+            "Much of the country lies below sea level.",
+            "Djibouti’s landscape features lava fields and dramatic desert scenery.",
+            "The population is concentrated mainly in the capital city.",
+            "French and Arabic influence local culture and language.",
+            "Temperatures here can reach extreme levels year-round.",
+            "Djibouti plays an outsized role in global trade routes.",
+            "The country feels more Middle Eastern than African to many visitors."
+        ]
     },
     {
         "country": "Dominica",
-        "facts": []
+        "facts": [
+            "Dominica is nicknamed the ‘Nature Island’ of the Caribbean.",
+            "It has dense rainforests, waterfalls, and boiling volcanic lakes.",
+            "Dominica is often confused with the Dominican Republic, but they are unrelated.",
+            "The island has very few sandy beaches compared to other Caribbean islands.",
+            "Dominica is one of the Caribbean’s least developed tourist destinations.",
+            "It has the last remaining Indigenous Kalinago population in the region.",
+            "Whales live year-round in waters off Dominica’s coast.",
+            "The island is volcanic and extremely mountainous.",
+            "Eco-tourism is a major focus rather than resorts.",
+            "Dominica was heavily impacted by recent Atlantic hurricanes."
+        ]
     },
     {
         "country": "Dominican Republic",
-        "facts": []
+        "facts": [
+            "The Dominican Republic shares the island of Hispaniola with Haiti.",
+            "It was the site of the first permanent European settlement in the Americas.",
+            "Punta Cana is one of the Caribbean’s busiest tourist destinations.",
+            "Baseball is the country’s most popular sport by far.",
+            "The country produces many Major League Baseball players.",
+            "Merengue and bachata music originated here.",
+            "Santo Domingo has the oldest cathedral in the Americas.",
+            "Tourism drives much of the modern economy.",
+            "The landscape includes mountains, beaches, and deserts.",
+            "The Dominican Republic has a fast-growing film industry."
+        ]
     },
     {
         "country": "East Timor",
-        "facts": []
+        "facts": [
+            "East Timor is one of the world’s youngest countries, gaining independence in 2002 after long international involvement.",
+            "The country occupies the eastern half of Timor island, plus several smaller nearby islands.",
+            "Dili is the capital and main urban center, sitting along a mountainous coastline.",
+            "East Timor has a strong Catholic identity, unusual for Southeast Asia.",
+            "Portuguese and Tetum are official languages, reflecting layered colonial history.",
+            "Coffee is one of East Timor’s most important exports and widely grown by small farmers.",
+            "Much of the population lives in rural villages with strong community traditions.",
+            "The landscape is rugged, with steep mountains running through the island.",
+            "Tourism is slowly developing, focused on diving and cultural travel.",
+            "East Timor has worked hard to build national institutions from scratch."
+        ]
     },
     {
         "country": "Ecuador",
-        "facts": []
+        "facts": [
+            "Ecuador is named after the equator, which runs directly through the country.",
+            "The Galápagos Islands belong to Ecuador and inspired Darwin’s theory of evolution.",
+            "Quito’s historic center is one of the best-preserved colonial cities in Latin America.",
+            "Ecuador uses the US dollar as its official currency.",
+            "The country has Amazon rainforest, Andes mountains, and Pacific coastline in one compact area.",
+            "Ecuador is one of the world’s most biodiverse countries per square kilometer.",
+            "Volcanoes dominate much of the Andean landscape.",
+            "Ecuador produces bananas on a massive global scale.",
+            "Traditional markets feature colorful textiles and Indigenous crafts.",
+            "Wildlife ranges from giant tortoises to pink river dolphins."
+        ]
     },
     {
         "country": "Egypt",
-        "facts": []
+        "facts": [
+            "Egypt is home to the last surviving Wonder of the Ancient World, the Great Pyramid of Giza.",
+            "The Nile River shaped Egyptian civilization and still supports most of the population today.",
+            "Cairo is one of the largest cities in Africa and the Middle East.",
+            "Ancient Egyptian history spans thousands of years and multiple dynasties.",
+            "Hieroglyphs were among the earliest formal writing systems.",
+            "Egypt connects Africa and Asia via the Sinai Peninsula.",
+            "The Suez Canal is a crucial global shipping route.",
+            "Modern Egypt blends ancient monuments with dense urban life.",
+            "Tourism centers around pyramids, temples, and Red Sea resorts.",
+            "Egyptian cuisine features bread, beans, and deeply spiced comfort foods."
+        ]
     },
     {
         "country": "El Salvador",
-        "facts": []
+        "facts": [
+            "El Salvador is the smallest country in Central America by land area.",
+            "It is known for dramatic volcanoes scattered across the landscape.",
+            "Surfing has become internationally popular along El Salvador’s Pacific coast.",
+            "The country made global headlines by adopting Bitcoin as legal tender.",
+            "San Salvador sits near a volcano, which occasionally reminds residents it exists.",
+            "Pupusas, thick stuffed tortillas, are the national dish.",
+            "El Salvador has no Caribbean coastline, only Pacific beaches.",
+            "Recent years have seen major security and political changes.",
+            "The country has a young and growing population.",
+            "Coffee once dominated El Salvador’s economy and cultural identity."
+        ]
     },
     {
         "country": "Equatorial Guinea",
-        "facts": []
+        "facts": [
+            "Equatorial Guinea is one of the few African countries where Spanish is an official language.",
+            "The country consists of a mainland region and several islands.",
+            "Malabo, the capital, is located on an island rather than the mainland.",
+            "Oil production dramatically reshaped the economy in recent decades.",
+            "Equatorial Guinea is one of Africa’s smallest countries by population.",
+            "Rainforests cover much of the mainland territory.",
+            "French and Portuguese also hold official language status.",
+            "The country has one of Africa’s highest GDPs per capita, unevenly distributed.",
+            "Wildlife includes gorillas and forest elephants.",
+            "Equatorial Guinea remains relatively unknown to most international travelers."
+        ]
     },
     {
         "country": "Eritrea",
-        "facts": []
+        "facts": [
+            "Eritrea lies along the Red Sea with a long, strategic coastline.",
+            "Asmara is known for remarkably preserved Italian modernist architecture.",
+            "The country gained independence from Ethiopia in 1993.",
+            "Eritrea has diverse landscapes, from coastal plains to highland plateaus.",
+            "Nine languages are officially recognized within the country.",
+            "Italian cultural influence remains visible in food and city design.",
+            "Much of the population lives in rural farming communities.",
+            "Eritrea has limited tourism despite historical and natural attractions.",
+            "The Dahlak Archipelago includes hundreds of coral islands.",
+            "Traditional coffee ceremonies play an important social role."
+        ]
     },
     {
         "country": "Estonia",
-        "facts": []
+        "facts": [
+            "Estonia is one of the most digitally advanced countries in the world.",
+            "Citizens can vote, pay taxes, and access services almost entirely online.",
+            "Tallinn’s medieval old town is exceptionally well preserved.",
+            "Estonia has a strong startup culture, including Skype’s early development.",
+            "Forests and wetlands cover more than half the country.",
+            "Estonian belongs to the Finno-Ugric language family, not Indo-European.",
+            "The country regained independence after the Soviet Union collapsed.",
+            "Estonia has hundreds of islands scattered along its coast.",
+            "Nature and quiet living are highly valued culturally.",
+            "The country balances tech innovation with deep folk traditions."
+        ]
     },
     {
         "country": "Eswatini",
-        "facts": []
+        "facts": [
+            "Eswatini was formerly known as Swaziland until a name change in 2018.",
+            "It is one of the last remaining absolute monarchies in the world.",
+            "The country is landlocked between South Africa and Mozambique.",
+            "Traditional ceremonies play a major role in national identity.",
+            "Eswatini has diverse landscapes despite its small size.",
+            "Wildlife reserves are an important part of conservation efforts.",
+            "Much of the population lives in rural homesteads.",
+            "The capital is split between administrative and royal centers.",
+            "Cultural dress is still worn during major festivals.",
+            "Eswatini emphasizes preservation of heritage alongside modernization."
+        ]
     },
     {
         "country": "Ethiopia",
-        "facts": []
+        "facts": [
+            "Ethiopia is considered the birthplace of modern humans based on fossil discoveries.",
+            "It has its own calendar and unique writing system.",
+            "Addis Ababa hosts the headquarters of the African Union.",
+            "Ethiopia was never formally colonized by a European power.",
+            "Coffee originated in Ethiopia and remains central to daily culture.",
+            "The country has highlands, deserts, and deep rift valleys.",
+            "Ethiopian cuisine features shared platters and spiced stews.",
+            "Ancient rock-hewn churches exist in Lalibela.",
+            "Ethiopia has more than eighty ethnic groups.",
+            "Music and dance are deeply tied to regional identities."
+        ]
     },
     {
         "country": "Falkland Islands",
-        "facts": []
+        "facts": [
+            "The Falkland Islands have more penguins than people, including king, gentoo, rockhopper, and magellanic penguins.",
+            "Sheep once outnumbered humans by an absurd margin, shaping the islands’ economy, landscape, and very woolly reputation.",
+            "The islands are fiercely windy, making umbrellas a bold lifestyle choice rather than practical equipment.",
+            "Stanley is the capital, and yes, it genuinely has red phone boxes and British pubs.",
+            "The Falklands were a major global news focus during the 1982 conflict between the UK and Argentina.",
+            "Wildlife is so approachable that seals and penguins often ignore humans entirely.",
+            "Despite the cold image, summers can feel surprisingly mild and bright.",
+            "The islands are a paradise for birdwatchers, with dozens of seabird species nesting nearby.",
+            "There are no native trees, which gives the landscape an open, cinematic emptiness.",
+            "Remote doesn’t mean dull; locals host festivals, races, and social events with impressive enthusiasm."
+        ]
     },
     {
         "country": "Faroe Islands",
-        "facts": []
+        "facts": [
+            "The Faroe Islands are famous for dramatic cliffs, misty hills, and villages that look carefully placed by artists.",
+            "Sheep famously outnumber humans, and they appear on everything from souvenirs to roadside scenery.",
+            "The islands gained attention for futuristic tunnels, including one with a roundabout underground.",
+            "Weather changes quickly, so sunshine and fog often tag-team within the same afternoon.",
+            "Grass roofs are traditional, practical, and make houses look like they’re wearing cozy green hats.",
+            "The Faroe Islands are passionate about music, producing surprising numbers of indie and metal bands.",
+            "Football matches here feel epic, even when played against roaring winds and sideways rain.",
+            "The islands are part of the Danish kingdom but fiercely proud of their own identity.",
+            "Bird cliffs host thousands of seabirds, turning the sky into controlled chaos during nesting season.",
+            "Remote hiking routes reward bravery with views that feel untouched and slightly unreal."
+        ]
     },
     {
         "country": "Fiji",
-        "facts": []
+        "facts": [
+            "Fiji is made up of over 300 islands, many uninhabited and looking suspiciously like postcard stock photos.",
+            "Fijians are known for extraordinary friendliness, often greeting strangers like returning relatives.",
+            "Rugby is practically a national religion, with Fiji consistently punching above its population weight.",
+            "Kava ceremonies are a social tradition involving earthy-tasting drinks and serious sitting etiquette.",
+            "Fiji’s coral reefs attract divers from around the world chasing neon fish and crystal-clear water.",
+            "Traditional villages operate on communal living, with strong emphasis on respect and hierarchy.",
+            "The country gained global attention after winning Olympic gold in rugby sevens.",
+            "Volcanoes shaped much of Fiji’s landscape, giving it fertile soil and dramatic terrain.",
+            "Hollywood frequently uses Fiji as a tropical stand-in for fictional paradise islands.",
+            "Despite tourism fame, many Fijians still live rural lifestyles connected closely to land and sea."
+        ]
     },
     {
         "country": "Finland",
-        "facts": []
+        "facts": [
+            "Finland is consistently ranked among the world’s happiest countries, which surprises absolutely everyone else.",
+            "Saunas are essential infrastructure, with more saunas than cars in some regions.",
+            "Finns are famously reserved, valuing silence as comfort rather than awkwardness.",
+            "Heavy metal music is wildly popular, including festivals dedicated entirely to the genre.",
+            "The country has vast forests and lakes, earning it the nickname ‘Land of a Thousand Lakes,’ understatedly.",
+            "Finland’s education system is globally admired for trust-based teaching and minimal testing.",
+            "Northern lights are visible during winter, turning long dark nights into cosmic light shows.",
+            "Finnish design favors clean lines, practicality, and furniture that looks calm and expensive.",
+            "Reindeer are real, not mythical, and occasionally cause traffic delays.",
+            "Winter swimming followed by sauna sessions is considered normal, not a cry for help."
+        ]
     },
     {
         "country": "France",
-        "facts": []
+        "facts": [
+            "France is the most visited country in the world, effortlessly combining culture, food, and mild smugness.",
+            "French cuisine is UNESCO-listed, because butter, technique, and confidence demanded formal recognition.",
+            "Paris hosted the 2024 Olympic Games, putting the city back in constant global headlines.",
+            "France produces over a thousand types of cheese, which feels both impressive and intimidating.",
+            "The French take bread seriously, with laws governing how baguettes are made.",
+            "Tour de France cyclists suffer spectacularly on live television every summer.",
+            "France has territories across multiple oceans, making it quietly global.",
+            "Fashion houses from France define trends that ripple worldwide each season.",
+            "Strikes are treated as civic participation rather than inconvenience.",
+            "French cinema continues exporting moody films featuring cigarettes, philosophy, and unresolved emotions."
+        ]
     },
     {
         "country": "French Polynesia",
-        "facts": []
+        "facts": [
+            "French Polynesia includes Tahiti and Bora Bora, names synonymous with luxury honeymoons and turquoise lagoons.",
+            "Overwater bungalows here became a global travel obsession and Instagram staple.",
+            "The islands are volcanic, creating dramatic peaks rising straight from the ocean.",
+            "French Polynesia blends Polynesian traditions with French language, food, and administration.",
+            "Black pearl farming is a major industry and a signature local export.",
+            "Traditional dance and tattoo culture remain central to identity and storytelling.",
+            "The region gained attention through Olympic surfing events held in Tahiti.",
+            "Marine life is abundant, with manta rays and sharks commonly spotted by swimmers.",
+            "Local cuisine mixes fresh seafood with French techniques and tropical ingredients.",
+            "Despite paradise imagery, many islands face serious challenges from climate change and rising seas."
+        ]
     },
     {
         "country": "Gabon",
-        "facts": []
+        "facts": [
+            "Gabon is one of Africa’s most forested countries, with rainforests covering most of its territory.",
+            "The country is famous for protecting wildlife, including forest elephants that roam beaches.",
+            "Libreville, the capital, sits right on the Atlantic with palm trees and government buildings.",
+            "Gabon gained attention for creating massive national parks across land and sea.",
+            "Oil wealth has shaped Gabon’s economy more than agriculture or manufacturing.",
+            "Gabon has one of Africa’s highest urban population percentages.",
+            "Loango National Park is nicknamed ‘Africa’s Last Eden’ for its untouched landscapes.",
+            "French is the official language, blending colonial legacy with local cultures.",
+            "Gabon has a relatively small population compared to its land size.",
+            "Its football team regularly punches above expectations in African competitions."
+        ]
     },
     {
         "country": "Gambia",
-        "facts": []
+        "facts": [
+            "The Gambia is Africa’s smallest mainland country and is shaped almost entirely by a river.",
+            "It is surrounded by Senegal on nearly all sides, except its Atlantic coastline.",
+            "Banjul is the capital, though the largest city is nearby Serekunda.",
+            "The Gambia is known for birdwatching, attracting enthusiasts from around the world.",
+            "English is the official language, making travel and communication easier for visitors.",
+            "Tourism plays a major role, especially winter sun escapes for Europeans.",
+            "The River Gambia is navigable far inland and historically vital for trade.",
+            "Music and drumming traditions are central to Gambian culture.",
+            "Peanut farming has long been economically important.",
+            "The country often appears in travel media as friendly and welcoming."
+        ]
     },
     {
         "country": "Georgia",
-        "facts": []
+        "facts": [
+            "Georgia sits between Europe and Asia, and confidently claims membership in both.",
+            "The country is famous for inventing wine, with 8,000-year-old wine traditions.",
+            "Tbilisi’s architecture mixes medieval churches, Soviet blocks, and modern glass structures.",
+            "Georgian cuisine features cheese-filled bread dishes that inspire intense devotion.",
+            "The Georgian alphabet is unique and instantly recognizable.",
+            "Mountain villages in the Caucasus feel frozen in time, but with strong Wi-Fi.",
+            "Georgia has gained popularity among digital nomads and remote workers.",
+            "Traditional polyphonic singing is UNESCO-listed cultural heritage.",
+            "The country has been in international news over regional political tensions.",
+            "Hospitality is legendary, with guests treated as something between family and royalty."
+        ]
     },
     {
         "country": "Germany",
-        "facts": []
+        "facts": [
+            "Germany is Europe’s largest economy and a manufacturing powerhouse.",
+            "The country is famous for cars, including brands synonymous with engineering prestige.",
+            "Berlin is known for creative chaos, nightlife, and relentless cultural reinvention.",
+            "Germany hosted the 2024 European Football Championship, drawing massive international attention.",
+            "The Autobahn famously includes sections without speed limits.",
+            "Germany has over 1,500 types of sausage, which feels like a deliberate challenge.",
+            "Recycling is taken extremely seriously, socially and structurally.",
+            "Christmas markets are a national art form, exported worldwide.",
+            "Germany has more castles than you could realistically visit in one lifetime.",
+            "The country blends deep history with aggressive efficiency."
+        ]
     },
     {
         "country": "Ghana",
-        "facts": []
+        "facts": [
+            "Ghana was the first sub-Saharan African country to gain independence from colonial rule.",
+            "Accra is a lively capital blending beaches, traffic, music, and startup energy.",
+            "Ghana is a global leader in cocoa production, feeding the world’s chocolate habits.",
+            "The country has gained attention through strong cultural influence in music and fashion.",
+            "Traditional kente cloth patterns are colorful, symbolic, and globally recognized.",
+            "Ghana’s football team regularly competes at the highest international levels.",
+            "Cape Coast castles are powerful historical sites tied to transatlantic slavery.",
+            "English is the official language, inherited from British colonial rule.",
+            "Ghana is often ranked among Africa’s most stable democracies.",
+            "The country has become a destination for diaspora reconnection travel."
+        ]
     },
     {
         "country": "Gibraltar",
-        "facts": []
+        "facts": [
+            "Gibraltar is a tiny British territory located at the southern tip of Spain.",
+            "The Rock of Gibraltar dominates the landscape and is visible for miles.",
+            "It’s home to Europe’s only wild monkeys, which absolutely know they’re in charge.",
+            "The airport runway famously crosses the main road.",
+            "Gibraltar has strategic importance due to its position controlling Mediterranean access.",
+            "English is the official language, though Spanish is widely spoken.",
+            "Brexit negotiations brought Gibraltar unexpected global attention.",
+            "The territory blends British pubs with Mediterranean sunshine.",
+            "Gibraltar has extensive tunnels carved deep into the Rock.",
+            "Its small size makes everything walkable, unless you’re climbing straight up."
+        ]
     },
     {
         "country": "Greece",
-        "facts": []
+        "facts": [
+            "Greece is considered the birthplace of democracy, philosophy, and dramatic arguments.",
+            "Athens blends ancient ruins with modern urban life and relentless traffic.",
+            "Greek islands vary wildly, from party hotspots to quiet, wind-swept escapes.",
+            "The country has been in recent news over tourism pressures and heatwaves.",
+            "Greek mythology still shapes global storytelling and pop culture.",
+            "Food culture centers around olive oil, seafood, and unapologetic garlic usage.",
+            "Greece has one of the longest coastlines in Europe.",
+            "Ancient temples appear casually integrated into modern cities.",
+            "The Olympics originated in ancient Greece.",
+            "Sunsets in places like Santorini are treated as daily public events."
+        ]
     },
     {
         "country": "Greenland",
-        "facts": []
+        "facts": [
+            "Greenland is the world’s largest island, but most of it is covered by ice.",
+            "It is politically linked to Denmark while culturally Inuit.",
+            "Melting ice has pushed Greenland into global climate discussions.",
+            "Towns are isolated, with no road network connecting most settlements.",
+            "Kalaallit Nunaat is the Greenlandic name for the country.",
+            "Hunting and fishing remain culturally important.",
+            "Icebergs regularly drift past coastal towns like slow-motion giants.",
+            "Greenland has gained geopolitical attention due to Arctic shipping routes.",
+            "Dogsledding is still a practical transport method in some regions.",
+            "The landscape feels enormous, silent, and humbling."
+        ]
     },
     {
         "country": "Grenada",
-        "facts": []
+        "facts": [
+            "Grenada is nicknamed the ‘Spice Isle’ for its nutmeg and spice production.",
+            "The island has lush rainforests, waterfalls, and volcanic terrain.",
+            "St. George’s is considered one of the Caribbean’s prettiest capitals.",
+            "Grenada produces a large share of the world’s nutmeg.",
+            "The country has avoided mass tourism compared to neighboring islands.",
+            "Grenada gained international attention during a 1980s U.S. invasion.",
+            "Beaches range from golden sand to dramatic black volcanic shores.",
+            "Local cuisine heavily features spices in both savory and sweet dishes.",
+            "Sailing and diving are major draws for visitors.",
+            "The island balances relaxed pace with strong community life."
+        ]
     },
     {
         "country": "Guam",
-        "facts": []
+        "facts": [
+            "Guam is a U.S. territory in the western Pacific with strong military presence.",
+            "It is culturally Chamorro, blending Indigenous, Spanish, and American influences.",
+            "Guam is often described as ‘where America’s day begins.’",
+            "The island is a popular destination for Japanese and Korean tourists.",
+            "Spanish forts and World War II sites dot the landscape.",
+            "English and Chamorro are both widely spoken.",
+            "Guam’s strategic location keeps it in geopolitical news cycles.",
+            "Beaches and coral reefs surround much of the island.",
+            "American retail chains coexist with local village culture.",
+            "Typhoons regularly shape building styles and infrastructure planning."
+        ]
     },
     {
         "country": "Guatemala",
-        "facts": []
+        "facts": [
+            "Guatemala is home to ancient Mayan ruins, including the vast city of Tikal.",
+            "The country has dozens of active and dormant volcanoes.",
+            "Guatemala City is one of Central America’s largest urban areas.",
+            "Indigenous cultures remain strong, with traditional dress widely worn.",
+            "The country produces high-quality coffee exported worldwide.",
+            "Lake Atitlán is often described as one of the world’s most beautiful lakes.",
+            "Spanish is the official language, alongside many Indigenous languages.",
+            "Guatemala has faced recent political unrest and protests.",
+            "Textiles are colorful, symbolic, and regionally distinctive.",
+            "Markets are loud, vibrant, and central to daily life."
+        ]
     },
     {
         "country": "Guernsey",
-        "facts": []
+        "facts": [
+            "Guernsey is a British Crown Dependency located in the English Channel.",
+            "It has its own laws, parliament, and distinctive identity.",
+            "The island is known for cows that produce famously rich milk.",
+            "Guernsey was occupied during World War II, leaving visible fortifications.",
+            "Financial services play a major role in the economy.",
+            "French influences linger in place names and cuisine.",
+            "The coastline features cliffs, beaches, and hidden coves.",
+            "Victor Hugo lived in exile here and wrote major works.",
+            "Guernsey has a slower pace than mainland Britain.",
+            "Ferries connect it closely with nearby Jersey."
+        ]
     },
     {
         "country": "Guinea",
-        "facts": []
+        "facts": [
+            "Guinea is named after the wider West African coastal region.",
+            "It has abundant natural resources, including bauxite used for aluminum.",
+            "Conakry, the capital, sits on a narrow peninsula.",
+            "Guinea’s rivers supply water to much of West Africa.",
+            "The country gained attention during past Ebola outbreaks.",
+            "French is the official language following colonial rule.",
+            "Music traditions are internationally influential, especially drumming.",
+            "The Fouta Djallon highlands dominate central Guinea.",
+            "Guinea has a young and rapidly growing population.",
+            "Infrastructure challenges remain a major development issue."
+        ]
     },
     {
         "country": "Guinea-Bissau",
-        "facts": []
+        "facts": [
+            "Guinea-Bissau is a small West African country with extensive mangrove coastlines.",
+            "The Bijagós Islands form a biodiverse archipelago off the coast.",
+            "Cashew nuts are the country’s primary export.",
+            "Portuguese is the official language, with many local languages spoken.",
+            "Political instability has frequently made international headlines.",
+            "Traditional animist beliefs remain influential alongside Islam and Christianity.",
+            "Fishing is vital for livelihoods and food security.",
+            "The capital, Bissau, shows visible colonial architectural remnants.",
+            "Wildlife conservation is growing in importance.",
+            "The country remains relatively unknown to mass tourism."
+        ]
     },
     {
         "country": "Guyana",
-        "facts": []
+        "facts": [
+            "Guyana is the only English-speaking country in South America.",
+            "The country has gained massive attention after major offshore oil discoveries.",
+            "Georgetown features wooden colonial buildings and Caribbean character.",
+            "Guyana’s interior is dense rainforest with limited road access.",
+            "Kaieteur Falls is one of the world’s most powerful waterfalls.",
+            "The population is ethnically diverse, shaped by colonial labor history.",
+            "Rice and sugar have long been agricultural staples.",
+            "Indigenous communities live throughout the interior regions.",
+            "Guyana sits culturally between the Caribbean and South America.",
+            "Rapid economic growth has recently reshaped national expectations."
+        ]
     },
     {
         "country": "Haiti",
-        "facts": []
+        "facts": [
+            "Haiti was the first Black republic and the first nation founded after a successful slave revolt.",
+            "The country shares the island of Hispaniola with the Dominican Republic, but feels culturally very different.",
+            "Haiti’s 2010 earthquake shaped much of its recent history and global aid response.",
+            "Vodou originated in Haiti and blends African traditions with Catholic influences.",
+            "French and Haitian Creole are both official languages, but Creole is spoken by nearly everyone.",
+            "Haiti has stunning Caribbean beaches that are far less touristy than neighboring islands.",
+            "Port-au-Prince is known for vibrant art scenes, murals, and metal drum sculptures.",
+            "Haiti once paid massive reparations to France, which impacted its economy for generations.",
+            "The Citadelle Laferrière fortress is one of the largest castles in the Americas.",
+            "Haitian cuisine is bold and spicy, with dishes like griot and pikliz stealing the show."
+        ]
     },
     {
         "country": "Heard Island and McDonald Islands",
-        "facts": []
+        "facts": [
+            "These remote islands are Australian territory and among the most isolated places on Earth.",
+            "They are completely uninhabited, with no permanent residents, airports, or tourism.",
+            "Big Ben is an active volcano here, and yes, it sounds way more dramatic than London’s.",
+            "Most of the land is covered by glaciers, lava flows, and very determined penguins.",
+            "Heard Island is home to massive elephant seal colonies that dominate the beaches.",
+            "The islands are protected as a nature reserve with strict environmental rules.",
+            "No humans live there, but seabirds treat it like prime beachfront property.",
+            "The climate is harsh, windy, and cold, even by subantarctic standards.",
+            "It’s one of the few places on Earth with virtually no human ecological impact.",
+            "Reaching the islands requires a long ocean expedition and serious logistical commitment."
+        ]
     },
     {
         "country": "Honduras",
-        "facts": []
+        "facts": [
+            "Honduras is home to Copán, one of the most important and detailed Maya archaeological sites.",
+            "The country has Caribbean islands like Roatán that are famous for coral reefs and diving.",
+            "Honduras contains part of the Mesoamerican Barrier Reef, the second-largest reef system globally.",
+            "The name Honduras means “depths,” referencing dangerous coastal waters encountered by early explorers.",
+            "Honduras produces coffee that’s increasingly winning international awards.",
+            "The national dish, baleadas, is beloved street food involving tortillas, beans, and cheese.",
+            "Tropical rainforests cover large areas and support incredible biodiversity.",
+            "Honduras has experienced major migration waves in recent years due to economic challenges.",
+            "Soccer is deeply loved, and international matches spark intense national pride.",
+            "The capital, Tegucigalpa, sits in a mountain valley with steep streets and colorful neighborhoods."
+        ]
     },
     {
         "country": "Hong Kong",
-        "facts": []
+        "facts": [
+            "Hong Kong is famous for its skyline, with more skyscrapers than any other city.",
+            "It operates under a unique system blending Chinese sovereignty with separate laws and economy.",
+            "Hong Kong cinema shaped global action films, launching stars like Bruce Lee and Jackie Chan.",
+            "The city has incredible hiking trails surprisingly close to dense urban neighborhoods.",
+            "Dim sum culture is serious business, with lifelong debates over the best restaurants.",
+            "Hong Kong’s Star Ferry has been crossing the harbor for over a century.",
+            "Recent years brought massive political protests that drew worldwide attention.",
+            "The Octopus Card lets residents pay for transport, food, and shopping with one tap.",
+            "Despite density, nearly 40 percent of Hong Kong is protected country parks.",
+            "Hong Kong consistently ranks among the world’s most expensive housing markets."
+        ]
     },
     {
         "country": "Hungary",
-        "facts": []
+        "facts": [
+            "Budapest is split by the Danube River into historic Buda and lively Pest.",
+            "Hungary is famous for thermal baths, and soaking is practically a national pastime.",
+            "The Hungarian language is unrelated to most European languages and sounds delightfully mysterious.",
+            "Rubik’s Cube was invented by Hungarian architect Ernő Rubik.",
+            "Hungarian cuisine loves paprika, and it appears in far more dishes than expected.",
+            "Budapest nightlife is known for ruin bars set inside abandoned buildings.",
+            "Hungary has produced many Nobel Prize winners relative to its population size.",
+            "Lake Balaton is Central Europe’s largest lake and a major summer getaway.",
+            "The country has been prominent in recent EU political debates and headlines.",
+            "Hungarian folk music and dance strongly influence modern national identity."
+        ]
     },
     {
         "country": "Iceland",
-        "facts": []
+        "facts": [
+            "Iceland has more sheep than people, and sometimes traffic jams are literally caused by sheep crossings.",
+            "Volcanoes and glaciers coexist so closely in Iceland they have a word for it: fire and ice energy.",
+            "Icelanders often believe in elves, and construction projects have been rerouted to avoid elf habitats.",
+            "The country has no army, but plenty of extremely confident knitwear and weather opinions.",
+            "Iceland runs almost entirely on renewable geothermal and hydro power, which feels smug but earned.",
+            "Bjork is Iceland’s most famous musical export and remains exactly as Icelandic as expected.",
+            "Icelandic surnames are patronymic, meaning last names change every generation like a bureaucratic prank.",
+            "The country has one of the world’s oldest parliaments, founded in the year 930.",
+            "You can drink tap water in Iceland that tastes suspiciously better than bottled water elsewhere.",
+            "Iceland once elected a comedian as mayor of Reykjavik, which honestly worked out fine."
+        ]
     },
     {
         "country": "India",
-        "facts": []
+        "facts": [
+            "India is the world’s most populous country, with languages, cuisines, and cultures changing every few hundred kilometres.",
+            "Bollywood produces more films each year than Hollywood, with dramatically higher song-to-plot ratios.",
+            "India invented chess, yoga, and shampoo, which is a surprisingly versatile cultural legacy.",
+            "The country has both tropical beaches and Himalayan peaks, sometimes within the same domestic flight.",
+            "India successfully landed a spacecraft near the Moon’s south pole in 2023, casually making space history.",
+            "Street food in India ranges from delicious to dangerously delicious, often at the same time.",
+            "India has over twenty officially recognised languages and hundreds more spoken daily.",
+            "The Taj Mahal was built as a love monument and now serves as a global relationship benchmark.",
+            "Cricket is treated less like a sport and more like a collective emotional experience.",
+            "India’s rail network is one of the largest in the world and functions as a moving sociology study."
+        ]
     },
     {
         "country": "Indonesia",
-        "facts": []
+        "facts": [
+            "Indonesia is the world’s largest island country, made up of over seventeen thousand islands.",
+            "The country sits on the Pacific Ring of Fire, which explains the volcano abundance.",
+            "Komodo dragons live here and are basically dinosaurs that missed the extinction memo.",
+            "Indonesia has more active volcanoes than any other country on Earth.",
+            "Bali is Indonesian, even if some tourists seem unaware of this fact.",
+            "The country spans multiple cultures, religions, and languages that vary dramatically by island.",
+            "Indonesia moved its capital from Jakarta due to flooding and overcrowding concerns.",
+            "Coffee varieties like Sumatra and Java are named directly after Indonesian places.",
+            "The national motto means ‘Unity in Diversity,’ which feels extremely accurate.",
+            "Indonesia has some of the world’s richest marine biodiversity, especially in coral reef regions."
+        ]
     },
     {
         "country": "Iran",
-        "facts": []
+        "facts": [
+            "Iran is one of the world’s oldest continuous civilizations, with history stretching back thousands of years.",
+            "Persian cuisine features rice dishes so good they deserve their own personality traits.",
+            "Iran has stunning architecture, including mosques covered in intricate blue tilework.",
+            "The Persian language has influenced many others, including English words like ‘paradise.’",
+            "Iran has a surprisingly strong film industry known for critically acclaimed art cinema.",
+            "The country celebrates Nowruz, the Persian New Year, marking the arrival of spring.",
+            "Iran is home to snow resorts and deserts, sometimes within driving distance of each other.",
+            "Tehran has a lively café culture beneath its famously dramatic skyline.",
+            "Iranian poetry, especially by Hafez and Rumi, is still widely quoted today.",
+            "Ancient Persia built one of the earliest known highway systems for empire-wide communication."
+        ]
     },
     {
         "country": "Iraq",
-        "facts": []
+        "facts": [
+            "Iraq contains much of ancient Mesopotamia, often called the cradle of civilization.",
+            "Writing, law codes, and urban planning all trace early roots to this region.",
+            "The Tigris and Euphrates rivers run through Iraq, shaping its history and agriculture.",
+            "Baghdad was once a global center of science, medicine, and learning during the Islamic Golden Age.",
+            "Iraq has rich culinary traditions featuring rice, lamb, dates, and flatbreads.",
+            "The country has ancient cities like Babylon that still capture global imagination.",
+            "Iraq is one of the world’s largest producers of dates.",
+            "Traditional music uses instruments that date back thousands of years.",
+            "Iraq’s landscapes range from marshlands to deserts and mountains.",
+            "The country has contributed enormously to mathematics, astronomy, and early medicine."
+        ]
     },
     {
         "country": "Ireland",
-        "facts": []
+        "facts": [
+            "Ireland is famous for its lush green landscapes, caused by frequent rain and dramatic lighting.",
+            "The Irish language is still spoken daily, especially in western coastal regions.",
+            "Ireland has exported music legends ranging from U2 to Enya to Hozier.",
+            "The country has more ancient castles than anyone can realistically keep track of.",
+            "Irish pubs function as social hubs, not just alcohol delivery systems.",
+            "Ireland avoided snakes so completely it became a national legend.",
+            "Dublin was named a UNESCO City of Literature.",
+            "Ireland has produced an outsized number of writers, poets, and playwrights.",
+            "The Cliffs of Moher look unreal and are aggressively photogenic.",
+            "St. Patrick was actually not Irish, which feels like trivia betrayal."
+        ]
     },
     {
         "country": "Isle of Man",
-        "facts": []
+        "facts": [
+            "The Isle of Man is famous for the TT motorcycle races, which are terrifyingly fast.",
+            "It is a self-governing Crown Dependency, not part of the United Kingdom.",
+            "The island has its own parliament, one of the oldest in the world.",
+            "Cats without tails, called Manx cats, are native to the island.",
+            "The Isle of Man has Viking heritage mixed with Celtic influences.",
+            "Its flag features three legs running, which is boldly surreal branding.",
+            "The island has dramatic coastlines and surprisingly rugged terrain.",
+            "Manx Gaelic is being revived after nearly disappearing.",
+            "The island issues its own currency, though UK pounds are accepted.",
+            "Motor racing here feels less like sport and more like controlled chaos."
+        ]
     },
     {
         "country": "Israel",
-        "facts": []
+        "facts": [
+            "Israel has major religious significance for Judaism, Christianity, and Islam.",
+            "Tel Aviv is known for its beach culture and extremely active nightlife.",
+            "The country has a strong startup scene and is often called the Startup Nation.",
+            "Israel has archaeological sites layered with thousands of years of history.",
+            "Jerusalem is one of the most historically dense cities on Earth.",
+            "The Dead Sea is so salty you float effortlessly, dignity optional.",
+            "Israeli cuisine blends Middle Eastern, Mediterranean, and global influences.",
+            "The country re-established Hebrew as a modern spoken language.",
+            "Israel has diverse landscapes, including desert, forest, and coastline.",
+            "Street markets here combine food, noise, and enthusiasm at maximum intensity."
+        ]
     },
     {
         "country": "Italy",
-        "facts": []
+        "facts": [
+            "Italy has more UNESCO World Heritage sites than any other country.",
+            "Italian food culture is intensely regional and fiercely defended.",
+            "Rome contains layers of history stacked like lasagna.",
+            "Italy is home to two microstates: Vatican City and San Marino nearby.",
+            "The country has shaped art, architecture, and fashion for centuries.",
+            "Italian hand gestures function as a secondary spoken language.",
+            "Modern Italy unified surprisingly late, in the nineteenth century.",
+            "Espresso culture here follows strict, unwritten social rules.",
+            "Italy has active volcanoes, including Mount Etna and Vesuvius.",
+            "Football loyalty in Italy is passionate and occasionally explosive."
+        ]
     },
     {
         "country": "Ivory Coast",
-        "facts": []
+        "facts": [
+            "Ivory Coast is the world’s largest producer of cocoa beans.",
+            "Chocolate worldwide owes a quiet debt to Ivorian farmers.",
+            "The capital is Yamoussoukro, but Abidjan is the economic powerhouse.",
+            "The country has over sixty ethnic groups with distinct cultures.",
+            "French is the official language, alongside many local languages.",
+            "Ivory Coast has rainforests, savannas, and long Atlantic beaches.",
+            "Football is hugely popular, with international tournament success.",
+            "The country’s name refers to historic ivory trade routes.",
+            "Ivorian music blends traditional rhythms with modern styles.",
+            "Markets are vibrant, loud, and central to everyday life."
+        ]
     },
     {
         "country": "Jamaica",
-        "facts": []
+        "facts": [
+            "Jamaica is the birthplace of reggae music and global icon Bob Marley.",
+            "The island has an outsized influence on music, culture, and slang worldwide.",
+            "Jamaica is famous for sprinting legends, including Usain Bolt.",
+            "Blue Mountains coffee from Jamaica is among the world’s most prized.",
+            "The island’s motto is ‘Out of Many, One People.’",
+            "Jamaican cuisine features bold flavors like jerk seasoning.",
+            "The country gained independence from Britain in 1962.",
+            "Beaches, waterfalls, and rainforests coexist within short distances.",
+            "Patois is widely spoken alongside English.",
+            "Jamaica punches far above its weight culturally."
+        ]
     },
     {
         "country": "Japan",
-        "facts": []
+        "facts": [
+            "Japan blends ancient traditions with hyper-modern technology effortlessly.",
+            "The country has more vending machines than people expect to be reasonable.",
+            "Japan’s rail system is famous for speed, efficiency, and punctuality obsession.",
+            "Anime and manga are major cultural exports consumed globally.",
+            "Japan experiences frequent earthquakes due to tectonic plate boundaries.",
+            "Convenience stores sell meals that are genuinely excellent.",
+            "The country has a deep respect culture around craftsmanship and detail.",
+            "Mount Fuji is an active volcano and national icon.",
+            "Japan has one of the world’s highest life expectancies.",
+            "Cherry blossom season sparks nationwide excitement and photo chaos."
+        ]
     },
     {
         "country": "Jersey",
-        "facts": []
+        "facts": [
+            "Jersey is a Crown Dependency located between England and France.",
+            "It has its own legal system, parliament, and identity.",
+            "Jersey cows are famous worldwide for rich milk production.",
+            "The island has strong Norman heritage alongside British influence.",
+            "French and English cultural traces coexist comfortably.",
+            "Jersey has dramatic cliffs and sandy bays in close proximity.",
+            "The island was occupied during World War Two.",
+            "Local food features seafood and dairy heavily.",
+            "Jersey is not part of the United Kingdom.",
+            "Small size, big personality energy."
+        ]
     },
     {
         "country": "Jordan",
-        "facts": []
+        "facts": [
+            "Jordan is home to Petra, the ancient city carved directly into rose-colored rock.",
+            "The Dead Sea lies partly in Jordan and is famously hypersaline.",
+            "Jordan has vast desert landscapes used as Mars filming locations.",
+            "Amman blends ancient ruins with modern city life.",
+            "The country has been relatively stable in a turbulent region.",
+            "Bedouin hospitality traditions remain culturally important.",
+            "Jordan has limited water resources, shaping daily life.",
+            "Wadi Rum offers surreal red desert scenery.",
+            "Jordanian cuisine includes mansaf, the national dish.",
+            "Tourism focuses on history, archaeology, and desert experiences."
+        ]
     },
     {
         "country": "Kazakhstan",
-        "facts": []
+        "facts": [
+            "Kazakhstan is the world’s largest landlocked country, and it casually stretches from Europe into Asia.",
+            "The country famously hosted Borat, which Kazakhstan absolutely did not ask for but leaned into later.",
+            "Baikonur Cosmodrome launched the first human into space, making Kazakhstan space-history royalty.",
+            "Astana’s skyline looks like a sci-fi movie set designed by someone with unlimited budget confidence.",
+            "Horses are central to Kazakh culture, food, history, and general national pride.",
+            "Kazakhstan has vast steppes so empty they make other countries feel emotionally cluttered.",
+            "Traditional games involve horses, strength, and impressive levels of chaos.",
+            "Kazakhstan produces significant uranium, quietly powering much of the world.",
+            "Apple ancestors originated in Kazakhstan, making it the OG apple homeland.",
+            "Its flag features a golden eagle, because subtle symbolism was clearly not the goal."
+        ]
     },
     {
         "country": "Kenya",
-        "facts": []
+        "facts": [
+            "Kenya is legendary for long-distance runners who dominate marathons worldwide with suspicious ease.",
+            "The Great Rift Valley slices through Kenya like Earth cracking its knuckles.",
+            "Nairobi is nicknamed the ‘Green City in the Sun’ and has a national park inside city limits.",
+            "Kenya’s wildlife includes the Big Five, basically the Avengers of safari tourism.",
+            "Lake Victoria touches Kenya and supports millions of people through fishing and trade.",
+            "Kenya has world-famous tea and coffee grown in cool highland regions.",
+            "The Maasai are globally recognised for vibrant dress and proud cultural traditions.",
+            "M-Pesa mobile money transformed everyday payments long before cashless was cool.",
+            "Kenya has coastline on the Indian Ocean with historic Swahili trading towns.",
+            "The country sits near the equator, yet still has chilly mountain climates."
+        ]
     },
     {
         "country": "Kiribati",
-        "facts": []
+        "facts": [
+            "Kiribati is made of scattered coral atolls spread across a hilariously massive ocean area.",
+            "It’s one of the first countries to see a new day each morning.",
+            "Kiribati’s capital, South Tarawa, sits on a thin strip of land barely above sea level.",
+            "The country is on the front line of climate change and rising seas.",
+            "Fishing dominates daily life, economy, and dinner conversations.",
+            "Kiribati is pronounced ‘Kiribas’, because English spelling enjoys chaos.",
+            "Traditional navigation relied on stars, waves, and deeply impressive memory.",
+            "Coconut palms are essential for food, shelter, and basically everything else.",
+            "Kiribati’s isolation makes it feel like a secret level of Earth.",
+            "Tourism is minimal, which is either tragic or perfect, depending on personality."
+        ]
     },
     {
         "country": "Kosovo",
-        "facts": []
+        "facts": [
+            "Kosovo is one of Europe’s youngest countries, declaring independence in 2008.",
+            "Football fans in Kosovo are famously passionate despite limited international history.",
+            "Pristina has the world’s largest monument dedicated to the word ‘NEWBORN’.",
+            "Kosovo’s population is one of the youngest in Europe.",
+            "Coffee culture is intense, social, and basically a daily ritual.",
+            "The country is mountainous and surprisingly green.",
+            "Kosovo uses the euro despite not being in the EU.",
+            "Music and nightlife play a big role in urban culture.",
+            "Kosovo gained full FIFA membership only recently, and fans celebrated hard.",
+            "It sits at a cultural crossroads between Balkan and Albanian influences."
+        ]
     },
     {
         "country": "Kuwait",
-        "facts": []
+        "facts": [
+            "Kuwait sits at the northern tip of the Persian Gulf with serious oil wealth.",
+            "The Kuwait Towers are both water towers and architectural flexes.",
+            "Kuwait has one of the world’s highest currency values.",
+            "The country rebuilt rapidly after the 1991 Gulf War.",
+            "Air-conditioned bus stops exist, because desert logic.",
+            "Kuwait has a strong café and dessert culture.",
+            "Its coastline plays a major role in trade and shipping.",
+            "Kuwait’s parliament is one of the more active in the region.",
+            "Shopping malls are social hubs, not just retail spaces.",
+            "Falconry remains a respected cultural tradition."
+        ]
     },
     {
         "country": "Kyrgyzstan",
-        "facts": []
+        "facts": [
+            "Kyrgyzstan is extremely mountainous, with peaks covering most of the country.",
+            "Nomadic traditions remain visible through yurts and seasonal herding.",
+            "Horse games are competitive, chaotic, and wildly entertaining.",
+            "Lake Issyk-Kul is enormous, salty, and surprisingly warm.",
+            "The country sits along ancient Silk Road routes.",
+            "Kyrgyzstan’s landscapes look like fantasy maps brought to life.",
+            "Traditional felt crafts are a major cultural art form.",
+            "It has a reputation as Central Asia’s most open society.",
+            "Food is hearty, meat-focused, and unapologetically filling.",
+            "Eagles are trained for hunting in traditional practices."
+        ]
     },
     {
         "country": "Laos",
-        "facts": []
+        "facts": [
+            "Laos is Southeast Asia’s only landlocked country.",
+            "The Mekong River defines daily life, transport, and food.",
+            "Laos moves at a slower pace, culturally and socially.",
+            "Luang Prabang is famous for monks collecting alms at dawn.",
+            "French colonial influence lingers in architecture and baguettes.",
+            "Laos has dramatic limestone mountains and dense jungle.",
+            "It’s one of the least urbanised countries in the region.",
+            "Sticky rice is the undisputed national carb.",
+            "Unexploded ordnance still affects rural areas decades later.",
+            "Tourism is growing, but remains low-key and gentle."
+        ]
     },
     {
         "country": "Latvia",
-        "facts": []
+        "facts": [
+            "Latvia sits on the Baltic Sea with long, sandy beaches.",
+            "Riga’s Art Nouveau architecture is some of Europe’s best.",
+            "Latvia has deep forest coverage and strong nature traditions.",
+            "Singing is central to national identity and mass festivals.",
+            "Latvia regained independence from the Soviet Union in 1991.",
+            "The country has a thriving startup and tech scene.",
+            "Mushroom foraging is a national pastime.",
+            "Latvian is one of the oldest living Indo-European languages.",
+            "Ice hockey is wildly popular and emotionally serious.",
+            "The capital feels cozy despite being historically important."
+        ]
     },
     {
         "country": "Lebanon",
-        "facts": []
+        "facts": [
+            "Lebanon packs beaches, mountains, and ancient ruins into a tiny space.",
+            "Beirut was once called the ‘Paris of the Middle East’.",
+            "Lebanese cuisine is globally adored, especially hummus and mezze.",
+            "The country has some of the oldest continuously inhabited cities.",
+            "Lebanon produces respected wine from high-altitude vineyards.",
+            "Cedar trees are national symbols with ancient significance.",
+            "Music and nightlife remain vibrant despite political challenges.",
+            "Phoenician heritage links Lebanon to early alphabet development.",
+            "Family and hospitality are deeply ingrained values.",
+            "Lebanon’s culture blends Arab, Mediterranean, and European influences."
+        ]
     },
     {
         "country": "Lesotho",
-        "facts": []
+        "facts": [
+            "Lesotho is completely surrounded by South Africa.",
+            "It’s known as the ‘Kingdom in the Sky’ due to high elevation.",
+            "Traditional Basotho blankets are iconic national symbols.",
+            "Many villages are reachable only by foot or horseback.",
+            "Snowfall occurs regularly, surprising first-time visitors.",
+            "Lesotho has one of Africa’s highest lowest points.",
+            "Shepherd culture remains strong in rural areas.",
+            "Hats worn traditionally resemble mountain shapes.",
+            "Water exports are a major economic resource.",
+            "The capital, Maseru, sits right on the border."
+        ]
     },
     {
         "country": "Liberia",
-        "facts": []
+        "facts": [
+            "Liberia was founded by formerly enslaved African Americans.",
+            "Its flag closely resembles the United States flag.",
+            "Liberia was never formally colonised by European powers.",
+            "English is the official language, with many local dialects.",
+            "The country has lush rainforests and Atlantic coastline.",
+            "Footballer George Weah became Liberia’s president.",
+            "Monrovia is named after U.S. President James Monroe.",
+            "Rubber production plays a major economic role.",
+            "Liberia uses unique cultural greetings and expressions.",
+            "Civil wars heavily shaped recent national history."
+        ]
     },
     {
         "country": "Libya",
-        "facts": []
+        "facts": [
+            "Libya has one of Africa’s longest Mediterranean coastlines.",
+            "Most of Libya is Sahara Desert with dramatic landscapes.",
+            "Ancient Roman ruins like Leptis Magna remain remarkably preserved.",
+            "Oil dominates Libya’s economy and global relevance.",
+            "Tripoli blends ancient history with modern chaos.",
+            "Libya has low population density despite large size.",
+            "Desert oases act as critical settlement points.",
+            "Libya experienced major political upheaval after 2011.",
+            "Berber culture remains influential in western regions.",
+            "Traditional architecture adapts cleverly to extreme heat."
+        ]
     },
     {
         "country": "Liechtenstein",
-        "facts": []
+        "facts": [
+            "Liechtenstein is a tiny Alpine country wedged between Switzerland and Austria.",
+            "It’s one of the world’s smallest countries by population.",
+            "Liechtenstein has no airport and no army.",
+            "The prince still lives in an actual castle overlooking the capital.",
+            "It’s incredibly wealthy per capita.",
+            "Hiking trails offer absurdly pretty Alpine views.",
+            "The country uses the Swiss franc.",
+            "Manufacturing focuses on high-precision products.",
+            "Liechtenstein once accidentally invaded Switzerland with zero casualties.",
+            "It feels more like a village than a nation."
+        ]
     },
     {
         "country": "Lithuania",
-        "facts": []
+        "facts": [
+            "Lithuania was once part of Europe’s largest medieval state.",
+            "Vilnius has a charming old town with baroque architecture.",
+            "Basketball is basically a national religion.",
+            "Lithuania regained independence from the Soviet Union in 1990.",
+            "The country has extensive forests and lakes.",
+            "Lithuanian is one of the oldest surviving Indo-European languages.",
+            "Cold pink soup is a traditional summer dish.",
+            "The Baltic Sea provides beaches and fishing culture.",
+            "Lithuania has a strong fintech and startup scene.",
+            "Folk traditions remain actively celebrated."
+        ]
     },
     {
         "country": "Luxembourg",
-        "facts": []
+        "facts": [
+            "Luxembourg is tiny but extremely wealthy.",
+            "It hosts major European Union institutions.",
+            "Public transport is free nationwide.",
+            "Luxembourg City has dramatic cliffs and fortifications.",
+            "The country is trilingual by default.",
+            "Banking and finance dominate the economy.",
+            "Luxembourg has medieval castles scattered across countryside.",
+            "It’s one of the world’s safest countries.",
+            "Wine production thrives along the Moselle River.",
+            "Despite size, Luxembourg plays outsized political roles."
+        ]
     },
     {
         "country": "Macau",
-        "facts": []
+        "facts": [
+            "Macau earns more gambling revenue than Las Vegas by a wild margin, despite being smaller than most cities’ airports.",
+            "Macau was a Portuguese colony until 1999, which explains why street signs, pastries, and architecture feel unexpectedly European.",
+            "The historic centre of Macau is a UNESCO site where Chinese temples and Catholic churches casually share the same streets.",
+            "Macau’s famous egg tarts were inspired by Portuguese pastéis de nata, then remixed into a local dessert obsession.",
+            "Despite its casino reputation, Macau also hosts traditional dragon boat races that draw serious international competition.",
+            "Macau has one of the highest population densities on Earth, making personal space a purely theoretical concept.",
+            "The Ruins of St. Paul’s are just a dramatic stone façade, because the rest burned down centuries ago.",
+            "Macau operates under the “one country, two systems” model, with its own legal and economic setup.",
+            "James Bond’s ‘Skyfall’ famously opens in Macau, cementing its vibe as glamorous, mysterious, and slightly dangerous.",
+            "Macau’s economy is so casino-heavy that government cash handouts to residents are funded by gambling taxes."
+        ]
     },
     {
         "country": "Madagascar",
-        "facts": []
+        "facts": [
+            "Over 90% of Madagascar’s wildlife exists nowhere else, including lemurs, which somehow became cute and chaotic icons.",
+            "Madagascar split from India millions of years ago, then evolved like nature was experimenting unsupervised.",
+            "Baobab trees in Madagascar look upside down and can live for over a thousand years, hoarding water like plant camels.",
+            "The island’s biodiversity inspired DreamWorks’ ‘Madagascar’, though the real animals are less chatty.",
+            "Madagascar produces most of the world’s vanilla, making your ice cream surprisingly dependent on this island.",
+            "The Avenue of the Baobabs is one of the most photographed natural landmarks in Africa.",
+            "Despite its size, Madagascar has struggled economically due to political instability and environmental loss.",
+            "Lemurs are considered good luck in some Malagasy traditions and sacred ancestors in others.",
+            "Madagascar’s capital, Antananarivo, is usually shortened because nobody enjoys saying that out loud repeatedly.",
+            "Illegal logging and wildlife trafficking remain major threats to Madagascar’s unique ecosystems."
+        ]
     },
     {
         "country": "Malawi",
-        "facts": []
+        "facts": [
+            "Malawi calls itself the ‘Warm Heart of Africa’, a nickname earned through legendary hospitality.",
+            "Lake Malawi contains more fish species than any other lake on Earth, most of them brightly coloured cichlids.",
+            "The lake covers about a third of the country and dominates life, culture, and food.",
+            "Malawi is one of the world’s poorest countries but ranks high for friendliness and optimism.",
+            "Fishing villages along Lake Malawi feel frozen in time, with dugout canoes still widely used.",
+            "The country has never experienced a civil war since independence, which is rare in the region.",
+            "Malawi’s national parks are gaining attention for conservation-focused tourism rather than mass safaris.",
+            "English and Chichewa are both official languages, blending colonial legacy with local culture.",
+            "David Livingstone passed through Malawi while exploring Africa in the 19th century.",
+            "Malawi has recently pushed solar power expansion to reduce reliance on hydropower."
+        ]
     },
     {
         "country": "Malaysia",
-        "facts": []
+        "facts": [
+            "Malaysia is split between mainland Asia and Borneo, separated by the South China Sea.",
+            "Kuala Lumpur’s Petronas Towers were once the tallest buildings in the world.",
+            "Malaysia’s food culture is legendary, blending Malay, Chinese, Indian, and indigenous cuisines.",
+            "Penang is considered one of the best street food cities on Earth, no debate required.",
+            "Malaysia is one of the world’s largest producers of palm oil, sparking environmental controversy.",
+            "Orangutans still live wild in Malaysian Borneo, though habitat loss threatens them.",
+            "The country operates a constitutional monarchy with a rotating king, which is very rare.",
+            "Malaysia Airlines Flight MH370 remains one of aviation’s greatest mysteries.",
+            "Rainforests in Malaysia are older than the Amazon, by millions of years.",
+            "Malaysia has hosted Formula One races at the Sepang International Circuit."
+        ]
     },
     {
         "country": "Maldives",
-        "facts": []
+        "facts": [
+            "The Maldives is the lowest country on Earth, averaging just over one metre above sea level.",
+            "It consists of nearly 1,200 coral islands, many with fewer residents than a city apartment block.",
+            "Luxury resorts often occupy entire islands, complete with overwater villas and private beaches.",
+            "Climate change poses an existential threat, with rising seas already affecting freshwater supplies.",
+            "The Maldives once held a cabinet meeting underwater to highlight climate risks.",
+            "Tourism provides the backbone of the economy, alongside fishing.",
+            "The capital, Malé, is one of the most densely populated cities in the world.",
+            "Islam is the state religion, and public practice of other religions is restricted.",
+            "The Maldives became a popular honeymoon destination thanks to Instagram and influencers.",
+            "Artificial islands are being built to protect against sea level rise."
+        ]
     },
     {
         "country": "Mali",
-        "facts": []
+        "facts": [
+            "Mali was once home to the Mali Empire, one of the richest civilizations in history.",
+            "Mansa Musa, ruler of Mali, is often called the wealthiest person who ever lived.",
+            "Timbuktu was a global centre of learning with thousands of ancient manuscripts.",
+            "Mali’s northern regions sit deep in the Sahara Desert.",
+            "Political instability and military coups have shaped recent history.",
+            "Traditional Malian music influenced blues and rock far beyond Africa.",
+            "The Niger River is Mali’s lifeline, supporting farming and trade.",
+            "Gold mining remains a major part of the economy.",
+            "UN peacekeeping forces have operated in Mali for years.",
+            "Despite hardship, Mali has a rich oral storytelling tradition."
+        ]
     },
     {
         "country": "Malta",
-        "facts": []
+        "facts": [
+            "Malta is smaller than many cities but has 7,000 years of history.",
+            "The Knights of St. John ruled Malta and left massive stone fortifications.",
+            "Maltese is the only Semitic language written in the Latin alphabet.",
+            "Malta has appeared in countless films, standing in for ancient cities.",
+            "The island played a critical role during World War II.",
+            "Malta’s megalithic temples are older than the pyramids.",
+            "English is an official language, making travel surprisingly easy.",
+            "Malta joined the EU in 2004.",
+            "The capital, Valletta, is a UNESCO World Heritage Site.",
+            "Diving around Malta reveals shipwrecks from multiple historical eras."
+        ]
     },
     {
         "country": "Marshall Islands",
-        "facts": []
+        "facts": [
+            "The Marshall Islands were used for U.S. nuclear testing during the Cold War.",
+            "Some islands were permanently evacuated due to radiation exposure.",
+            "The country consists of coral atolls spread across a vast ocean area.",
+            "Rising sea levels threaten homes, crops, and drinking water.",
+            "The Marshall Islands has a Compact of Free Association with the U.S.",
+            "Traditional navigation used stick charts representing ocean swells.",
+            "The population is smaller than most football stadium capacities.",
+            "Fishing and U.S. aid support the economy.",
+            "The capital, Majuro, stretches along a thin strip of land.",
+            "The country has advocated strongly for nuclear disarmament globally."
+        ]
     },
     {
         "country": "Mauritania",
-        "facts": []
+        "facts": [
+            "Mauritania sits between North and Sub-Saharan Africa, culturally and geographically.",
+            "Much of the country is covered by the Sahara Desert.",
+            "The Eye of the Sahara is a massive circular geological formation visible from space.",
+            "Mauritania was one of the last countries to officially abolish slavery.",
+            "Iron ore trains here can stretch over two kilometres long.",
+            "Nomadic traditions still influence daily life.",
+            "Arabic is the official language, alongside several African languages.",
+            "Fishing is a key industry along the Atlantic coast.",
+            "The capital, Nouakchott, grew rapidly from a small village.",
+            "Desertification remains a major environmental challenge."
+        ]
     },
     {
         "country": "Mauritius",
-        "facts": []
+        "facts": [
+            "Mauritius is where the dodo lived before humans hunted it to extinction.",
+            "The island has no indigenous population; everyone arrived by migration.",
+            "Mauritius is famous for beaches, reefs, and volcanic landscapes.",
+            "The economy successfully diversified beyond sugar and tourism.",
+            "Multiple languages are spoken daily, often in the same conversation.",
+            "Mauritius has one of Africa’s strongest democracies.",
+            "The national dish is curry-inspired and deeply multicultural.",
+            "Underwater waterfalls are an optical illusion created by sand movement.",
+            "Mark Twain said Mauritius was made before heaven.",
+            "The island is a popular luxury honeymoon destination."
+        ]
     },
     {
         "country": "Mexico",
-        "facts": []
+        "facts": [
+            "Mexico is home to 35 UNESCO World Heritage Sites.",
+            "Chocolate, tomatoes, and corn all originated in Mexico.",
+            "Mexico City was built on an ancient Aztec capital.",
+            "The country has one of the world’s largest film industries.",
+            "Lucha libre wrestling is treated like high art.",
+            "Day of the Dead celebrations blend joy and remembrance.",
+            "Mexico has more pyramids than Egypt.",
+            "Frida Kahlo is a national icon.",
+            "Street food culture is legendary and fiercely regional.",
+            "Mexico spans deserts, jungles, mountains, and beaches."
+        ]
     },
     {
         "country": "Micronesia",
-        "facts": []
+        "facts": [
+            "Micronesia is made up of over 600 islands scattered across the Pacific.",
+            "The name literally means ‘small islands’.",
+            "Traditional navigation relied on stars and wave patterns.",
+            "The country has close ties with the United States.",
+            "Stone money, massive carved discs, were once used as currency.",
+            "Fishing and subsistence farming dominate daily life.",
+            "Rising seas threaten coastal villages.",
+            "Tourism remains limited compared to other Pacific nations.",
+            "Cultural traditions vary widely between islands.",
+            "WWII wrecks lie underwater around several islands."
+        ]
     },
     {
         "country": "Moldova",
-        "facts": []
+        "facts": [
+            "Moldova is one of Europe’s least visited countries.",
+            "It has some of the largest wine cellars in the world.",
+            "Wine production is central to national identity.",
+            "Moldova sits between Romania and Ukraine.",
+            "The breakaway region of Transnistria operates like a time capsule.",
+            "Soviet-era architecture still dominates many cities.",
+            "Moldova is seeking closer ties with the European Union.",
+            "Rural traditions remain strong.",
+            "The capital, Chișinău, is surprisingly green.",
+            "Moldova often ranks high for wine quality, not fame."
+        ]
     },
     {
         "country": "Monaco",
-        "facts": []
+        "facts": [
+            "Monaco is smaller than Central Park but far wealthier.",
+            "About one third of residents are millionaires.",
+            "The Monaco Grand Prix is one of Formula One’s most famous races.",
+            "Monaco has no income tax for residents.",
+            "The royal family has ruled for over 700 years.",
+            "Land reclamation keeps making Monaco bigger.",
+            "Yachts outnumber beaches.",
+            "The country has no airport, only a heliport.",
+            "Monte Carlo is synonymous with luxury gambling.",
+            "Monaco is technically a constitutional monarchy."
+        ]
     },
     {
         "country": "Mongolia",
-        "facts": []
+        "facts": [
+            "Mongolia was once the centre of the largest land empire in history.",
+            "Genghis Khan remains a national hero.",
+            "Most of Mongolia is sparsely populated steppe.",
+            "Nomadic lifestyles are still practiced.",
+            "Winters can reach brutal temperatures.",
+            "Horses outnumber people.",
+            "Ulaanbaatar is one of the coldest capitals on Earth.",
+            "The Gobi Desert covers much of the south.",
+            "Traditional wrestling is a national sport.",
+            "Mining drives modern economic growth."
+        ]
     },
     {
         "country": "Montenegro",
-        "facts": []
+        "facts": [
+            "Montenegro means ‘Black Mountain’.",
+            "The Bay of Kotor looks like a fjord but isn’t one.",
+            "It gained independence from Serbia in 2006.",
+            "Tourism focuses on beaches and medieval towns.",
+            "Montenegro uses the euro without being in the EU.",
+            "The country has dramatic mountain landscapes.",
+            "Its coastline is relatively short but stunning.",
+            "Kotor’s old town is UNESCO listed.",
+            "Montenegro has one of Europe’s deepest canyons.",
+            "Population size is smaller than many cities."
+        ]
     },
     {
         "country": "Montserrat",
-        "facts": []
+        "facts": [
+            "Montserrat is nicknamed the ‘Emerald Isle of the Caribbean’.",
+            "A volcanic eruption buried its capital in the 1990s.",
+            "Large parts of the island remain uninhabitable.",
+            "Montserrat has strong Irish cultural influence.",
+            "The population dramatically declined after eruptions.",
+            "The volcano is still active.",
+            "Montserrat is a British Overseas Territory.",
+            "Music legend Sir George Martin built a studio here.",
+            "The island is slowly rebuilding.",
+            "Nature has reclaimed abandoned towns."
+        ]
     },
     {
         "country": "Morocco",
-        "facts": []
+        "facts": [
+            "Morocco blends Arab, Berber, and European influences.",
+            "Marrakech’s medina is a sensory overload.",
+            "The Atlas Mountains run through the country.",
+            "Morocco has Africa’s first high-speed rail line.",
+            "Argan oil comes almost exclusively from Morocco.",
+            "The Sahara reaches into southern regions.",
+            "Moroccan cuisine is globally celebrated.",
+            "Casablanca is the largest city.",
+            "Fez hosts one of the world’s oldest universities.",
+            "Football success has boosted national pride."
+        ]
     },
     {
         "country": "Mozambique",
-        "facts": []
+        "facts": [
+            "Mozambique has over 2,000 kilometres of Indian Ocean coastline.",
+            "Portuguese influence remains strong.",
+            "The country is rich in natural gas reserves.",
+            "Civil war ended in the 1990s.",
+            "Seafood dominates coastal cuisine.",
+            "Mozambique Island is a UNESCO site.",
+            "Cyclones regularly impact coastal regions.",
+            "Music styles like marrabenta are popular.",
+            "Tourism is growing but still limited.",
+            "Biodiversity includes coral reefs and mangroves."
+        ]
     },
     {
         "country": "Myanmar",
-        "facts": []
+        "facts": [
+            "Myanmar was formerly known as Burma.",
+            "The country has experienced multiple military coups.",
+            "Bagan hosts thousands of ancient temples.",
+            "Ethnic diversity is vast and complex.",
+            "Political unrest has driven international sanctions.",
+            "Buddhism shapes daily life.",
+            "Myanmar produces jade and rubies.",
+            "Yangon’s Shwedagon Pagoda is a sacred landmark.",
+            "Internet access was heavily restricted for years.",
+            "Civil resistance movements continue today."
+        ]
     },
     {
         "country": "Namibia",
-        "facts": []
+        "facts": [
+            "Namibia is home to the world’s oldest desert, the Namib.",
+            "Sand dunes here turn bright orange at sunset.",
+            "The country has one of Africa’s lowest population densities.",
+            "German colonial architecture still stands.",
+            "Namibia pioneered community-based conservation.",
+            "Wildlife roams freely across vast landscapes.",
+            "Skeleton Coast shipwrecks line the shore.",
+            "Namibia gained independence in 1990.",
+            "The capital, Windhoek, feels surprisingly European.",
+            "Stargazing is exceptional due to low light pollution."
+        ]
     },
     {
         "country": "Nauru",
-        "facts": []
+        "facts": [
+            "Nauru is the world’s smallest island nation.",
+            "Phosphate mining once made it incredibly wealthy.",
+            "Most of the island’s interior is environmentally damaged.",
+            "There are no official capital cities.",
+            "Nauru hosted Australia’s offshore detention centre.",
+            "The population is under 15,000 people.",
+            "Obesity rates are among the world’s highest.",
+            "Tourism is extremely limited.",
+            "The island is encircled by a single road.",
+            "Economic recovery remains difficult."
+        ]
     },
     {
         "country": "Nepal",
-        "facts": []
+        "facts": [
+            "Nepal is home to Mount Everest.",
+            "The country has eight of the world’s ten tallest mountains.",
+            "Nepal was never colonised.",
+            "Hinduism and Buddhism coexist closely.",
+            "Kathmandu Valley hosts ancient temples.",
+            "Trekking tourism is a major industry.",
+            "Nepal transitioned from monarchy to republic.",
+            "Earthquakes pose ongoing risks.",
+            "Prayer flags dot mountain landscapes.",
+            "Sherpas are renowned high-altitude climbers."
+        ]
     },
     {
         "country": "Netherlands",
-        "facts": []
+        "facts": [
+            "About a quarter of the Netherlands lies below sea level.",
+            "The country built massive flood control systems.",
+            "Amsterdam has more bicycles than people.",
+            "Dutch artists include Rembrandt and Van Gogh.",
+            "Windmills were once industrial tools.",
+            "Tulips were historically traded like stocks.",
+            "The Netherlands is a major logistics hub.",
+            "Coffee shops sell cannabis legally.",
+            "Water management is a national obsession.",
+            "The country consistently ranks high for happiness."
+        ]
     },
     {
         "country": "New Caledonia",
-        "facts": []
+        "facts": [
+            "New Caledonia is a French territory in the Pacific.",
+            "Nickel mining dominates the economy.",
+            "The lagoon is one of the largest in the world.",
+            "Indigenous Kanak culture remains strong.",
+            "Several independence referendums have been held.",
+            "French is the official language.",
+            "Biodiversity rivals larger countries.",
+            "Coral reefs surround the main island.",
+            "European and Melanesian cultures mix.",
+            "The capital, Nouméa, feels distinctly French."
+        ]
     },
     {
         "country": "New Zealand",
-        "facts": []
+        "facts": [
+            "New Zealand was the first country to grant women voting rights.",
+            "The country has more sheep than people.",
+            "Middle-earth scenes were filmed here.",
+            "Kiwi is both a bird and a person.",
+            "Earthquakes shape the landscape.",
+            "Maori culture is central to identity.",
+            "Rugby is practically a religion.",
+            "New Zealand has no native land mammals.",
+            "Volcanoes remain active.",
+            "Isolation shaped unique wildlife."
+        ]
     },
     {
         "country": "Nicaragua",
-        "facts": []
+        "facts": [
+            "Nicaragua has both Pacific and Caribbean coastlines.",
+            "Lake Nicaragua contains freshwater sharks.",
+            "Colonial cities attract growing tourism.",
+            "Political tensions have affected stability.",
+            "Volcano boarding is a popular extreme sport.",
+            "Coffee and agriculture drive exports.",
+            "The country has numerous active volcanoes.",
+            "Spanish influence dominates architecture.",
+            "The capital relocated after earthquakes.",
+            "Nicaragua remains one of Central America’s poorest nations."
+        ]
     },
     {
         "country": "Niger",
-        "facts": []
+        "facts": [
+            "Niger is named after the Niger River.",
+            "Much of the country lies in the Sahara.",
+            "It is one of the world’s youngest populations.",
+            "Political instability remains common.",
+            "Uranium mining is economically significant.",
+            "Nomadic lifestyles persist.",
+            "Extreme heat defines daily life.",
+            "Food insecurity is widespread.",
+            "French influence remains visible.",
+            "Security challenges affect regional travel."
+        ]
     },
     {
         "country": "Nigeria",
-        "facts": []
+        "facts": [
+            "Nigeria is Africa’s most populous country.",
+            "Lagos is one of the world’s fastest-growing cities.",
+            "Nollywood produces more films than Hollywood.",
+            "Over 500 languages are spoken.",
+            "Oil dominates the economy.",
+            "Music stars like Burna Boy are globally famous.",
+            "The country has enormous cultural diversity.",
+            "Tech startups are booming.",
+            "Political power shifts regularly.",
+            "Football passion is intense."
+        ]
     },
     {
         "country": "Niue",
-        "facts": []
+        "facts": [
+            "Niue is one of the world’s largest coral islands.",
+            "The population is smaller than many schools.",
+            "Niueans are New Zealand citizens.",
+            "Tourism focuses on nature and diving.",
+            "Whales migrate close to shore.",
+            "The island has no traffic lights.",
+            "Community ties are extremely strong.",
+            "Internet access is surprisingly good.",
+            "Niue markets itself as eco-friendly.",
+            "Isolation defines daily life."
+        ]
     },
     {
         "country": "Norfolk Island",
-        "facts": []
+        "facts": [
+            "Norfolk Island is an Australian territory.",
+            "Descendants of the HMS Bounty mutineers live here.",
+            "A unique local language developed.",
+            "Tourism is the main industry.",
+            "Pine trees dominate the landscape.",
+            "The island has its own flag.",
+            "It once housed a brutal penal colony.",
+            "Isolation shapes culture.",
+            "The population is very small.",
+            "Governance changed in 2016."
+        ]
     },
     {
         "country": "North Korea",
-        "facts": []
+        "facts": [
+            "North Korea is one of the most isolated countries.",
+            "The government tightly controls information.",
+            "Kim dynasty rule spans generations.",
+            "Tourism exists but is heavily restricted.",
+            "Propaganda dominates public spaces.",
+            "The country tests ballistic missiles.",
+            "Internet access is extremely limited.",
+            "Defection stories draw global attention.",
+            "Military parades are massive spectacles.",
+            "Everyday life is largely hidden from outsiders."
+        ]
     },
     {
         "country": "North Macedonia",
-        "facts": []
+        "facts": [
+            "North Macedonia changed its name in 2019.",
+            "The name dispute delayed EU and NATO progress.",
+            "Lake Ohrid is one of Europe’s oldest lakes.",
+            "The country has rich Byzantine history.",
+            "Capital Skopje rebuilt after a major earthquake.",
+            "Statues dominate public squares.",
+            "Wine production is significant.",
+            "Ottoman influence remains visible.",
+            "Tourism is slowly growing.",
+            "Cultural identity blends many eras."
+        ]
     },
     {
         "country": "Northern Mariana Islands",
-        "facts": []
+        "facts": [
+            "The Northern Mariana Islands are a U.S. territory.",
+            "They sit in the Pacific Ocean near Guam.",
+            "The Mariana Trench lies nearby.",
+            "WWII history is visible across islands.",
+            "Tourism once focused on Japanese visitors.",
+            "Population has declined recently.",
+            "Coral reefs support diving.",
+            "U.S. citizenship applies.",
+            "Typhoons regularly affect the region.",
+            "Local culture blends Chamorro and Carolinian traditions."
+        ]
     },
     {
         "country": "Norway",
-        "facts": []
+        "facts": [
+            "Norway has some of the world’s longest fjords.",
+            "Oil wealth funds a massive sovereign wealth fund.",
+            "The country regularly tops quality-of-life rankings.",
+            "Northern lights attract winter tourists.",
+            "Norway consistently ranks high for happiness.",
+            "Vikings originated here.",
+            "Electric vehicles dominate new car sales.",
+            "The coastline is incredibly long.",
+            "Outdoor life is culturally essential.",
+            "Norway is not in the European Union."
+        ]
     },
     {
         "country": "Oman",
-        "facts": []
+        "facts": [
+            "Oman is one of the few Gulf countries that never fell under Ottoman rule, keeping a fiercely independent streak and a very distinct cultural identity.",
+            "Oman has fjord-like coastlines called khors, where desert mountains crash dramatically into turquoise seawater like nature had a flair moment.",
+            "Oman’s ruler, Sultan Qaboos, reigned for nearly 50 years and is widely credited with modernising the country from near isolation.",
+            "Frankincense trees native to Oman were once worth more than gold, fuelling ancient trade routes across Arabia, Africa, and the Mediterranean.",
+            "Unlike flashy neighbours, Oman banned skyscraper excess, keeping cities low-rise so mountains and mosques always dominate the skyline.",
+            "Oman is home to some of the oldest continuously inhabited settlements in the Arabian Peninsula, dating back over 5,000 years.",
+            "Omani khanjar daggers are worn ceremonially and even appear on the national flag, equal parts fashion statement and heritage flex.",
+            "Oman has wadis where rivers suddenly appear after rain, creating emerald pools in the middle of bone-dry desert landscapes.",
+            "Oman quietly mediates regional conflicts and has hosted secret diplomatic talks, earning a reputation as the Switzerland of the Gulf.",
+            "Oman has wild beaches where sea turtles nest freely, often completely empty, proving luxury does not always need resorts or crowds."
+        ]
     },
     {
         "country": "Pakistan",
-        "facts": []
+        "facts": [
+            "Pakistan has the second-highest mountain in the world, K2, which many climbers consider harder and deadlier than Everest.",
+            "Pakistan is home to one of the world’s oldest civilisations, the Indus Valley, which thrived more than 4,500 years ago.",
+            "Pakistan has glaciers outside the polar regions that rival entire European countries in size, especially in the Karakoram range.",
+            "The word ‘Pakistan’ was originally an acronym created by students, later becoming a nation with over 240 million people.",
+            "Pakistan produces some of the world’s finest hand-stitched footballs, including many used in international tournaments.",
+            "Pakistan has wildly diverse food cultures, from fiery Punjabi dishes to fragrant Sindhi biryanis and rich Pashtun grills.",
+            "Pakistan has a thriving truck art scene, turning everyday vehicles into rolling explosions of colour, poetry, and symbolism.",
+            "Pakistan has five major climate zones, meaning glaciers, deserts, jungles, and beaches all exist within one country.",
+            "Pakistan’s northern areas are so scenic that early tourists nicknamed them the ‘Switzerland of Asia’ long before Instagram.",
+            "Pakistan has a booming tech and startup scene, with cities like Lahore and Karachi producing globally competitive software talent."
+        ]
     },
     {
         "country": "Palau",
-        "facts": []
+        "facts": [
+            "Palau has a jellyfish lake filled with stingless jellyfish, where swimming feels surreal rather than terrifying.",
+            "Palau was the first country to require visitors to sign an eco-pledge stamped directly into their passport.",
+            "Palau’s underwater visibility is so clear that divers often feel like they are floating through air, not water.",
+            "Palau has more species of fish than the entire Mediterranean Sea, packed into a tiny island nation.",
+            "Palau once used giant stone discs called Rai stones as currency, some of which were never physically moved.",
+            "Palau’s population is smaller than many suburban neighbourhoods, yet its marine territory is absolutely massive.",
+            "Palau was part of several empires before independence, including Spain, Germany, Japan, and the United States.",
+            "Palau has strict fishing laws that turned the country into a global model for marine conservation.",
+            "Palau’s Rock Islands look like something from a fantasy film, rising mushroom-shaped straight out of the ocean.",
+            "Palau regularly tops lists of the world’s best diving destinations, beating countries thousands of times larger."
+        ]
     },
     {
         "country": "Palestine",
-        "facts": []
+        "facts": [
+            "Palestine contains some of the oldest continuously inhabited cities on Earth, including Jericho, dating back over 10,000 years.",
+            "Palestinian cuisine is famous for dishes like maqluba, literally flipped upside down before serving with dramatic flair.",
+            "Olive trees in Palestine are often hundreds or even thousands of years old and treated like treasured family members.",
+            "Palestine has been ruled by countless empires, leaving layers of Roman, Byzantine, Islamic, and Ottoman history.",
+            "Palestinian embroidery patterns can identify the wearer’s village, acting like wearable regional passports.",
+            "Palestinian poets and musicians are internationally recognised, using art as cultural resistance and storytelling.",
+            "The Dead Sea, bordering Palestine, is the lowest exposed land point on Earth and lets swimmers float effortlessly.",
+            "Palestinian soap from Nablus has been handmade using olive oil for nearly a thousand years.",
+            "Despite political constraints, Palestine has a vibrant café culture and thriving contemporary art scene.",
+            "Palestinian dabke dancing is performed at weddings and protests alike, blending joy, rhythm, and resilience."
+        ]
     },
     {
         "country": "Panama",
-        "facts": []
+        "facts": [
+            "Panama is the only place where you can watch the sun rise over the Pacific and set over the Atlantic.",
+            "The Panama Canal reshaped global trade and is still considered one of humanity’s greatest engineering achievements.",
+            "Panama City has a skyline that rivals major global capitals, sitting right next to colonial-era streets.",
+            "Panama hats are not from Panama originally, but the country made them famous worldwide.",
+            "Panama uses the US dollar alongside its own currency, meaning no exchange drama for many travellers.",
+            "Panama has more bird species than the entire United States and Canada combined.",
+            "Panama was once part of Colombia before a US-backed independence reshaped the region.",
+            "Panama’s rainforest stretches right into its capital city, making wildlife sightings oddly normal.",
+            "Panama’s canal expansion in 2016 allowed massive modern ships to pass through for the first time.",
+            "Panama is a cultural crossroads where Indigenous, African, European, and Asian influences mix loudly and proudly."
+        ]
     },
     {
         "country": "Papua New Guinea",
-        "facts": []
+        "facts": [
+            "Papua New Guinea has over 800 living languages, making it the most linguistically diverse country on Earth.",
+            "Many communities in Papua New Guinea had no outside contact until the twentieth century.",
+            "Papua New Guinea is one of the few places where traditional tribal dress is still worn daily.",
+            "The country has some of the world’s richest biodiversity, with species found nowhere else.",
+            "Papua New Guinea’s Highlands were unknown to Europeans until aerial surveys revealed vast populations.",
+            "Ceremonial sing-sing festivals showcase elaborate costumes, face paint, and hypnotic rhythms.",
+            "Papua New Guinea produces rare coffee beans prized by specialty roasters worldwide.",
+            "Dense jungles and rugged terrain make travel between towns extremely challenging even today.",
+            "The country played a major role in World War II, especially along the Kokoda Track.",
+            "Papua New Guinea’s cultural traditions vary dramatically from village to village."
+        ]
     },
     {
         "country": "Paraguay",
-        "facts": []
+        "facts": [
+            "Paraguay is one of the few officially bilingual countries, with Spanish and Guaraní spoken widely.",
+            "Guaraní, an Indigenous language, is used proudly across all social classes in Paraguay.",
+            "Paraguay has one of the world’s largest hydroelectric dams, shared with Brazil.",
+            "Paraguay is landlocked yet deeply connected to river trade through the Paraná and Paraguay rivers.",
+            "Paraguay avoided mass immigration, preserving a very distinct cultural identity.",
+            "Traditional Paraguayan harp music is instantly recognisable and emotionally intense.",
+            "Paraguay’s national drink, tereré, is iced yerba mate shared socially all day long.",
+            "Paraguay fought one of history’s most devastating wars in the nineteenth century.",
+            "Paraguay has vast wilderness areas with jaguars, tapirs, and giant anteaters.",
+            "Paraguay remains one of South America’s most underrated travel destinations."
+        ]
     },
     {
         "country": "Peru",
-        "facts": []
+        "facts": [
+            "Peru is home to Machu Picchu, which was unknown to the outside world until 1911.",
+            "Peru has more varieties of potatoes than anywhere else on Earth.",
+            "The Inca Empire built roads so advanced some are still used today.",
+            "Peru’s cuisine regularly ranks among the world’s best and most inventive.",
+            "Peru has deserts, rainforests, glaciers, and beaches all within its borders.",
+            "Peru’s Nazca Lines are massive ancient drawings only fully visible from the air.",
+            "Peru produces alpaca wool, prized for softness and warmth worldwide.",
+            "Lima was once the richest city in the Americas during Spanish rule.",
+            "Peru has over 40 Indigenous groups with distinct languages and traditions.",
+            "Peru’s ceviche is considered a national treasure, fiercely protected by locals."
+        ]
     },
     {
         "country": "Philippines",
-        "facts": []
+        "facts": [
+            "The Philippines has over 7,600 islands, many still unnamed and uninhabited.",
+            "Filipinos are among the world’s most active social media users.",
+            "The Philippines was ruled by Spain for over 300 years, shaping its culture deeply.",
+            "Jeepneys in the Philippines are colourful icons born from recycled US military vehicles.",
+            "The Philippines produces world-famous nurses, singers, and boxers.",
+            "Tagalog and English are both official languages, used interchangeably daily.",
+            "The Philippines is hit by dozens of typhoons each year and adapts resiliently.",
+            "Filipino karaoke culture is legendary and taken very seriously.",
+            "The Philippines has some of the world’s best coral reefs.",
+            "Filipino hospitality is so famous it borders on a national sport."
+        ]
     },
     {
         "country": "Pitcairn Islands",
-        "facts": []
+        "facts": [
+            "Pitcairn Islands has fewer than fifty residents, making it one of the smallest populations on Earth.",
+            "The island was settled by mutineers from the HMS Bounty and their Tahitian companions.",
+            "Pitcairn has no airport, and visitors must arrive by boat after days at sea.",
+            "Most residents are descendants of the original mutineers.",
+            "Pitcairn Islanders speak a unique mix of English and Tahitian.",
+            "The island has no shops, relying on supply ships for essentials.",
+            "Pitcairn is a British Overseas Territory despite being extremely remote.",
+            "Internet access arrived surprisingly late on the island.",
+            "The island’s rugged terrain makes even short walks challenging.",
+            "Pitcairn feels less like a country and more like a living historical footnote."
+        ]
     },
     {
         "country": "Poland",
-        "facts": []
+        "facts": [
+            "Poland rebuilt Warsaw almost entirely after World War II using paintings as blueprints.",
+            "Poland has one of Europe’s oldest universities, founded in 1364.",
+            "Pierogi are so beloved in Poland they inspire fierce regional loyalty.",
+            "Poland is the birthplace of Marie Curie, who won two Nobel Prizes.",
+            "Poland has ancient forests with wild European bison roaming freely.",
+            "Poland never officially surrendered during World War II.",
+            "Polish vodka traditions are regulated and deeply cultural.",
+            "Poland’s underground salt mines contain chapels carved entirely from salt.",
+            "Poland has a growing tech and gaming industry with global reach.",
+            "Polish cities balance medieval squares with bold modern architecture."
+        ]
     },
     {
         "country": "Portugal",
-        "facts": []
+        "facts": [
+            "Portugal is one of Europe’s oldest nations with nearly unchanged borders.",
+            "Portuguese explorers kickstarted the Age of Discovery and global trade routes.",
+            "Portugal has some of Europe’s best surfing beaches.",
+            "The Portuguese language is spoken by over 250 million people worldwide.",
+            "Lisbon is older than Rome, predating it by centuries.",
+            "Portugal popularised cork production, leading the global market today.",
+            "Fado music expresses deep emotional longing unique to Portuguese culture.",
+            "Portugal’s pastel de nata pastries inspire cult-like devotion.",
+            "Portuguese tiles, azulejos, decorate entire cities artistically.",
+            "Portugal consistently ranks among the world’s safest countries."
+        ]
     },
     {
         "country": "Puerto Rico",
-        "facts": []
+        "facts": [
+            "Puerto Rico is a US territory, yet its residents cannot vote in US presidential elections.",
+            "Puerto Rico has three bioluminescent bays that glow at night.",
+            "Puerto Ricans are US citizens by birth.",
+            "The island has its own Olympic team despite US ties.",
+            "Puerto Rico is the birthplace of reggaeton music.",
+            "Spanish and English are both official languages in Puerto Rico.",
+            "Puerto Rico has rainforests, beaches, and caves packed into one island.",
+            "The piña colada was invented in Puerto Rico.",
+            "Puerto Rican culture blends Taíno, African, and Spanish influences.",
+            "San Juan is one of the oldest European-founded cities in the Americas."
+        ]
     },
     {
         "country": "Qatar",
-        "facts": []
+        "facts": [
+            "Qatar hosted the 2022 FIFA World Cup, the first ever held in the Middle East.",
+            "Qatar has one of the highest GDPs per capita in the world.",
+            "Qatar transformed from a pearling economy into a global energy powerhouse.",
+            "Doha’s skyline appeared almost overnight thanks to massive investment.",
+            "Qatar owns the global news network Al Jazeera.",
+            "Qatar built entire stadiums with advanced cooling technology.",
+            "Qatar’s population is mostly expatriate workers from around the world.",
+            "Qatar Airlines is consistently ranked among the world’s best airlines.",
+            "Qatar has a world-class museum district designed by famous architects.",
+            "Qatar balances ultra-modern ambition with deeply conservative traditions."
+        ]
+    },
+    {
+        "country": "Oman",
+        "facts": [
+            "Oman is one of the few Gulf countries that never fell under Ottoman rule, keeping a fiercely independent streak and a very distinct cultural identity.",
+            "Oman has fjord-like coastlines called khors, where desert mountains crash dramatically into turquoise seawater like nature had a flair moment.",
+            "Oman’s ruler, Sultan Qaboos, reigned for nearly 50 years and is widely credited with modernising the country from near isolation.",
+            "Frankincense trees native to Oman were once worth more than gold, fuelling ancient trade routes across Arabia, Africa, and the Mediterranean.",
+            "Unlike flashy neighbours, Oman banned skyscraper excess, keeping cities low-rise so mountains and mosques always dominate the skyline.",
+            "Oman is home to some of the oldest continuously inhabited settlements in the Arabian Peninsula, dating back over 5,000 years.",
+            "Omani khanjar daggers are worn ceremonially and even appear on the national flag, equal parts fashion statement and heritage flex.",
+            "Oman has wadis where rivers suddenly appear after rain, creating emerald pools in the middle of bone-dry desert landscapes.",
+            "Oman quietly mediates regional conflicts and has hosted secret diplomatic talks, earning a reputation as the Switzerland of the Gulf.",
+            "Oman has wild beaches where sea turtles nest freely, often completely empty, proving luxury does not always need resorts or crowds."
+        ]
+    },
+    {
+        "country": "Pakistan",
+        "facts": [
+            "Pakistan has the second-highest mountain in the world, K2, which many climbers consider harder and deadlier than Everest.",
+            "Pakistan is home to one of the world’s oldest civilisations, the Indus Valley, which thrived more than 4,500 years ago.",
+            "Pakistan has glaciers outside the polar regions that rival entire European countries in size, especially in the Karakoram range.",
+            "The word ‘Pakistan’ was originally an acronym created by students, later becoming a nation with over 240 million people.",
+            "Pakistan produces some of the world’s finest hand-stitched footballs, including many used in international tournaments.",
+            "Pakistan has wildly diverse food cultures, from fiery Punjabi dishes to fragrant Sindhi biryanis and rich Pashtun grills.",
+            "Pakistan has a thriving truck art scene, turning everyday vehicles into rolling explosions of colour, poetry, and symbolism.",
+            "Pakistan has five major climate zones, meaning glaciers, deserts, jungles, and beaches all exist within one country.",
+            "Pakistan’s northern areas are so scenic that early tourists nicknamed them the ‘Switzerland of Asia’ long before Instagram.",
+            "Pakistan has a booming tech and startup scene, with cities like Lahore and Karachi producing globally competitive software talent."
+        ]
+    },
+    {
+        "country": "Palau",
+        "facts": [
+            "Palau has a jellyfish lake filled with stingless jellyfish, where swimming feels surreal rather than terrifying.",
+            "Palau was the first country to require visitors to sign an eco-pledge stamped directly into their passport.",
+            "Palau’s underwater visibility is so clear that divers often feel like they are floating through air, not water.",
+            "Palau has more species of fish than the entire Mediterranean Sea, packed into a tiny island nation.",
+            "Palau once used giant stone discs called Rai stones as currency, some of which were never physically moved.",
+            "Palau’s population is smaller than many suburban neighbourhoods, yet its marine territory is absolutely massive.",
+            "Palau was part of several empires before independence, including Spain, Germany, Japan, and the United States.",
+            "Palau has strict fishing laws that turned the country into a global model for marine conservation.",
+            "Palau’s Rock Islands look like something from a fantasy film, rising mushroom-shaped straight out of the ocean.",
+            "Palau regularly tops lists of the world’s best diving destinations, beating countries thousands of times larger."
+        ]
+    },
+    {
+        "country": "Palestine",
+        "facts": [
+            "Palestine contains some of the oldest continuously inhabited cities on Earth, including Jericho, dating back over 10,000 years.",
+            "Palestinian cuisine is famous for dishes like maqluba, literally flipped upside down before serving with dramatic flair.",
+            "Olive trees in Palestine are often hundreds or even thousands of years old and treated like treasured family members.",
+            "Palestine has been ruled by countless empires, leaving layers of Roman, Byzantine, Islamic, and Ottoman history.",
+            "Palestinian embroidery patterns can identify the wearer’s village, acting like wearable regional passports.",
+            "Palestinian poets and musicians are internationally recognised, using art as cultural resistance and storytelling.",
+            "The Dead Sea, bordering Palestine, is the lowest exposed land point on Earth and lets swimmers float effortlessly.",
+            "Palestinian soap from Nablus has been handmade using olive oil for nearly a thousand years.",
+            "Despite political constraints, Palestine has a vibrant café culture and thriving contemporary art scene.",
+            "Palestinian dabke dancing is performed at weddings and protests alike, blending joy, rhythm, and resilience."
+        ]
+    },
+    {
+        "country": "Panama",
+        "facts": [
+            "Panama is the only place where you can watch the sun rise over the Pacific and set over the Atlantic.",
+            "The Panama Canal reshaped global trade and is still considered one of humanity’s greatest engineering achievements.",
+            "Panama City has a skyline that rivals major global capitals, sitting right next to colonial-era streets.",
+            "Panama hats are not from Panama originally, but the country made them famous worldwide.",
+            "Panama uses the US dollar alongside its own currency, meaning no exchange drama for many travellers.",
+            "Panama has more bird species than the entire United States and Canada combined.",
+            "Panama was once part of Colombia before a US-backed independence reshaped the region.",
+            "Panama’s rainforest stretches right into its capital city, making wildlife sightings oddly normal.",
+            "Panama’s canal expansion in 2016 allowed massive modern ships to pass through for the first time.",
+            "Panama is a cultural crossroads where Indigenous, African, European, and Asian influences mix loudly and proudly."
+        ]
+    },
+    {
+        "country": "Papua New Guinea",
+        "facts": [
+            "Papua New Guinea has over 800 living languages, making it the most linguistically diverse country on Earth.",
+            "Many communities in Papua New Guinea had no outside contact until the twentieth century.",
+            "Papua New Guinea is one of the few places where traditional tribal dress is still worn daily.",
+            "The country has some of the world’s richest biodiversity, with species found nowhere else.",
+            "Papua New Guinea’s Highlands were unknown to Europeans until aerial surveys revealed vast populations.",
+            "Ceremonial sing-sing festivals showcase elaborate costumes, face paint, and hypnotic rhythms.",
+            "Papua New Guinea produces rare coffee beans prized by specialty roasters worldwide.",
+            "Dense jungles and rugged terrain make travel between towns extremely challenging even today.",
+            "The country played a major role in World War II, especially along the Kokoda Track.",
+            "Papua New Guinea’s cultural traditions vary dramatically from village to village."
+        ]
+    },
+    {
+        "country": "Paraguay",
+        "facts": [
+            "Paraguay is one of the few officially bilingual countries, with Spanish and Guaraní spoken widely.",
+            "Guaraní, an Indigenous language, is used proudly across all social classes in Paraguay.",
+            "Paraguay has one of the world’s largest hydroelectric dams, shared with Brazil.",
+            "Paraguay is landlocked yet deeply connected to river trade through the Paraná and Paraguay rivers.",
+            "Paraguay avoided mass immigration, preserving a very distinct cultural identity.",
+            "Traditional Paraguayan harp music is instantly recognisable and emotionally intense.",
+            "Paraguay’s national drink, tereré, is iced yerba mate shared socially all day long.",
+            "Paraguay fought one of history’s most devastating wars in the nineteenth century.",
+            "Paraguay has vast wilderness areas with jaguars, tapirs, and giant anteaters.",
+            "Paraguay remains one of South America’s most underrated travel destinations."
+        ]
+    },
+    {
+        "country": "Peru",
+        "facts": [
+            "Peru is home to Machu Picchu, which was unknown to the outside world until 1911.",
+            "Peru has more varieties of potatoes than anywhere else on Earth.",
+            "The Inca Empire built roads so advanced some are still used today.",
+            "Peru’s cuisine regularly ranks among the world’s best and most inventive.",
+            "Peru has deserts, rainforests, glaciers, and beaches all within its borders.",
+            "Peru’s Nazca Lines are massive ancient drawings only fully visible from the air.",
+            "Peru produces alpaca wool, prized for softness and warmth worldwide.",
+            "Lima was once the richest city in the Americas during Spanish rule.",
+            "Peru has over 40 Indigenous groups with distinct languages and traditions.",
+            "Peru’s ceviche is considered a national treasure, fiercely protected by locals."
+        ]
+    },
+    {
+        "country": "Philippines",
+        "facts": [
+            "The Philippines has over 7,600 islands, many still unnamed and uninhabited.",
+            "Filipinos are among the world’s most active social media users.",
+            "The Philippines was ruled by Spain for over 300 years, shaping its culture deeply.",
+            "Jeepneys in the Philippines are colourful icons born from recycled US military vehicles.",
+            "The Philippines produces world-famous nurses, singers, and boxers.",
+            "Tagalog and English are both official languages, used interchangeably daily.",
+            "The Philippines is hit by dozens of typhoons each year and adapts resiliently.",
+            "Filipino karaoke culture is legendary and taken very seriously.",
+            "The Philippines has some of the world’s best coral reefs.",
+            "Filipino hospitality is so famous it borders on a national sport."
+        ]
+    },
+    {
+        "country": "Pitcairn Islands",
+        "facts": [
+            "Pitcairn Islands has fewer than fifty residents, making it one of the smallest populations on Earth.",
+            "The island was settled by mutineers from the HMS Bounty and their Tahitian companions.",
+            "Pitcairn has no airport, and visitors must arrive by boat after days at sea.",
+            "Most residents are descendants of the original mutineers.",
+            "Pitcairn Islanders speak a unique mix of English and Tahitian.",
+            "The island has no shops, relying on supply ships for essentials.",
+            "Pitcairn is a British Overseas Territory despite being extremely remote.",
+            "Internet access arrived surprisingly late on the island.",
+            "The island’s rugged terrain makes even short walks challenging.",
+            "Pitcairn feels less like a country and more like a living historical footnote."
+        ]
+    },
+    {
+        "country": "Poland",
+        "facts": [
+            "Poland rebuilt Warsaw almost entirely after World War II using paintings as blueprints.",
+            "Poland has one of Europe’s oldest universities, founded in 1364.",
+            "Pierogi are so beloved in Poland they inspire fierce regional loyalty.",
+            "Poland is the birthplace of Marie Curie, who won two Nobel Prizes.",
+            "Poland has ancient forests with wild European bison roaming freely.",
+            "Poland never officially surrendered during World War II.",
+            "Polish vodka traditions are regulated and deeply cultural.",
+            "Poland’s underground salt mines contain chapels carved entirely from salt.",
+            "Poland has a growing tech and gaming industry with global reach.",
+            "Polish cities balance medieval squares with bold modern architecture."
+        ]
+    },
+    {
+        "country": "Portugal",
+        "facts": [
+            "Portugal is one of Europe’s oldest nations with nearly unchanged borders.",
+            "Portuguese explorers kickstarted the Age of Discovery and global trade routes.",
+            "Portugal has some of Europe’s best surfing beaches.",
+            "The Portuguese language is spoken by over 250 million people worldwide.",
+            "Lisbon is older than Rome, predating it by centuries.",
+            "Portugal popularised cork production, leading the global market today.",
+            "Fado music expresses deep emotional longing unique to Portuguese culture.",
+            "Portugal’s pastel de nata pastries inspire cult-like devotion.",
+            "Portuguese tiles, azulejos, decorate entire cities artistically.",
+            "Portugal consistently ranks among the world’s safest countries."
+        ]
+    },
+    {
+        "country": "Puerto Rico",
+        "facts": [
+            "Puerto Rico is a US territory, yet its residents cannot vote in US presidential elections.",
+            "Puerto Rico has three bioluminescent bays that glow at night.",
+            "Puerto Ricans are US citizens by birth.",
+            "The island has its own Olympic team despite US ties.",
+            "Puerto Rico is the birthplace of reggaeton music.",
+            "Spanish and English are both official languages in Puerto Rico.",
+            "Puerto Rico has rainforests, beaches, and caves packed into one island.",
+            "The piña colada was invented in Puerto Rico.",
+            "Puerto Rican culture blends Taíno, African, and Spanish influences.",
+            "San Juan is one of the oldest European-founded cities in the Americas."
+        ]
+    },
+    {
+        "country": "Qatar",
+        "facts": [
+            "Qatar hosted the 2022 FIFA World Cup, the first ever held in the Middle East.",
+            "Qatar has one of the highest GDPs per capita in the world.",
+            "Qatar transformed from a pearling economy into a global energy powerhouse.",
+            "Doha’s skyline appeared almost overnight thanks to massive investment.",
+            "Qatar owns the global news network Al Jazeera.",
+            "Qatar built entire stadiums with advanced cooling technology.",
+            "Qatar’s population is mostly expatriate workers from around the world.",
+            "Qatar Airlines is consistently ranked among the world’s best airlines.",
+            "Qatar has a world-class museum district designed by famous architects.",
+            "Qatar balances ultra-modern ambition with deeply conservative traditions."
+        ]
     },
     {
         "country": "Republic of the Congo",
-        "facts": []
+        "facts": [
+            "The Republic of the Congo is often confused with its larger neighbour, but Brazzaville sits directly across the river from Kinshasa, making them the closest capital cities on Earth.",
+            "Rainforests cover much of the Republic of the Congo, hosting forest elephants, gorillas, and some of Central Africa’s least disturbed wilderness areas.",
+            "Brazzaville was once the capital of Free France during World War II, briefly becoming the political heart of the French resistance.",
+            "Music in the Republic of the Congo helped shape soukous, one of Africa’s most danceable and influential music styles.",
+            "The Congo River provides transport, food, and identity, and locals say life here flows at the river’s patient pace.",
+            "Oil dominates the country’s economy, giving the Republic of the Congo one of the highest GDPs per capita in mainland Africa.",
+            "French is the official language, but Lingala fills the streets with rhythm, jokes, and lyrical insults.",
+            "The capital Brazzaville has striking modernist architecture left behind from its French colonial era.",
+            "Despite its size, the country plays an outsized role in Central African culture and music scenes.",
+            "Its flag colours are arranged diagonally, making it visually distinctive among African national flags."
+        ]
     },
     {
         "country": "Romania",
-        "facts": []
+        "facts": [
+            "Romania is home to Transylvania, a real region unfairly blamed for vampires but absolutely guilty of dramatic castles and misty mountains.",
+            "The Romanian language is Romance, making it linguistically closer to Italian than to its Slavic neighbours.",
+            "Bucharest was nicknamed “Little Paris” before communism added some extremely large concrete opinions.",
+            "Romania has one of Europe’s largest populations of brown bears, living mostly in the Carpathian Mountains.",
+            "The Palace of the Parliament in Bucharest is among the largest administrative buildings in the world.",
+            "Romanian gymnast Nadia Comăneci scored the first perfect 10 in Olympic history at age fourteen.",
+            "The country’s internet speeds are famously fast, even in smaller cities and rural areas.",
+            "Romania joined the European Union in 2007 and has since become a popular digital nomad destination.",
+            "Traditional Romanian villages preserve crafts, clothing, and rituals that feel frozen in time.",
+            "Despite stereotypes, Romanians are deeply proud of their culture, humour, and resilience."
+        ]
     },
     {
         "country": "Russia",
-        "facts": []
+        "facts": [
+            "Russia spans eleven time zones, meaning someone is always waking up, going to bed, or arguing with authority.",
+            "Lake Baikal in Russia contains about twenty percent of the world’s unfrozen freshwater.",
+            "Russia launched the first human into space when Yuri Gagarin orbited Earth in 1961.",
+            "Moscow’s metro stations were designed as underground palaces, complete with chandeliers and mosaics.",
+            "Russia is larger than Pluto by surface area, which feels unnecessary but impressive.",
+            "Chess culture runs deep, and grandmasters are treated like pop stars in intellectual circles.",
+            "The Trans-Siberian Railway crosses nearly the entire country, taking about a week without stopping.",
+            "Russian literature produced Tolstoy, Dostoevsky, and enough emotional devastation for several lifetimes.",
+            "Winters are legendary, but summers in parts of Russia can be surprisingly hot.",
+            "Despite politics, Russian art, music, and science have shaped global culture for centuries."
+        ]
     },
     {
         "country": "Rwanda",
-        "facts": []
+        "facts": [
+            "Rwanda is known as the Land of a Thousand Hills, with lush green landscapes in every direction.",
+            "Kigali is one of Africa’s cleanest cities, helped by a nationwide monthly community cleanup day.",
+            "Rwanda has banned plastic bags entirely, becoming an environmental leader in the region.",
+            "Mountain gorilla trekking is Rwanda’s most famous attraction and a major conservation success.",
+            "The country has one of the highest proportions of women in parliament worldwide.",
+            "Rwanda experienced devastating genocide in 1994 and has since rebuilt with striking speed.",
+            "Coffee from Rwanda is prized globally for its bright, complex flavours.",
+            "The population is young, tech-focused, and increasingly entrepreneurial.",
+            "Rwanda invests heavily in digital infrastructure and innovation.",
+            "Despite its tragic past, Rwanda projects confidence, order, and ambition."
+        ]
     },
     {
         "country": "Saint Barthélemy",
-        "facts": []
+        "facts": [
+            "Saint Barthélemy, often called St. Barts, is a favourite playground for billionaires and discreet celebrities.",
+            "The island was once Swedish, which explains the unusually Scandinavian street names.",
+            "Luxury yachts regularly outnumber cars during peak season.",
+            "French is the official language, but English is widely spoken in shops and beaches.",
+            "Its beaches are public by law, even if the villas nearby cost millions.",
+            "The island is tiny, yet packed with gourmet restaurants and designer boutiques.",
+            "Gustavia harbour becomes a floating fashion show during New Year’s celebrations.",
+            "Despite its glamour, St. Barts maintains a relaxed Caribbean pace.",
+            "It’s one of the wealthiest territories in the Caribbean.",
+            "The island blends French elegance with barefoot beach culture."
+        ]
     },
     {
         "country": "Saint Helena",
-        "facts": []
+        "facts": [
+            "Saint Helena is where Napoleon Bonaparte spent his final years in exile.",
+            "The island is so remote that it once required a five-day sea journey to reach.",
+            "It gained its first commercial airport only in 2017.",
+            "Saint Helena has unique plants found nowhere else on Earth.",
+            "The local coffee is among the rarest and most expensive globally.",
+            "Its population is smaller than many high schools.",
+            "The island is a British Overseas Territory in the South Atlantic.",
+            "Whale sharks visit its waters seasonally.",
+            "Life on Saint Helena moves at an exceptionally calm pace.",
+            "Isolation has shaped a strong, close-knit community."
+        ]
     },
     {
         "country": "Saint Kitts and Nevis",
-        "facts": []
+        "facts": [
+            "Saint Kitts and Nevis is the smallest sovereign country in the Western Hemisphere.",
+            "The islands were once dominated by sugar plantations and colonial rivalry.",
+            "A scenic railway circles Saint Kitts using former sugar transport tracks.",
+            "Nevis is said to be Alexander Hamilton’s birthplace.",
+            "Volcanic landscapes give the islands dramatic mountain backdrops.",
+            "The country offers citizenship by investment, attracting global interest.",
+            "Beaches range from black volcanic sand to bright white coral sand.",
+            "The capital Basseterre has colourful Caribbean architecture.",
+            "Carnival celebrations are a major cultural highlight.",
+            "Despite its size, the country has a big tourism presence."
+        ]
     },
     {
         "country": "Saint Lucia",
-        "facts": []
+        "facts": [
+            "Saint Lucia is famous for the Pitons, two dramatic volcanic spires rising from the sea.",
+            "The island is the only country named after a woman.",
+            "Its rainforests hide waterfalls, hot springs, and rare bird species.",
+            "Saint Lucia has produced two Nobel Prize winners.",
+            "The island’s cuisine blends African, French, and Caribbean influences.",
+            "Volcanic mud baths attract travellers seeking spa-style adventures.",
+            "Creole culture is proudly celebrated through music and festivals.",
+            "The island changes colonial hands between Britain and France fourteen times.",
+            "Beaches range from wild Atlantic coasts to calm Caribbean bays.",
+            "Saint Lucia balances luxury resorts with local village life."
+        ]
     },
     {
         "country": "Saint Martin",
-        "facts": []
+        "facts": [
+            "Saint Martin is shared by France and the Netherlands without a physical border.",
+            "It’s the smallest landmass divided between two nations.",
+            "Low-flying planes land dramatically over Maho Beach.",
+            "French pastries and Dutch nightlife coexist peacefully.",
+            "The island was once a salt-harvesting hub.",
+            "Multiple currencies are accepted casually across the island.",
+            "Hurricane Irma caused major damage in 2017, prompting massive rebuilding.",
+            "Tourism dominates the economy.",
+            "The island is multilingual and multicultural.",
+            "Despite division, locals move freely across the border."
+        ]
     },
     {
         "country": "Saint Pierre and Miquelon",
-        "facts": []
+        "facts": [
+            "Saint Pierre and Miquelon is the only remaining piece of France in North America.",
+            "It lies just off the coast of Newfoundland, Canada.",
+            "The islands use the euro despite being surrounded by dollars.",
+            "Fishing has defined local life for centuries.",
+            "Architecture feels distinctly French despite the rugged Atlantic setting.",
+            "Fog is a frequent visitor, shaping daily routines.",
+            "The population is under six thousand.",
+            "French laws and education apply fully.",
+            "The islands once played a role in alcohol smuggling during Prohibition.",
+            "Life here blends French bureaucracy with island isolation."
+        ]
     },
     {
         "country": "Saint Vincent and the Grenadines",
-        "facts": []
+        "facts": [
+            "Saint Vincent and the Grenadines consists of one main island and dozens of smaller ones.",
+            "The La Soufrière volcano erupted in 2021, reshaping parts of the island.",
+            "The Grenadines are a sailing paradise with turquoise waters.",
+            "Pirates of the Caribbean scenes were filmed here.",
+            "Vincentians are known for warm hospitality.",
+            "The islands balance agriculture, fishing, and tourism.",
+            "Black sand beaches reflect the volcanic origins.",
+            "Local music includes calypso and soca.",
+            "The country gained independence in 1979.",
+            "Despite natural challenges, the islands remain resilient."
+        ]
     },
     {
         "country": "Samoa",
-        "facts": []
+        "facts": [
+            "Samoa is considered the heart of Polynesian culture.",
+            "Traditional tattooing remains deeply meaningful and ceremonial.",
+            "The country famously shifted its position relative to the International Date Line.",
+            "Rugby is a national obsession.",
+            "Villages operate under strong communal traditions.",
+            "Waterfalls cascade directly into the ocean.",
+            "Samoan humour is bold and playful.",
+            "The islands are volcanic and lush.",
+            "Coconut products dominate local agriculture.",
+            "Family ties shape nearly every aspect of life."
+        ]
     },
     {
         "country": "San Marino",
-        "facts": []
+        "facts": [
+            "San Marino claims to be the world’s oldest republic, founded in 301 AD.",
+            "It is completely surrounded by Italy.",
+            "The country has more tourists than residents each year.",
+            "Its medieval towers crown Mount Titano.",
+            "San Marino has its own passports and stamps.",
+            "It avoided unification with Italy through diplomacy.",
+            "The capital feels like a living museum.",
+            "Despite size, it maintains full sovereignty.",
+            "It uses the euro without being in the EU.",
+            "San Marino thrives on tourism and pride."
+        ]
     },
     {
         "country": "Sao Tome and Principe",
-        "facts": []
+        "facts": [
+            "Sao Tome and Principe lies almost exactly on the equator.",
+            "It was once the world’s largest cocoa producer.",
+            "The islands have lush rainforests and dramatic peaks.",
+            "Portuguese is the official language.",
+            "Biodiversity is remarkably high for its size.",
+            "Tourism remains low-key and eco-focused.",
+            "The capital Sao Tome feels relaxed and colourful.",
+            "Cocoa remains central to culture and exports.",
+            "The country gained independence in 1975.",
+            "Life here moves at island speed."
+        ]
     },
     {
         "country": "Saudi Arabia",
-        "facts": []
+        "facts": [
+            "Saudi Arabia opened to international tourism only recently.",
+            "Mecca is Islam’s holiest city and a major pilgrimage destination.",
+            "The country is rapidly investing in futuristic megacities.",
+            "Oil wealth has shaped global politics for decades.",
+            "Deserts cover most of the landscape.",
+            "Women can now drive and attend sporting events.",
+            "Riyadh is growing at remarkable speed.",
+            "The Red Sea coast hosts vibrant coral reefs.",
+            "Ancient Nabatean ruins rival Petra.",
+            "Cultural transformation is happening fast."
+        ]
     },
     {
         "country": "Senegal",
-        "facts": []
+        "facts": [
+            "Senegal is famous for its vibrant music and dance scenes.",
+            "Dakar hosts the finish of the legendary Dakar Rally.",
+            "Wrestling is a national sport with celebrity athletes.",
+            "The country has a stable democratic tradition.",
+            "French is the official language, but Wolof dominates daily life.",
+            "Gorée Island tells powerful stories of the slave trade.",
+            "Fashion designers from Senegal gain global attention.",
+            "Fishing is central to coastal communities.",
+            "Hospitality is culturally prized.",
+            "Senegal blends tradition with modern creativity."
+        ]
     },
     {
         "country": "Serbia",
-        "facts": []
+        "facts": [
+            "Belgrade sits at the confluence of the Danube and Sava rivers.",
+            "Serbia is known for legendary nightlife and floating river clubs.",
+            "Nikola Tesla was born to Serbian parents.",
+            "Basketball success gives Serbia outsized sporting influence.",
+            "The country has rich Orthodox Christian traditions.",
+            "Historic fortresses dot the landscape.",
+            "Serbia produces award-winning rakija fruit brandy.",
+            "Its cuisine is hearty and meat-forward.",
+            "The capital has been rebuilt many times.",
+            "Serbia balances Balkan identity with European ambition."
+        ]
     },
     {
         "country": "Seychelles",
-        "facts": []
+        "facts": [
+            "Seychelles is made up of 115 islands in the Indian Ocean.",
+            "Some of the world’s oldest giant tortoises live here.",
+            "The beaches regularly rank among the planet’s best.",
+            "Granite boulders create surreal coastal scenery.",
+            "Tourism focuses heavily on conservation.",
+            "Creole culture blends African, European, and Asian influences.",
+            "The islands are politically stable.",
+            "Luxury resorts coexist with untouched nature.",
+            "Fishing remains culturally important.",
+            "Seychelles markets itself as barefoot luxury."
+        ]
     },
     {
         "country": "Sierra Leone",
-        "facts": []
+        "facts": [
+            "Sierra Leone’s capital has one of the world’s largest natural harbours.",
+            "The country is recovering from civil war and Ebola outbreaks.",
+            "White-sand beaches remain largely undiscovered.",
+            "Diamonds once fuelled conflict but now support development.",
+            "English is the official language.",
+            "Music and storytelling are central to culture.",
+            "Rainforests host rare wildlife.",
+            "The population is notably resilient.",
+            "Freetown was founded for freed slaves.",
+            "Optimism defines modern Sierra Leone."
+        ]
     },
     {
         "country": "Singapore",
-        "facts": []
+        "facts": [
+            "Singapore transformed from trading port to global powerhouse in one generation.",
+            "It consistently ranks among the cleanest cities worldwide.",
+            "Street food hawker centres hold Michelin stars.",
+            "The country has strict laws and incredible efficiency.",
+            "Four official languages coexist seamlessly.",
+            "Green spaces are built into urban design.",
+            "Changi Airport is frequently ranked best in the world.",
+            "Innovation drives national policy.",
+            "The skyline changes rapidly.",
+            "Singapore blends discipline with creativity."
+        ]
     },
     {
         "country": "Sint Maarten",
-        "facts": []
+        "facts": [
+            "Sint Maarten is the Dutch side of a divided Caribbean island.",
+            "Its airport runway sits directly beside the beach.",
+            "Dutch law governs casinos and nightlife.",
+            "Tourism is the economic backbone.",
+            "Multiple languages are spoken daily.",
+            "Cruise ships dominate the harbour.",
+            "The island uses both dollars and guilders.",
+            "Rebuilding followed Hurricane Irma.",
+            "Culture blends Caribbean and European influences.",
+            "Borders are crossed without checks."
+        ]
     },
     {
         "country": "Slovakia",
-        "facts": []
+        "facts": [
+            "Slovakia has more castles per capita than any other country.",
+            "Bratislava sits close to Vienna and Budapest.",
+            "The High Tatras mountains attract hikers and skiers.",
+            "Slovakia became independent in 1993.",
+            "Folk traditions remain strong.",
+            "The country produces notable cars.",
+            "Beer culture thrives alongside wine regions.",
+            "Nature covers much of the landscape.",
+            "Medieval towns remain well preserved.",
+            "Slovakia balances industry with heritage."
+        ]
     },
     {
         "country": "Slovenia",
-        "facts": []
+        "facts": [
+            "Slovenia connects the Alps, Mediterranean, and Balkans.",
+            "Lake Bled looks like a fairy tale illustration.",
+            "Ljubljana prioritises sustainability and cycling.",
+            "The country is heavily forested.",
+            "Wine culture is older than Rome.",
+            "Slovenia is small but geographically diverse.",
+            "Caves like Postojna attract millions.",
+            "It declared independence in 1991.",
+            "Outdoor sports are extremely popular.",
+            "Slovenia feels quietly confident."
+        ]
     },
     {
         "country": "Solomon Islands",
-        "facts": []
+        "facts": [
+            "The Solomon Islands played a key role in World War II battles.",
+            "Hundreds of languages are spoken across the islands.",
+            "Coral reefs attract divers worldwide.",
+            "Villages rely heavily on fishing.",
+            "The islands remain culturally traditional.",
+            "Infrastructure is limited outside cities.",
+            "Rainforests dominate inland areas.",
+            "Tourism remains small-scale.",
+            "The capital Honiara sits on Guadalcanal.",
+            "Community ties shape daily life."
+        ]
     },
     {
         "country": "Somalia",
-        "facts": []
+        "facts": [
+            "Somalia has the longest coastline in mainland Africa.",
+            "The country is rebuilding after decades of conflict.",
+            "Poetry is a deeply respected art form.",
+            "Somali cuisine blends African and Arab influences.",
+            "Entrepreneurship thrives despite instability.",
+            "Livestock exports are economically vital.",
+            "The population is young and resilient.",
+            "Mobile money use is widespread.",
+            "Cultural identity remains strong.",
+            "Hope continues to grow."
+        ]
     },
     {
         "country": "South Africa",
-        "facts": []
+        "facts": [
+            "South Africa has three capital cities with different functions.",
+            "It hosts one of the world’s richest fossil sites.",
+            "The country has eleven official languages.",
+            "Table Mountain dominates Cape Town’s skyline.",
+            "Wildlife safaris attract global visitors.",
+            "Nelson Mandela remains a national icon.",
+            "Wine regions rival Europe’s best.",
+            "Cultural diversity shapes daily life.",
+            "Rugby unites the nation.",
+            "Creativity flourishes amid challenges."
+        ]
     },
     {
         "country": "South Korea",
-        "facts": []
+        "facts": [
+            "South Korea rebuilt rapidly after the Korean War.",
+            "K-pop dominates global charts.",
+            "The country leads in internet speed.",
+            "Street food culture is wildly popular.",
+            "Gaming is considered a legitimate career.",
+            "Technology brands shape everyday life.",
+            "Education is fiercely competitive.",
+            "Traditional palaces sit beside skyscrapers.",
+            "Cinema enjoys international acclaim.",
+            "Trends often start here."
+        ]
     },
     {
         "country": "South Sudan",
-        "facts": []
+        "facts": [
+            "South Sudan became the world’s newest country in 2011.",
+            "The Nile River shapes much of its geography.",
+            "The country faces major humanitarian challenges.",
+            "Oil dominates the economy.",
+            "Cattle hold cultural importance.",
+            "Many communities remain pastoral.",
+            "Infrastructure is extremely limited.",
+            "Conflict has disrupted development.",
+            "Resilience defines daily life.",
+            "Peace efforts continue."
+        ]
     },
     {
         "country": "Spain",
-        "facts": []
+        "facts": [
+            "Spain has more bars per capita than most countries.",
+            "It’s home to world-famous football clubs.",
+            "Regional identities strongly influence culture.",
+            "Spanish cuisine varies dramatically by region.",
+            "Flamenco originated in Andalusia.",
+            "The country produces global art icons.",
+            "Siestas are fading in cities.",
+            "Spain hosts major festivals yearly.",
+            "High-speed rail links major cities.",
+            "Life emphasises social connection."
+        ]
     },
     {
         "country": "Sri Lanka",
-        "facts": []
+        "facts": [
+            "Sri Lanka was once called Ceylon.",
+            "The island produces world-renowned tea.",
+            "Ancient cities date back thousands of years.",
+            "Wild elephants roam protected areas.",
+            "Surfing attracts international travellers.",
+            "Spices shape local cuisine.",
+            "Buddhist heritage influences culture.",
+            "The island recovered from civil war.",
+            "Train journeys are famously scenic.",
+            "Nature dominates much of the landscape."
+        ]
     },
     {
         "country": "Sudan",
-        "facts": []
+        "facts": [
+            "Sudan has more pyramids than Egypt.",
+            "Ancient Nubian kingdoms flourished here.",
+            "The Nile splits into two branches.",
+            "Political instability has shaped modern history.",
+            "Sudan spans deserts and savannas.",
+            "Cultural identity blends Arab and African influences.",
+            "Music and poetry remain central.",
+            "Agriculture employs much of the population.",
+            "Historic trade routes crossed the region.",
+            "Change remains ongoing."
+        ]
     },
     {
         "country": "Suriname",
-        "facts": []
+        "facts": [
+            "Suriname is one of South America’s most forested countries.",
+            "Dutch is the official language.",
+            "Cultural diversity is unusually high.",
+            "Rainforests dominate the interior.",
+            "Paramaribo features colonial wooden architecture.",
+            "The population includes African, Asian, and Indigenous roots.",
+            "Cuisine reflects multicultural history.",
+            "Gold mining contributes to the economy.",
+            "Ecotourism is growing.",
+            "Suriname feels quietly unique."
+        ]
     },
     {
         "country": "Sweden",
-        "facts": []
+        "facts": [
+            "Sweden pioneered flat-pack furniture culture.",
+            "The country consistently ranks high for happiness.",
+            "Parental leave policies are generous.",
+            "Music exports include global pop stars.",
+            "Nature access is legally protected.",
+            "Winters bring dramatic darkness.",
+            "Design prioritises simplicity.",
+            "Innovation drives industry.",
+            "Public trust is high.",
+            "Sweden balances comfort and efficiency."
+        ]
     },
     {
         "country": "Switzerland",
-        "facts": []
+        "facts": [
+            "Switzerland has four national languages.",
+            "The country is famous for neutrality.",
+            "Swiss trains run with remarkable punctuality.",
+            "Alps dominate much of the landscape.",
+            "Chocolate and watches fuel stereotypes.",
+            "Banking shaped global finance.",
+            "Direct democracy empowers citizens.",
+            "Cities consistently rank highly for quality of life.",
+            "Hiking is practically sacred.",
+            "Precision defines national identity."
+        ]
     },
     {
         "country": "Syria",
-        "facts": []
+        "facts": [
+            "Syria is one of the world’s oldest inhabited regions.",
+            "Damascus claims to be the oldest capital city.",
+            "Civil war devastated much of the country.",
+            "Ancient ruins remain culturally significant.",
+            "Syrian cuisine is widely loved.",
+            "The population has dispersed globally.",
+            "Cultural heritage spans millennia.",
+            "Trade routes once crossed here.",
+            "Reconstruction faces enormous challenges.",
+            "History weighs heavily."
+        ]
     },
     {
         "country": "Taiwan",
-        "facts": []
+        "facts": [
+            "Taiwan produces over 60 percent of the world’s advanced computer chips, meaning your phone, car, and toaster quietly depend on this island.",
+            "Bubble tea was invented in Taiwan in the 1980s, accidentally turning chewy tapioca balls into a global personality trait.",
+            "Taiwanese night markets are so intense that people plan entire holidays around eating one snack every ten metres.",
+            "Taiwan has more convenience stores per person than almost anywhere else, many offering hot meals, bill payments, and parcel pickup.",
+            "Taiwan’s garbage trucks play classical music, so residents run outside with trash bags like it’s an ice-cream van.",
+            "Taiwan legalised same-sex marriage in 2019, becoming the first place in Asia to do so.",
+            "Taiwanese temples often sit between apartment blocks and shops, blending incense smoke with bubble tea and scooter traffic.",
+            "Taiwan has mountains taller than 3,000 metres despite being smaller than many European regions.",
+            "Taiwanese scooters outnumber people, creating traffic scenes that feel choreographed, loud, and somehow still polite.",
+            "Taiwan consistently ranks as one of the safest places in the world, even at night in busy cities."
+        ]
     },
     {
         "country": "Tajikistan",
-        "facts": []
+        "facts": [
+            "Over 90 percent of Tajikistan is mountainous, earning it the nickname “the roof of the world.”",
+            "The Pamir Highway in Tajikistan is one of the highest paved roads on Earth and casually terrifies cyclists.",
+            "Tajikistan shares cultural roots with Persia, and Tajik is closely related to modern Persian.",
+            "Traditional Tajik weddings can last several days and involve entire neighbourhoods, not just guests.",
+            "Tajikistan has massive glaciers that feed rivers supplying water to much of Central Asia.",
+            "The capital Dushanbe was once a Monday market town, which is literally what its name means.",
+            "Tea is served everywhere in Tajikistan, often before questions, greetings, or explanations.",
+            "Tajikistan has one of the world’s tallest flagpoles, because subtlety is optional.",
+            "Many Tajik villages still rely on ancient irrigation channels carved into mountain slopes.",
+            "Hospitality in Tajikistan is so strong that refusing food can be considered suspicious."
+        ]
     },
     {
         "country": "Tanzania",
-        "facts": []
+        "facts": [
+            "Mount Kilimanjaro, Africa’s tallest mountain, rises directly from flat plains like a geological flex.",
+            "Tanzania is home to the Serengeti migration, where millions of animals casually ignore international borders.",
+            "Swahili, spoken across East Africa, developed partly along Tanzania’s historic trade coast.",
+            "Zanzibar was once a global centre of spice trading and smells like history and cloves.",
+            "Tanzania has more than 120 ethnic groups, making cultural variety the default setting.",
+            "The country contains Africa’s largest lake, Lake Victoria, shared with two neighbours.",
+            "Freddie Mercury was born in Zanzibar, long before stadiums and moustaches entered the chat.",
+            "Tanzania’s national parks cover roughly a third of the country’s land area.",
+            "Stone Town’s winding alleys were designed to confuse invaders and delight tourists.",
+            "Wildlife safaris in Tanzania helped define how the world imagines Africa."
+        ]
     },
     {
         "country": "Thailand",
-        "facts": []
+        "facts": [
+            "Thailand was never colonised by a European power, making it a historical outlier in Southeast Asia.",
+            "Bangkok’s ceremonial name is so long it holds a Guinness World Record.",
+            "Street food in Thailand is so good that fine-dining chefs openly copy it.",
+            "Thailand has festivals involving water fights so intense they shut down entire cities.",
+            "Thai massage was originally developed by monks and doubles as assisted yoga.",
+            "The country has strict laws protecting the monarchy, including on money and stamps.",
+            "Thailand’s beaches range from party chaos to silent limestone-cliff serenity.",
+            "Thai cuisine balances sweet, salty, spicy, and sour like it’s showing off.",
+            "Elephants are deeply symbolic in Thailand and appear throughout art and folklore.",
+            "Thailand exports pop culture globally through films, fashion, and viral food trends."
+        ]
     },
     {
         "country": "The Bahamas",
-        "facts": []
+        "facts": [
+            "The Bahamas has over 700 islands, most of which are completely uninhabited.",
+            "Swimming pigs made the Bahamas internet-famous, and nobody fully agrees how they got there.",
+            "The water in the Bahamas is so clear that boats appear to float in mid-air.",
+            "Pirates once ruled parts of the Bahamas, including the infamous Blackbeard.",
+            "The Bahamas was the first place Columbus landed in the Americas.",
+            "Some Bahamian beaches have naturally pink sand made from crushed coral organisms.",
+            "Junkanoo festivals combine drumming, costumes, and competitive joy at extreme volume.",
+            "The Bahamas has underwater caves called blue holes that fascinate divers and scientists.",
+            "Conch is a national obsession and appears in salads, fritters, and arguments.",
+            "The country sits on a massive limestone platform under shallow tropical seas."
+        ]
     },
     {
         "country": "Togo",
-        "facts": []
+        "facts": [
+            "Togo is one of Africa’s narrowest countries but packs beaches, forests, and savannah into its width.",
+            "Lomé’s main market sells everything from spices to ceremonial masks.",
+            "Togo was once split between German, British, and French control.",
+            "Traditional drumming in Togo is used to communicate stories, not just rhythm.",
+            "Togo has palm-lined beaches that feel oddly undiscovered.",
+            "The country is a major producer of phosphates used in fertilisers worldwide.",
+            "Togolese wrestling is a celebrated cultural sport with deep roots.",
+            "Voodoo traditions remain an important part of local culture and ceremonies.",
+            "Togo’s landscapes change dramatically within short travel distances.",
+            "Handwoven cloth from Togo carries symbolic patterns tied to identity."
+        ]
     },
     {
         "country": "Tonga",
-        "facts": []
+        "facts": [
+            "Tonga is the only Pacific nation that was never fully colonised.",
+            "The king of Tonga once weighed over 200 kilograms and became a global headline.",
+            "Tonga sits near one of Earth’s deepest ocean trenches.",
+            "Rugby is practically a religion in Tonga, and many players dominate international leagues.",
+            "Sunday in Tonga is taken extremely seriously, with near-total shutdown.",
+            "The 2022 volcanic eruption near Tonga was visible from space.",
+            "Tongan culture emphasises respect, hierarchy, and family obligations.",
+            "Traditional mats are prized possessions passed down generations.",
+            "Tonga has a constitutional monarchy that still wields real power.",
+            "Many Tongans live abroad but maintain strong ties home."
+        ]
     },
     {
         "country": "Trinidad and Tobago",
-        "facts": []
+        "facts": [
+            "Trinidad and Tobago is the birthplace of steelpan music, invented from oil drums.",
+            "Carnival in Trinidad is a full-body, full-week cultural explosion.",
+            "The country has some of the world’s richest oil and gas reserves per capita.",
+            "Trinidad hosts one of the largest Hindu festivals outside India.",
+            "Calypso music evolved as social commentary disguised as dance tunes.",
+            "Tobago feels quieter and greener than its louder sibling island.",
+            "The national dish, doubles, is legendary street food.",
+            "The country’s accent shifts noticeably every few kilometres.",
+            "Trinidad is one of the most culturally mixed places in the Caribbean.",
+            "Birdwatchers flock here for rare species in compact rainforests."
+        ]
     },
     {
         "country": "Tunisia",
-        "facts": []
+        "facts": [
+            "Ancient Carthage once rivalled Rome and nearly won.",
+            "Tunisia contains some of the best-preserved Roman ruins anywhere.",
+            "Parts of Star Wars were filmed in Tunisia’s deserts.",
+            "Couscous is taken extremely seriously and varies by region.",
+            "The Arab Spring began in Tunisia in 2010.",
+            "Tunisia has Mediterranean beaches and Sahara dunes in one country.",
+            "Traditional blue-and-white architecture defines coastal towns.",
+            "Olive oil is a major export with ancient roots.",
+            "Tunisia blends Arab, Berber, and Mediterranean influences.",
+            "The capital Tunis sits beside 2,000-year-old ruins."
+        ]
     },
     {
         "country": "Turkey",
-        "facts": []
+        "facts": [
+            "Istanbul sits on two continents and refuses to pick a favourite.",
+            "Turkey is the birthplace of Santa Claus, historically speaking.",
+            "Turkish coffee fortune-telling remains culturally popular.",
+            "Göbekli Tepe may be the world’s oldest known temple.",
+            "Cats are treated like respected citizens in Turkish cities.",
+            "Turkey produces more hazelnuts than any other country.",
+            "Turkish baths were originally social hubs, not just steamy rooms.",
+            "The Turkish language was radically reformed in the 1920s.",
+            "Baklava sparks fierce regional loyalty debates.",
+            "Turkey bridges ancient history with modern megacities effortlessly."
+        ]
     },
     {
         "country": "Turkmenistan",
-        "facts": []
+        "facts": [
+            "Turkmenistan has a burning gas crater nicknamed the “Door to Hell.”",
+            "Ashgabat is filled with white marble buildings and very few people.",
+            "The country has strict internet controls and limited tourism.",
+            "Turkmen carpets are nationally treasured and appear on the flag.",
+            "Horse culture is deeply symbolic and celebrated annually.",
+            "The capital holds multiple Guinness World Records.",
+            "Many streets appear eerily empty by design.",
+            "Traditional dress remains common in daily life.",
+            "The desert covers most of the country.",
+            "Turkmenistan operates with intense state symbolism."
+        ]
     },
     {
         "country": "Turks and Caicos Islands",
-        "facts": []
+        "facts": [
+            "Turks and Caicos is famous for blindingly white sand beaches.",
+            "The islands sit on a massive coral reef system.",
+            "Conch shells appear everywhere, including road signs.",
+            "Tourism dominates the economy despite small population.",
+            "The islands were once salt-harvesting centres.",
+            "Luxury resorts coexist with quiet local villages.",
+            "The water is consistently warm and clear year-round.",
+            "The islands are a British Overseas Territory.",
+            "Marine life thrives due to protected waters.",
+            "Humpback whales migrate past annually."
+        ]
     },
     {
         "country": "Tuvalu",
-        "facts": []
+        "facts": [
+            "Tuvalu is one of the world’s smallest and lowest countries.",
+            "Its internet domain .tv generates significant national income.",
+            "Rising sea levels threaten Tuvalu’s long-term survival.",
+            "There are no rivers, only rainwater collection.",
+            "Planes land just a few times per week.",
+            "The runway doubles as a community gathering space.",
+            "Traditional dancing remains central to celebrations.",
+            "Fishing provides much of the food supply.",
+            "Tuvalu has fewer than 12,000 residents.",
+            "Climate change diplomacy is a national priority."
+        ]
     },
     {
         "country": "U.S. Virgin Islands",
-        "facts": []
+        "facts": [
+            "The U.S. Virgin Islands were purchased from Denmark in 1917.",
+            "Cars drive on the left despite American governance.",
+            "The islands have some of the Caribbean’s clearest waters.",
+            "English is spoken with Caribbean flair.",
+            "St. John is mostly protected national parkland.",
+            "Pirate history still shapes local folklore.",
+            "Tourism is the primary economic engine.",
+            "Beaches often rank among global best lists.",
+            "Danish architecture remains visible.",
+            "Snorkelling requires minimal effort here."
+        ]
     },
     {
         "country": "Uganda",
-        "facts": []
+        "facts": [
+            "Uganda is one of the few places to see wild mountain gorillas.",
+            "The Nile River begins its journey here.",
+            "Uganda was once called the “Pearl of Africa.”",
+            "The country has over 50 indigenous languages.",
+            "Music and dance are central to celebrations.",
+            "Uganda has extremely fertile farmland.",
+            "The equator crosses the country.",
+            "Traditional kingdoms still exist culturally.",
+            "Street food includes roasted grasshoppers.",
+            "Wildlife diversity is exceptional."
+        ]
     },
     {
         "country": "Ukraine",
-        "facts": []
+        "facts": [
+            "Ukraine is the largest country entirely within Europe.",
+            "Kyiv is over 1,500 years old.",
+            "Ukraine has some of the world’s richest farmland.",
+            "Traditional embroidery carries symbolic meanings.",
+            "Sunflowers became a national symbol.",
+            "Ukraine’s tech sector grew rapidly before the war.",
+            "The Chernobyl Exclusion Zone now hosts wildlife.",
+            "Ukrainian cuisine centres on hearty comfort foods.",
+            "Folk music uses distinctive vocal styles.",
+            "Modern identity strengthened through resistance."
+        ]
     },
     {
         "country": "United Arab Emirates",
-        "facts": []
+        "facts": [
+            "The UAE transformed from fishing villages into megacities within decades.",
+            "Dubai’s skyline changes faster than most people update phones.",
+            "The Burj Khalifa is the world’s tallest building.",
+            "Camels still feature in racing and cuisine.",
+            "The country has seven emirates with different rulers.",
+            "Artificial islands reshape the coastline.",
+            "Luxury malls include indoor ski slopes.",
+            "Oil wealth funded rapid infrastructure growth.",
+            "Global aviation hubs connect continents.",
+            "Cultural heritage is carefully curated."
+        ]
     },
     {
         "country": "United Kingdom",
-        "facts": []
+        "facts": [
+            "The UK has invaded or occupied most countries at some point.",
+            "London hosts over 300 spoken languages.",
+            "The monarchy is one of the world’s oldest institutions.",
+            "British humour thrives on understatement.",
+            "The UK invented football, cricket, and queueing.",
+            "Weather complaints are a national pastime.",
+            "Stone circles predate written history.",
+            "Tea consumption borders on ritual.",
+            "The Underground opened in 1863.",
+            "Pop culture exports are globally dominant."
+        ]
     },
     {
         "country": "United States of America",
-        "facts": []
+        "facts": [
+            "The USA spans six time zones and multiple climates.",
+            "Hollywood shaped global film storytelling.",
+            "The country has no official national language.",
+            "NASA put humans on the Moon.",
+            "National parks protect vast wilderness.",
+            "Jazz, blues, and hip-hop originated here.",
+            "The interstate highway system reshaped travel.",
+            "Fast food became cultural shorthand.",
+            "Tech giants dominate global platforms.",
+            "Regional accents vary dramatically."
+        ]
     },
     {
         "country": "Uruguay",
-        "facts": []
+        "facts": [
+            "Uruguay legalised cannabis nationwide in 2013.",
+            "Beef consumption per person is among the world’s highest.",
+            "Montevideo has one of the longest waterfront promenades.",
+            "Uruguay consistently ranks high for democracy.",
+            "Football success far outweighs population size.",
+            "Mate tea is a social ritual.",
+            "Carnival lasts longer than anywhere else.",
+            "The country abolished the death penalty early.",
+            "European immigration shaped culture.",
+            "Coastal towns blend calm and charm."
+        ]
     },
     {
         "country": "Uzbekistan",
-        "facts": []
+        "facts": [
+            "Uzbekistan sat at the heart of the Silk Road.",
+            "Samarkand’s architecture looks unreal in person.",
+            "Blue-tiled mosques dominate historic cities.",
+            "Bread is sacred and never placed upside-down.",
+            "Plov rice dishes vary by region.",
+            "The Aral Sea disaster reshaped landscapes.",
+            "Traditional markets remain vibrant.",
+            "Craftsmanship is highly valued.",
+            "Soviet history left visible traces.",
+            "Tourism is rapidly growing."
+        ]
     },
     {
         "country": "Vanuatu",
-        "facts": []
+        "facts": [
+            "Vanuatu is one of the most linguistically dense places on Earth, with over 100 languages spoken across a population smaller than many suburban shopping centres.",
+            "Mount Yasur in Vanuatu is one of the world’s most accessible active volcanoes, casually erupting while tourists stand nearby taking photos like it’s a fireworks show.",
+            "Vanuatu regularly ranks among the happiest countries, despite limited infrastructure, proving joy does not require shopping malls, Amazon Prime, or fast internet.",
+            "Land diving in Vanuatu, where men leap from tall wooden towers with vines tied to their ankles, inspired modern bungee jumping.",
+            "Vanuatu has no standing army, relying instead on police and community systems, making it one of the world’s most militarily chill nations.",
+            "The country sits on the Pacific Ring of Fire, meaning earthquakes, volcanoes, and cyclones are just part of the local character.",
+            "Vanuatu once tried to create its own cryptocurrency nation-state experiment, because why not flirt with digital chaos?",
+            "Villages in Vanuatu often rely on barter systems, where fish, yams, and favours still outperform cash.",
+            "Vanuatu was jointly governed by Britain and France until 1980, creating a famously confusing colonial arrangement called the Condominium.",
+            "Traditional chiefs in Vanuatu still hold serious authority, blending ancient customs with modern governance in ways that actually function."
+        ]
     },
     {
         "country": "Vatican",
-        "facts": []
+        "facts": [
+            "Vatican City is the smallest country in the world, with a population that could comfortably fit into a medium-sized wedding reception.",
+            "The Vatican has its own postal system, which is so efficient Romans sometimes mail letters there just to avoid Italian post delays.",
+            "Vatican City technically has the world’s highest crime rate per capita, mostly involving petty theft by visiting tourists.",
+            "The entire country is a UNESCO World Heritage Site, which feels excessive until you see the ceilings.",
+            "Vatican residents receive free healthcare and housing, which might be the most enviable micro-state benefit package ever.",
+            "Latin is still an official language of the Vatican, proving some institutions really do refuse to let go.",
+            "The Vatican operates its own observatory, because even God’s house likes to keep an eye on the cosmos.",
+            "There are no permanent children living in Vatican City, making it the quietest playground-free nation on Earth.",
+            "Swiss Guards have been protecting the Vatican since 1506, wearing outfits that look theatrical but hide very real weapons.",
+            "Vatican City has an ATM that offers instructions in Latin, because commitment to branding matters."
+        ]
     },
     {
         "country": "Venezuela",
-        "facts": []
+        "facts": [
+            "Venezuela is home to Angel Falls, the world’s tallest waterfall, which drops so far the water often turns into mist before landing.",
+            "The country once had the largest proven oil reserves on Earth, a fact that makes its current economic struggles especially tragic.",
+            "Venezuela’s beauty pageant culture is legendary, with training schools dedicated entirely to producing Miss Universe winners.",
+            "Lightning strikes over Lake Maracaibo occur so frequently they were once used by sailors as a natural navigation beacon.",
+            "Venezuela’s currency became so inflated people used banknotes to make wallets, crafts, and novelty handbags.",
+            "Arepas in Venezuela are eaten at all hours, stuffed with everything from cheese to shredded beef to pure emotional comfort.",
+            "The country has experienced one of the largest migration waves in modern Latin American history.",
+            "Venezuela spans Caribbean beaches, Andes mountains, rainforests, and plains, making it geographically overachieving.",
+            "Simón Bolívar, one of South America’s most important independence figures, was born in what is now Venezuela.",
+            "Despite decades of turmoil, Venezuelan music, humour, and dance culture remain fiercely alive."
+        ]
     },
     {
         "country": "Vietnam",
-        "facts": []
+        "facts": [
+            "Vietnam is the world’s second-largest coffee producer, and its strong iced coffee with condensed milk is basically liquid courage.",
+            "Motorbikes dominate Vietnamese cities so thoroughly that crossing the street feels like a strategic negotiation exercise.",
+            "Vietnamese cuisine balances sweet, salty, sour, and spicy with surgical precision, especially in dishes like pho and bun cha.",
+            "The country has one of the fastest-growing tech sectors in Southeast Asia.",
+            "Vietnam stretches over 1,600 kilometres, meaning the climate in the north and south can feel like different countries.",
+            "Halong Bay features thousands of limestone islands rising dramatically from the sea, looking suspiciously unreal.",
+            "Vietnam’s national obsession with karaoke is loud, joyful, and utterly unavoidable.",
+            "The ao dai, Vietnam’s traditional dress, manages to be elegant, practical, and iconic all at once.",
+            "Vietnam’s history includes centuries of resisting larger powers, which strongly shaped its national identity.",
+            "Street food in Vietnam is so good it has ruined many travellers for restaurant dining elsewhere."
+        ]
     },
     {
         "country": "Wallis and Futuna",
-        "facts": []
+        "facts": [
+            "Wallis and Futuna is a French territory in the Pacific that feels more Polynesian than European, baguettes notwithstanding.",
+            "The islands are ruled by three traditional kings who coexist with French administrative structures.",
+            "Most of Wallis and Futuna’s population lives abroad, mainly in New Caledonia and mainland France.",
+            "The territory has no large hotels, no resorts, and very little tourism by design.",
+            "Catholicism is deeply woven into daily life, with churches serving as community centres.",
+            "Fishing and subsistence farming remain central to everyday survival on the islands.",
+            "Flights to Wallis and Futuna are limited, expensive, and require commitment bordering on spiritual pilgrimage.",
+            "The islands use the CFP franc, not the euro, because Pacific logic.",
+            "Traditional ceremonies are elaborate, symbolic, and involve impressive quantities of food.",
+            "Wallis and Futuna is one of the least visited places on Earth, which is exactly how locals prefer it."
+        ]
     },
     {
         "country": "Western Sahara",
-        "facts": []
+        "facts": [
+            "Western Sahara is one of the world’s last unresolved decolonisation cases, with its political status still disputed decades later.",
+            "Much of Western Sahara is covered by the Sahara Desert, making it one of the most sparsely populated regions on Earth.",
+            "The Sahrawi people maintain a strong nomadic cultural identity despite displacement and political uncertainty.",
+            "Large refugee camps exist outside the territory, housing Sahrawis who have lived in exile for generations.",
+            "Western Sahara has significant phosphate reserves, which play a role in its geopolitical tension.",
+            "Camel herding remains culturally important, even as modern borders complicate traditional movement.",
+            "The coastline of Western Sahara is rich in fish, attracting foreign fishing interests.",
+            "The territory has no widely recognised capital city.",
+            "Temperatures regularly reach extremes that discourage anything resembling casual outdoor activity.",
+            "Western Sahara appears in very few travel itineraries, mostly for reasons involving politics rather than scenery."
+        ]
     },
     {
         "country": "Yemen",
-        "facts": []
+        "facts": [
+            "Yemen is home to some of the oldest skyscraper-like buildings in the world, particularly in the city of Shibam.",
+            "The country was once known as Arabia Felix, meaning Fortunate Arabia, due to its historical wealth from trade.",
+            "Yemeni coffee culture played a major role in spreading coffee to the rest of the world.",
+            "Traditional Yemeni architecture uses mud brick in ways that have survived centuries.",
+            "Yemen sits near vital global shipping routes, which increases its geopolitical importance.",
+            "The country has been deeply affected by prolonged conflict, impacting daily life for millions.",
+            "Yemeni honey is considered among the finest in the world and can be extremely expensive.",
+            "Hospitality is central to Yemeni culture, even under difficult conditions.",
+            "Ancient kingdoms like Saba flourished in Yemen long before modern nation-states existed.",
+            "Despite hardship, Yemen’s poetry and oral traditions remain vibrant."
+        ]
     },
     {
         "country": "Zambia",
-        "facts": []
+        "facts": [
+            "Zambia is home to Victoria Falls, one of the largest waterfalls on Earth by combined width and height.",
+            "The country gained independence peacefully in 1964, avoiding the violent transitions seen elsewhere.",
+            "Zambia has over 70 ethnic groups, contributing to rich cultural diversity.",
+            "Walking safaris were pioneered in Zambia, offering a very real sense of being a guest in nature.",
+            "The Zambezi River shapes much of Zambia’s geography and economy.",
+            "Zambia’s flag colours symbolise freedom, natural resources, and the struggle for independence.",
+            "Copper mining plays a major role in the national economy.",
+            "Zambia is landlocked but still heavily influenced by river trade.",
+            "Dr. Kenneth Kaunda, Zambia’s first president, was a major figure in African liberation movements.",
+            "Zambians are known for warmth, humour, and exceptional patience."
+        ]
     },
     {
         "country": "Zimbabwe",
-        "facts": []
+        "facts": [
+            "Zimbabwe contains the ruins of Great Zimbabwe, one of Africa’s most impressive pre-colonial stone cities.",
+            "The country once issued a 100 trillion dollar banknote during peak hyperinflation.",
+            "Victoria Falls is shared with Zambia, creating one of the planet’s most dramatic borders.",
+            "Zimbabwe has one of the highest literacy rates in Africa.",
+            "Stone sculpture from Zimbabwe is internationally recognised as a serious art form.",
+            "The country’s name comes from Shona words meaning great stone houses.",
+            "Zimbabwe has produced world-class athletes, especially in cricket and swimming.",
+            "Wildlife conservation plays a major role in tourism.",
+            "Despite political struggles, Zimbabwean culture remains resilient and expressive.",
+            "Sunsets over the savannah are considered almost offensively beautiful."
+        ]
     },
     {
         "country": "Åland Islands",
-        "facts": []
+        "facts": [
+            "The Åland Islands are an autonomous, Swedish-speaking region belonging to Finland.",
+            "Åland is demilitarised, meaning no army bases or conscription, just vibes and ferries.",
+            "The islands sit in the Baltic Sea and consist of over 6,500 islands and skerries.",
+            "Åland has its own flag, postage stamps, and internet domain.",
+            "Apple farming thrives in Åland thanks to long summer daylight hours.",
+            "The population is small enough that local politics feels deeply personal.",
+            "Åland consistently ranks high for quality of life.",
+            "Cycling is the preferred mode of transport during warmer months.",
+            "Maritime culture dominates daily life, past and present.",
+            "Åland feels like Scandinavia distilled into its calmest possible form."
+        ]
     }
 ]

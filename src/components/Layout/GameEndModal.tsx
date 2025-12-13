@@ -86,7 +86,7 @@ const GameEndModal = ({
                 {/* Fun Fact Section - only show if facts available */}
                 {randomFact && (
                     <div className="text-start mb-4 p-3 bg-light rounded">
-                        <h6 className="text-dark mb-2">🌍 Did you know?</h6>
+                        <h6 className="text-dark mb-2">Fun fact about {countryName}</h6>
                         <p className="text-muted small mb-0">
                             {randomFact}
                         </p>
