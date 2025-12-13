@@ -92,6 +92,29 @@ export const useUsername = () => {
         initUser();
     }, []);
 
+    // Refetch user data (call after game ends to update scores)
+    const refetchUser = useCallback(async () => {
+        if (!userId) return;
+
+        try {
+            const response = await fetch(`/api/user/${userId}`);
+            if (response.ok) {
+                const user = await response.json();
+                setStreak(user.streak || 0);
+                setHighScores({
+                    easy: user.easyHighScore || user.easy_high_score || 0,
+                    medium: user.mediumHighScore || user.medium_high_score || 0,
+                    hard: user.hardHighScore || user.hard_high_score || 0,
+                    extreme: user.extremeHighScore || user.extreme_high_score || 0,
+                });
+                setTodayScore(user.todayScore || 0);
+                setBestDayScore(user.bestDayScore || 0);
+            }
+        } catch (error) {
+            console.error('Failed to refetch user:', error);
+        }
+    }, [userId]);
+
     // Update username in database
     const updateUsername = useCallback(async (newUsername: string) => {
         const trimmed = newUsername.trim();
@@ -110,5 +133,5 @@ export const useUsername = () => {
         }
     }, [userId]);
 
-    return { userId, username, updateUsername, loading, streak, highScores, todayScore, bestDayScore };
+    return { userId, username, updateUsername, loading, streak, highScores, todayScore, bestDayScore, refetchUser };
 };

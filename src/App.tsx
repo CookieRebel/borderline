@@ -25,7 +25,7 @@ const playSparkleSound = () => {
 };
 
 function App() {
-  const { userId, streak, highScores } = useUsername();
+  const { userId, streak, highScores, refetchUser } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
 
   const {
@@ -41,7 +41,7 @@ function App() {
     allLandLow,
     allLandHigh,
     highScore
-  } = useGameLogic(userId, highScores);
+  } = useGameLogic(userId, highScores, refetchUser);
 
   const guessInputRef = useRef<GuessInputRef>(null);
   const mapCanvasRef = useRef<MapCanvasRef>(null);

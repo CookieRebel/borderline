@@ -109,7 +109,8 @@ const submitGameResult = async (
     guesses: number,
     timeSeconds: number,
     score: number,
-    won: boolean
+    won: boolean,
+    onComplete?: () => void
 ) => {
     if (!userId) return;
 
@@ -126,6 +127,10 @@ const submitGameResult = async (
                 won,
             }),
         });
+        // Call callback after successful submission
+        if (onComplete) {
+            onComplete();
+        }
     } catch (error) {
         console.error('Failed to submit game result:', error);
     }
@@ -133,7 +138,7 @@ const submitGameResult = async (
 
 import type { HighScores } from './useUsername';
 
-export const useGameLogic = (userId?: string, userHighScores?: HighScores) => {
+export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
     const [difficulty, setDifficulty] = useState<Difficulty>(() => {
         const saved = localStorage.getItem('borderline_difficulty');
         return (saved === 'easy' || saved === 'medium' || saved === 'hard') ? saved : 'easy';
@@ -354,7 +359,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores) => {
         const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
         const guessCount = gameState.guessHistory.length;
         if (userId) {
-            submitGameResult(userId, difficulty, guessCount, elapsedSeconds, 0, false);
+            submitGameResult(userId, difficulty, guessCount, elapsedSeconds, 0, false, onGameEnd);
         }
     };
 
@@ -423,7 +428,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores) => {
             // Submit to backend
             const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
             if (userId) {
-                submitGameResult(userId, difficulty, guessCount, elapsedSeconds, roundScore, true);
+                submitGameResult(userId, difficulty, guessCount, elapsedSeconds, roundScore, true, onGameEnd);
             }
         } else {
             // Wrong guess
