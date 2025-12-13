@@ -56,7 +56,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
     };
 
     return (
-        <div className="position-relative text-center mb-3 fade-in">
+        <div className="position-relative text-center mb-3 mt-3 fade-in">
             <img
                 src="/borderline_logo.png"
                 alt="BorderLINE"
