@@ -27,14 +27,15 @@ const playSparkleSound = () => {
 };
 
 function App() {
-  const { userId, streak, highScores } = useUsername();
+  const { userId, streak, highScores, refetchUser } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showInstructions, setShowInstructions] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
-  // Callback to refresh stats after game ends
+  // Callback to refresh stats and high scores after game ends
   const onGameEnd = () => {
     setStatsRefreshKey(k => k + 1);
+    refetchUser(); // Refresh high scores
   };
 
   const {

@@ -83,7 +83,7 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) =
                         </div>
                         {streak > 0 && (
                             <p className="text-success fw-medium mb-0">
-                                🔥 {playedToday ? 'Playing again today?' : `Continue your ${streak} day streak?`}
+                                🔥 {playedToday ? 'Let\'s play again!' : `Let's continue your ${streak} day streak!`}
                             </p>
                         )}
                     </>
