@@ -2,10 +2,11 @@ import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { eq, sql, and, gte } from 'drizzle-orm';
 
-// Get start of today in UTC
-const getTodayStart = () => {
-    const now = new Date();
-    return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+// Check if dates are the same calendar day
+const isSameDay = (date1: Date, date2: Date): boolean => {
+    return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+        date1.getUTCMonth() === date2.getUTCMonth() &&
+        date1.getUTCDate() === date2.getUTCDate();
 };
 
 export const handler: Handler = async (event) => {
@@ -92,14 +93,17 @@ export const handler: Handler = async (event) => {
                 };
             }
 
-            // Get today's total score
-            const todayStart = getTodayStart();
+            // Check if user played today
+            const now = new Date();
+            const playedToday = user.lastPlayedAt ? isSameDay(user.lastPlayedAt, now) : false;
+
+            // Get today's total score (using CURRENT_DATE for database timezone)
             const todayScoreResult = await db.execute(sql`
                 SELECT COALESCE(SUM(score), 0) as total
                 FROM game_results
                 WHERE user_id = ${id}
                   AND won = true
-                  AND created_at >= ${todayStart}
+                  AND DATE(created_at) = CURRENT_DATE
             `);
             const todayScore = Number(todayScoreResult.rows[0]?.total || 0);
 
@@ -120,6 +124,7 @@ export const handler: Handler = async (event) => {
                 headers,
                 body: JSON.stringify({
                     ...user,
+                    playedToday,
                     todayScore,
                     bestDayScore,
                 }),

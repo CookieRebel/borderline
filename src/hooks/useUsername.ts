@@ -28,6 +28,7 @@ export const useUsername = () => {
     const [userId, setUserId] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [streak, setStreak] = useState<number>(0);
+    const [playedToday, setPlayedToday] = useState<boolean>(false);
     const [highScores, setHighScores] = useState<HighScores>(defaultHighScores);
     const [todayScore, setTodayScore] = useState<number>(0);
     const [bestDayScore, setBestDayScore] = useState<number>(0);
@@ -60,6 +61,7 @@ export const useUsername = () => {
                         hard: user.hardHighScore || user.hard_high_score || 0,
                         extreme: user.extremeHighScore || user.extreme_high_score || 0,
                     });
+                    setPlayedToday(user.playedToday || false);
                     setTodayScore(user.todayScore || 0);
                     setBestDayScore(user.bestDayScore || 0);
                 } else if (response.status === 404) {
@@ -133,5 +135,5 @@ export const useUsername = () => {
         }
     }, [userId]);
 
-    return { userId, username, updateUsername, loading, streak, highScores, todayScore, bestDayScore, refetchUser };
+    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser };
 };

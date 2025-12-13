@@ -11,12 +11,19 @@ const getISOWeek = (date: Date): number => {
     return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
 };
 
-// Check if dates are consecutive days
-const isConsecutiveDay = (lastPlayed: Date | null, now: Date): boolean => {
-    if (!lastPlayed) return true; // First game
-    const diffMs = now.getTime() - lastPlayed.getTime();
-    const diffDays = diffMs / (1000 * 60 * 60 * 24);
-    return diffDays <= 1 && diffDays > 0;
+// Check if dates are the same calendar day
+const isSameDay = (date1: Date, date2: Date): boolean => {
+    return date1.getUTCFullYear() === date2.getUTCFullYear() &&
+        date1.getUTCMonth() === date2.getUTCMonth() &&
+        date1.getUTCDate() === date2.getUTCDate();
+};
+
+// Check if lastPlayed was yesterday (consecutive days)
+const isYesterday = (lastPlayed: Date | null, now: Date): boolean => {
+    if (!lastPlayed) return false;
+    const yesterday = new Date(now);
+    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+    return isSameDay(lastPlayed, yesterday);
 };
 
 export const handler: Handler = async (event) => {
@@ -82,12 +89,27 @@ export const handler: Handler = async (event) => {
             .returning();
 
         // Update user stats
-        const gameCountField = `${level}_game_count` as const;
-        const highScoreField = `${level}_high_score` as const;
+        const isNewHighScore = score > (user[`${level}HighScore` as keyof typeof user] as number || 0);
 
-        const isNewHighScore = score > (user as Record<string, number>)[`${level}HighScore`];
-        const isConsecutive = isConsecutiveDay(user.lastPlayedAt, now);
-        const newStreak = won && isConsecutive ? user.streak + 1 : (won ? 1 : 0);
+        // Streak logic:
+        // - Same day: maintain current streak (don't increment)
+        // - Yesterday: increment streak (consecutive day)
+        // - First game ever: start at 1
+        // - Otherwise: reset to 1 (if won) or 0 (if lost)
+        let newStreak = user.streak;
+        const playedToday = user.lastPlayedAt ? isSameDay(user.lastPlayedAt, now) : false;
+        const playedYesterday = isYesterday(user.lastPlayedAt, now);
+
+        if (playedToday) {
+            // Same day - keep streak as is
+            newStreak = user.streak;
+        } else if (playedYesterday || user.lastPlayedAt === null) {
+            // Yesterday or first game - increment if won
+            newStreak = won ? user.streak + 1 : 0;
+        } else {
+            // Broke streak - reset
+            newStreak = won ? 1 : 0;
+        }
 
         // Dynamic update based on level
         const updates: Record<string, unknown> = {

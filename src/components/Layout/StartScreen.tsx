@@ -10,7 +10,7 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) => {
-    const { username, updateUsername, loading } = useUsername();
+    const { username, updateUsername, loading, playedToday } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
 
@@ -83,7 +83,7 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) =
                         </div>
                         {streak > 0 && (
                             <p className="text-success fw-medium mb-0">
-                                🔥 Continue your {streak} day streak?
+                                🔥 {playedToday ? 'Playing again today?' : `Continue your ${streak} day streak?`}
                             </p>
                         )}
                     </>
