@@ -14,7 +14,7 @@ interface ReadyModalProps {
 const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyModalProps) => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
     const [showToast, setShowToast] = useState(false);
-    const { username, loading } = useUsername();
+    const { loading } = useUsername();
 
     const handleNoMoveClick = () => {
         setShowToast(true);
@@ -33,7 +33,7 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                         </div>
                     ) : (
                         <>
-                            <h2 className="h4 text-dark mb-2">Hi {username}, ready?</h2>
+                            <h2 className="h4 text-dark mb-2">Ready?</h2>
                             <p className="text-muted small mb-3">{message}</p>
 
                             <div className="d-flex gap-1 justify-content-center flex-wrap mb-3">
