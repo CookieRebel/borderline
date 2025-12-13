@@ -1,16 +1,7 @@
 const Header = () => {
     return (
-        <div style={{
-            textAlign: 'center',
-            marginBottom: 'var(--spacing-md)',
-            animation: 'fadeIn 0.5s ease-out'
-        }}>
-            <h1 style={{
-                fontSize: '2.5rem',
-                fontWeight: '700',
-                marginBottom: 'var(--spacing-xs)',
-                color: '#046307'
-            }}>
+        <div className="text-center mb-3 fade-in">
+            <h1 className="h2 fw-bold mb-1 text-emerald">
                 BorderLINE
             </h1>
         </div>

@@ -119,3 +119,41 @@ body {
 .text-secondary {
   color: var(--color-text-secondary);
 }
+
+/* App-specific colors */
+.text-emerald {
+  color: #046307;
+}
+
+.bg-emerald {
+  background-color: #046307;
+}
+
+.border-emerald {
+  border-color: #046307 !important;
+}
+
+.btn-gold {
+  background-color: #FFD700;
+  color: #1a1a1a;
+  border-color: #FFD700;
+  font-weight: 600;
+}
+
+.btn-gold:hover {
+  background-color: #e6c200;
+  border-color: #e6c200;
+  color: #1a1a1a;
+}
+
+.btn-emerald {
+  background-color: #046307;
+  color: white;
+  border-color: #046307;
+}
+
+.btn-emerald:hover {
+  background-color: #034f05;
+  border-color: #034f05;
+  color: white;
+}

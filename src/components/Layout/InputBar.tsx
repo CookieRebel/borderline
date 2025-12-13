@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Button } from 'reactstrap';
 import GuessInput from '../Game/GuessInput';
 import type { GuessInputRef } from '../Game/GuessInput';
 import Keyboard from '../Game/Keyboard';
@@ -15,9 +16,9 @@ interface InputBarProps {
 const InputBar = forwardRef<GuessInputRef, InputBarProps>(
     ({ onGuess, onGiveUp, disabled, guessHistory, isMobile }, ref) => {
         return (
-            <div style={{ marginBottom: '8px', padding: '0 4px' }}>
-                <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-start', marginBottom: '8px' }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="mb-2 px-1">
+                <div className="d-flex gap-1 align-items-start mb-2">
+                    <div className="flex-grow-1" style={{ minWidth: 0 }}>
                         <GuessInput
                             ref={ref}
                             onGuess={onGuess}
@@ -26,32 +27,17 @@ const InputBar = forwardRef<GuessInputRef, InputBarProps>(
                             isMobile={isMobile}
                         />
                     </div>
-                    <button
+                    <Button
+                        outline
+                        color="secondary"
                         onClick={onGiveUp}
                         disabled={disabled}
                         title="Give Up"
-                        style={{
-                            padding: '0.25rem',
-                            backgroundColor: !disabled ? '#f3f4f6' : 'var(--color-bg-elevated)',
-                            border: '1px solid',
-                            borderColor: !disabled ? '#d1d5db' : 'var(--color-border)',
-                            borderRadius: 'var(--radius-md)',
-                            color: !disabled ? '#6b7280' : 'var(--color-text-secondary)',
-                            fontSize: '1rem',
-                            fontWeight: '600',
-                            cursor: !disabled ? 'pointer' : 'not-allowed',
-                            opacity: !disabled ? 1 : 0.4,
-                            width: '32px',
-                            height: '32px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            transition: 'all 0.2s ease',
-                            flexShrink: 0
-                        }}
+                        className="d-flex align-items-center justify-content-center"
+                        style={{ width: '32px', height: '32px', padding: '0.25rem' }}
                     >
                         ✕
-                    </button>
+                    </Button>
                 </div>
 
                 {/* Keyboard - Mobile only */}

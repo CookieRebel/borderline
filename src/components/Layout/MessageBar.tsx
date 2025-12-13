@@ -1,3 +1,5 @@
+import { Button } from 'reactstrap';
+
 interface MessageBarProps {
     status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
@@ -5,61 +7,40 @@ interface MessageBarProps {
 }
 
 const MessageBar = ({ status, message, onPlayAgain }: MessageBarProps) => {
+    const getBgClass = () => {
+        if (status === 'won') return 'bg-success bg-opacity-10';
+        if (status === 'given_up') return 'bg-danger bg-opacity-10';
+        return 'bg-success bg-opacity-10';
+    };
+
+    const getBorderClass = () => {
+        if (status === 'won') return 'border-emerald';
+        if (status === 'given_up') return 'border-danger';
+        return 'border-emerald';
+    };
+
+    const getTextClass = () => {
+        if (status === 'won') return 'text-emerald';
+        if (status === 'given_up') return 'text-danger';
+        return 'text-emerald';
+    };
+
     return (
-        <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '4px',
-            padding: '0 4px',
-            animation: 'slideIn 0.3s ease-out'
-        }}>
-            <span style={{
-                flex: 1,
-                height: '28px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                backgroundColor: status === 'won'
-                    ? 'rgba(4, 99, 7, 0.15)'
-                    : status === 'given_up'
-                        ? '#fee2e2'
-                        : 'rgba(4, 99, 7, 0.1)',
-                border: `1px solid ${status === 'won'
-                    ? '#046307'
-                    : status === 'given_up'
-                        ? '#fca5a5'
-                        : '#046307'}`,
-                color: status === 'won'
-                    ? '#046307'
-                    : status === 'given_up'
-                        ? '#ef4444'
-                        : '#046307',
-                borderRadius: 'var(--radius-md)',
-                fontWeight: '500',
-                padding: '0 0.75rem',
-                fontSize: '0.875rem',
-                marginRight: '8px'
-            }}>
+        <div className="d-flex align-items-center justify-content-between mb-1 px-1 slide-in">
+            <span
+                className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 border rounded py-1 px-3 fw-medium me-2 ${getBgClass()} ${getBorderClass()} ${getTextClass()}`}
+                style={{ height: '28px', fontSize: '0.875rem' }}
+            >
                 {message}
                 {(status === 'won' || status === 'given_up') && (
-                    <button
+                    <Button
+                        size="sm"
+                        className={status === 'won' ? 'btn-emerald' : 'btn-danger'}
                         onClick={onPlayAgain}
-                        style={{
-                            padding: '2px 10px',
-                            fontSize: '0.75rem',
-                            fontWeight: '600',
-                            backgroundColor: status === 'won' ? '#046307' : '#ef4444',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            whiteSpace: 'nowrap'
-                        }}
+                        style={{ padding: '2px 10px', fontSize: '0.75rem', whiteSpace: 'nowrap' }}
                     >
                         Play Again
-                    </button>
+                    </Button>
                 )}
             </span>
         </div>

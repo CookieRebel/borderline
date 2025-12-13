@@ -1,3 +1,4 @@
+import { Card, CardBody, Badge } from 'reactstrap';
 import type { Feature } from 'geojson';
 import MapCanvas from '../Game/MapCanvas';
 import type { MapCanvasRef } from '../Game/MapCanvas';
@@ -8,7 +9,6 @@ import type { GuessInputRef } from '../Game/GuessInput';
 import type { Guess, Difficulty } from '../../hooks/useGameLogic';
 
 interface GameCardProps {
-    // Game state
     status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
     targetCountry: Feature | null;
@@ -17,22 +17,14 @@ interface GameCardProps {
     score: number;
     highScore: number;
     difficulty: Difficulty;
-
-    // GeoJSON data
     allFeaturesLow: Feature[];
     allFeaturesHigh: Feature[];
     allLandLow: Feature[];
     allLandHigh: Feature[];
-
-    // Handlers
     onPlayAgain: () => void;
     onGuess: (guess: string) => void;
     onGiveUp: () => void;
-
-    // Mobile detection
     isMobile: boolean;
-
-    // Refs
     mapCanvasRef: React.RefObject<MapCanvasRef | null>;
     guessInputRef: React.RefObject<GuessInputRef | null>;
 }
@@ -58,95 +50,61 @@ const GameCard = ({
     guessInputRef
 }: GameCardProps) => {
     return (
-        <div className="game-card" style={{
-            backgroundColor: 'var(--color-bg-card)',
-            marginBottom: 'var(--spacing-sm)',
-            animation: 'fadeIn 0.6s ease-out 0.1s both'
-        }}>
-            {/* Message Bar */}
-            <MessageBar
-                status={status}
-                message={message}
-                onPlayAgain={onPlayAgain}
-            />
-
-            {/* Map Frame */}
-            <div style={{
-                backgroundColor: '#ffffff',
-                marginBottom: '4px',
-                aspectRatio: '4/3',
-                width: '100%',
-                position: 'relative'
-            }}>
-                <MapCanvas
-                    ref={mapCanvasRef}
-                    targetCountry={targetCountry}
-                    revealedNeighbors={revealedNeighbors}
-                    gameStatus={status}
-                    difficulty={difficulty}
-                    allFeaturesLow={allFeaturesLow}
-                    allFeaturesHigh={allFeaturesHigh}
-                    allLandLow={allLandLow}
-                    allLandHigh={allLandHigh}
+        <Card className="mb-2 border-0 fade-in">
+            <CardBody className="p-0">
+                {/* Message Bar */}
+                <MessageBar
+                    status={status}
+                    message={message}
+                    onPlayAgain={onPlayAgain}
                 />
 
-                {/* Score Overlays - Top Left - only after game ends */}
-                {(status === 'won' || status === 'given_up') && (
-                    <div style={{
-                        position: 'absolute',
-                        top: '5px',
-                        left: '5px',
-                        zIndex: 100,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        gap: '4px'
-                    }}>
-                        <div style={{
-                            backgroundColor: 'rgba(255,215,0,0.95)',
-                            border: '1px solid #eab308',
-                            borderRadius: '4px',
-                            padding: '4px 8px',
-                            fontSize: '0.7rem',
-                            fontWeight: '600',
-                            color: '#92400e',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-                        }}>
-                            🏆 Best: {highScore}
+                {/* Map Frame */}
+                <div className="bg-white mb-1 position-relative" style={{ aspectRatio: '4/3', width: '100%' }}>
+                    <MapCanvas
+                        ref={mapCanvasRef}
+                        targetCountry={targetCountry}
+                        revealedNeighbors={revealedNeighbors}
+                        gameStatus={status}
+                        difficulty={difficulty}
+                        allFeaturesLow={allFeaturesLow}
+                        allFeaturesHigh={allFeaturesHigh}
+                        allLandLow={allLandLow}
+                        allLandHigh={allLandHigh}
+                    />
+
+                    {/* Score Overlays - Top Left - only after game ends */}
+                    {(status === 'won' || status === 'given_up') && (
+                        <div className="position-absolute top-0 start-0 m-1 d-flex gap-1" style={{ zIndex: 100 }}>
+                            <Badge color="warning" className="text-dark fw-semibold" style={{ fontSize: '0.7rem' }}>
+                                🏆 Best: {highScore}
+                            </Badge>
+                            {status === 'won' && (
+                                <Badge className="bg-emerald fw-semibold" style={{ fontSize: '0.7rem' }}>
+                                    Score: {score}
+                                </Badge>
+                            )}
                         </div>
-                        {status === 'won' && (
-                            <div style={{
-                                backgroundColor: 'rgba(4,99,7,0.95)',
-                                border: '1px solid #046307',
-                                borderRadius: '4px',
-                                padding: '4px 8px',
-                                fontSize: '0.7rem',
-                                fontWeight: '600',
-                                color: 'white',
-                                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-                            }}>
-                                Score: {score}
-                            </div>
-                        )}
-                    </div>
-                )}
+                    )}
 
-                <GuessHistory
-                    guesses={guessHistory}
-                    onGuessClick={(guessName) => mapCanvasRef.current?.rotateToCountry(guessName)}
-                    onCenterClick={() => mapCanvasRef.current?.centerOnTarget()}
+                    <GuessHistory
+                        guesses={guessHistory}
+                        onGuessClick={(guessName) => mapCanvasRef.current?.rotateToCountry(guessName)}
+                        onCenterClick={() => mapCanvasRef.current?.centerOnTarget()}
+                    />
+                </div>
+
+                {/* Input Bar */}
+                <InputBar
+                    ref={guessInputRef}
+                    onGuess={onGuess}
+                    onGiveUp={onGiveUp}
+                    disabled={status !== 'playing'}
+                    guessHistory={guessHistory}
+                    isMobile={isMobile}
                 />
-            </div>
-
-            {/* Input Bar */}
-            <InputBar
-                ref={guessInputRef}
-                onGuess={onGuess}
-                onGiveUp={onGiveUp}
-                disabled={status !== 'playing'}
-                guessHistory={guessHistory}
-                isMobile={isMobile}
-            />
-        </div>
+            </CardBody>
+        </Card>
     );
 };
 
