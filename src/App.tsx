@@ -138,7 +138,7 @@ function App() {
       )}
 
       {/* Game End Modal */}
-      {(gameState.status === 'won' || gameState.status === 'lost') && (
+      {(gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up') && (
         <GameEndModal
           isOpen={true}
           countryName={gameState.targetCountry?.properties?.name || ''}
