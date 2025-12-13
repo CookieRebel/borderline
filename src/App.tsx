@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Container } from 'reactstrap';
 import confetti from 'canvas-confetti';
 import type { MapCanvasRef } from './components/Game/MapCanvas';
@@ -11,6 +11,7 @@ import Header from './components/Layout/Header';
 import AdBanner from './components/Layout/AdBanner';
 import GameCard from './components/Layout/GameCard';
 import ReadyModal from './components/Layout/ReadyModal';
+import StartScreen from './components/Layout/StartScreen';
 
 // Play sparkle sound
 const playSparkleSound = () => {
@@ -24,7 +25,8 @@ const playSparkleSound = () => {
 };
 
 function App() {
-  const { userId } = useUsername();
+  const { userId, streak } = useUsername();
+  const [showStartScreen, setShowStartScreen] = useState(true);
 
   const {
     gameState,
@@ -64,6 +66,11 @@ function App() {
       hasPlayedCelebration.current = false;
     }
   }, [gameState.status]);
+
+  // Show start screen first
+  if (showStartScreen) {
+    return <StartScreen onPlay={() => setShowStartScreen(false)} streak={streak} />;
+  }
 
   return (
     <div className="app-container">

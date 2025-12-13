@@ -22,6 +22,7 @@ const generateUsername = (): string => {
 export const useUsername = () => {
     const [userId, setUserId] = useState<string>('');
     const [username, setUsername] = useState<string>('');
+    const [streak, setStreak] = useState<number>(0);
     const [loading, setLoading] = useState(true);
 
     // Initialize user on mount
@@ -44,6 +45,7 @@ export const useUsername = () => {
                 if (response.ok) {
                     const user = await response.json();
                     setUsername(user.displayName || user.display_name);
+                    setStreak(user.streak || 0);
                 } else if (response.status === 404) {
                     // User doesn't exist, create new one
                     const newUsername = generateUsername();
@@ -56,6 +58,7 @@ export const useUsername = () => {
                     if (createResponse.ok) {
                         const newUser = await createResponse.json();
                         setUsername(newUser.displayName || newUser.display_name);
+                        setStreak(newUser.streak || 0);
                     }
                 }
             } catch (error) {
@@ -90,5 +93,5 @@ export const useUsername = () => {
         }
     }, [userId]);
 
-    return { userId, username, updateUsername, loading };
+    return { userId, username, updateUsername, loading, streak };
 };
