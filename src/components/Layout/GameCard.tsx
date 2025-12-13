@@ -22,7 +22,6 @@ interface GameCardProps {
     allFeaturesHigh: Feature[];
     allLandLow: Feature[];
     allLandHigh: Feature[];
-    onPlayAgain: () => void;
     onGuess: (guess: string) => void;
     onGiveUp: () => void;
     isMobile: boolean;
@@ -43,7 +42,6 @@ const GameCard = ({
     allFeaturesHigh,
     allLandLow,
     allLandHigh,
-    onPlayAgain,
     onGuess,
     onGiveUp,
     isMobile,
@@ -56,7 +54,6 @@ const GameCard = ({
                 <MessageBar
                     status={status}
                     message={message}
-                    onPlayAgain={onPlayAgain}
                 />
 
                 <div className={`bg-white mb-1 position-relative ${styles.mapFrame}`}>

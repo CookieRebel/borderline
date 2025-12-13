@@ -1,13 +1,11 @@
-import { Button } from 'reactstrap';
 import styles from './MessageBar.module.css';
 
 interface MessageBarProps {
     status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
-    onPlayAgain: () => void;
 }
 
-const MessageBar = ({ status, message, onPlayAgain }: MessageBarProps) => {
+const MessageBar = ({ status, message }: MessageBarProps) => {
     const getBgClass = () => {
         if (status === 'won') return 'bg-success bg-opacity-10';
         if (status === 'given_up') return 'bg-danger bg-opacity-10';
@@ -32,15 +30,6 @@ const MessageBar = ({ status, message, onPlayAgain }: MessageBarProps) => {
                 className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 border rounded py-1 px-3 fw-medium ${getBgClass()} ${getBorderClass()} ${getTextClass()} ${styles.messageSpan}`}
             >
                 {message}
-                {(status === 'won' || status === 'given_up') && (
-                    <Button
-                        size="sm"
-                        className={`${status === 'won' ? 'btn-emerald' : 'btn-danger'} ${styles.playAgainBtn}`}
-                        onClick={onPlayAgain}
-                    >
-                        Play Again
-                    </Button>
-                )}
             </span>
         </div>
     );

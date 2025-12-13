@@ -118,7 +118,6 @@ function App() {
           allFeaturesHigh={allFeaturesHigh}
           allLandLow={allLandLow}
           allLandHigh={allLandHigh}
-          onPlayAgain={resetGame}
           onGuess={handleGuess}
           onGiveUp={handleGiveUp}
           isMobile={isMobile}
