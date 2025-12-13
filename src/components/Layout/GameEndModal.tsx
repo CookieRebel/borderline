@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
 import { useUsername } from '../../hooks/useUsername';
+import countryFacts from '../../data/countryFacts.json';
 
 interface LeaderboardEntry {
     rank: number;
@@ -11,8 +12,14 @@ interface LeaderboardEntry {
     games_played: number;
 }
 
+interface CountryFact {
+    country: string;
+    facts: string[];
+}
+
 interface GameEndModalProps {
     isOpen: boolean;
+    countryName: string;
     resultMessage: string;
     won: boolean;
     difficulty: Difficulty;
@@ -21,6 +28,7 @@ interface GameEndModalProps {
 
 const GameEndModal = ({
     isOpen,
+    countryName,
     resultMessage,
     won,
     difficulty,
@@ -30,6 +38,18 @@ const GameEndModal = ({
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [weekStartDate, setWeekStartDate] = useState('');
+
+    // Pick a random fact for the country
+    const randomFact = useMemo(() => {
+        const countryData = (countryFacts as CountryFact[]).find(
+            c => c.country.toLowerCase() === countryName.toLowerCase()
+        );
+        if (!countryData || countryData.facts.length === 0) {
+            return null;
+        }
+        const randomIndex = Math.floor(Math.random() * countryData.facts.length);
+        return countryData.facts[randomIndex];
+    }, [countryName]);
 
     useEffect(() => {
         if (!isOpen) return;
@@ -63,13 +83,15 @@ const GameEndModal = ({
                     </h4>
                 </div>
 
-                {/* Fun Fact Section */}
-                <div className="text-start mb-4 p-3 bg-light rounded">
-                    <h6 className="text-dark mb-2">🌍 Did you know?</h6>
-                    <p className="text-muted small mb-0">
-                        Antarctica is a continent and, surprise, the world's largest desert—because beneath all that ice there's solid land and almost no rainfall. It's also the only place on Earth with penguins, and there are absolutely no polar bears anywhere.
-                    </p>
-                </div>
+                {/* Fun Fact Section - only show if facts available */}
+                {randomFact && (
+                    <div className="text-start mb-4 p-3 bg-light rounded">
+                        <h6 className="text-dark mb-2">🌍 Did you know?</h6>
+                        <p className="text-muted small mb-0">
+                            {randomFact}
+                        </p>
+                    </div>
+                )}
 
                 {/* Leaderboard */}
                 <div className="text-start mb-4">

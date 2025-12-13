@@ -1,207 +1,768 @@
 [
     {
         "country": "Afghanistan",
-        "facts": []
+        "facts": [
+            "Afghanistan is landlocked, but it sits at a crossroads where Central and South Asia collide.",
+            "The Hindu Kush mountains slice through the country and make travel famously difficult.",
+            "Kabul is one of the world’s highest capital cities, sitting in a mountain valley.",
+            "Afghanistan has had camel caravans, Silk Road trade routes, and empires passing through for centuries.",
+            "The country is known for deep-blue lapis lazuli, mined there since ancient times.",
+            "A narrow finger of land called the Wakhan Corridor stretches toward China like a geographic plot twist.",
+            "Dari and Pashto are the two main official languages, and you’ll hear many more local languages too.",
+            "Traditional carpets from Afghanistan are famous for dense patterns and hard-wearing wool.",
+            "Much of the country is arid or semi-arid, so water and irrigation shape where people live.",
+            "Afghanistan uses a unique time offset: UTC+4:30, because why be ordinary?"
+        ]
     },
     {
         "country": "Albania",
-        "facts": []
+        "facts": [
+            "Albania has both Adriatic and Ionian coastlines, so it’s basically a beach country hiding in plain sight.",
+            "Tirana is the capital, and its colorful buildings were part vibe upgrade, part civic project.",
+            "Albania is one of Europe’s most mountainous countries, with dramatic peaks packed into a small area.",
+            "The Albanian flag is a black double-headed eagle on red, and it looks like it means business.",
+            "Bunkers are scattered across the country from the Cold War era, and some are now cafés or museums.",
+            "The Albanian language is its own branch of Indo-European, with no close sibling language next door.",
+            "Lake Ohrid, shared with North Macedonia, is one of Europe’s oldest and deepest lakes.",
+            "The Riviera in the south has clear water and steep coastal roads that feel like a movie chase scene.",
+            "Albania has ancient ruins from Greek and Roman times, including sites like Butrint.",
+            "If you like your geography spicy, Albania has mountains, beaches, and rivers all competing for attention."
+        ]
     },
     {
         "country": "Algeria",
-        "facts": []
+        "facts": [
+            "Algeria is Africa’s largest country by area, and a huge chunk of it is Sahara Desert.",
+            "The capital, Algiers, sits on the Mediterranean with white buildings that earned it the nickname ‘Algiers the White.’",
+            "The Sahara isn’t just dunes; Algeria has rocky plateaus, salt flats, and surreal sandstone landscapes too.",
+            "Algeria has ancient Roman ruins, including Timgad, which looks like a city plan drawn with a ruler.",
+            "The Tassili n’Ajjer region is famous for prehistoric rock art showing animals and people from greener eras.",
+            "Arabic is the official language, and Tamazight (Berber) is also recognized nationally.",
+            "Algeria’s coastline is long, but the population is concentrated in the north where the climate is milder.",
+            "The Atlas Mountains run through the country and act like a climate boundary line.",
+            "Algeria is a major producer of natural gas, and energy exports are a big part of its economy.",
+            "If you’re counting time zones, Algeria runs on UTC+1, aligned with much of Western/Central Europe."
+        ]
     },
     {
         "country": "American Samoa",
-        "facts": []
+        "facts": [
+            "American Samoa is an unincorporated U.S. territory in the South Pacific, made of volcanic islands.",
+            "Its main island, Tutuila, has steep green mountains that drop straight into the ocean.",
+            "Pago Pago is famous for having one of the best natural harbors in the Pacific.",
+            "American Samoa sits just east of the International Date Line, so it’s often “yesterday” compared to nearby Samoa.",
+            "The territory is known for strong Polynesian culture, especially the fa’a Samoa way of life.",
+            "You can find giant fruit bats (flying foxes) in the region, which are both cute and slightly unhinged.",
+            "It uses U.S. dollars, but the vibe is island-Pacific rather than mainland-American.",
+            "The National Park of American Samoa protects rainforest, reefs, and coastline across multiple islands.",
+            "American Samoa has no snakes native to the islands, which is honestly a vacation selling point.",
+            "Its time zone is UTC−11, which is basically ‘time travel’ compared to Europe."
+        ]
     },
     {
         "country": "Andorra",
-        "facts": []
+        "facts": [
+            "Andorra is a tiny country tucked between France and Spain in the Pyrenees mountains.",
+            "It’s one of the world’s microstates, but it has serious ski resort energy.",
+            "Andorra la Vella is the capital and one of the highest capital cities in Europe.",
+            "Andorra has two co-princes as heads of state: one from France and one linked to Spain’s side (via the Bishop of Urgell).",
+            "Catalan is the official language, which makes Andorra feel culturally distinct from its neighbors.",
+            "The country is famous for duty-free shopping, especially for perfume, alcohol, and electronics.",
+            "Andorra is mountainous enough that scenic drives come with dramatic hairpin turns as standard.",
+            "It’s not in the EU, but it uses the euro, because geography likes loopholes.",
+            "Hiking trails in summer swap out the ski crowd for mountain-lake people in sensible boots.",
+            "Andorra has no airport or railway inside the country, so you arrive by road like it’s a secret level."
+        ]
     },
     {
         "country": "Angola",
-        "facts": []
+        "facts": [
+            "Angola sits on Africa’s southwest coast and has a mix of beaches, savanna, and highlands.",
+            "Luanda is the capital, and it’s known for a dramatic coastline and big-city bustle.",
+            "Angola includes the Cabinda exclave, separated from the rest of the country by a slice of the DRC.",
+            "Portuguese is the official language, a legacy of Angola’s colonial history.",
+            "The country has the giant Kalandula Falls, one of Africa’s largest waterfalls by volume.",
+            "Angola’s landscape ranges from the Namib Desert edge in the south to lush forests in the north.",
+            "The ‘black giant sable antelope’ is an iconic Angolan animal and a national symbol-level flex.",
+            "Angola is a major oil producer, especially offshore, which shapes much of its economy.",
+            "The country has long Atlantic beaches, but also rugged inland plateaus that feel wildly different.",
+            "Angola runs on UTC+1, so it shares a clock with places like Portugal in winter."
+        ]
     },
     {
         "country": "Anguilla",
-        "facts": []
+        "facts": [
+            "Anguilla is a British Overseas Territory in the Caribbean, known for bright water and pale sand.",
+            "It’s long and narrow, and the name literally means ‘eel’ in Spanish, because the shape is that dramatic.",
+            "The capital is The Valley, which sounds like a band name, not a capital city.",
+            "Anguilla has a reefy coastline that’s great for snorkeling, with shipwrecks and coral gardens.",
+            "The island is low-lying and mostly flat, so your ‘mountain hike’ is basically a brisk walk.",
+            "English is the main language, with local Caribbean rhythms in how it’s spoken.",
+            "Anguilla uses the Eastern Caribbean dollar, shared with several nearby islands.",
+            "It’s a small place, so beaches feel like the main national infrastructure.",
+            "Boat days matter here: nearby cays and little sandbars are part of the Anguilla experience.",
+            "It sits in the Atlantic time zone region, running on UTC−4 year-round."
+        ]
     },
     {
         "country": "Antarctica",
-        "facts": []
+        "facts": [
+            "Antarctica is a continent and the world’s largest desert, because it gets very little precipitation.",
+            "Antarctica has solid land under its ice sheet, with mountains and valleys buried below.",
+            "Antarctica is the only place with wild penguins, and it has zero polar bears.",
+            "The Antarctic ice holds most of Earth’s fresh water, locked up as ice rather than lakes.",
+            "Winds can be ferocious, including katabatic winds that pour down from the interior like a cold tantrum.",
+            "There are no permanent residents, only rotating scientists and support crews at research stations.",
+            "Parts of Antarctica are so cold and dry they’re used as Mars analog test sites.",
+            "The South Pole is on Antarctica, but it’s not the coldest spot on the continent every day of the year.",
+            "Some Antarctic valleys are almost ice-free, because conditions are too harsh for snow to stick around.",
+            "Antarctica is governed by international treaty rules, not by any one country."
+        ]
     },
     {
         "country": "Antigua and Barbuda",
-        "facts": []
+        "facts": [
+            "Antigua and Barbuda is a Caribbean nation made of two main islands and a sprinkle of smaller ones.",
+            "Antigua is famous for beaches, with locals joking it has one for every day of the year.",
+            "Barbuda is flatter and quieter, and it’s known for long pink-tinged sand beaches.",
+            "The capital is St. John’s, with a colorful waterfront and a huge cathedral presence.",
+            "The islands sit in the hurricane belt, so storm seasons shape architecture and planning.",
+            "English is the official language, but you’ll hear Antiguan and Barbudan Creole in daily life.",
+            "Sailing is big here, and Antigua hosts major yachting events that bring serious boat glamour.",
+            "Frigate birds are a star attraction, especially around Barbuda’s bird sanctuary areas.",
+            "The national flag has a rising sun motif that basically screams ‘tropical sunrise marketing.’",
+            "It uses the Eastern Caribbean dollar, shared with several nearby island nations."
+        ]
     },
     {
         "country": "Argentina",
-        "facts": []
+        "facts": [
+            "Argentina stretches from near the tropics down toward Antarctica, so its climates range wildly.",
+            "Buenos Aires is the capital, and it’s famous for tango, late dinners, and serious café culture.",
+            "Patagonia in the south has glaciers, wind, and landscapes that look like Earth on hard mode.",
+            "Argentina is home to Aconcagua, the highest mountain in the Americas.",
+            "The country has one of the world’s biggest wine regions, especially around Mendoza at the Andes foothills.",
+            "Iguazú Falls, on the border with Brazil, is a wall of water that feels unreal in person.",
+            "Argentina has a strong football culture, and stadium energy can be absolutely volcanic.",
+            "The pampas are huge grasslands that shaped the ‘gaucho’ cowboy tradition.",
+            "Spanish is the main language, and the local accent in parts of Argentina is instantly recognizable.",
+            "Argentina uses multiple time zones in practice, but officially runs on UTC−3."
+        ]
     },
     {
         "country": "Armenia",
-        "facts": []
+        "facts": [
+            "Armenia is a landlocked country in the South Caucasus with mountains everywhere you look.",
+            "Yerevan is one of the world’s oldest continuously inhabited cities, and it has a pink-stone glow at sunset.",
+            "Mount Ararat is the iconic mountain in Armenian culture, even though it sits just across the border in Turkey.",
+            "Armenia was the first state to adopt Christianity as a state religion, way back in the early 4th century.",
+            "The Armenian alphabet is its own script, created in the 5th century and still used today.",
+            "Lake Sevan is a huge high-altitude lake that acts like the country’s inland sea.",
+            "Apricots are deeply tied to Armenian identity, and even the scientific name hints at that connection.",
+            "Armenian monasteries are often perched dramatically on cliffs, like they were designed for postcards.",
+            "The country sits in a seismic zone, so earthquakes are part of its geological reality.",
+            "Armenia’s time zone is UTC+4, aligning it with parts of the wider Caucasus region."
+        ]
     },
     {
         "country": "Aruba",
-        "facts": []
+        "facts": [
+            "Aruba is a Caribbean island with a dry climate, so it’s sunny more often than your group chat thinks is fair.",
+            "It’s a constituent country within the Kingdom of the Netherlands, with its own local government.",
+            "Oranjestad is the capital, known for pastel Dutch-Caribbean architecture and a busy cruise port.",
+            "Aruba sits outside the main hurricane belt, which is a big reason it’s a year-round tourist magnet.",
+            "The island is famous for divi-divi trees that grow bent from constant trade winds like natural weather vanes.",
+            "Papiamento is widely spoken, a creole language blending Portuguese, Spanish, Dutch, and more.",
+            "Aruba uses the Aruban florin, and U.S. dollars are also commonly accepted.",
+            "The coastline flips between calm turquoise beaches and rougher, rocky shores on the opposite side.",
+            "Arikok National Park covers a big slice of the island, with caves, cacti, and volcanic formations.",
+            "Aruba runs on UTC−4, with no daylight saving time drama."
+        ]
     },
     {
         "country": "Australia",
-        "facts": []
+        "facts": [
+            "Australia is both a country and a continent, which is an efficiency move other places didn’t commit to.",
+            "The Great Barrier Reef is the world’s largest coral reef system and it’s visible from space in parts.",
+            "Australia is home to marsupials like kangaroos and koalas, plus monotremes like the platypus that look invented.",
+            "The country has more than one desert, and most Australians live close to the coast anyway.",
+            "Canberra is the capital, chosen as a compromise between Sydney and Melbourne, which is very on-brand politics.",
+            "Australia has the world’s oldest continuous living cultures, with Indigenous nations spanning the continent.",
+            "The Outback covers huge distances, and road trips come with “bring water” energy.",
+            "Australia has snow in the Alps, tropical rainforests in the north, and temperate forests in the south.",
+            "The Southern Cross on the flag is a real constellation used for navigation in the Southern Hemisphere.",
+            "Australia spans multiple time zones, and daylight saving makes it extra confusing on purpose."
+        ]
     },
     {
         "country": "Austria",
-        "facts": []
+        "facts": [
+            "Austria is a landlocked country in Central Europe dominated by the Alps.",
+            "Vienna was once the capital of a massive empire stretching across Europe.",
+            "Austria is famous for classical music, especially composers like Mozart and Strauss.",
+            "About two-thirds of the country is mountainous, making skiing a national pastime.",
+            "The Danube River flows through Austria on its way to the Black Sea.",
+            "Austria consistently ranks among the world’s most livable countries.",
+            "German is the official language, but Austrian German has its own flavor.",
+            "Coffeehouse culture in Austria is so important it’s officially protected.",
+            "Austria uses the euro and is part of the European Union.",
+            "Despite the mountains, Austria has flat wine-growing regions in the east."
+        ]
     },
     {
         "country": "Azerbaijan",
-        "facts": []
+        "facts": [
+            "Azerbaijan sits at the crossroads of Eastern Europe and Western Asia.",
+            "It borders the Caspian Sea, which is the world’s largest inland body of water.",
+            "Baku, the capital, mixes medieval walls with ultra-modern skyscrapers.",
+            "Azerbaijan is nicknamed the Land of Fire due to natural gas flames.",
+            "Mud volcanoes are common here, and Azerbaijan has more than any other country.",
+            "The country has both deserts and snowy mountain regions.",
+            "Azerbaijan uses the manat as its currency.",
+            "Chess is extremely popular and widely taught to children.",
+            "The Caucasus Mountains shape much of the country’s landscape.",
+            "Azerbaijan runs on UTC+4 with no daylight saving time."
+        ]
     },
     {
         "country": "Bahrain",
-        "facts": []
+        "facts": [
+            "Bahrain is a small island nation in the Persian Gulf.",
+            "It is connected to Saudi Arabia by a long causeway bridge.",
+            "Manama is the capital and a major financial hub in the region.",
+            "Bahrain has almost no natural freshwater rivers.",
+            "Pearl diving was historically a major industry before oil.",
+            "It is one of the most densely populated countries in the world.",
+            "Arabic is the official language, and English is widely spoken.",
+            "Bahrain experiences extremely hot summers.",
+            "The country uses the Bahraini dinar, one of the world’s strongest currencies.",
+            "Bahrain operates on UTC+3."
+        ]
     },
     {
         "country": "Bangladesh",
-        "facts": []
+        "facts": [
+            "Bangladesh is one of the most densely populated countries on Earth.",
+            "It sits on the massive delta of the Ganges and Brahmaputra rivers.",
+            "Dhaka is the capital and one of the world’s largest cities.",
+            "Flooding plays a major role in shaping the landscape and agriculture.",
+            "Rice and fish are central to everyday life and cuisine.",
+            "The Sundarbans mangrove forest is home to Bengal tigers.",
+            "Bangladesh gained independence in 1971.",
+            "Bengali is the official language and one of the most spoken languages globally.",
+            "Much of the country is only a few meters above sea level.",
+            "Bangladesh uses UTC+6."
+        ]
     },
     {
         "country": "Barbados",
-        "facts": []
+        "facts": [
+            "Barbados is an island nation in the eastern Caribbean.",
+            "It sits outside the main hurricane belt, which helps tourism.",
+            "Bridgetown is the capital and a UNESCO World Heritage Site.",
+            "Barbados is made mostly of coral limestone rather than volcanic rock.",
+            "The island has a strong cricket culture inherited from Britain.",
+            "English is the official language, with a local Bajan dialect.",
+            "Barbados became a republic in 2021.",
+            "The east coast faces the Atlantic and has rougher waves.",
+            "The west coast has calmer waters and sandy beaches.",
+            "Barbados uses UTC−4 year-round."
+        ]
     },
     {
         "country": "Belarus",
-        "facts": []
+        "facts": [
+            "Belarus is a landlocked country in Eastern Europe.",
+            "It is known for vast forests and thousands of lakes.",
+            "Minsk is the capital and largest city.",
+            "Belarus has one of Europe’s largest remaining primeval forests.",
+            "The country has flat terrain with few natural borders.",
+            "Belarusian and Russian are both official languages.",
+            "Bison are a national symbol and protected species.",
+            "Much of the country experiences cold, snowy winters.",
+            "Belarus uses its own currency, the Belarusian ruble.",
+            "The country operates on UTC+3."
+        ]
     },
     {
         "country": "Belgium",
-        "facts": []
+        "facts": [
+            "Belgium is a small country with an outsized global influence.",
+            "Brussels hosts major European Union institutions.",
+            "Belgium has three official languages: Dutch, French, and German.",
+            "The country is famous for chocolate, waffles, and fries.",
+            "Belgium has one of the world’s densest rail networks.",
+            "It played a major role in early European industrialization.",
+            "Belgium is mostly flat, especially in the north.",
+            "The Ardennes region in the south is hilly and forested.",
+            "Belgium is a constitutional monarchy.",
+            "It runs on Central European Time."
+        ]
     },
     {
         "country": "Belize",
-        "facts": []
+        "facts": [
+            "Belize is the only Central American country with English as its official language.",
+            "It borders the Caribbean Sea and has extensive coral reefs.",
+            "The Belize Barrier Reef is the second-largest in the world.",
+            "Belmopan is the capital, built inland to avoid hurricanes.",
+            "Belize has dense rainforests with jaguars and howler monkeys.",
+            "Mayan ruins are scattered throughout the country.",
+            "The Great Blue Hole is a famous underwater sinkhole.",
+            "Belize has a low population density compared to its neighbors.",
+            "Multiple cultures coexist, including Maya, Creole, and Garifuna.",
+            "Belize uses UTC−6."
+        ]
     },
     {
         "country": "Benin",
-        "facts": []
+        "facts": [
+            "Benin is a West African country along the Gulf of Guinea.",
+            "It is considered the birthplace of the Vodun religion.",
+            "Porto-Novo is the official capital, while Cotonou is the largest city.",
+            "Benin was once part of the powerful Kingdom of Dahomey.",
+            "The country has a narrow shape stretching north to south.",
+            "French is the official language.",
+            "Much of Benin’s economy is based on agriculture.",
+            "The coast is low-lying and prone to erosion.",
+            "Benin has savannas in the north and forests in the south.",
+            "It operates on UTC+1."
+        ]
     },
     {
         "country": "Bermuda",
-        "facts": []
+        "facts": [
+            "Bermuda is a British Overseas Territory in the North Atlantic.",
+            "It is famous for pink-sand beaches.",
+            "Bermuda is not actually in the Caribbean.",
+            "Hamilton is the capital, despite being quite small.",
+            "The islands sit on a coral platform, not volcanic rock.",
+            "Bermuda Triangle legends are associated with the region.",
+            "Shorts are accepted business attire in Bermuda.",
+            "There are no rivers or freshwater lakes on the islands.",
+            "Bermuda uses the Bermudian dollar, pegged to the US dollar.",
+            "It runs on UTC−4."
+        ]
     },
     {
         "country": "Bhutan",
-        "facts": []
+        "facts": [
+            "Bhutan is a Himalayan country known for dramatic mountain scenery.",
+            "It measures progress using Gross National Happiness.",
+            "Thimphu is one of the few capitals without traffic lights.",
+            "Bhutan tightly controls tourism to protect its culture.",
+            "The country is largely forested and carbon negative.",
+            "Buddhism strongly influences daily life and architecture.",
+            "Many buildings follow traditional design rules by law.",
+            "Bhutan has elevations ranging from subtropical plains to high peaks.",
+            "The national sport is archery.",
+            "Bhutan operates on UTC+6."
+        ]
     },
     {
         "country": "Bolivia",
-        "facts": []
+        "facts": [
+            "Bolivia has two capitals: La Paz and Sucre.",
+            "La Paz is the highest administrative capital in the world.",
+            "Bolivia is landlocked but once had a Pacific coastline.",
+            "The country contains part of the Andes Mountains.",
+            "Salar de Uyuni is the world’s largest salt flat.",
+            "Bolivia has a large Indigenous population.",
+            "The Amazon rainforest covers much of the north.",
+            "Spanish and several Indigenous languages are official.",
+            "Lake Titicaca is the highest navigable lake in the world.",
+            "Bolivia uses UTC−4."
+        ]
     },
     {
         "country": "Bosnia and Herzegovina",
-        "facts": []
+        "facts": [
+            "Bosnia and Herzegovina is located in the western Balkans.",
+            "It has a very short coastline on the Adriatic Sea.",
+            "Sarajevo is the capital and has Ottoman and Austro-Hungarian influences.",
+            "The country is mostly mountainous.",
+            "Bosnia has one of Europe’s last primeval forests.",
+            "Three major ethnic groups shape the culture.",
+            "The old bridge of Mostar is a national symbol.",
+            "Coffee culture is deeply ingrained in daily life.",
+            "Bosnian, Croatian, and Serbian are all official languages.",
+            "It uses Central European Time."
+        ]
     },
     {
         "country": "Botswana",
-        "facts": []
+        "facts": [
+            "Botswana is a landlocked country in southern Africa.",
+            "Much of its territory is covered by the Kalahari Desert.",
+            "The Okavango Delta is a massive inland wetland.",
+            "Botswana is known for strong wildlife conservation.",
+            "Gaborone is the capital and largest city.",
+            "Diamonds play a major role in the economy.",
+            "The country has one of Africa’s most stable democracies.",
+            "Elephants are especially numerous in Botswana.",
+            "English is the official language.",
+            "Botswana operates on UTC+2."
+        ]
     },
     {
         "country": "Brazil",
-        "facts": []
+        "facts": [
+            "Brazil is the largest country in South America.",
+            "It contains most of the Amazon rainforest.",
+            "Brasília was purpose-built as the capital.",
+            "Brazil has the world’s largest Portuguese-speaking population.",
+            "The country has more biodiversity than any other.",
+            "Football is a major part of national identity.",
+            "Brazil’s coastline stretches for thousands of kilometers.",
+            "The Amazon River system dominates the north.",
+            "Brazil spans multiple climate zones.",
+            "Brazil runs mainly on UTC−3."
+        ]
     },
     {
         "country": "British Virgin Islands",
-        "facts": []
+        "facts": [
+            "The British Virgin Islands are a UK territory in the Caribbean.",
+            "They consist of dozens of islands and cays.",
+            "Road Town is the capital, located on Tortola.",
+            "Sailing is one of the main attractions.",
+            "The islands have clear water and coral reefs.",
+            "English is the official language.",
+            "The US dollar is the official currency.",
+            "Many islands are mountainous despite their small size.",
+            "The BVI are popular for island-hopping.",
+            "They use UTC−4."
+        ]
     },
     {
         "country": "Brunei",
-        "facts": []
+        "facts": [
+            "Brunei is a small country on the island of Borneo.",
+            "It is one of the wealthiest countries in Southeast Asia.",
+            "Oil and gas dominate the economy.",
+            "Bandar Seri Begawan is the capital.",
+            "The Sultan lives in one of the world’s largest palaces.",
+            "Islam plays a central role in public life.",
+            "Large areas of rainforest are protected.",
+            "Brunei has a small population.",
+            "The country is divided into two separate land areas.",
+            "Brunei uses UTC+8."
+        ]
     },
     {
         "country": "Bulgaria",
-        "facts": []
+        "facts": [
+            "Bulgaria is located in southeastern Europe.",
+            "It borders the Black Sea to the east.",
+            "Sofia is one of Europe’s oldest capital cities.",
+            "Bulgaria uses the Cyrillic alphabet.",
+            "The country has both mountains and fertile plains.",
+            "Rose oil production is a national specialty.",
+            "Bulgaria has ancient Thracian archaeological sites.",
+            "The climate ranges from continental to Mediterranean.",
+            "Yogurt is a staple food with local bacterial strains.",
+            "Bulgaria runs on UTC+2."
+        ]
     },
     {
         "country": "Burkina Faso",
-        "facts": []
+        "facts": [
+            "Burkina Faso is a landlocked country in West Africa.",
+            "Its name means ‘Land of Upright People.’",
+            "Ouagadougou is the capital city.",
+            "The country lies mostly in the Sahel region.",
+            "Music and film festivals are culturally important.",
+            "French is the official language.",
+            "Agriculture employs much of the population.",
+            "The landscape is mostly flat savanna.",
+            "Burkina Faso has a tropical climate.",
+            "It operates on UTC+0."
+        ]
     },
     {
         "country": "Burundi",
-        "facts": []
+        "facts": [
+            "Burundi is a small landlocked country in East Africa.",
+            "It lies near Lake Tanganyika, one of the world’s deepest lakes.",
+            "Gitega is the political capital.",
+            "The country has hilly terrain and a mild climate.",
+            "Coffee is a major export crop.",
+            "Kirundi is spoken by nearly the entire population.",
+            "Burundi is one of Africa’s most densely populated countries.",
+            "Drumming traditions are internationally recognized.",
+            "The Nile’s southern sources are near Burundi.",
+            "Burundi uses UTC+2."
+        ]
     },
     {
         "country": "Cabo Verde",
-        "facts": []
+        "facts": [
+            "Cabo Verde is an island nation off West Africa, famous for morna music and singer Cesária Évora.",
+            "The islands were uninhabited until Portuguese settlement, so Cabo Verde has no Indigenous population history.",
+            "Cabo Verde’s culture blends African rhythms with Portuguese influences in music, food, and language.",
+            "Many Cabo Verdeans live abroad, making remittances a key part of the national economy.",
+            "The country is known for dramatic volcanic landscapes and consistently windy beaches.",
+            "Creole is widely spoken, alongside Portuguese as the official language.",
+            "Cabo Verde has become a popular low-key European winter sun destination.",
+            "Tourism focuses on beaches, hiking, and live music rather than mass resorts.",
+            "Despite limited resources, Cabo Verde is considered politically stable in the region.",
+            "The islands sit on ancient volcanic hotspots, shaping their rugged terrain."
+        ]
     },
     {
         "country": "Cambodia",
-        "facts": []
+        "facts": [
+            "Cambodia is home to Angkor Wat, the world’s largest religious monument and a national symbol.",
+            "Angkor Wat appears on Cambodia’s flag, making it one of the few flags with a real building.",
+            "Phnom Penh sits at the meeting point of three major rivers.",
+            "Cambodia’s cuisine features fermented fish paste that divides visitors instantly.",
+            "The country has one of the youngest populations in Southeast Asia.",
+            "Traditional Apsara dance is taught from childhood and performed at major ceremonies.",
+            "Cambodia has rapidly growing tourism driven by history and temple complexes.",
+            "The Khmer language has one of the longest alphabets in the world.",
+            "Motorbikes dominate daily transport across cities and rural areas.",
+            "Cambodia’s recent economic growth contrasts sharply with its tragic 20th-century history."
+        ]
     },
     {
         "country": "Cameroon",
-        "facts": []
+        "facts": [
+            "Cameroon’s 1990 World Cup run made history as the first African team to reach the quarter-finals.",
+            "They famously defeated defending champions Argentina in the tournament’s opening match.",
+            "Cameroon is often called ‘Africa in miniature’ due to its diverse landscapes.",
+            "The country has beaches, rainforests, savannas, and mountains within one border.",
+            "Cameroon is bilingual, with both French and English as official languages.",
+            "Samuel Eto’o is one of Africa’s most celebrated footballers.",
+            "Mount Cameroon is an active volcano and West Africa’s highest peak.",
+            "Cameroon’s music scene blends makossa, bikutsi, and modern pop.",
+            "Football matches regularly bring entire cities to a standstill.",
+            "The national football team is nicknamed the Indomitable Lions."
+        ]
     },
     {
         "country": "Canada",
-        "facts": []
+        "facts": [
+            "Canada has more lakes than the rest of the world combined.",
+            "The country stretches from the Atlantic to the Pacific and into the Arctic.",
+            "Hockey is culturally mandatory, even if you’ve never skated.",
+            "Canada produces global pop stars like Drake, The Weeknd, and Justin Bieber.",
+            "The maple leaf is a national symbol and aggressively protected brand asset.",
+            "Canada has six different time zones and wildly different climates.",
+            "French and English are both official languages at the federal level.",
+            "The country has one of the world’s longest coastlines.",
+            "Toronto is one of the most multicultural cities on Earth.",
+            "Canada is famous for politeness, but also very serious winters."
+        ]
     },
     {
         "country": "Cayman Islands",
-        "facts": []
+        "facts": [
+            "The Cayman Islands are a major global financial hub despite their small population.",
+            "They’re famous for Seven Mile Beach, consistently ranked among the world’s best.",
+            "The islands have no direct taxes, attracting international businesses.",
+            "Stingrays regularly interact with tourists at Stingray City sandbars.",
+            "The Cayman Islands are a British Overseas Territory.",
+            "Scuba diving here is known for clear water and dramatic drop-offs.",
+            "English is the official language, spoken with a Caribbean lilt.",
+            "The islands sit on a submerged mountain range.",
+            "Tourism and finance dominate the local economy.",
+            "Cayman cuisine mixes Caribbean flavors with international influences."
+        ]
     },
     {
         "country": "Central African Republic",
-        "facts": []
+        "facts": [
+            "The Central African Republic is one of Africa’s most resource-rich yet economically challenged countries.",
+            "Large areas remain sparsely populated and heavily forested.",
+            "Bangui, the capital, sits along the Ubangi River.",
+            "The country contains significant rainforest biodiversity.",
+            "French and Sango are official languages.",
+            "Wildlife includes forest elephants and lowland gorillas.",
+            "Much of the country’s infrastructure remains underdeveloped.",
+            "Diamond mining plays a major role in exports.",
+            "The landscape transitions from savanna to dense jungle.",
+            "Despite challenges, local culture remains resilient and community-focused."
+        ]
     },
     {
         "country": "Chad",
-        "facts": []
+        "facts": [
+            "Chad is named after Lake Chad, once one of Africa’s largest lakes.",
+            "The lake has dramatically shrunk over recent decades.",
+            "Chad stretches from Sahara Desert to tropical wetlands.",
+            "It has more than 200 ethnic groups.",
+            "French and Arabic are both official languages.",
+            "Much of Chad is sparsely populated desert.",
+            "Nomadic lifestyles remain common in northern regions.",
+            "Livestock herding is central to rural economies.",
+            "Chad has no coastline, increasing transport challenges.",
+            "Its geography makes it one of Africa’s most diverse countries."
+        ]
     },
     {
         "country": "Chile",
-        "facts": []
+        "facts": [
+            "Chile is one of the longest north-south countries on Earth.",
+            "It stretches from the Atacama Desert to Patagonia’s glaciers.",
+            "The Atacama is considered the driest desert on the planet.",
+            "Chile produces world-famous wines and exports them globally.",
+            "Santiago sits between mountains and vineyards.",
+            "Easter Island, with its moai statues, belongs to Chile.",
+            "Chile regularly experiences earthquakes due to tectonic activity.",
+            "The Andes dominate much of the country’s eastern border.",
+            "Chile has a strong astronomy presence thanks to clear skies.",
+            "Patagonia’s landscapes look like they were designed by a fantasy author."
+        ]
     },
     {
         "country": "China",
-        "facts": []
+        "facts": [
+            "China is the world’s most populous country, with over a billion people.",
+            "It spans deserts, rainforests, mountains, and megacities.",
+            "The Great Wall stretches thousands of kilometers across northern China.",
+            "China’s high-speed rail network is the largest in the world.",
+            "Beijing combines imperial palaces with futuristic architecture.",
+            "Chinese cuisine varies dramatically by region.",
+            "China is the birthplace of paper, gunpowder, and printing.",
+            "The country has rapidly grown its space exploration program.",
+            "Mandarin is the most spoken language globally.",
+            "China’s influence shapes global manufacturing and trade."
+        ]
     },
     {
         "country": "Colombia",
-        "facts": []
+        "facts": [
+            "Colombia is the only South American country with both Pacific and Caribbean coastlines.",
+            "It is one of the world’s most biodiverse countries.",
+            "Shakira is one of Colombia’s most famous global exports.",
+            "Colombian coffee is internationally celebrated for quality.",
+            "Bogotá sits high in the Andes mountains.",
+            "The country has dramatically improved security over recent decades.",
+            "Colombia produces colorful festivals and vibrant street culture.",
+            "Medellín is known for urban innovation and transformation.",
+            "The Amazon rainforest covers much of southern Colombia.",
+            "Music styles like cumbia and vallenato originated here."
+        ]
     },
     {
         "country": "Comoros",
-        "facts": []
+        "facts": [
+            "Comoros is a small island nation off Africa’s east coast.",
+            "It sits between Madagascar and mainland Africa.",
+            "The islands are volcanic and visually dramatic.",
+            "One volcano remains active on the main island.",
+            "Comoros has strong cultural ties to East Africa and Arabia.",
+            "French and Arabic influence the local culture.",
+            "Fishing plays a major role in daily life.",
+            "The country has one of Africa’s smallest populations.",
+            "Cloves and vanilla are important export crops.",
+            "Comoros remains relatively unknown to mass tourism."
+        ]
     },
     {
         "country": "Cook Islands",
-        "facts": []
+        "facts": [
+            "The Cook Islands are a self-governing territory in free association with New Zealand.",
+            "They consist of 15 islands spread across a huge ocean area.",
+            "Tourism focuses on lagoons, snorkeling, and slow island life.",
+            "Rarotonga is the main island and transport hub.",
+            "The islands are named after Captain James Cook.",
+            "Local culture emphasizes dance, drumming, and storytelling.",
+            "Many residents hold New Zealand citizenship.",
+            "The islands are surrounded by coral reefs.",
+            "Population numbers are small and tightly knit.",
+            "Cook Islands culture remains strongly Polynesian."
+        ]
     },
     {
         "country": "Costa Rica",
-        "facts": []
+        "facts": [
+            "Costa Rica abolished its army in 1948.",
+            "It is famous for rainforests, volcanoes, and wildlife.",
+            "Sloths are a national unofficial mascot.",
+            "The phrase ‘Pura Vida’ is used constantly and means everything.",
+            "Costa Rica produces a large share of renewable energy.",
+            "It has coastlines on both the Pacific and Caribbean.",
+            "Ecotourism is a major economic driver.",
+            "The country has a long-standing stable democracy.",
+            "National parks cover roughly a quarter of the country.",
+            "Costa Rica consistently ranks high for happiness."
+        ]
     },
     {
         "country": "Croatia",
-        "facts": []
+        "facts": [
+            "Croatia has a stunning Adriatic coastline with over a thousand islands.",
+            "Dubrovnik doubled as King’s Landing in Game of Thrones.",
+            "Croatia’s national football team regularly overperforms expectations.",
+            "The country has Roman ruins alongside medieval cities.",
+            "Croatia popularized the modern necktie, originally worn by soldiers.",
+            "Plitvice Lakes National Park is known for cascading waterfalls.",
+            "The Dalmatian dog breed originates from this region.",
+            "Croatia blends Mediterranean and Central European cultures.",
+            "Tourism surges during summer months.",
+            "Croatian cuisine varies greatly by region."
+        ]
     },
     {
         "country": "Cuba",
-        "facts": []
+        "facts": [
+            "Cuba is famous for classic cars still driving Havana’s streets.",
+            "The country is known for cigars, rum, and salsa music.",
+            "Havana’s old town is a UNESCO World Heritage Site.",
+            "Cuba has one of the world’s highest literacy rates.",
+            "The island played a major role in Cold War history.",
+            "Baseball is more popular than football in Cuba.",
+            "Cuban music has influenced jazz and Latin pop worldwide.",
+            "The island has diverse ecosystems beyond beaches.",
+            "Cuba is the largest island in the Caribbean.",
+            "Colorful architecture defines many Cuban cities."
+        ]
     },
     {
         "country": "Curaçao",
-        "facts": []
+        "facts": [
+            "Curaçao is a Caribbean island with brightly colored Dutch architecture.",
+            "It is part of the Kingdom of the Netherlands.",
+            "Willemstad’s waterfront looks like a pastel painting.",
+            "The island is famous for blue Curaçao liqueur.",
+            "Curaçao lies outside the main hurricane belt.",
+            "Papiamento is widely spoken alongside Dutch and English.",
+            "The island has excellent diving and snorkeling sites.",
+            "Its culture blends European, African, and Caribbean influences.",
+            "Curaçao has a dry, sunny climate.",
+            "The island has a long history of trade."
+        ]
     },
     {
         "country": "Cyprus",
-        "facts": []
+        "facts": [
+            "Cyprus is located at the crossroads of Europe, Asia, and Africa.",
+            "It is associated with the mythological birthplace of Aphrodite.",
+            "The island is divided into two politically distinct areas.",
+            "Cyprus has a long history of Greek and Roman influence.",
+            "The country is known for halloumi cheese.",
+            "Mediterranean beaches drive tourism.",
+            "Wine has been produced here for thousands of years.",
+            "Ancient ruins appear near modern resorts.",
+            "Cyprus enjoys long, dry summers.",
+            "The island blends Middle Eastern and European cultures."
+        ]
     },
     {
         "country": "Czechia",
-        "facts": []
+        "facts": [
+            "Czechia is famous for historic castles and medieval towns.",
+            "Prague’s old town attracts millions of visitors yearly.",
+            "The country is widely considered the birthplace of pilsner beer.",
+            "Beer consumption per capita ranks among the world’s highest.",
+            "Czechia has no coastline but plenty of rivers.",
+            "The Charles Bridge is one of Europe’s most iconic landmarks.",
+            "The country has a strong engineering tradition.",
+            "Czech literature has global influence.",
+            "Bohemia and Moravia are historic regions.",
+            "Czechia blends Gothic, Baroque, and modern architecture."
+        ]
     },
     {
         "country": "Democratic Republic of the Congo",

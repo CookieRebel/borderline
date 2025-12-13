@@ -141,6 +141,7 @@ function App() {
       {(gameState.status === 'won' || gameState.status === 'lost') && (
         <GameEndModal
           isOpen={true}
+          countryName={gameState.targetCountry?.properties?.name || ''}
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           difficulty={difficulty}
