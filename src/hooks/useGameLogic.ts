@@ -36,26 +36,18 @@ export interface GameState {
     difficulty: Difficulty;
 }
 
-// Scoring system - max score ~2000 (1400 guess + 600 time bonus)
-const GUESS_POINTS = [0, 1400, 1000, 760, 580, 440, 320, 220, 140];
-
+// Scoring system: Start 2000, -200 per guess, -10 per second
 function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Difficulty): number {
-    const g = Math.max(1, Math.min(guessNumber, 8));
-    const guessPoints = GUESS_POINTS[g];
+    const baseScore = 2000;
+    const guessPenalty = (guessNumber - 1) * 200; // First guess is free
+
     // Easy mode: no time penalty
     if (difficulty === 'easy') {
-        return guessPoints;
+        return Math.max(0, baseScore - guessPenalty);
     }
-    // Time bonus with exponential decay:
-    // - Starts at 600 points
-    // - Decays faster at the beginning (~20 pts/sec), slows down over time
-    // - Minimum 100 points even after long time
-    const maxTimeBonus = 600;
-    const decayRate = 0.033; // Tuned for ~10 pts/sec initial decay
-    const graceSeconds = 5;
-    const effectiveTime = Math.max(0, timeSeconds - graceSeconds);
-    const timeBonus = Math.max(100, maxTimeBonus * Math.exp(-decayRate * effectiveTime));
-    return Math.round(guessPoints + timeBonus);
+
+    const timePenalty = Math.floor(timeSeconds) * 10;
+    return Math.max(0, baseScore - guessPenalty - timePenalty);
 }
 
 // Easy mode countries - larger, well-known countries
