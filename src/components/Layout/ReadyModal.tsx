@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Modal, ModalBody, Button, ButtonGroup, Tooltip } from 'reactstrap';
+import { Modal, ModalBody, Button, ButtonGroup } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
 import styles from './ReadyModal.module.css';
 
@@ -12,7 +11,10 @@ interface ReadyModalProps {
 
 const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyModalProps) => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
-    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const handleNoMoveClick = () => {
+        alert('Coming soon!');
+    };
 
     return (
         <Modal isOpen centered>
@@ -33,24 +35,15 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                                 {level}
                             </Button>
                         ))}
-                        <span id="noMoveBtn">
-                            <Button
-                                disabled
-                                size="sm"
-                                color="secondary"
-                                outline
-                                className={`opacity-50 ${styles.difficultyBtn}`}
-                            >
-                                No Move
-                            </Button>
-                        </span>
-                        <Tooltip
-                            isOpen={tooltipOpen}
-                            target="noMoveBtn"
-                            toggle={() => setTooltipOpen(!tooltipOpen)}
+                        <Button
+                            size="sm"
+                            color="secondary"
+                            outline
+                            className={`opacity-75 ${styles.difficultyBtn}`}
+                            onClick={handleNoMoveClick}
                         >
-                            Coming Soon!
-                        </Tooltip>
+                            No Move
+                        </Button>
                     </ButtonGroup>
                 </div>
 
