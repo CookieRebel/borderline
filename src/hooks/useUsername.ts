@@ -1,60 +1,94 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const usernameWords = {
     first: [
-        "border",
-        "geo",
-        "map",
-        "world",
-        "earth",
-        "globe",
-        "quiz",
-        "brain",
-        "smart",
-        "wild",
+        "borderline", "geo", "map", "world", "earth",
+        "globe", "quiz", "brain", "smart", "wild",
     ],
     second: [
-        "brain",
-        "pro",
-        "boss",
-        "nerd",
-        "whiz",
-        "kid",
-        "legend",
-        "champ",
-        "hero",
-        "wizard",
+        "brain", "pro", "boss", "nerd", "whiz",
+        "kid", "legend", "champ", "hero", "wizard",
     ]
 };
 
 const generateUsername = (): string => {
     const first = usernameWords.first[Math.floor(Math.random() * usernameWords.first.length)];
     const second = usernameWords.second[Math.floor(Math.random() * usernameWords.second.length)];
-    const number = Math.floor(Math.random() * 90) + 10; // 10-99
-    return `${first}_${second}_${number}`;
+    const number = Math.floor(Math.random() * 90) + 10;
+    return `${first}${second}${number}`;
 };
 
 export const useUsername = () => {
+    const [userId, setUserId] = useState<string>('');
     const [username, setUsername] = useState<string>('');
+    const [loading, setLoading] = useState(true);
 
+    // Initialize user on mount
     useEffect(() => {
-        const stored = localStorage.getItem('borderline_username');
-        if (stored) {
-            setUsername(stored);
-        } else {
-            const newUsername = generateUsername();
-            localStorage.setItem('borderline_username', newUsername);
-            setUsername(newUsername);
-        }
+        const initUser = async () => {
+            let storedId = localStorage.getItem('borderline_user_id');
+
+            if (!storedId) {
+                // Generate new user ID and username
+                storedId = uuidv4();
+                localStorage.setItem('borderline_user_id', storedId);
+            }
+
+            setUserId(storedId);
+
+            try {
+                // Try to get existing user
+                const response = await fetch(`/api/user/${storedId}`);
+
+                if (response.ok) {
+                    const user = await response.json();
+                    setUsername(user.displayName || user.display_name);
+                } else if (response.status === 404) {
+                    // User doesn't exist, create new one
+                    const newUsername = generateUsername();
+                    const createResponse = await fetch('/api/user', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: storedId, display_name: newUsername }),
+                    });
+
+                    if (createResponse.ok) {
+                        const newUser = await createResponse.json();
+                        setUsername(newUser.displayName || newUser.display_name);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch user:', error);
+                // Fallback to local generation if API fails
+                const fallbackName = localStorage.getItem('borderline_username_fallback') || generateUsername();
+                localStorage.setItem('borderline_username_fallback', fallbackName);
+                setUsername(fallbackName);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        initUser();
     }, []);
 
-    const updateUsername = (newUsername: string) => {
+    // Update username in database
+    const updateUsername = useCallback(async (newUsername: string) => {
         const trimmed = newUsername.trim();
-        if (trimmed) {
-            localStorage.setItem('borderline_username', trimmed);
-            setUsername(trimmed);
-        }
-    };
+        if (!trimmed || !userId) return;
 
-    return { username, updateUsername };
+        setUsername(trimmed); // Optimistic update
+
+        try {
+            await fetch('/api/user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userId, display_name: trimmed }),
+            });
+        } catch (error) {
+            console.error('Failed to update username:', error);
+        }
+    }, [userId]);
+
+    return { userId, username, updateUsername, loading };
 };
