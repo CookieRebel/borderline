@@ -123,8 +123,8 @@ export const handler: Handler = async (event) => {
         if (level === 'hard') updates.hardGameCount = user.hardGameCount + 1;
         if (level === 'extreme') updates.extremeGameCount = user.extremeGameCount + 1;
 
-        // Update high score if new
-        if (isNewHighScore) {
+        // Update high score if new and game was won
+        if (won && isNewHighScore) {
             if (level === 'easy') updates.easyHighScore = score;
             if (level === 'medium') updates.mediumHighScore = score;
             if (level === 'hard') updates.hardHighScore = score;
