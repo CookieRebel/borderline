@@ -5,10 +5,11 @@ import { useUsername } from '../../hooks/useUsername';
 
 interface StartScreenProps {
     onPlay: () => void;
+    onInstructions: () => void;
     streak?: number;
 }
 
-const StartScreen = ({ onPlay, streak = 0 }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) => {
     const { username, updateUsername, loading } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
@@ -109,8 +110,7 @@ const StartScreen = ({ onPlay, streak = 0 }: StartScreenProps) => {
                 <Button
                     color="secondary"
                     outline
-                    disabled
-                    className="opacity-50"
+                    onClick={onInstructions}
                 >
                     Instructions
                 </Button>

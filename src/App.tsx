@@ -12,6 +12,7 @@ import AdBanner from './components/Layout/AdBanner';
 import GameCard from './components/Layout/GameCard';
 import ReadyModal from './components/Layout/ReadyModal';
 import StartScreen from './components/Layout/StartScreen';
+import InstructionsScreen from './components/Layout/InstructionsScreen';
 
 // Play sparkle sound
 const playSparkleSound = () => {
@@ -27,6 +28,7 @@ const playSparkleSound = () => {
 function App() {
   const { userId, streak, highScores } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showInstructions, setShowInstructions] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // Callback to refresh stats after game ends
@@ -75,7 +77,26 @@ function App() {
 
   // Show start screen first
   if (showStartScreen) {
-    return <StartScreen onPlay={() => setShowStartScreen(false)} streak={streak} />;
+    return (
+      <StartScreen
+        onPlay={() => setShowStartScreen(false)}
+        onInstructions={() => {
+          setShowStartScreen(false);
+          setShowInstructions(true);
+        }}
+        streak={streak}
+      />
+    );
+  }
+
+  // Show instructions screen
+  if (showInstructions) {
+    return (
+      <InstructionsScreen onBack={() => {
+        setShowInstructions(false);
+        setShowStartScreen(true);
+      }} />
+    );
   }
 
   return (
