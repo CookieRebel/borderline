@@ -14,12 +14,11 @@ const StartScreen = ({ onPlay, streak = 0 }: StartScreenProps) => {
             {/* Logo */}
             <div className="mb-4">
                 <img
-                    src="/borderline_globe_small.png"
-                    alt="BorderLINE Globe"
-                    style={{ height: '80px' }}
+                    src="/borderline_logo.png"
+                    alt="BorderLINE"
+                    style={{ height: '120px' }}
                     className="mb-3"
                 />
-                <h1 className="h2 fw-bold text-emerald mb-2">BorderLINE</h1>
                 <p className="text-muted mb-0">Guess the country or territory from its shape</p>
             </div>
 
