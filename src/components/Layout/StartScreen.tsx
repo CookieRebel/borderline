@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { Button } from 'reactstrap';
+import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
 
 interface StartScreenProps {
@@ -7,7 +9,29 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, streak = 0 }: StartScreenProps) => {
-    const { username, loading } = useUsername();
+    const { username, updateUsername, loading } = useUsername();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editValue, setEditValue] = useState('');
+
+    const handleClick = () => {
+        setEditValue(username);
+        setIsEditing(true);
+    };
+
+    const handleBlur = () => {
+        if (editValue.trim()) {
+            updateUsername(editValue);
+        }
+        setIsEditing(false);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') {
+            handleBlur();
+        } else if (e.key === 'Escape') {
+            setIsEditing(false);
+        }
+    };
 
     return (
         <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 text-center px-4">
@@ -30,7 +54,32 @@ const StartScreen = ({ onPlay, streak = 0 }: StartScreenProps) => {
                     </div>
                 ) : (
                     <>
-                        <p className="h5 text-dark mb-2">Hi, {username}.</p>
+                        <div className="h5 text-dark mb-2 d-inline-flex align-items-center gap-2">
+                            Hi,{' '}
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    value={editValue}
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onBlur={handleBlur}
+                                    onKeyDown={handleKeyDown}
+                                    autoFocus
+                                    className="border-0 border-bottom bg-transparent text-dark text-center fw-medium"
+                                    style={{ width: '150px', outline: 'none' }}
+                                />
+                            ) : (
+                                <span
+                                    onClick={handleClick}
+                                    className="d-inline-flex align-items-center gap-1"
+                                    style={{ cursor: 'pointer' }}
+                                    title="Click to edit"
+                                >
+                                    {username}
+                                    <Edit2 size={14} />
+                                </span>
+                            )}
+                            .
+                        </div>
                         {streak > 0 && (
                             <p className="text-success fw-medium mb-0">
                                 🔥 Continue your {streak} day streak?
