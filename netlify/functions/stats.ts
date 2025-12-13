@@ -2,12 +2,6 @@ import type { Handler } from '@netlify/functions';
 import { db } from '../../src/db';
 import { sql } from 'drizzle-orm';
 
-// Get start of today in UTC
-const getTodayStart = () => {
-    const now = new Date();
-    return new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
-};
-
 export const handler: Handler = async (event) => {
     const headers = {
         'Content-Type': 'application/json',
@@ -35,14 +29,13 @@ export const handler: Handler = async (event) => {
             }
 
             // Get today's total score for this level
-            const todayStart = getTodayStart();
             const todayScoreResult = await db.execute(sql`
                 SELECT COALESCE(SUM(score), 0) as total
                 FROM game_results
                 WHERE user_id = ${userId}
                   AND level = ${level}
                   AND won = true
-                  AND created_at >= ${todayStart}
+                  AND DATE(created_at) = CURRENT_DATE
             `);
             const todayScore = Number(todayScoreResult.rows[0]?.total || 0);
 
