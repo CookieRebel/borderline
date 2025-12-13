@@ -13,6 +13,7 @@ import GameCard from './components/Layout/GameCard';
 import ReadyModal from './components/Layout/ReadyModal';
 import StartScreen from './components/Layout/StartScreen';
 import InstructionsScreen from './components/Layout/InstructionsScreen';
+import GameEndModal from './components/Layout/GameEndModal';
 
 // Play sparkle sound
 const playSparkleSound = () => {
@@ -133,6 +134,19 @@ function App() {
           difficulty={difficulty}
           onDifficultyChange={setDifficulty}
           onStart={startGame}
+        />
+      )}
+
+      {/* Game End Modal */}
+      {(gameState.status === 'won' || gameState.status === 'lost') && (
+        <GameEndModal
+          isOpen={true}
+          countryName={gameState.targetCountry?.properties?.name || 'the country'}
+          guessCount={gameState.guessHistory.length}
+          resultMessage={gameState.message}
+          won={gameState.status === 'won'}
+          difficulty={difficulty}
+          onPlayAgain={resetGame}
         />
       )}
     </div>
