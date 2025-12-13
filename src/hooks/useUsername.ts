@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import type { Difficulty } from './useGameLogic';
 
 const usernameWords = {
     first: [
@@ -19,10 +20,15 @@ const generateUsername = (): string => {
     return `${first}${second}${number}`;
 };
 
+export type HighScores = Record<Difficulty, number>;
+
+const defaultHighScores: HighScores = { easy: 0, medium: 0, hard: 0, extreme: 0 };
+
 export const useUsername = () => {
     const [userId, setUserId] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [streak, setStreak] = useState<number>(0);
+    const [highScores, setHighScores] = useState<HighScores>(defaultHighScores);
     const [loading, setLoading] = useState(true);
 
     // Initialize user on mount
@@ -46,6 +52,12 @@ export const useUsername = () => {
                     const user = await response.json();
                     setUsername(user.displayName || user.display_name);
                     setStreak(user.streak || 0);
+                    setHighScores({
+                        easy: user.easyHighScore || user.easy_high_score || 0,
+                        medium: user.mediumHighScore || user.medium_high_score || 0,
+                        hard: user.hardHighScore || user.hard_high_score || 0,
+                        extreme: user.extremeHighScore || user.extreme_high_score || 0,
+                    });
                 } else if (response.status === 404) {
                     // User doesn't exist, create new one
                     const newUsername = generateUsername();
@@ -59,6 +71,7 @@ export const useUsername = () => {
                         const newUser = await createResponse.json();
                         setUsername(newUser.displayName || newUser.display_name);
                         setStreak(newUser.streak || 0);
+                        setHighScores(defaultHighScores);
                     }
                 }
             } catch (error) {
@@ -93,5 +106,5 @@ export const useUsername = () => {
         }
     }, [userId]);
 
-    return { userId, username, updateUsername, loading, streak };
+    return { userId, username, updateUsername, loading, streak, highScores };
 };

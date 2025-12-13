@@ -139,7 +139,9 @@ const submitGameResult = async (
     }
 };
 
-export const useGameLogic = (userId?: string) => {
+import type { HighScores } from './useUsername';
+
+export const useGameLogic = (userId?: string, userHighScores?: HighScores) => {
     const [difficulty, setDifficulty] = useState<Difficulty>(() => {
         const saved = localStorage.getItem('borderline_difficulty');
         return (saved === 'easy' || saved === 'medium' || saved === 'hard') ? saved : 'easy';
@@ -161,20 +163,8 @@ export const useGameLogic = (userId?: string) => {
         difficulty: difficulty
     });
 
-    // High scores per difficulty from localStorage
-    const [highScores, setHighScores] = useState<Record<Difficulty, number>>(() => {
-        const saved = localStorage.getItem('borderline_highscores');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                // Ensure extreme exists (for backwards compatibility)
-                return { easy: 0, medium: 0, hard: 0, extreme: 0, ...parsed };
-            } catch {
-                return { easy: 0, medium: 0, hard: 0, extreme: 0 };
-            }
-        }
-        return { easy: 0, medium: 0, hard: 0, extreme: 0 };
-    });
+    // High scores from backend (passed in from useUsername)
+    const highScores = userHighScores || { easy: 0, medium: 0, hard: 0, extreme: 0 };
 
     // Current difficulty's high score
     const highScore = highScores[difficulty];
@@ -409,13 +399,8 @@ export const useGameLogic = (userId?: string) => {
             const timeSeconds = (Date.now() - roundStartTime.current) / 1000;
             const guessNumber = newGuessHistory.length;
             const roundScore = scoreRound(guessNumber, timeSeconds, difficulty);
-            // Check for high score (per difficulty)
+            // Check for high score (per difficulty) - handled by backend now
             const isHighScore = roundScore > highScore;
-            if (isHighScore) {
-                const newHighScores = { ...highScores, [difficulty]: roundScore };
-                setHighScores(newHighScores);
-                localStorage.setItem('borderline_highscores', JSON.stringify(newHighScores));
-            }
 
             // Generate praise based on guess count
             const guessCount = newGuessHistory.length;
