@@ -10,7 +10,7 @@ const AdBanner = () => {
             fontSize: '0.75rem',
             color: '#9ca3af'
         }}>
-            Ad Space
+            &nbsp;
         </div>
     );
 };

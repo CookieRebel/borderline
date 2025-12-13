@@ -90,43 +90,45 @@ const GameCard = ({
                     allLandHigh={allLandHigh}
                 />
 
-                {/* Score Overlays - Top Left */}
-                <div style={{
-                    position: 'absolute',
-                    top: '5px',
-                    left: '5px',
-                    zIndex: 100,
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '4px'
-                }}>
+                {/* Score Overlays - Top Left - only after game ends */}
+                {(status === 'won' || status === 'given_up') && (
                     <div style={{
-                        backgroundColor: 'rgba(255,215,0,0.95)',
-                        border: '1px solid #eab308',
-                        borderRadius: '4px',
-                        padding: '4px 8px',
-                        fontSize: '0.7rem',
-                        fontWeight: '600',
-                        color: '#92400e',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                        position: 'absolute',
+                        top: '5px',
+                        left: '5px',
+                        zIndex: 100,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        gap: '4px'
                     }}>
-                        🏆 Best: {highScore}
-                    </div>
-                    {status === 'won' && (
                         <div style={{
-                            backgroundColor: 'rgba(4,99,7,0.95)',
-                            border: '1px solid #046307',
+                            backgroundColor: 'rgba(255,215,0,0.95)',
+                            border: '1px solid #eab308',
                             borderRadius: '4px',
                             padding: '4px 8px',
                             fontSize: '0.7rem',
                             fontWeight: '600',
-                            color: 'white',
+                            color: '#92400e',
                             boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                         }}>
-                            Score: {score}
+                            🏆 Best: {highScore}
                         </div>
-                    )}
-                </div>
+                        {status === 'won' && (
+                            <div style={{
+                                backgroundColor: 'rgba(4,99,7,0.95)',
+                                border: '1px solid #046307',
+                                borderRadius: '4px',
+                                padding: '4px 8px',
+                                fontSize: '0.7rem',
+                                fontWeight: '600',
+                                color: 'white',
+                                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                            }}>
+                                Score: {score}
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 <GuessHistory
                     guesses={guessHistory}
