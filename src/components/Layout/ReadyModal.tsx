@@ -66,9 +66,10 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                 className="position-fixed top-50 start-50 translate-middle"
                 style={{ zIndex: 1100 }}
             >
-                <Toast isOpen={showToast}>
+                <Toast isOpen={showToast} style={{ opacity: 1, backgroundColor: 'white' }}>
                     <ToastBody className="text-center">
-                        🚧 Coming soon!
+                        New "No Move" level coming soon to BorderLINE.
+                        Stay tuned!
                     </ToastBody>
                 </Toast>
             </div>
