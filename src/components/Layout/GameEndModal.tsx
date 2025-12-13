@@ -63,17 +63,16 @@ const GameEndModal = ({
                     </h4>
                 </div>
 
-                {/* Play Again button */}
-                <Button
-                    className="btn-gold px-5 py-2 mb-4"
-                    size="lg"
-                    onClick={onPlayAgain}
-                >
-                    Play Again
-                </Button>
+                {/* Fun Fact Section */}
+                <div className="text-start mb-4 p-3 bg-light rounded">
+                    <h6 className="text-dark mb-2">🌍 Did you know?</h6>
+                    <p className="text-muted small mb-0">
+                        Antarctica is a continent and, surprise, the world's largest desert—because beneath all that ice there's solid land and almost no rainfall. It's also the only place on Earth with penguins, and there are absolutely no polar bears anywhere.
+                    </p>
+                </div>
 
                 {/* Leaderboard */}
-                <div className="text-start">
+                <div className="text-start mb-4">
                     <h5 className="text-dark mb-3 d-flex justify-content-between align-items-center">
                         <span>Weekly Leaderboard</span>
                         <small className="text-muted fw-normal">Week of {weekStartDate}</small>
@@ -120,6 +119,15 @@ const GameEndModal = ({
                         </table>
                     )}
                 </div>
+
+                {/* Play Again button */}
+                <Button
+                    className="btn-gold px-5 py-2"
+                    size="lg"
+                    onClick={onPlayAgain}
+                >
+                    Play Again
+                </Button>
             </ModalBody>
         </Modal>
     );
