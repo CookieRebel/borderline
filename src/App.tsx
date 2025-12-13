@@ -35,8 +35,7 @@ function App() {
     allFeaturesHigh,
     allLandLow,
     allLandHigh,
-    highScore,
-    liveScore
+    highScore
   } = useGameLogic();
 
   const guessInputRef = useRef<GuessInputRef>(null);
@@ -90,7 +89,6 @@ function App() {
           guessHistory={gameState.guessHistory}
           score={gameState.score}
           highScore={highScore}
-          liveScore={liveScore}
           difficulty={difficulty}
           allFeaturesLow={allFeaturesLow}
           allFeaturesHigh={allFeaturesHigh}

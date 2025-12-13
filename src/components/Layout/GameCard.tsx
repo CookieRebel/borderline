@@ -16,7 +16,6 @@ interface GameCardProps {
     guessHistory: Guess[];
     score: number;
     highScore: number;
-    liveScore: number;
     difficulty: Difficulty;
 
     // GeoJSON data
@@ -46,7 +45,6 @@ const GameCard = ({
     guessHistory,
     score,
     highScore,
-    liveScore,
     difficulty,
     allFeaturesLow,
     allFeaturesHigh,
@@ -114,20 +112,6 @@ const GameCard = ({
                     }}>
                         🏆 Best: {highScore}
                     </div>
-                    {status === 'playing' && (
-                        <div style={{
-                            backgroundColor: 'rgba(255,255,255,0.95)',
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '4px',
-                            padding: '4px 8px',
-                            fontSize: '0.7rem',
-                            fontWeight: '600',
-                            color: '#374151',
-                            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-                        }}>
-                            Score: {liveScore}
-                        </div>
-                    )}
                     {status === 'won' && (
                         <div style={{
                             backgroundColor: 'rgba(4,99,7,0.95)',
