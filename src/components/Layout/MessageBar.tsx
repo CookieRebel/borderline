@@ -29,7 +29,7 @@ const MessageBar = ({ status, message, onPlayAgain }: MessageBarProps) => {
     return (
         <div className="d-flex align-items-center justify-content-between mb-1 slide-in">
             <span
-                className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 border rounded py-1 px-3 fw-medium me-2 ${getBgClass()} ${getBorderClass()} ${getTextClass()} ${styles.messageSpan}`}
+                className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 border rounded py-1 px-3 fw-medium ${getBgClass()} ${getBorderClass()} ${getTextClass()} ${styles.messageSpan}`}
             >
                 {message}
                 {(status === 'won' || status === 'given_up') && (

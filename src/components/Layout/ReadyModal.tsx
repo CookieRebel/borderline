@@ -1,4 +1,5 @@
-import { Modal, ModalBody, Button, ButtonGroup } from 'reactstrap';
+import { useState } from 'react';
+import { Modal, ModalBody, Button, ButtonGroup, Tooltip } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
 import styles from './ReadyModal.module.css';
 
@@ -11,6 +12,7 @@ interface ReadyModalProps {
 
 const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyModalProps) => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
+    const [tooltipOpen, setTooltipOpen] = useState(false);
 
     return (
         <Modal isOpen centered>
@@ -31,16 +33,24 @@ const ReadyModal = ({ message, difficulty, onDifficultyChange, onStart }: ReadyM
                                 {level}
                             </Button>
                         ))}
-                        <Button
-                            disabled
-                            size="sm"
-                            color="secondary"
-                            outline
-                            className={`opacity-50 ${styles.difficultyBtn}`}
-                            title="Coming Soon!"
+                        <span id="noMoveBtn">
+                            <Button
+                                disabled
+                                size="sm"
+                                color="secondary"
+                                outline
+                                className={`opacity-50 ${styles.difficultyBtn}`}
+                            >
+                                No Move
+                            </Button>
+                        </span>
+                        <Tooltip
+                            isOpen={tooltipOpen}
+                            target="noMoveBtn"
+                            toggle={() => setTooltipOpen(!tooltipOpen)}
                         >
-                            No Move
-                        </Button>
+                            Coming Soon!
+                        </Tooltip>
                     </ButtonGroup>
                 </div>
 
