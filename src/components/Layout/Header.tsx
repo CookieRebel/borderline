@@ -1,11 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
+import type { Difficulty } from '../../hooks/useGameLogic';
 
-const Header = () => {
-    const { username, updateUsername, todayScore, bestDayScore } = useUsername();
+interface HeaderProps {
+    difficulty: Difficulty;
+    refreshKey?: number;
+}
+
+const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
+    const { userId, username, updateUsername } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
+    const [todayScore, setTodayScore] = useState(0);
+    const [bestDayScore, setBestDayScore] = useState(0);
+
+    // Fetch stats when userId, difficulty, or refreshKey changes
+    useEffect(() => {
+        const fetchStats = async () => {
+            if (!userId) return;
+
+            try {
+                const response = await fetch(`/api/stats?user_id=${userId}&level=${difficulty}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setTodayScore(data.todayScore || 0);
+                    setBestDayScore(data.bestDayScore || 0);
+                }
+            } catch (error) {
+                console.error('Failed to fetch stats:', error);
+            }
+        };
+
+        fetchStats();
+    }, [userId, difficulty, refreshKey]);
 
     const handleClick = () => {
         setEditValue(username);
@@ -61,7 +89,7 @@ const Header = () => {
                     )}
                     {/* Day scores */}
                     <div style={{ fontSize: '0.65rem' }} className="text-muted">
-                        Today: {todayScore.toLocaleString()} | Best: {bestDayScore.toLocaleString()}
+                        Today: {todayScore.toLocaleString()} | Best Day: {bestDayScore.toLocaleString()}
                     </div>
                 </div>
             )}

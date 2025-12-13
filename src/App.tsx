@@ -25,8 +25,14 @@ const playSparkleSound = () => {
 };
 
 function App() {
-  const { userId, streak, highScores, refetchUser } = useUsername();
+  const { userId, streak, highScores } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [statsRefreshKey, setStatsRefreshKey] = useState(0);
+
+  // Callback to refresh stats after game ends
+  const onGameEnd = () => {
+    setStatsRefreshKey(k => k + 1);
+  };
 
   const {
     gameState,
@@ -41,7 +47,7 @@ function App() {
     allLandLow,
     allLandHigh,
     highScore
-  } = useGameLogic(userId, highScores, refetchUser);
+  } = useGameLogic(userId, highScores, onGameEnd);
 
   const guessInputRef = useRef<GuessInputRef>(null);
   const mapCanvasRef = useRef<MapCanvasRef>(null);
@@ -75,7 +81,7 @@ function App() {
   return (
     <div className="app-container">
       <Container className="p-0" style={{ maxWidth: '900px' }}>
-        <Header />
+        <Header difficulty={difficulty} refreshKey={statsRefreshKey} />
         <AdBanner />
         <GameCard
           status={gameState.status}
