@@ -33,7 +33,7 @@ const GameEndModal = ({
     const { userId } = useUsername();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
-    const [week, setWeek] = useState(0);
+    const [weekStartDate, setWeekStartDate] = useState('');
 
     useEffect(() => {
         if (!isOpen) return;
@@ -45,7 +45,7 @@ const GameEndModal = ({
                 if (response.ok) {
                     const data = await response.json();
                     setLeaderboard(data.leaderboard || []);
-                    setWeek(data.week || 0);
+                    setWeekStartDate(data.weekStartDate || '');
                 }
             } catch (error) {
                 console.error('Failed to fetch leaderboard:', error);
@@ -85,7 +85,7 @@ const GameEndModal = ({
                 <div className="text-start">
                     <h5 className="text-dark mb-3 d-flex justify-content-between align-items-center">
                         <span>Weekly Leaderboard</span>
-                        <small className="text-muted fw-normal">Week {week}</small>
+                        <small className="text-muted fw-normal">Week of {weekStartDate}</small>
                     </h5>
 
                     {loading ? (

@@ -71,6 +71,25 @@ export const handler: Handler = async (event) => {
       LIMIT 10
     `);
 
+        // Calculate week start date from ISO week number
+        const getWeekStartDate = (weekNum: number, yr: number): string => {
+            // Find Jan 4 of the year (always in week 1)
+            const jan4 = new Date(Date.UTC(yr, 0, 4));
+            // Find the Monday of week 1
+            const dayOfWeek = jan4.getUTCDay() || 7;
+            const monday = new Date(jan4);
+            monday.setUTCDate(jan4.getUTCDate() - (dayOfWeek - 1));
+            // Add weeks
+            monday.setUTCDate(monday.getUTCDate() + (weekNum - 1) * 7);
+            // Format as "DD MMM"
+            const day = monday.getUTCDate();
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const month = months[monday.getUTCMonth()];
+            return `${day} ${month}`;
+        };
+
+        const weekStartDate = getWeekStartDate(parseInt(params.week!, 10), year);
+
         return {
             statusCode: 200,
             headers,
@@ -78,6 +97,7 @@ export const handler: Handler = async (event) => {
                 level,
                 week: parseInt(params.week!, 10),
                 year,
+                weekStartDate,
                 leaderboard: leaderboard.rows.map((row, index) => ({
                     rank: index + 1,
                     user_id: row.user_id,
