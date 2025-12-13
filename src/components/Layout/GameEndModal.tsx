@@ -13,9 +13,7 @@ interface LeaderboardEntry {
 
 interface GameEndModalProps {
     isOpen: boolean;
-    countryName: string;
-    guessCount: number;
-    resultMessage: string; // e.g., "That's Fantastic!"
+    resultMessage: string;
     won: boolean;
     difficulty: Difficulty;
     onPlayAgain: () => void;
@@ -23,8 +21,6 @@ interface GameEndModalProps {
 
 const GameEndModal = ({
     isOpen,
-    countryName,
-    guessCount,
     resultMessage,
     won,
     difficulty,
@@ -62,14 +58,9 @@ const GameEndModal = ({
             <ModalBody className="text-center py-4">
                 {/* Result message */}
                 <div className="mb-4">
-                    <h4 className="text-dark mb-2">
-                        {countryName} in {guessCount} {guessCount === 1 ? 'guess' : 'guesses'}!
+                    <h4 className={won ? 'text-dark' : 'text-muted'}>
+                        {resultMessage}
                     </h4>
-                    {resultMessage && (
-                        <p className={won ? 'text-success fw-medium' : 'text-muted'}>
-                            {resultMessage}
-                        </p>
-                    )}
                 </div>
 
                 {/* Play Again button */}

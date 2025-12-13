@@ -141,8 +141,6 @@ function App() {
       {(gameState.status === 'won' || gameState.status === 'lost') && (
         <GameEndModal
           isOpen={true}
-          countryName={gameState.targetCountry?.properties?.name || 'the country'}
-          guessCount={gameState.guessHistory.length}
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           difficulty={difficulty}
