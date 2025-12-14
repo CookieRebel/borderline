@@ -5,7 +5,7 @@ import type { Difficulty } from './useGameLogic';
 const usernameWords = {
     first: [
         "borderline", "geo", "map", "world", "earth",
-        "globe", "quiz", "brain", "smart", "wild",
+        "charming", "crazy", "juicy", "smart", "wild",
     ],
     second: [
         "brain", "pro", "boss", "nerd", "whiz",
@@ -66,18 +66,37 @@ export const useUsername = () => {
                     setBestDayScore(user.bestDayScore || 0);
                 } else if (response.status === 404) {
                     // User doesn't exist, create new one
-                    const newUsername = generateUsername();
-                    const createResponse = await fetch('/api/user', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ id: storedId, display_name: newUsername }),
-                    });
+                    let attempts = 0;
+                    let created = false;
 
-                    if (createResponse.ok) {
-                        const newUser = await createResponse.json();
-                        setUsername(newUser.displayName || newUser.display_name);
-                        setStreak(newUser.streak || 0);
-                        setHighScores(defaultHighScores);
+                    while (!created && attempts < 5) {
+                        const newUsername = generateUsername();
+                        const createResponse = await fetch('/api/user', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: storedId, display_name: newUsername }),
+                        });
+
+                        if (createResponse.ok) {
+                            const newUser = await createResponse.json();
+                            setUsername(newUser.displayName || newUser.display_name);
+                            setStreak(newUser.streak || 0);
+                            setHighScores(defaultHighScores);
+                            created = true;
+                        } else if (createResponse.status === 409) {
+                            // Name taken, retry
+                            attempts++;
+                        } else {
+                            // Other error
+                            break;
+                        }
+                    }
+
+                    if (!created) {
+                        // Fallback if API keeps failing or retries exhausted
+                        const fallbackName = localStorage.getItem('borderline_username_fallback') || generateUsername();
+                        localStorage.setItem('borderline_username_fallback', fallbackName);
+                        setUsername(fallbackName);
                     }
                 }
             } catch (error) {
@@ -118,22 +137,38 @@ export const useUsername = () => {
     }, [userId]);
 
     // Update username in database
-    const updateUsername = useCallback(async (newUsername: string) => {
+    const updateUsername = useCallback(async (newUsername: string): Promise<boolean | 'taken'> => {
         const trimmed = newUsername.trim();
-        if (!trimmed || !userId) return;
+        if (!trimmed || !userId) return false;
 
+        const previousName = username;
         setUsername(trimmed); // Optimistic update
 
         try {
-            await fetch('/api/user', {
+            const res = await fetch('/api/user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ id: userId, display_name: trimmed }),
             });
+
+            if (res.status === 409) {
+                // Name taken
+                setUsername(previousName); // Revert
+                return 'taken';
+            }
+
+            if (!res.ok) {
+                setUsername(previousName); // Revert
+                return false;
+            }
+
+            return true;
         } catch (error) {
             console.error('Failed to update username:', error);
+            setUsername(previousName); // Revert
+            return false;
         }
-    }, [userId]);
+    }, [userId, username]);
 
     return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser };
 };

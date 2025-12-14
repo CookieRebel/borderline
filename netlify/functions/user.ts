@@ -40,6 +40,20 @@ export const handler: Handler = async (event) => {
                 where: eq(schema.users.id, id),
             });
 
+            // Check if display name is taken by another user (case-insensitive)
+            // SQL: SELECT * FROM users WHERE lower(display_name) = lower(display_name) AND id != id
+            const nameTaken = await db.query.users.findFirst({
+                where: sql`lower(${schema.users.displayName}) = lower(${display_name}) AND ${schema.users.id} != ${id}`,
+            });
+
+            if (nameTaken) {
+                return {
+                    statusCode: 409,
+                    headers,
+                    body: JSON.stringify({ error: 'Username already taken' }),
+                };
+            }
+
             if (existing) {
                 // Update display name if changed
                 if (existing.displayName !== display_name) {

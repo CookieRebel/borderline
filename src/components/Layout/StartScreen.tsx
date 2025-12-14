@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Button } from 'reactstrap';
+import { useState, useEffect } from 'react';
+import { Button, Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
 
@@ -13,29 +13,76 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) =
     const { username, updateUsername, loading, playedToday } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
+    const [error, setError] = useState<string | null>(null);
+
+    // Auto-dismiss error after 3 seconds
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(null), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const handleClick = () => {
         setEditValue(username);
         setIsEditing(true);
+        setError(null);
+    };
+
+    const handleCommit = async () => {
+        if (!editValue.trim()) {
+            setIsEditing(false);
+            return;
+        }
+
+        if (editValue === username) {
+            setIsEditing(false);
+            return;
+        }
+
+        const result = await updateUsername(editValue);
+
+        if (result === 'taken') {
+            setError(`Username "${editValue}" is already taken`);
+            setIsEditing(false);
+        } else if (result === false) {
+            setError('Failed to update username');
+            setIsEditing(false);
+        } else {
+            setIsEditing(false);
+            setError(null);
+        }
     };
 
     const handleBlur = () => {
-        if (editValue.trim()) {
-            updateUsername(editValue);
-        }
-        setIsEditing(false);
+        // Delay slightly to confirm if user pressed Enter (which handles its own commit)
+        // or to allow existing async operations
+        handleCommit();
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            handleBlur();
+            e.preventDefault(); // Prevent blur from firing twice if possible
+            e.currentTarget.blur(); // Trigger blur which triggers commit
         } else if (e.key === 'Escape') {
             setIsEditing(false);
+            setError(null);
         }
     };
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 text-center px-4">
+        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 text-center px-4 position-relative">
+            {/* Error Toast */}
+            {error && (
+                <div className="position-fixed top-0 start-50 translate-middle-x mt-4" style={{ zIndex: 1050 }}>
+                    <Toast className="bg-danger text-white">
+                        <ToastBody>
+                            {error}
+                        </ToastBody>
+                    </Toast>
+                </div>
+            )}
+
             {/* Logo */}
             <div className="mb-4">
                 <img
