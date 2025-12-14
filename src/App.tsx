@@ -152,6 +152,7 @@ function App() {
         <GameEndModal
           isOpen={true}
           countryName={gameState.targetCountry?.properties?.name || ''}
+          countryCode={gameState.targetCountry?.properties?.['ISO3166-1-Alpha-2']}
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           difficulty={difficulty}

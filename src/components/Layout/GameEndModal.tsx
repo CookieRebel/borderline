@@ -20,15 +20,25 @@ interface CountryFact {
 interface GameEndModalProps {
     isOpen: boolean;
     countryName: string;
+    countryCode?: string; // ISO Alpha-2 code for flag
     resultMessage: string;
     won: boolean;
     difficulty: Difficulty;
     onPlayAgain: () => void;
 }
 
+// Convert ISO Alpha-2 code to emoji flag
+const getFlag = (alpha2: string | undefined): string => {
+    if (!alpha2 || alpha2.length !== 2) return '';
+    return String.fromCodePoint(
+        ...alpha2.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
+    );
+};
+
 const GameEndModal = ({
     isOpen,
     countryName,
+    countryCode,
     resultMessage,
     won,
     difficulty,
@@ -38,6 +48,8 @@ const GameEndModal = ({
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [weekStartDate, setWeekStartDate] = useState('');
+
+    const flag = getFlag(countryCode);
 
     // Pick a random fact for the country
     const randomFact = useMemo(() => {
@@ -86,7 +98,7 @@ const GameEndModal = ({
                 {/* Fun Fact Section - only show if facts available */}
                 {randomFact && (
                     <div className="text-start mb-4 p-3 bg-light rounded">
-                        <h6 className="text-dark mb-2">Fun fact about {countryName}</h6>
+                        <h6 className="text-dark mb-2">{flag} Fun fact about {countryName}</h6>
                         <p className="text-muted small mb-0">
                             {randomFact}
                         </p>
