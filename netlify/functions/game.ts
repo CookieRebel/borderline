@@ -2,13 +2,22 @@ import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { eq, and, sql } from 'drizzle-orm';
 
-// Get ISO week number
-const getISOWeek = (date: Date): number => {
-    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+// Get date in Melbourne timezone (Australia/Melbourne)
+const getMelbourneDate = (): Date => {
+    // Get current time as Melbourne time string
+    const melbourneTime = new Date().toLocaleString('en-US', { timeZone: 'Australia/Melbourne' });
+    return new Date(melbourneTime);
+};
+
+// Get ISO week number based on Melbourne timezone
+const getISOWeek = (): { week: number; year: number } => {
+    const melbourne = getMelbourneDate();
+    const d = new Date(Date.UTC(melbourne.getFullYear(), melbourne.getMonth(), melbourne.getDate()));
     const dayNum = d.getUTCDay() || 7;
     d.setUTCDate(d.getUTCDate() + 4 - dayNum);
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-    return Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+    const week = Math.ceil((((d.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+    return { week, year: d.getUTCFullYear() };
 };
 
 // Check if dates are the same calendar day
@@ -58,8 +67,7 @@ export const handler: Handler = async (event) => {
         }
 
         const now = new Date();
-        const weekNumber = getISOWeek(now);
-        const year = now.getFullYear();
+        const { week: weekNumber, year } = getISOWeek();
 
         // Get user
         const user = await db.query.users.findFirst({
