@@ -1,4 +1,4 @@
-import { Card, CardBody, Badge } from 'reactstrap';
+import { Card, CardBody, Badge, Button } from 'reactstrap';
 import type { Feature } from 'geojson';
 import MapCanvas from '../Game/MapCanvas';
 import type { MapCanvasRef } from '../Game/MapCanvas';
@@ -56,7 +56,6 @@ const GameCard = ({
                 <MessageBar
                     status={status}
                     message={message}
-                    onShowResults={onShowResults}
                 />
 
                 <div className={`bg-white mb-1 position-relative ${styles.mapFrame}`}>
@@ -90,6 +89,21 @@ const GameCard = ({
                         onGuessClick={(guessName) => mapCanvasRef.current?.rotateToCountry(guessName)}
                         onCenterClick={() => mapCanvasRef.current?.centerOnTarget()}
                     />
+
+                    {/* Results button at bottom center */}
+                    {(status === 'won' || status === 'given_up') && onShowResults && (
+                        <div
+                            className="position-absolute start-50 translate-middle-x"
+                            style={{ bottom: '20px' }}
+                        >
+                            <Button
+                                className="btn-gold px-4 py-2 shadow"
+                                onClick={onShowResults}
+                            >
+                                Results
+                            </Button>
+                        </div>
+                    )}
                 </div>
 
                 <InputBar
