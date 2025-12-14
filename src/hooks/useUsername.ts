@@ -91,20 +91,9 @@ export const useUsername = () => {
                             break;
                         }
                     }
-
-                    if (!created) {
-                        // Fallback if API keeps failing or retries exhausted
-                        const fallbackName = localStorage.getItem('borderline_username_fallback') || generateUsername();
-                        localStorage.setItem('borderline_username_fallback', fallbackName);
-                        setUsername(fallbackName);
-                    }
                 }
             } catch (error) {
                 console.error('Failed to fetch user:', error);
-                // Fallback to local generation if API fails
-                const fallbackName = localStorage.getItem('borderline_username_fallback') || generateUsername();
-                localStorage.setItem('borderline_username_fallback', fallbackName);
-                setUsername(fallbackName);
             } finally {
                 setLoading(false);
             }
