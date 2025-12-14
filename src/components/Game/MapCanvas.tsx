@@ -22,6 +22,14 @@ export interface MapCanvasRef {
 
 const LOD_THRESHOLD = 500; // Scale threshold for switching to high detail
 
+// Convert ISO Alpha-2 code to emoji flag
+const getFlag = (alpha2: string | undefined): string => {
+    if (!alpha2 || alpha2.length !== 2) return '';
+    return String.fromCodePoint(
+        ...alpha2.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
+    );
+};
+
 const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -416,15 +424,18 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 if (projected && isVisible) {
                     const [x, y] = projected;
 
+                    const flag = getFlag(targetCountry.properties?.['ISO3166-1-Alpha-2']);
+                    const label = flag ? `${flag} ${targetCountry.properties?.name}` : targetCountry.properties?.name;
+
                     // Stroke (Halo)
                     context.font = '700 14px Inter, sans-serif';
                     context.strokeStyle = 'white';
                     context.lineWidth = 3;
-                    context.strokeText(targetCountry.properties?.name, x, y);
+                    context.strokeText(label, x, y);
 
                     // Fill
                     context.fillStyle = '#065f46';
-                    context.fillText(targetCountry.properties?.name, x, y);
+                    context.fillText(label, x, y);
                 }
             }
 
@@ -440,12 +451,15 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 if (projected && isVisible) {
                     const [x, y] = projected;
 
+                    const flag = getFlag(feature.properties?.['ISO3166-1-Alpha-2']);
+                    const label = flag ? `${flag} ${feature.properties?.name}` : feature.properties?.name;
+
                     context.strokeStyle = 'white';
                     context.lineWidth = 3;
-                    context.strokeText(feature.properties?.name, x, y);
+                    context.strokeText(label, x, y);
 
                     context.fillStyle = '#374151';
-                    context.fillText(feature.properties?.name, x, y);
+                    context.fillText(label, x, y);
                 }
             });
         }
