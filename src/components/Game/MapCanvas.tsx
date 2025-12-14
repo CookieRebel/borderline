@@ -425,22 +425,41 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                     const [x, y] = projected;
 
                     const flag = getFlag(targetCountry.properties?.['ISO3166-1-Alpha-2']);
-                    const label = flag ? `${flag} ${targetCountry.properties?.name}` : targetCountry.properties?.name;
+                    const name = targetCountry.properties?.name || '';
 
-                    // Stroke (Halo)
-                    context.font = '700 14px Inter, sans-serif';
-                    context.strokeStyle = 'white';
-                    context.lineWidth = 3;
-                    context.strokeText(label, x, y);
+                    if (flag) {
+                        // Draw flag first (larger)
+                        context.font = '700 20px Inter, sans-serif';
+                        const flagWidth = context.measureText(flag).width;
 
-                    // Fill
-                    context.fillStyle = '#065f46';
-                    context.fillText(label, x, y);
+                        context.strokeStyle = 'white';
+                        context.lineWidth = 3;
+                        context.strokeText(flag, x - flagWidth / 2 - 20, y);
+                        context.fillStyle = '#065f46';
+                        context.fillText(flag, x - flagWidth / 2 - 20, y);
+
+                        // Draw name (smaller, offset right)
+                        context.font = '700 14px Inter, sans-serif';
+                        context.strokeStyle = 'white';
+                        context.lineWidth = 3;
+                        context.textAlign = 'left';
+                        context.strokeText(name, x - flagWidth / 2 + 5, y);
+                        context.fillStyle = '#065f46';
+                        context.fillText(name, x - flagWidth / 2 + 5, y);
+                        context.textAlign = 'center'; // Reset
+                    } else {
+                        // No flag, just name
+                        context.font = '700 14px Inter, sans-serif';
+                        context.strokeStyle = 'white';
+                        context.lineWidth = 3;
+                        context.strokeText(name, x, y);
+                        context.fillStyle = '#065f46';
+                        context.fillText(name, x, y);
+                    }
                 }
             }
 
             // Neighbor Labels
-            context.font = '500 12px Inter, sans-serif';
             const globeCenter: [number, number] = [-rotation[0], -rotation[1]];
             revealedNeighbors.forEach(feature => {
                 const center = geoCentroid(feature);
@@ -452,14 +471,37 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                     const [x, y] = projected;
 
                     const flag = getFlag(feature.properties?.['ISO3166-1-Alpha-2']);
-                    const label = flag ? `${flag} ${feature.properties?.name}` : feature.properties?.name;
+                    const name = feature.properties?.name || '';
 
-                    context.strokeStyle = 'white';
-                    context.lineWidth = 3;
-                    context.strokeText(label, x, y);
+                    if (flag) {
+                        // Draw flag first (larger)
+                        context.font = '500 18px Inter, sans-serif';
+                        const flagWidth = context.measureText(flag).width;
 
-                    context.fillStyle = '#374151';
-                    context.fillText(label, x, y);
+                        context.strokeStyle = 'white';
+                        context.lineWidth = 3;
+                        context.strokeText(flag, x - flagWidth / 2 - 18, y);
+                        context.fillStyle = '#374151';
+                        context.fillText(flag, x - flagWidth / 2 - 18, y);
+
+                        // Draw name (smaller, offset right)
+                        context.font = '500 12px Inter, sans-serif';
+                        context.strokeStyle = 'white';
+                        context.lineWidth = 3;
+                        context.textAlign = 'left';
+                        context.strokeText(name, x - flagWidth / 2 + 5, y);
+                        context.fillStyle = '#374151';
+                        context.fillText(name, x - flagWidth / 2 + 5, y);
+                        context.textAlign = 'center'; // Reset
+                    } else {
+                        // No flag, just name
+                        context.font = '500 12px Inter, sans-serif';
+                        context.strokeStyle = 'white';
+                        context.lineWidth = 3;
+                        context.strokeText(name, x, y);
+                        context.fillStyle = '#374151';
+                        context.fillText(name, x, y);
+                    }
                 }
             });
         }
