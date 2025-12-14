@@ -24,6 +24,7 @@ interface GameCardProps {
     allLandHigh: Feature[];
     onGuess: (guess: string) => void;
     onGiveUp: () => void;
+    onShowResults?: () => void;
     isMobile: boolean;
     mapCanvasRef: React.RefObject<MapCanvasRef | null>;
     guessInputRef: React.RefObject<GuessInputRef | null>;
@@ -44,6 +45,7 @@ const GameCard = ({
     allLandHigh,
     onGuess,
     onGiveUp,
+    onShowResults,
     isMobile,
     mapCanvasRef,
     guessInputRef
@@ -54,6 +56,7 @@ const GameCard = ({
                 <MessageBar
                     status={status}
                     message={message}
+                    onShowResults={onShowResults}
                 />
 
                 <div className={`bg-white mb-1 position-relative ${styles.mapFrame}`}>

@@ -30,6 +30,7 @@ function App() {
   const { userId, streak, highScores, refetchUser } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showResultsModal, setShowResultsModal] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // Callback to refresh stats and high scores after game ends
@@ -42,7 +43,7 @@ function App() {
     gameState,
     handleGuess,
     handleGiveUp,
-    resetGame,
+    resetGame: resetGameLogic,
     startGame,
     difficulty,
     setDifficulty,
@@ -59,6 +60,12 @@ function App() {
 
   // Detect mobile device
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
+
+  // Wrapper to reset game and close modal
+  const resetGame = () => {
+    setShowResultsModal(false);
+    resetGameLogic();
+  };
 
   // Trigger confetti and sound on win
   useEffect(() => {
@@ -101,6 +108,8 @@ function App() {
     );
   }
 
+  const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
+
   return (
     <div className="app-container">
       <Container className="p-0" style={{ maxWidth: '900px' }}>
@@ -121,6 +130,7 @@ function App() {
           allLandHigh={allLandHigh}
           onGuess={handleGuess}
           onGiveUp={handleGiveUp}
+          onShowResults={() => setShowResultsModal(true)}
           isMobile={isMobile}
           mapCanvasRef={mapCanvasRef}
           guessInputRef={guessInputRef}
@@ -137,8 +147,8 @@ function App() {
         />
       )}
 
-      {/* Game End Modal */}
-      {(gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up') && (
+      {/* Game End Modal - only show when user clicks Results */}
+      {isGameOver && showResultsModal && (
         <GameEndModal
           isOpen={true}
           countryName={gameState.targetCountry?.properties?.name || ''}
