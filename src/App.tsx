@@ -10,7 +10,6 @@ import { useUsername } from './hooks/useUsername';
 import Header from './components/Layout/Header';
 import AdBanner from './components/Layout/AdBanner';
 import GameCard from './components/Layout/GameCard';
-import ReadyModal from './components/Layout/ReadyModal';
 import StartScreen from './components/Layout/StartScreen';
 import InstructionsScreen from './components/Layout/InstructionsScreen';
 import GameEndModal from './components/Layout/GameEndModal';
@@ -61,10 +60,12 @@ function App() {
   // Detect mobile device
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
 
-  // Wrapper to reset game and close modal
-  const resetGame = () => {
+  // Wrapper to reset game, close modal, and start new game
+  const playAgain = () => {
     setShowResultsModal(false);
     resetGameLogic();
+    // Small delay to let state update, then start
+    setTimeout(() => startGame(), 50);
   };
 
   // Trigger confetti and sound on win
@@ -88,7 +89,10 @@ function App() {
   if (showStartScreen) {
     return (
       <StartScreen
-        onPlay={() => setShowStartScreen(false)}
+        onPlay={() => {
+          setShowStartScreen(false);
+          startGame();
+        }}
         onInstructions={() => {
           setShowStartScreen(false);
           setShowInstructions(true);
@@ -137,16 +141,6 @@ function App() {
         />
       </Container>
 
-      {/* Ready Modal */}
-      {gameState.status === 'ready' && (
-        <ReadyModal
-          message={gameState.message}
-          difficulty={difficulty}
-          onDifficultyChange={setDifficulty}
-          onStart={startGame}
-        />
-      )}
-
       {/* Game End Modal - only show when user clicks Results */}
       {isGameOver && showResultsModal && (
         <GameEndModal
@@ -156,7 +150,8 @@ function App() {
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           difficulty={difficulty}
-          onPlayAgain={resetGame}
+          onDifficultyChange={setDifficulty}
+          onPlayAgain={playAgain}
         />
       )}
     </div>

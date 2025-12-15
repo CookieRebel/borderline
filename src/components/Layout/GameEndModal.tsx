@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
+import { Modal, ModalBody, Button, ButtonGroup, Spinner, Toast, ToastBody } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
 import { useUsername } from '../../hooks/useUsername';
 import countryFacts from '../../data/countryFacts.json';
@@ -24,6 +24,7 @@ interface GameEndModalProps {
     resultMessage: string;
     won: boolean;
     difficulty: Difficulty;
+    onDifficultyChange: (d: Difficulty) => void;
     onPlayAgain: () => void;
 }
 
@@ -42,8 +43,11 @@ const GameEndModal = ({
     resultMessage,
     won,
     difficulty,
+    onDifficultyChange,
     onPlayAgain,
 }: GameEndModalProps) => {
+    const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
+    const [showNoMoveToast, setShowNoMoveToast] = useState(false);
     const { userId } = useUsername();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
@@ -86,84 +90,132 @@ const GameEndModal = ({
     }, [isOpen, difficulty]);
 
     return (
-        <Modal isOpen={isOpen} centered backdrop="static">
-            <ModalBody className="text-center py-4">
-                {/* Result message */}
-                <div className="mb-4">
-                    <h4 className={won ? 'text-dark' : 'text-muted'}>
-                        {resultMessage}
-                    </h4>
-                </div>
-
-                {/* Fun Fact Section - only show if facts available */}
-                {randomFact && (
-                    <div className="text-start mb-4 p-3 bg-light rounded">
-                        <h6 className="text-dark mb-2">{flag} Fun fact about {countryName}</h6>
-                        <p className="text-muted small mb-0">
-                            {randomFact}
-                        </p>
+        <>
+            <Modal isOpen={isOpen} centered backdrop="static">
+                <ModalBody className="text-center py-4">
+                    {/* Result message */}
+                    <div className="mb-4">
+                        <h4 className={won ? 'text-dark' : 'text-muted'}>
+                            {resultMessage}
+                        </h4>
                     </div>
-                )}
 
-                {/* Leaderboard */}
-                <div className="text-start mb-4">
-                    <h5 className="text-dark mb-3 d-flex justify-content-between align-items-center">
-                        <span>Weekly Leaderboard</span>
-                        <small className="text-muted fw-normal">Week of {weekStartDate}</small>
-                    </h5>
-
-                    {loading ? (
-                        <div className="text-center py-3">
-                            <Spinner size="sm" color="secondary" />
+                    {/* Fun Fact Section - only show if facts available */}
+                    {randomFact && (
+                        <div className="text-start mb-4 p-3 bg-light rounded">
+                            <h6 className="text-dark mb-2">{flag} Fun fact about {countryName}</h6>
+                            <p className="text-muted small mb-0">
+                                {randomFact}
+                            </p>
                         </div>
-                    ) : leaderboard.length === 0 ? (
-                        <p className="text-muted text-center small">No entries yet this week</p>
-                    ) : (
-                        <table className="table table-sm mb-0">
-                            <thead>
-                                <tr className="text-muted small">
-                                    <th>#</th>
-                                    <th>Player</th>
-                                    <th className="text-end">Score</th>
-                                    <th className="text-end">Games</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {leaderboard.map((entry) => (
-                                    <tr
-                                        key={entry.user_id}
-                                        className={entry.user_id === userId ? 'table-warning' : ''}
-                                    >
-                                        <td className="text-muted">{entry.rank}</td>
-                                        <td>
-                                            {entry.display_name}
-                                            {entry.user_id === userId && (
-                                                <span className="badge bg-success ms-2" style={{ fontSize: '0.65rem' }}>
-                                                    You
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td className="text-end fw-medium">
-                                            {Number(entry.total_score).toLocaleString()}
-                                        </td>
-                                        <td className="text-end text-muted">{entry.games_played}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
                     )}
-                </div>
 
-                {/* Play Again button */}
-                <Button
-                    className="btn-gold px-5 py-2"
-                    size="lg"
-                    onClick={onPlayAgain}
-                >
-                    Play Again
-                </Button>
-            </ModalBody>
-        </Modal>
+                    {/* Leaderboard */}
+                    <div className="text-start mb-4">
+                        <h5 className="text-dark mb-3 d-flex justify-content-between align-items-center">
+                            <span>Weekly Leaderboard</span>
+                            <small className="text-muted fw-normal">Week of {weekStartDate}</small>
+                        </h5>
+
+                        {loading ? (
+                            <div className="text-center py-3">
+                                <Spinner size="sm" color="secondary" />
+                            </div>
+                        ) : leaderboard.length === 0 ? (
+                            <p className="text-muted text-center small">No entries yet this week</p>
+                        ) : (
+                            <table className="table table-sm mb-0">
+                                <thead>
+                                    <tr className="text-muted small">
+                                        <th>#</th>
+                                        <th>Player</th>
+                                        <th className="text-end">Score</th>
+                                        <th className="text-end">Games</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {leaderboard.map((entry) => (
+                                        <tr
+                                            key={entry.user_id}
+                                            className={entry.user_id === userId ? 'table-warning' : ''}
+                                        >
+                                            <td className="text-muted">{entry.rank}</td>
+                                            <td>
+                                                {entry.display_name}
+                                                {entry.user_id === userId && (
+                                                    <span className="badge bg-success ms-2" style={{ fontSize: '0.65rem' }}>
+                                                        You
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="text-end fw-medium">
+                                                {Number(entry.total_score).toLocaleString()}
+                                            </td>
+                                            <td className="text-end text-muted">{entry.games_played}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        )}
+                    </div>
+
+                    {/* Difficulty Selector */}
+                    <div className="mb-4">
+                        <p className="text-muted small mb-2">Select difficulty:</p>
+                        <div className="d-flex gap-1 justify-content-center flex-wrap">
+                            <ButtonGroup size="sm">
+                                {difficulties.map((level) => (
+                                    <Button
+                                        key={level}
+                                        outline={difficulty !== level}
+                                        className={difficulty === level ? 'btn-emerald' : ''}
+                                        color={difficulty === level ? undefined : 'secondary'}
+                                        onClick={() => onDifficultyChange(level)}
+                                        style={{ textTransform: 'capitalize' }}
+                                    >
+                                        {level}
+                                    </Button>
+                                ))}
+                                <Button
+                                    size="sm"
+                                    color="secondary"
+                                    outline
+                                    className="opacity-75"
+                                    onClick={() => {
+                                        setShowNoMoveToast(true);
+                                        setTimeout(() => setShowNoMoveToast(false), 2000);
+                                    }}
+                                >
+                                    No Move
+                                </Button>
+                            </ButtonGroup>
+                        </div>
+                    </div>
+
+                    {/* Play Again button */}
+                    <Button
+                        className="btn-gold px-5 py-2"
+                        size="lg"
+                        onClick={onPlayAgain}
+                    >
+                        Play Again
+                    </Button>
+                </ModalBody>
+            </Modal>
+
+            {/* Toast notification - centered */}
+            <div
+                className="position-fixed top-50 start-50 translate-middle"
+                style={{ zIndex: 1100 }}
+            >
+                <Toast isOpen={showNoMoveToast} style={{ opacity: 1, backgroundColor: 'white' }}>
+                    <ToastBody className="text-center">
+                        New "No Move" level coming soon to BorderLINE.
+                        Stay tuned!
+                    </ToastBody>
+                </Toast>
+            </div>
+        </>
     );
 };
 
