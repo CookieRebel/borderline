@@ -141,7 +141,7 @@ const submitGameResult = async (
 import type { HighScores } from './useUsername';
 
 export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
-    const { difficulty, setDifficulty } = useDifficulty();
+    const { difficulty } = useDifficulty();
 
     const [gameState, setGameState] = useState<GameState>({
         targetCountry: null,
@@ -463,7 +463,6 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         handleGuess,
         handleGiveUp,
         difficulty,
-        setDifficulty,
         allFeaturesLow: dataLow.features as Feature[],
         allFeaturesHigh: countriesDataHigh.features as unknown as Feature[],
         allLandLow: (landDataLow as FeatureCollection).features as Feature[],
