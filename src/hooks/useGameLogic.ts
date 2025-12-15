@@ -141,7 +141,7 @@ import type { HighScores } from './useUsername';
 export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
     const [difficulty, setDifficulty] = useState<Difficulty>(() => {
         const saved = localStorage.getItem('borderline_difficulty');
-        return (saved === 'easy' || saved === 'medium' || saved === 'hard') ? saved : 'easy';
+        return (saved === 'easy' || saved === 'medium' || saved === 'hard' || saved === 'extreme') ? saved : 'easy';
     });
 
     useEffect(() => {
