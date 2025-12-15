@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
-import type { Difficulty } from '../../hooks/useGameLogic';
+import type { Difficulty } from '../../hooks/useDifficulty';
 
 interface HeaderProps {
     difficulty: Difficulty;

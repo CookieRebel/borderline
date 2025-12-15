@@ -6,7 +6,8 @@ import GuessHistory from '../Game/GuessHistory';
 import MessageBar from './MessageBar';
 import InputBar from './InputBar';
 import type { GuessInputRef } from '../Game/GuessInput';
-import type { Guess, Difficulty } from '../../hooks/useGameLogic';
+import type { Guess } from '../../hooks/useGameLogic';
+import type { Difficulty } from '../../hooks/useDifficulty';
 import styles from './GameCard.module.css';
 
 interface GameCardProps {

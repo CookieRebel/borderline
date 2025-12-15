@@ -7,9 +7,6 @@ import landDataLow from '../data/land_low.json';
 import landDataHigh from '../data/land_high.json';
 import { useDifficulty, type Difficulty } from './useDifficulty';
 
-// Re-export Difficulty type from useDifficulty
-export type { Difficulty } from './useDifficulty';
-
 export interface Guess {
     name: string;
     distance: number; // in km

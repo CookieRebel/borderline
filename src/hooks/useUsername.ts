@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { Difficulty } from './useGameLogic';
+import type { Difficulty } from './useDifficulty';
 
 const usernameWords = {
     first: [

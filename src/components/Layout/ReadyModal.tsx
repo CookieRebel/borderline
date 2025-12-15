@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal, ModalBody, Button, ButtonGroup, Toast, ToastBody } from 'reactstrap';
-import type { Difficulty } from '../../hooks/useGameLogic';
+import type { Difficulty } from '../../hooks/useDifficulty';
 import { useUsername } from '../../hooks/useUsername';
 import styles from './ReadyModal.module.css';
 
