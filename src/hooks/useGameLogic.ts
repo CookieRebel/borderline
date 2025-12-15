@@ -322,14 +322,17 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         console.log(`Target: ${target.properties?.name} (${targetIso})`);
     };
 
-    // Start the game (called when user clicks Go!)
+    // Start the game (called when user clicks Go! or Play Again)
     const startGame = () => {
-        if (gameState.status !== 'ready') return;
         roundStartTime.current = Date.now();
-        setGameState(prev => ({
-            ...prev,
-            status: 'playing'
-        }));
+        setGameState(prev => {
+            // Only transition to playing if we're in ready state
+            if (prev.status !== 'ready') return prev;
+            return {
+                ...prev,
+                status: 'playing'
+            };
+        });
     };
 
     const handleGiveUp = () => {

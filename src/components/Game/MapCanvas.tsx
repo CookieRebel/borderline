@@ -135,22 +135,11 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Track previous target to detect when it changes
-    const previousTargetRef = useRef<Feature | null>(null);
-
     // Initialize/Reset view when target country changes (new game)
     useEffect(() => {
         if (!targetCountry || !canvasRef.current) return;
         // Only center when dimensions are valid
         if (dimensions.width <= 100 || dimensions.height <= 100) return;
-
-        // Only center if target actually changed (new game started)
-        const targetName = targetCountry.properties?.name;
-        const prevName = previousTargetRef.current?.properties?.name;
-        if (targetName === prevName) return;
-
-        // Update ref to track current target
-        previousTargetRef.current = targetCountry;
 
         // 1. Calculate center rotation
         const centroid = geoCentroid(targetCountry);
@@ -165,15 +154,15 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 [[padding, padding], [dimensions.width - padding, dimensions.height - padding]],
                 targetCountry
             );
-        const newScale = Math.min(tempProj.scale(), 12000); // Clamp to max zoom
+        const newScale = Math.min(tempProj.scale(), 20000); // Clamp to max zoom
         setScale(newScale);
+        previousKRef.current = newScale;
 
-        // 3. Sync d3-zoom transform with new scale
-        if (zoomBehaviorRef.current) {
+        // 3. Sync d3-zoom transform with new scale (reset to origin)
+        if (zoomBehaviorRef.current && canvasRef.current) {
             const canvas = select(canvasRef.current);
             const newTransform = zoomIdentity.scale(newScale);
             canvas.call(zoomBehaviorRef.current.transform, newTransform);
-            previousKRef.current = newScale;
         }
 
     }, [targetCountry, dimensions.width, dimensions.height]);
@@ -236,7 +225,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         let previousY = 0;
 
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
-            .scaleExtent([100, 12000]) // Increased to 12000 for smaller islands
+            .scaleExtent([100, 20000]) // Increased to 20000 for smaller islands
             .on('zoom', (event) => {
                 const { transform, sourceEvent } = event;
                 const { k, x, y } = transform;
@@ -245,6 +234,14 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 if (k !== previousKRef.current) {
                     setScale(k);
                     previousKRef.current = k;
+                }
+
+                // Skip rotation update for programmatic transforms (no sourceEvent)
+                // This prevents overwriting rotation when we center on a new target
+                if (!sourceEvent) {
+                    previousX = x;
+                    previousY = y;
+                    return;
                 }
 
                 // Only rotate on single-finger drag (not wheel or multi-touch pinch)
