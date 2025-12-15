@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Modal, ModalBody, Button, ButtonGroup, Spinner, Toast, ToastBody } from 'reactstrap';
+import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useGameLogic';
 import { useUsername } from '../../hooks/useUsername';
 import countryFacts from '../../data/countryFacts.json';
+import DifficultySelector from '../Game/DifficultySelector';
 
 interface LeaderboardEntry {
     rank: number;
@@ -46,8 +47,6 @@ const GameEndModal = ({
     onDifficultyChange,
     onPlayAgain,
 }: GameEndModalProps) => {
-    const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
-    const [showNoMoveToast, setShowNoMoveToast] = useState(false);
     const { userId } = useUsername();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
@@ -160,37 +159,10 @@ const GameEndModal = ({
                     </div>
 
                     {/* Difficulty Selector */}
-                    <div className="mb-4">
-                        <p className="text-muted small mb-2">Select difficulty:</p>
-                        <div className="d-flex gap-1 justify-content-center flex-wrap">
-                            <ButtonGroup size="sm">
-                                {difficulties.map((level) => (
-                                    <Button
-                                        key={level}
-                                        outline={difficulty !== level}
-                                        className={difficulty === level ? 'btn-emerald' : ''}
-                                        color={difficulty === level ? undefined : 'secondary'}
-                                        onClick={() => onDifficultyChange(level)}
-                                        style={{ textTransform: 'capitalize' }}
-                                    >
-                                        {level}
-                                    </Button>
-                                ))}
-                                <Button
-                                    size="sm"
-                                    color="secondary"
-                                    outline
-                                    className="opacity-75"
-                                    onClick={() => {
-                                        setShowNoMoveToast(true);
-                                        setTimeout(() => setShowNoMoveToast(false), 2000);
-                                    }}
-                                >
-                                    No Move
-                                </Button>
-                            </ButtonGroup>
-                        </div>
-                    </div>
+                    <DifficultySelector
+                        difficulty={difficulty}
+                        onDifficultyChange={onDifficultyChange}
+                    />
 
                     {/* Play Again button */}
                     <Button
@@ -202,19 +174,6 @@ const GameEndModal = ({
                     </Button>
                 </ModalBody>
             </Modal>
-
-            {/* Toast notification - centered */}
-            <div
-                className="position-fixed top-50 start-50 translate-middle"
-                style={{ zIndex: 1100 }}
-            >
-                <Toast isOpen={showNoMoveToast} style={{ opacity: 1, backgroundColor: 'white' }}>
-                    <ToastBody className="text-center">
-                        New "No Move" level coming soon to BorderLINE.
-                        Stay tuned!
-                    </ToastBody>
-                </Toast>
-            </div>
         </>
     );
 };
