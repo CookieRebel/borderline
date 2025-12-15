@@ -135,13 +135,22 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Initialize/Reset view when target country changes or game starts
+    // Track previous target to detect when it changes
+    const previousTargetRef = useRef<Feature | null>(null);
+
+    // Initialize/Reset view when target country changes (new game)
     useEffect(() => {
         if (!targetCountry || !canvasRef.current) return;
-        // Only center when ready or when dimensions actually changed to something valid
+        // Only center when dimensions are valid
         if (dimensions.width <= 100 || dimensions.height <= 100) return;
-        // Only reset scale when starting a new game (ready status), not on win/give up
-        if (gameStatus !== 'ready') return;
+
+        // Only center if target actually changed (new game started)
+        const targetName = targetCountry.properties?.name;
+        const prevName = previousTargetRef.current?.properties?.name;
+        if (targetName === prevName) return;
+
+        // Update ref to track current target
+        previousTargetRef.current = targetCountry;
 
         // 1. Calculate center rotation
         const centroid = geoCentroid(targetCountry);
@@ -167,7 +176,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             previousKRef.current = newScale;
         }
 
-    }, [targetCountry, dimensions.width, dimensions.height, gameStatus]);
+    }, [targetCountry, dimensions.width, dimensions.height]);
 
     // Animate rotation to latest guess
     useEffect(() => {
@@ -362,8 +371,8 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             }
         }
 
-        // 5. Target Country - use high-res when zoomed in (hidden in ready state)
-        if (targetCountry && gameStatus !== 'ready') {
+        // 5. Target Country - use high-res when zoomed in
+        if (targetCountry) {
             // If zoomed in, find and use high-detail version of target
             let countryToRender = targetCountry;
             if (scale > LOD_THRESHOLD) {

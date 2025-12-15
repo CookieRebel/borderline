@@ -10,9 +10,6 @@ interface GuessHistoryProps {
 const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick, onCenterClick }) => {
     const [isExpanded, setIsExpanded] = useState(true);
 
-    if (guesses.length === 0) {
-        return null;
-    }
 
     // Reverse the guesses to show the most recent first
     const reversedGuesses = [...guesses].reverse();
