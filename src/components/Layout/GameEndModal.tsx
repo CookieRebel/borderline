@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
-import type { Difficulty } from '../../hooks/useGameLogic';
 import { useUsername } from '../../hooks/useUsername';
 import countryFacts from '../../data/countryFacts.json';
 import DifficultySelector from '../Game/DifficultySelector';
@@ -24,8 +23,7 @@ interface GameEndModalProps {
     countryCode?: string; // ISO Alpha-2 code for flag
     resultMessage: string;
     won: boolean;
-    difficulty: Difficulty;
-    onDifficultyChange: (d: Difficulty) => void;
+    difficulty: string; // For leaderboard query
     onPlayAgain: () => void;
 }
 
@@ -44,7 +42,6 @@ const GameEndModal = ({
     resultMessage,
     won,
     difficulty,
-    onDifficultyChange,
     onPlayAgain,
 }: GameEndModalProps) => {
     const { userId } = useUsername();
@@ -159,10 +156,7 @@ const GameEndModal = ({
                     </div>
 
                     {/* Difficulty Selector */}
-                    <DifficultySelector
-                        difficulty={difficulty}
-                        onDifficultyChange={onDifficultyChange}
-                    />
+                    <DifficultySelector />
 
                     {/* Play Again button */}
                     <Button

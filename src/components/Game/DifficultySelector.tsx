@@ -1,13 +1,9 @@
 import { useState } from 'react';
 import { Button, ButtonGroup, Toast, ToastBody } from 'reactstrap';
-import type { Difficulty } from '../../hooks/useGameLogic';
+import { useDifficulty, type Difficulty } from '../../hooks/useDifficulty';
 
-interface DifficultySelectorProps {
-    difficulty: Difficulty;
-    onDifficultyChange: (d: Difficulty) => void;
-}
-
-const DifficultySelector = ({ difficulty, onDifficultyChange }: DifficultySelectorProps) => {
+const DifficultySelector = () => {
+    const { difficulty, setDifficulty } = useDifficulty();
     const [showNoMoveToast, setShowNoMoveToast] = useState(false);
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
@@ -23,7 +19,7 @@ const DifficultySelector = ({ difficulty, onDifficultyChange }: DifficultySelect
                                 outline={difficulty !== level}
                                 className={difficulty === level ? 'btn-emerald' : ''}
                                 color={difficulty === level ? undefined : 'secondary'}
-                                onClick={() => onDifficultyChange(level)}
+                                onClick={() => setDifficulty(level)}
                                 style={{ textTransform: 'capitalize' }}
                             >
                                 {level}

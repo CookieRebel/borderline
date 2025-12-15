@@ -2,18 +2,15 @@ import { useState, useEffect } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
-import type { Difficulty } from '../../hooks/useGameLogic';
 import DifficultySelector from '../Game/DifficultySelector';
 
 interface StartScreenProps {
     onPlay: () => void;
     onInstructions: () => void;
     streak?: number;
-    difficulty: Difficulty;
-    onDifficultyChange: (d: Difficulty) => void;
 }
 
-const StartScreen = ({ onPlay, onInstructions, streak = 0, difficulty, onDifficultyChange }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) => {
     const { username, updateUsername, loading, playedToday } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
@@ -142,10 +139,7 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0, difficulty, onDifficu
             </div>
 
             {/* Difficulty Selector */}
-            <DifficultySelector
-                difficulty={difficulty}
-                onDifficultyChange={onDifficultyChange}
-            />
+            <DifficultySelector />
 
             {/* Buttons */}
             <div className="d-flex flex-column gap-2 mb-5" style={{ width: '200px' }}>

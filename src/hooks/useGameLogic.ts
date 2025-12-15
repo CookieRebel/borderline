@@ -5,8 +5,10 @@ import countriesDataLow from '../data/countries_low.json';
 import countriesDataHigh from '../data/countries_high.json';
 import landDataLow from '../data/land_low.json';
 import landDataHigh from '../data/land_high.json';
+import { useDifficulty, type Difficulty } from './useDifficulty';
 
-export type Difficulty = 'easy' | 'medium' | 'hard' | 'extreme';
+// Re-export Difficulty type from useDifficulty
+export type { Difficulty } from './useDifficulty';
 
 export interface Guess {
     name: string;
@@ -139,14 +141,7 @@ const submitGameResult = async (
 import type { HighScores } from './useUsername';
 
 export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
-    const [difficulty, setDifficulty] = useState<Difficulty>(() => {
-        const saved = localStorage.getItem('borderline_difficulty');
-        return (saved === 'easy' || saved === 'medium' || saved === 'hard' || saved === 'extreme') ? saved : 'easy';
-    });
-
-    useEffect(() => {
-        localStorage.setItem('borderline_difficulty', difficulty);
-    }, [difficulty]);
+    const { difficulty, setDifficulty } = useDifficulty();
 
     const [gameState, setGameState] = useState<GameState>({
         targetCountry: null,

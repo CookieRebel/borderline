@@ -45,7 +45,6 @@ function App() {
     resetGame: resetGameLogic,
     startGame,
     difficulty,
-    setDifficulty,
     allFeaturesLow,
     allFeaturesHigh,
     allLandLow,
@@ -98,8 +97,6 @@ function App() {
           setShowInstructions(true);
         }}
         streak={streak}
-        difficulty={difficulty}
-        onDifficultyChange={setDifficulty}
       />
     );
   }
@@ -152,7 +149,6 @@ function App() {
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           difficulty={difficulty}
-          onDifficultyChange={setDifficulty}
           onPlayAgain={playAgain}
         />
       )}
