@@ -98,6 +98,8 @@ function App() {
           setShowInstructions(true);
         }}
         streak={streak}
+        difficulty={difficulty}
+        onDifficultyChange={setDifficulty}
       />
     );
   }

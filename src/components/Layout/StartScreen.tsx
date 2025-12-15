@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Button, Toast, ToastBody } from 'reactstrap';
+import { Button, ButtonGroup, Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
+import type { Difficulty } from '../../hooks/useGameLogic';
 
 interface StartScreenProps {
     onPlay: () => void;
     onInstructions: () => void;
     streak?: number;
+    difficulty: Difficulty;
+    onDifficultyChange: (d: Difficulty) => void;
 }
 
-const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onInstructions, streak = 0, difficulty, onDifficultyChange }: StartScreenProps) => {
     const { username, updateUsername, loading, playedToday } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [showNoMoveToast, setShowNoMoveToast] = useState(false);
+    const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
     // Auto-dismiss error after 3 seconds
     useEffect(() => {
@@ -137,6 +142,39 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) =
                 )}
             </div>
 
+            {/* Difficulty Selector */}
+            <div className="mb-4">
+                <p className="text-muted small mb-2">Select difficulty:</p>
+                <div className="d-flex gap-1 justify-content-center flex-wrap">
+                    <ButtonGroup size="sm">
+                        {difficulties.map((level) => (
+                            <Button
+                                key={level}
+                                outline={difficulty !== level}
+                                className={difficulty === level ? 'btn-emerald' : ''}
+                                color={difficulty === level ? undefined : 'secondary'}
+                                onClick={() => onDifficultyChange(level)}
+                                style={{ textTransform: 'capitalize' }}
+                            >
+                                {level}
+                            </Button>
+                        ))}
+                        <Button
+                            size="sm"
+                            color="secondary"
+                            outline
+                            className="opacity-75"
+                            onClick={() => {
+                                setShowNoMoveToast(true);
+                                setTimeout(() => setShowNoMoveToast(false), 2000);
+                            }}
+                        >
+                            No Move
+                        </Button>
+                    </ButtonGroup>
+                </div>
+            </div>
+
             {/* Buttons */}
             <div className="d-flex flex-column gap-2 mb-5" style={{ width: '200px' }}>
                 <Button
@@ -166,6 +204,19 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) =
             {/* Copyright */}
             <div className="position-fixed bottom-0 end-0 p-3">
                 <small className="text-muted">© 2025 Enjoy Software</small>
+            </div>
+
+            {/* No Move Toast */}
+            <div
+                className="position-fixed top-50 start-50 translate-middle"
+                style={{ zIndex: 1100 }}
+            >
+                <Toast isOpen={showNoMoveToast} style={{ opacity: 1, backgroundColor: 'white' }}>
+                    <ToastBody className="text-center">
+                        New "No Move" level coming soon to BorderLINE.
+                        Stay tuned!
+                    </ToastBody>
+                </Toast>
             </div>
         </div>
     );
