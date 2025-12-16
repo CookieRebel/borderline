@@ -110,7 +110,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                     style={{ height: '50px' }}
                 />
                 {username && (
-                    <div className="position-absolute end-0 bottom-0 text-end">
+                    <div className="position-absolute end-0 bottom-0 text-end" style={{ paddingRight: '20px' }}>
                         {/* Username with edit */}
                         {isEditing ? (
                             <input
