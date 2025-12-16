@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
+import { useDifficulty } from '../../hooks/useDifficulty';
 import countryFacts from '../../data/countryFacts.json';
 import DifficultySelector from '../Game/DifficultySelector';
 
@@ -23,7 +24,6 @@ interface GameEndModalProps {
     countryCode?: string; // ISO Alpha-2 code for flag
     resultMessage: string;
     won: boolean;
-    difficulty: string; // For leaderboard query
     onPlayAgain: () => void;
 }
 
@@ -41,10 +41,10 @@ const GameEndModal = ({
     countryCode,
     resultMessage,
     won,
-    difficulty,
     onPlayAgain,
 }: GameEndModalProps) => {
     const { userId } = useUsername();
+    const { difficulty: selectedDifficulty } = useDifficulty();
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [loading, setLoading] = useState(true);
     const [weekStartDate, setWeekStartDate] = useState('');
@@ -69,7 +69,7 @@ const GameEndModal = ({
         const fetchLeaderboard = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/leaderboard?level=${difficulty}`);
+                const response = await fetch(`/api/leaderboard?level=${selectedDifficulty}`);
                 if (response.ok) {
                     const data = await response.json();
                     setLeaderboard(data.leaderboard || []);
@@ -83,7 +83,7 @@ const GameEndModal = ({
         };
 
         fetchLeaderboard();
-    }, [isOpen, difficulty]);
+    }, [isOpen, selectedDifficulty]);
 
     return (
         <>

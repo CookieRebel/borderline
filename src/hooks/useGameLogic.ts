@@ -248,8 +248,21 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         return taiwan ? geoArea(taiwan as any) : 0.0005; // Fallback if not found
     }, [dataLow]);
 
+    // Track game status in a ref to check inside useEffect without adding to dependencies
+    const gameStatusRef = useRef(gameState.status);
     useEffect(() => {
-        // Reset game when difficulty changes or on initial load
+        gameStatusRef.current = gameState.status;
+    }, [gameState.status]);
+
+    useEffect(() => {
+        // If game is over (won/lost/given_up), don't reset when difficulty changes.
+        // The user is viewing the results modal. A new game will be initialized when they click "Play Again".
+        // We check the ref so we don't need to add gameState.status to dependencies (which would cause double-init or loops)
+        if (['won', 'lost', 'given_up'].includes(gameStatusRef.current)) {
+            return;
+        }
+
+        // Reset game when difficulty changes (if playing/ready) or on initial load
         initializeGame();
     }, [difficulty, dataLow]);
 

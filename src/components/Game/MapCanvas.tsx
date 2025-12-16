@@ -312,14 +312,14 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         // 2. Graticules
         context.beginPath();
         pathGenerator(graticule());
-        context.strokeStyle = 'rgba(229, 231, 235, 0.7)'; // #e5e7eb with opacity
+        context.strokeStyle = 'rgba(229, 231, 235,1)'; // #e5e7eb with opacity
         context.lineWidth = 0.5;
         context.stroke();
 
         // 3. Globe Outline
         context.beginPath();
         pathGenerator({ type: 'Sphere' } as any);
-        context.strokeStyle = 'rgba(229, 231, 235, 0.7)';
+        context.strokeStyle = 'rgba(229, 231, 235, 1)';
         context.lineWidth = 0.5;
         context.stroke();
 
@@ -362,7 +362,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             if (visibleFeatures.length > 0) {
                 context.beginPath();
                 pathGenerator({ type: 'FeatureCollection', features: visibleFeatures } as any);
-                context.strokeStyle = 'rgba(209, 213, 219, 0.9)'; // Same grey for both LOD levels
+                context.strokeStyle = 'rgba(209, 213, 219, 1)'; // Same grey for both LOD levels
                 context.lineWidth = 0.5;
                 context.stroke();
             }
