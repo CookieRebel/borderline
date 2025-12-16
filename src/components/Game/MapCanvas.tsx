@@ -350,21 +350,22 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 return geoDistance(viewCenter, center) < effectiveVisibleAngle;
             };
 
-            // EASY MODE: Fill Land + Stroke Borders
+            // VISUAL STYLING (Fill Land + Stroke Borders)
+
+            // 1. Fill Land Mass (Both Easy and Medium)
+            const landFeatures = isHighDetail ? allLandHigh : allLandLow;
+            const visibleLand = landFeatures.filter(f => isLandFeature(f) || isFeatureVisible(f));
+
+            if (visibleLand.length > 0) {
+                context.beginPath();
+                pathGenerator({ type: 'FeatureCollection', features: visibleLand } as any);
+                context.fillStyle = '#f3f4f6'; // Gray-100
+                context.fill();
+            }
+
+            // 2. Stroke Borders (Depends on mode)
             if (difficulty === 'easy') {
-                // 1. Fill Land Mass
-                const landFeatures = isHighDetail ? allLandHigh : allLandLow;
-                // Land features are usually few and large, render all or filter
-                const visibleLand = landFeatures.filter(f => isLandFeature(f) || isFeatureVisible(f));
-
-                if (visibleLand.length > 0) {
-                    context.beginPath();
-                    pathGenerator({ type: 'FeatureCollection', features: visibleLand } as any);
-                    context.fillStyle = '#f3f4f6'; // Gray-100
-                    context.fill();
-                }
-
-                // 2. Stroke Country Borders
+                // Easy: Stroke Country Borders
                 const borderFeatures = isHighDetail ? allFeaturesHigh : allFeaturesLow;
                 const visibleBorders = borderFeatures.filter(f => isFeatureVisible(f));
 
@@ -375,12 +376,9 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                     context.lineWidth = 0.5;
                     context.stroke();
                 }
-            }
-            // MEDIUM MODE: Stroke Land Mass (Continents) only
-            else if (difficulty === 'medium') {
-                const landFeatures = isHighDetail ? allLandHigh : allLandLow;
-                const visibleLand = landFeatures.filter(f => isLandFeature(f) || isFeatureVisible(f));
-
+            } else if (difficulty === 'medium') {
+                // Medium: Stroke Land Mass (Continents) borders
+                // (Already filled above, now stroke outline)
                 if (visibleLand.length > 0) {
                     context.beginPath();
                     pathGenerator({ type: 'FeatureCollection', features: visibleLand } as any);
