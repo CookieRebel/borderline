@@ -312,7 +312,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         // 2. Graticules
         context.beginPath();
         pathGenerator(graticule());
-        context.strokeStyle = 'rgba(229, 231, 235,1)'; // #e5e7eb with opacity
+        context.strokeStyle = 'rgba(229, 231, 235, 1)'; // #e5e7eb with opacity
         context.lineWidth = 0.5;
         context.stroke();
 
@@ -362,7 +362,15 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             if (visibleFeatures.length > 0) {
                 context.beginPath();
                 pathGenerator({ type: 'FeatureCollection', features: visibleFeatures } as any);
-                context.strokeStyle = 'rgba(209, 213, 219, 1)'; // Same grey for both LOD levels
+
+                if (difficulty === 'easy') {
+                    context.fillStyle = '#e5e7eb'; // Gray-200 for land
+                    context.fill();
+                    context.strokeStyle = '#9ca3af'; // Gray-400 for borders
+                } else {
+                    context.strokeStyle = 'rgba(209, 213, 219, 1)';
+                }
+
                 context.lineWidth = 0.5;
                 context.stroke();
             }
