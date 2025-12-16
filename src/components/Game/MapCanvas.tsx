@@ -325,54 +325,57 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
 
         // 4. Faint World Map (Easy & Medium Mode) - with LOD switching
         if (difficulty === 'easy' || difficulty === 'medium') {
-            // Choose LOD based on zoom level
             const isHighDetail = scale > LOD_THRESHOLD;
-
-            // Easy Mode: Show Country Borders
-            // Medium Mode: Show Continents (Land Mass) only
-            let features = isHighDetail ? allFeaturesHigh : allFeaturesLow;
-            if (difficulty === 'medium') {
-                features = isHighDetail ? allLandHigh : allLandLow;
-            }
-
-            // Visibility culling: calculate actual visible angle based on zoom
-            // At scale 250 (default), we see roughly the hemisphere (PI/2 radians = 90°)
-            // Higher scale = smaller visible area
-            // Formula: visible angle = arcsin(canvasRadius / scale)
-            // Since we're on a unit sphere, canvasRadius ≈ min(width, height) / 2
+            const viewCenter: [number, number] = [-rotation[0], -rotation[1]];
             const canvasRadius = Math.min(dimensions.width, dimensions.height) / 2;
             const visibleAngle = Math.asin(Math.min(1, canvasRadius / scale));
 
-            const viewCenter: [number, number] = [-rotation[0], -rotation[1]];
-
-            // For continents (land data), always render them to avoid culling issues with large polygons
-            // Land features typically have empty or minimal properties compared to countries
+            // Visibility culling function
             const isLandFeature = (f: Feature) => !f.properties || Object.keys(f.properties).length === 0;
-
             const isFeatureVisible = (feature: Feature) => {
                 const center = geoCentroid(feature);
-                // Add larger buffer for features at the edge, especially at high zoom
-                // Use a minimum visible angle to prevent over-aggressive culling
-                const effectiveVisibleAngle = Math.max(visibleAngle + 0.5, Math.PI / 4); // At least 45 degrees
+                const effectiveVisibleAngle = Math.max(visibleAngle + 0.5, Math.PI / 4);
                 return geoDistance(viewCenter, center) < effectiveVisibleAngle;
             };
 
-            const visibleFeatures = features.filter(f => isLandFeature(f) || isFeatureVisible(f));
+            // EASY MODE: Fill Land + Stroke Borders
+            if (difficulty === 'easy') {
+                // 1. Fill Land Mass
+                const landFeatures = isHighDetail ? allLandHigh : allLandLow;
+                // Land features are usually few and large, render all or filter
+                const visibleLand = landFeatures.filter(f => isLandFeature(f) || isFeatureVisible(f));
 
-            if (visibleFeatures.length > 0) {
-                context.beginPath();
-                pathGenerator({ type: 'FeatureCollection', features: visibleFeatures } as any);
-
-                if (difficulty === 'easy') {
-                    context.fillStyle = '#f3f4f6'; // Gray-100 (Very light)
+                if (visibleLand.length > 0) {
+                    context.beginPath();
+                    pathGenerator({ type: 'FeatureCollection', features: visibleLand } as any);
+                    context.fillStyle = '#f3f4f6'; // Gray-100
                     context.fill();
-                    context.strokeStyle = '#d1d5db'; // Gray-300
-                } else {
-                    context.strokeStyle = 'rgba(209, 213, 219, 1)';
                 }
 
-                context.lineWidth = 0.5;
-                context.stroke();
+                // 2. Stroke Country Borders
+                const borderFeatures = isHighDetail ? allFeaturesHigh : allFeaturesLow;
+                const visibleBorders = borderFeatures.filter(f => isFeatureVisible(f));
+
+                if (visibleBorders.length > 0) {
+                    context.beginPath();
+                    pathGenerator({ type: 'FeatureCollection', features: visibleBorders } as any);
+                    context.strokeStyle = '#d1d5db'; // Gray-300
+                    context.lineWidth = 0.5;
+                    context.stroke();
+                }
+            }
+            // MEDIUM MODE: Stroke Land Mass (Continents) only
+            else if (difficulty === 'medium') {
+                const landFeatures = isHighDetail ? allLandHigh : allLandLow;
+                const visibleLand = landFeatures.filter(f => isLandFeature(f) || isFeatureVisible(f));
+
+                if (visibleLand.length > 0) {
+                    context.beginPath();
+                    pathGenerator({ type: 'FeatureCollection', features: visibleLand } as any);
+                    context.strokeStyle = 'rgba(209, 213, 219, 1)';
+                    context.lineWidth = 0.5;
+                    context.stroke();
+                }
             }
         }
 
