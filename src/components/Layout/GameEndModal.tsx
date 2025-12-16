@@ -25,6 +25,7 @@ interface GameEndModalProps {
     resultMessage: string;
     won: boolean;
     onPlayAgain: () => void;
+    refreshKey?: number;
 }
 
 // Convert ISO Alpha-2 code to emoji flag
@@ -42,6 +43,7 @@ const GameEndModal = ({
     resultMessage,
     won,
     onPlayAgain,
+    refreshKey,
 }: GameEndModalProps) => {
     const { userId } = useUsername();
     const { difficulty: selectedDifficulty } = useDifficulty();
@@ -83,7 +85,7 @@ const GameEndModal = ({
         };
 
         fetchLeaderboard();
-    }, [isOpen, selectedDifficulty]);
+    }, [isOpen, selectedDifficulty, refreshKey]);
 
     return (
         <>
