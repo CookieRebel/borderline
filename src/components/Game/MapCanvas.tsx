@@ -364,9 +364,9 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 pathGenerator({ type: 'FeatureCollection', features: visibleFeatures } as any);
 
                 if (difficulty === 'easy') {
-                    context.fillStyle = '#e5e7eb'; // Gray-200 for land
+                    context.fillStyle = '#f3f4f6'; // Gray-100 (Very light)
                     context.fill();
-                    context.strokeStyle = '#9ca3af'; // Gray-400 for borders
+                    context.strokeStyle = '#d1d5db'; // Gray-300
                 } else {
                     context.strokeStyle = 'rgba(209, 213, 219, 1)';
                 }
