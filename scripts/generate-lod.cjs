@@ -72,12 +72,12 @@ function simplifyGeometry(geometry, targetVertices) {
 // HIGH detail settings - much more detail for zoomed-in view
 const MAX_POLYGONS = 20;
 const MIN_VERTICES_PER_POLY = 5;
-const MAX_VERTICES = 1000; // Increased from 400
+const MAX_VERTICES = 2000; // Increased from 1000
 
 const EXTRA_VERTICES = {
-    'USA': 2000, 'CAN': 2000, 'MEX': 1500, 'BRA': 1500, 'CHL': 1500, 'ARG': 1500,
-    'RUS': 2000, 'AUS': 1500, 'CHN': 1500, 'IND': 1200, 'IDN': 1500, 'NOR': 1500,
-    'GRL': 1500, 'JPN': 1200, 'GBR': 1000, 'NZL': 1000, 'PHL': 1200,
+    'USA': 6000, 'CAN': 6000, 'MEX': 3000, 'BRA': 3000, 'CHL': 3000, 'ARG': 3000,
+    'RUS': 6000, 'AUS': 3000, 'CHN': 4000, 'IND': 3000, 'IDN': 3000, 'NOR': 3000,
+    'GRL': 3000, 'JPN': 2500, 'GBR': 2000, 'NZL': 2000, 'PHL': 3000,
 };
 
 const processedFeatures = data.features

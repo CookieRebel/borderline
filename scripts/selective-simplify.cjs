@@ -98,21 +98,28 @@ function simplifyGeometry(geometry, targetVertices) {
 // Configuration
 const MAX_POLYGONS = 10; // Max number of islands per country
 const MIN_VERTICES_PER_POLY = 10; // Min vertices to keep a polygon
-const MAX_VERTICES = 150; // Target vertices per country
+const MAX_VERTICES = 250; // Target vertices per country (Increased from 150)
 
 // Countries that need more detail
 const EXTRA_VERTICES = {
-    'USA': 2000, // Doubled again from 1000
-    'CAN': 2000, // Doubled again from 1000
-    'MEX': 400,
-    'BRA': 400,
-    'CHL': 400,
-    'ARG': 400,
-    'RUS': 1000,
-    'AUS': 400,
-    'CHN': 800,
-    'IND': 350,
-    'MNG': 400,  // Mongolia - borders China/Russia
+    'USA': 3500,
+    'CAN': 3500,
+    'MEX': 1000,
+    'BRA': 1500,
+    'CHL': 800,
+    'ARG': 800,
+    'RUS': 3500,
+    'AUS': 1500,
+    'CHN': 2500,
+    'IND': 1200,
+    'MNG': 800,
+    'IDN': 1500,
+    'NOR': 1000, // Norway has complex coast
+    'GRL': 1000,
+    'JPN': 1000,
+    'GBR': 800,
+    'NZL': 800,
+    'PHL': 1000,
 };
 
 // Process features
