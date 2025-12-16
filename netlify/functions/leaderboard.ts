@@ -52,6 +52,9 @@ export const handler: Handler = async (event) => {
         }
 
         // Get top 10 by cumulative score (max 20 games per user per week)
+        const userId = params.user_id || '';
+
+        // Get top 10 by cumulative score + specific user rank
         const leaderboard = await db.execute(sql`
       WITH ranked_games AS (
         SELECT 
@@ -72,16 +75,26 @@ export const handler: Handler = async (event) => {
         FROM ranked_games
         WHERE game_num <= 20
         GROUP BY user_id
+      ),
+      ranked_users AS (
+        SELECT 
+          us.user_id,
+          u.display_name,
+          us.total_score,
+          us.games_played,
+          RANK() OVER (ORDER BY us.total_score DESC) as rank
+        FROM user_scores us
+        JOIN users u ON u.id = us.user_id
       )
       SELECT 
-        us.user_id,
-        u.display_name,
-        us.total_score,
-        us.games_played
-      FROM user_scores us
-      JOIN users u ON u.id = us.user_id
-      ORDER BY us.total_score DESC
-      LIMIT 10
+        user_id,
+        display_name,
+        total_score,
+        games_played,
+        rank
+      FROM ranked_users
+      WHERE rank <= 10 OR user_id = ${userId}
+      ORDER BY rank ASC
     `);
 
         // Calculate week start date from ISO week number
@@ -111,8 +124,8 @@ export const handler: Handler = async (event) => {
                 week: weekNum,
                 year: yearNum,
                 weekStartDate,
-                leaderboard: leaderboard.rows.map((row, index) => ({
-                    rank: index + 1,
+                leaderboard: leaderboard.rows.map((row) => ({
+                    rank: Number(row.rank),
                     user_id: row.user_id,
                     display_name: row.display_name,
                     total_score: row.total_score,

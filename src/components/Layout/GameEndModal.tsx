@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, Fragment } from 'react';
 import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
 import { useDifficulty } from '../../hooks/useDifficulty';
@@ -69,7 +69,7 @@ const GameEndModal = ({
         const fetchLeaderboard = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/leaderboard?level=${selectedDifficulty}`);
+                const response = await fetch(`/api/leaderboard?level=${selectedDifficulty}&user_id=${userId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setLeaderboard(data.leaderboard || []);
@@ -130,26 +130,37 @@ const GameEndModal = ({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {leaderboard.map((entry) => (
-                                        <tr
-                                            key={entry.user_id}
-                                            className={entry.user_id === userId ? 'table-warning' : ''}
-                                        >
-                                            <td className="text-muted">{entry.rank}</td>
-                                            <td>
-                                                {entry.display_name}
-                                                {entry.user_id === userId && (
-                                                    <span className="badge bg-success ms-2" style={{ fontSize: '0.65rem' }}>
-                                                        You
-                                                    </span>
+                                    {leaderboard.map((entry, index) => {
+                                        const prevEntry = leaderboard[index - 1];
+                                        const showSeparator = prevEntry && (entry.rank > prevEntry.rank + 1);
+
+                                        return (
+                                            <Fragment key={entry.user_id}>
+                                                {showSeparator && (
+                                                    <tr className="text-muted small">
+                                                        <td colSpan={4} className="text-center py-1">...</td>
+                                                    </tr>
                                                 )}
-                                            </td>
-                                            <td className="text-end fw-medium">
-                                                {Number(entry.total_score).toLocaleString()}
-                                            </td>
-                                            <td className="text-end text-muted">{entry.games_played}</td>
-                                        </tr>
-                                    ))}
+                                                <tr
+                                                    className={entry.user_id === userId ? 'table-warning' : ''}
+                                                >
+                                                    <td className="text-muted">{entry.rank}</td>
+                                                    <td>
+                                                        {entry.display_name}
+                                                        {entry.user_id === userId && (
+                                                            <span className="badge bg-success ms-2" style={{ fontSize: '0.65rem' }}>
+                                                                You
+                                                            </span>
+                                                        )}
+                                                    </td>
+                                                    <td className="text-end fw-medium">
+                                                        {Number(entry.total_score).toLocaleString()}
+                                                    </td>
+                                                    <td className="text-end text-muted">{entry.games_played}</td>
+                                                </tr>
+                                            </Fragment>
+                                        );
+                                    })}
                                 </tbody>
                             </table>
                         )}
