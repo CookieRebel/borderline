@@ -93,7 +93,7 @@ export const handler: Handler = async (event) => {
         games_played,
         player_rank
       FROM ranked_users
-      WHERE player_rank <= 10 OR user_id = ${userId}
+      WHERE player_rank <= 10 OR user_id::text = ${userId}
       ORDER BY player_rank ASC
     `);
 

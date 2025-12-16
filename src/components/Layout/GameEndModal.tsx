@@ -25,7 +25,6 @@ interface GameEndModalProps {
     resultMessage: string;
     won: boolean;
     onPlayAgain: () => void;
-    refreshKey?: number;
 }
 
 // Convert ISO Alpha-2 code to emoji flag
@@ -43,7 +42,6 @@ const GameEndModal = ({
     resultMessage,
     won,
     onPlayAgain,
-    refreshKey,
 }: GameEndModalProps) => {
     const { userId } = useUsername();
     const { difficulty: selectedDifficulty } = useDifficulty();
@@ -71,7 +69,10 @@ const GameEndModal = ({
         const fetchLeaderboard = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/leaderboard?level=${selectedDifficulty}&user_id=${userId}`);
+                const params = new URLSearchParams({ level: selectedDifficulty });
+                if (userId) params.append('user_id', userId);
+
+                const response = await fetch(`/api/leaderboard?${params.toString()}`);
                 if (response.ok) {
                     const data = await response.json();
                     setLeaderboard(data.leaderboard || []);
@@ -85,7 +86,7 @@ const GameEndModal = ({
         };
 
         fetchLeaderboard();
-    }, [isOpen, selectedDifficulty, refreshKey]);
+    }, [isOpen, selectedDifficulty, userId]);
 
     return (
         <>

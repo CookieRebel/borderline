@@ -149,7 +149,6 @@ function App() {
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           onPlayAgain={playAgain}
-          refreshKey={statsRefreshKey}
         />
       )}
     </div>
