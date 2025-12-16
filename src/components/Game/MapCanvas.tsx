@@ -316,6 +316,18 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         context.lineWidth = 0.5;
         context.stroke();
 
+        // 2.5 Equator
+        context.beginPath();
+        // Generate equator coordinates (densely sampled to ensure smooth curve)
+        const equatorCoords = [];
+        for (let lng = -180; lng <= 180; lng += 2) {
+            equatorCoords.push([lng, 0]);
+        }
+        pathGenerator({ type: 'LineString', coordinates: equatorCoords } as any);
+        context.strokeStyle = 'rgba(229, 231, 235, 1)'; // Same color as graticules
+        context.lineWidth = 1.5; // Thicker
+        context.stroke();
+
         // 3. Globe Outline
         context.beginPath();
         pathGenerator({ type: 'Sphere' } as any);
