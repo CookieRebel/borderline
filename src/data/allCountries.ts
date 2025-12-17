@@ -44,7 +44,6 @@ export const allCountries = [
     "Saint Helena",
     "Turks and Caicos Islands",
 
-    // TODO: Add GeoJSON data for these French territories
     "French Guiana",
     "Guadeloupe",
     "Martinique",
@@ -64,14 +63,12 @@ export const allCountries = [
     "Puerto Rico",
     "United States Virgin Islands",
 
-    // TODO: Add GeoJSON data for these Australian territories
-    // "Christmas Island",
-    // "Cocos (Keeling) Islands",
+    "Christmas Island",
+    "Cocos (Keeling) Islands",
     "Norfolk Island",
     "Heard Island and McDonald Islands",
 
-    // TODO: Add GeoJSON data for these territories
-    // "Tokelau",
+    "Tokelau",
     "Antarctica",
     "Cook Islands",
     "Niue",
@@ -86,9 +83,8 @@ export const allCountries = [
     "Hong Kong",
     "Macau",
 
-    // TODO: Add GeoJSON data for these Norwegian territories
     "Svalbard and Jan Mayen",
-    // "Bouvet Island",
+    "Bouvet Island",
 
     // TODO: Add GeoJSON data for these Spanish/Portuguese territories
     // "Azores",
