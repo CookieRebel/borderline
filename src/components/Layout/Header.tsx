@@ -103,40 +103,42 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                 </div>
             )}
 
-            <div className="position-relative text-center mb-3 mt-3 fade-in">
+            <div className="position-relative text-center mt-3 fade-in">
                 <img
                     src="/borderline_logo.png"
                     alt="BorderLINE"
                     style={{ height: '50px' }}
                 />
                 {username && (
-                    <div className="position-absolute end-0 bottom-0 text-end" style={{ paddingRight: '20px' }}>
-                        {/* Username with edit */}
-                        {isEditing ? (
-                            <input
-                                type="text"
-                                value={editValue}
-                                onChange={(e) => setEditValue(e.target.value)}
-                                onBlur={handleBlur}
-                                onKeyDown={handleKeyDown}
-                                autoFocus
-                                className="border-0 bg-transparent text-muted text-end"
-                                style={{ fontSize: '0.7rem', width: '120px', outline: 'none' }}
-                            />
-                        ) : (
-                            <span
-                                onClick={handleClick}
-                                className="text-muted d-inline-flex align-items-center gap-1"
-                                style={{ fontSize: '0.7rem', cursor: 'pointer' }}
-                                title="Click to edit"
-                            >
-                                {username}
-                                <Edit2 size={10} />
-                            </span>
-                        )}
+                    <div className="d-flex align-items-center px-3">
                         {/* Day scores */}
-                        <div style={{ fontSize: '0.65rem' }} className="text-muted">
+                        <div className="text-muted" style={{ fontSize: '0.7rem' }}>
                             Today: {todayScore.toLocaleString()} | Best Day: {bestDayScore.toLocaleString()}
+                        </div>
+                        {/* Username with edit */}
+                        <div className="ms-auto">
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    value={editValue}
+                                    onChange={(e) => setEditValue(e.target.value)}
+                                    onBlur={handleBlur}
+                                    onKeyDown={handleKeyDown}
+                                    autoFocus
+                                    className="border-0 text-muted text-start"
+                                    style={{ fontSize: '0.7rem', width: '100px', outline: 'none' }}
+                                />
+                            ) : (
+                                <span
+                                    onClick={handleClick}
+                                    className="text-muted d-inline-flex align-items-center gap-1"
+                                    style={{ cursor: 'pointer', fontSize: '0.7rem' }}
+                                    title="Click to edit"
+                                >
+                                    {username}
+                                    <Edit2 size={10} />
+                                </span>
+                            )}
                         </div>
                     </div>
                 )}
