@@ -15,13 +15,13 @@ export const allCountries = [
     "Jamaica", "Japan", "Jordan",
     "Kazakhstan", "Kenya", "Kiribati", "Kosovo", "Kuwait", "Kyrgyzstan",
     "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
-    "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+    "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Federated States of Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
     "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
     "Oman",
     "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
     "Qatar",
     "Romania", "Russia", "Rwanda",
-    "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+    "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "São Tomé and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
     "Tajikistan", "Tanzania", "Thailand", "East Timor", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
     "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
     "Vanuatu", "Venezuela", "Vietnam",
@@ -45,11 +45,11 @@ export const allCountries = [
     "Turks and Caicos Islands",
 
     // TODO: Add GeoJSON data for these French territories
-    // "French Guiana",
-    // "Guadeloupe",
-    // "Martinique",
-    // "Mayotte",
-    // "Réunion",
+    "French Guiana",
+    "Guadeloupe",
+    "Martinique",
+    "Mayotte",
+    "Réunion",
     // "Clipperton Island",
     "French Polynesia",
     "New Caledonia",
@@ -62,7 +62,7 @@ export const allCountries = [
     "Guam",
     "Northern Mariana Islands",
     "Puerto Rico",
-    "U.S. Virgin Islands",
+    "United States Virgin Islands",
 
     // TODO: Add GeoJSON data for these Australian territories
     // "Christmas Island",
@@ -72,7 +72,7 @@ export const allCountries = [
 
     // TODO: Add GeoJSON data for these territories
     // "Tokelau",
-    "Antarctica",
+    // "Antarctica",
     "Cook Islands",
     "Niue",
 
