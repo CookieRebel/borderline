@@ -50,7 +50,7 @@ export const allCountries = [
     "Martinique",
     "Mayotte",
     "Réunion",
-    // "Clipperton Island",
+    "Clipperton Island",
     "French Polynesia",
     "New Caledonia",
     "Saint Barthélemy",
@@ -72,7 +72,7 @@ export const allCountries = [
 
     // TODO: Add GeoJSON data for these territories
     // "Tokelau",
-    // "Antarctica",
+    "Antarctica",
     "Cook Islands",
     "Niue",
 
@@ -87,8 +87,7 @@ export const allCountries = [
     "Macau",
 
     // TODO: Add GeoJSON data for these Norwegian territories
-    // "Svalbard",
-    // "Jan Mayen",
+    "Svalbard and Jan Mayen",
     // "Bouvet Island",
 
     // TODO: Add GeoJSON data for these Spanish/Portuguese territories
