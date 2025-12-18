@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
     "netlify:dev": "netlify dev",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -31,6 +33,7 @@
     "react-dom": "^19.2.0",
     "react-feather": "^2.0.10",
     "reactstrap": "^9.2.3",
+    "recharts": "^3.6.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
@@ -44,6 +47,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/ui": "^4.0.16",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -55,6 +59,7 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
+    "vitest": "^4.0.16",
     "world-atlas": "^2.0.2"
   }
 }

@@ -7,14 +7,20 @@ import DifficultySelector from '../Game/DifficultySelector';
 interface StartScreenProps {
     onPlay: () => void;
     onInstructions: () => void;
+    onAnalytics: () => void;
+    userId: string;
     streak?: number;
 }
 
-const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
     const { username, updateUsername, loading, playedToday } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
+
+    // Admin user ID (hardcoded for now)
+    const ADMIN_USER_ID = 'bad83e41-5d35-463d-882f-30633f5301ff';
+    const isAdmin = userId === ADMIN_USER_ID;
 
     // Auto-dismiss error after 3 seconds
     useEffect(() => {
@@ -165,6 +171,15 @@ const StartScreen = ({ onPlay, onInstructions, streak = 0 }: StartScreenProps) =
                 >
                     Instructions
                 </Button>
+                {isAdmin && (
+                    <Button
+                        color="dark"
+                        outline
+                        onClick={onAnalytics}
+                    >
+                        Analytics
+                    </Button>
+                )}
             </div>
 
             {/* Copyright */}

@@ -12,6 +12,7 @@ import AdBanner from './components/Layout/AdBanner';
 import GameCard from './components/Layout/GameCard';
 import StartScreen from './components/Layout/StartScreen';
 import InstructionsScreen from './components/Layout/InstructionsScreen';
+import AnalyticsScreen from './components/Layout/AnalyticsScreen';
 import GameEndModal from './components/Layout/GameEndModal';
 
 // Play sparkle sound
@@ -29,6 +30,7 @@ function App() {
   const { userId, streak, highScores, refetchUser } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
@@ -96,6 +98,11 @@ function App() {
           setShowStartScreen(false);
           setShowInstructions(true);
         }}
+        onAnalytics={() => {
+          setShowStartScreen(false);
+          setShowAnalytics(true);
+        }}
+        userId={userId}
         streak={streak}
       />
     );
@@ -108,6 +115,19 @@ function App() {
         setShowInstructions(false);
         setShowStartScreen(true);
       }} />
+    );
+  }
+
+  // Show analytics screen
+  if (showAnalytics) {
+    return (
+      <AnalyticsScreen
+        userId={userId}
+        onBack={() => {
+          setShowAnalytics(false);
+          setShowStartScreen(true);
+        }}
+      />
     );
   }
 
