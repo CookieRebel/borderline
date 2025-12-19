@@ -184,6 +184,140 @@ export const handler: Handler = async (event) => {
             gamesChange: calculatePercentageChange(thisMonthStats.newGames, lastMonthStats.newGames),
         };
 
+        // Get total statistics
+        const totalUsersResult = await db.execute(sql`
+            SELECT COUNT(*) as count
+            FROM users
+        `);
+        const totalUsers = Number(totalUsersResult.rows[0]?.count || 0);
+
+        const totalGamesResult = await db.execute(sql`
+            SELECT COUNT(*) as count
+            FROM game_results
+        `);
+        const totalGames = Number(totalGamesResult.rows[0]?.count || 0);
+
+        // Get games by difficulty
+        const gamesByDifficultyResult = await db.execute(sql`
+            SELECT level, COUNT(*) as count
+            FROM game_results
+            GROUP BY level
+        `);
+
+        const gamesByDifficulty = {
+            easy: 0,
+            medium: 0,
+            hard: 0,
+            extreme: 0,
+        };
+
+        gamesByDifficultyResult.rows.forEach((row: any) => {
+            const level = row.level as 'easy' | 'medium' | 'hard' | 'extreme';
+            gamesByDifficulty[level] = Number(row.count || 0);
+        });
+
+        // Calculate average streak
+        const avgStreakResult = await db.execute(sql`
+            SELECT AVG(streak) as avg_streak
+            FROM users
+            WHERE streak > 0
+        `);
+        const averageStreak = Math.round(Number(avgStreakResult.rows[0]?.avg_streak || 0) * 10) / 10; // Round to 1 decimal
+
+        // Calculate 1-day retention
+        // For all users, check if they played the day after their first game
+        const oneDayRetentionResult = await db.execute(sql`
+            WITH user_first_game AS (
+                SELECT 
+                    u.id as user_id,
+                    DATE(u.created_at) as first_day,
+                    DATE(u.created_at) + INTERVAL '1 day' as next_day
+                FROM users u
+            ),
+            user_played_next_day AS (
+                SELECT DISTINCT
+                    ufg.user_id,
+                    CASE 
+                        WHEN EXISTS (
+                            SELECT 1 
+                            FROM game_results gr 
+                            WHERE gr.user_id = ufg.user_id 
+                            AND DATE(gr.created_at) = ufg.next_day
+                        ) THEN 1
+                        ELSE 0
+                    END as played_next_day
+                FROM user_first_game ufg
+            )
+            SELECT 
+                COUNT(*) FILTER (WHERE played_next_day = 1) as retained,
+                COUNT(*) as total
+            FROM user_played_next_day
+        `);
+
+        const oneDayRetained = Number(oneDayRetentionResult.rows[0]?.retained || 0);
+        const oneDayTotal = Number(oneDayRetentionResult.rows[0]?.total || 0);
+        const oneDayRetention = oneDayTotal > 0 ? Math.round((oneDayRetained / oneDayTotal) * 100) : 0;
+
+        // Calculate 7-day retention
+        const sevenDayRetentionResult = await db.execute(sql`
+            WITH user_first_game AS (
+                SELECT 
+                    u.id as user_id,
+                    DATE(u.created_at) as first_day,
+                    DATE(u.created_at) + INTERVAL '7 days' as day_seven
+                FROM users u
+                WHERE u.created_at <= NOW() - INTERVAL '7 days'
+            ),
+            user_played_day_seven AS (
+                SELECT DISTINCT
+                    ufg.user_id,
+                    CASE 
+                        WHEN EXISTS (
+                            SELECT 1 
+                            FROM game_results gr 
+                            WHERE gr.user_id = ufg.user_id 
+                            AND DATE(gr.created_at) = ufg.day_seven
+                        ) THEN 1
+                        ELSE 0
+                    END as played_day_seven
+                FROM user_first_game ufg
+            )
+            SELECT 
+                COUNT(*) FILTER (WHERE played_day_seven = 1) as retained,
+                COUNT(*) as total
+            FROM user_played_day_seven
+        `);
+
+        const sevenDayRetained = Number(sevenDayRetentionResult.rows[0]?.retained || 0);
+        const sevenDayTotal = Number(sevenDayRetentionResult.rows[0]?.total || 0);
+        const sevenDayRetention = sevenDayTotal > 0 ? Math.round((sevenDayRetained / sevenDayTotal) * 100) : 0;
+
+        // Calculate average guesses
+        const avgGuessesResult = await db.execute(sql`
+            SELECT AVG(guesses) as avg_guesses
+            FROM game_results
+        `);
+        const averageGuesses = Math.round(Number(avgGuessesResult.rows[0]?.avg_guesses || 0) * 10) / 10;
+
+        // Calculate average guesses by difficulty
+        const avgGuessesByDifficultyResult = await db.execute(sql`
+            SELECT level, AVG(guesses) as avg_guesses
+            FROM game_results
+            GROUP BY level
+        `);
+
+        const averageGuessesByDifficulty = {
+            easy: 0,
+            medium: 0,
+            hard: 0,
+            extreme: 0,
+        };
+
+        avgGuessesByDifficultyResult.rows.forEach((row: any) => {
+            const level = row.level as 'easy' | 'medium' | 'hard' | 'extreme';
+            averageGuessesByDifficulty[level] = Math.round(Number(row.avg_guesses || 0) * 10) / 10;
+        });
+
         return {
             statusCode: 200,
             headers,
@@ -194,6 +328,20 @@ export const handler: Handler = async (event) => {
                 dailyData,
                 weeklyData,
                 monthlyData,
+                totals: {
+                    totalUsers,
+                    totalGames,
+                    gamesByDifficulty,
+                },
+                retention: {
+                    averageStreak,
+                    oneDayRetention,
+                    sevenDayRetention,
+                },
+                averageGuesses: {
+                    overall: averageGuesses,
+                    byDifficulty: averageGuessesByDifficulty,
+                },
             }),
         };
     } catch (error) {

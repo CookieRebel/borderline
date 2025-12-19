@@ -21,6 +21,30 @@ interface PeriodData {
     newGames: number;
 }
 
+interface GamesByDifficulty {
+    easy: number;
+    medium: number;
+    hard: number;
+    extreme: number;
+}
+
+interface Totals {
+    totalUsers: number;
+    totalGames: number;
+    gamesByDifficulty: GamesByDifficulty;
+}
+
+interface Retention {
+    averageStreak: number;
+    oneDayRetention: number;
+    sevenDayRetention: number;
+}
+
+interface AverageGuesses {
+    overall: number;
+    byDifficulty: GamesByDifficulty;
+}
+
 interface AnalyticsData {
     daily: PeriodStats;
     weekly: PeriodStats;
@@ -28,6 +52,9 @@ interface AnalyticsData {
     dailyData: PeriodData[];
     weeklyData: PeriodData[];
     monthlyData: PeriodData[];
+    totals: Totals;
+    retention: Retention;
+    averageGuesses: AverageGuesses;
 }
 
 const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
@@ -213,6 +240,174 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                             <Users size={24} className="text-success" />,
                             'success'
                         )}
+                    </div>
+                </div>
+
+                {/* Totals Section */}
+                <div className="row g-4 mb-4">
+                    <div className="col-12">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <h5 className="card-title mb-3">Overall Statistics</h5>
+                                <div className="row g-4">
+                                    {/* Total Users */}
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <div className="text-center p-3 bg-primary bg-opacity-10 rounded">
+                                            <Users size={32} className="text-primary mb-2" />
+                                            <div className="h3 mb-0">{data.totals.totalUsers.toLocaleString()}</div>
+                                            <div className="text-muted small">Total Users</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Total Games */}
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <div className="text-center p-3 bg-success bg-opacity-10 rounded">
+                                            <Gamepad2 size={32} className="text-success mb-2" />
+                                            <div className="h3 mb-0">{data.totals.totalGames.toLocaleString()}</div>
+                                            <div className="text-muted small">Total Games</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Games by Difficulty */}
+                                    <div className="col-12 col-lg-6">
+                                        <div className="p-3 bg-light rounded">
+                                            <div className="text-muted small mb-2">Games by Difficulty</div>
+                                            <div className="row g-2">
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-success mb-1">Easy</div>
+                                                        <div className="fw-medium">{data.totals.gamesByDifficulty.easy.toLocaleString()}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-warning mb-1">Medium</div>
+                                                        <div className="fw-medium">{data.totals.gamesByDifficulty.medium.toLocaleString()}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-danger mb-1">Hard</div>
+                                                        <div className="fw-medium">{data.totals.gamesByDifficulty.hard.toLocaleString()}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-dark mb-1">Extreme</div>
+                                                        <div className="fw-medium">{data.totals.gamesByDifficulty.extreme.toLocaleString()}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Retention Metrics Section */}
+                <div className="row g-4 mb-4">
+                    <div className="col-12">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <h5 className="card-title mb-3">User Retention Metrics</h5>
+                                <div className="row g-4">
+                                    {/* Average Streak */}
+                                    <div className="col-12 col-md-4">
+                                        <div className="text-center p-3 bg-warning bg-opacity-10 rounded">
+                                            <div className="text-warning mb-2">🔥</div>
+                                            <div className="h3 mb-0">{data.retention.averageStreak}</div>
+                                            <div className="text-muted small">Average Streak (days)</div>
+                                            <div className="text-muted" style={{ fontSize: '0.75rem' }}>
+                                                Among active users
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* 1-Day Retention */}
+                                    <div className="col-12 col-md-4">
+                                        <div className="text-center p-3 bg-info bg-opacity-10 rounded">
+                                            <div className="text-info mb-2">📅</div>
+                                            <div className="h3 mb-0">{data.retention.oneDayRetention}%</div>
+                                            <div className="text-muted small">1-Day Retention</div>
+                                            <div className="text-muted" style={{ fontSize: '0.75rem' }}>
+                                                Users who return next day
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* 7-Day Retention */}
+                                    <div className="col-12 col-md-4">
+                                        <div className="text-center p-3 bg-purple bg-opacity-10 rounded" style={{ backgroundColor: 'rgba(128, 0, 128, 0.1)' }}>
+                                            <div className="mb-2" style={{ color: '#800080' }}>📊</div>
+                                            <div className="h3 mb-0">{data.retention.sevenDayRetention}%</div>
+                                            <div className="text-muted small">7-Day Retention</div>
+                                            <div className="text-muted" style={{ fontSize: '0.75rem' }}>
+                                                Users who return on day 7
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Average Guesses Section */}
+                <div className="row g-4 mb-4">
+                    <div className="col-12">
+                        <div className="card shadow-sm">
+                            <div className="card-body">
+                                <h5 className="card-title mb-3">Average Guesses per Game</h5>
+                                <div className="row g-4">
+                                    {/* Overall Average */}
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <div className="text-center p-3 bg-secondary bg-opacity-10 rounded">
+                                            <div className="text-secondary mb-2">🎯</div>
+                                            <div className="h3 mb-0">{data.averageGuesses.overall}</div>
+                                            <div className="text-muted small">Overall Average</div>
+                                            <div className="text-muted" style={{ fontSize: '0.75rem' }}>
+                                                Across all difficulties
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* By Difficulty */}
+                                    <div className="col-12 col-md-6 col-lg-9">
+                                        <div className="p-3 bg-light rounded">
+                                            <div className="text-muted small mb-2">By Difficulty Level</div>
+                                            <div className="row g-2">
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-success mb-1">Easy</div>
+                                                        <div className="fw-medium">{data.averageGuesses.byDifficulty.easy} guesses</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-warning mb-1">Medium</div>
+                                                        <div className="fw-medium">{data.averageGuesses.byDifficulty.medium} guesses</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-danger mb-1">Hard</div>
+                                                        <div className="fw-medium">{data.averageGuesses.byDifficulty.hard} guesses</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-6 col-sm-3">
+                                                    <div className="text-center">
+                                                        <div className="badge bg-dark mb-1">Extreme</div>
+                                                        <div className="fw-medium">{data.averageGuesses.byDifficulty.extreme} guesses</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

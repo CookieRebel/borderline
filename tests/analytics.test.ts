@@ -36,18 +36,16 @@ describe('Analytics API', () => {
 
             const data = await response.json();
 
-            // Verify structure
+            // Verify summary stats structure
             expect(data).toHaveProperty('daily');
             expect(data).toHaveProperty('weekly');
             expect(data).toHaveProperty('monthly');
 
-            // Verify daily stats structure
+            // Verify daily stats structure (no longer has previousUsers/previousGames)
             expect(data.daily).toHaveProperty('newUsers');
             expect(data.daily).toHaveProperty('newGames');
             expect(data.daily).toHaveProperty('usersChange');
             expect(data.daily).toHaveProperty('gamesChange');
-            expect(data.daily).toHaveProperty('previousUsers');
-            expect(data.daily).toHaveProperty('previousGames');
 
             // Verify data types
             expect(typeof data.daily.newUsers).toBe('number');
@@ -66,27 +64,86 @@ describe('Analytics API', () => {
             expect(data.monthly).toHaveProperty('newGames');
             expect(data.monthly).toHaveProperty('usersChange');
             expect(data.monthly).toHaveProperty('gamesChange');
+
+            // Verify historical data arrays
+            expect(data).toHaveProperty('dailyData');
+            expect(data).toHaveProperty('weeklyData');
+            expect(data).toHaveProperty('monthlyData');
+            expect(Array.isArray(data.dailyData)).toBe(true);
+            expect(Array.isArray(data.weeklyData)).toBe(true);
+            expect(Array.isArray(data.monthlyData)).toBe(true);
+            expect(data.dailyData.length).toBe(10);
+            expect(data.weeklyData.length).toBe(10);
+            expect(data.monthlyData.length).toBe(10);
+
+            // Verify historical data structure
+            data.dailyData.forEach((item: any) => {
+                expect(item).toHaveProperty('label');
+                expect(item).toHaveProperty('newUsers');
+                expect(item).toHaveProperty('newGames');
+            });
+
+            // Verify totals structure
+            expect(data).toHaveProperty('totals');
+            expect(data.totals).toHaveProperty('totalUsers');
+            expect(data.totals).toHaveProperty('totalGames');
+            expect(data.totals).toHaveProperty('gamesByDifficulty');
+            expect(data.totals.gamesByDifficulty).toHaveProperty('easy');
+            expect(data.totals.gamesByDifficulty).toHaveProperty('medium');
+            expect(data.totals.gamesByDifficulty).toHaveProperty('hard');
+            expect(data.totals.gamesByDifficulty).toHaveProperty('extreme');
+
+            // Verify retention metrics structure
+            expect(data).toHaveProperty('retention');
+            expect(data.retention).toHaveProperty('averageStreak');
+            expect(data.retention).toHaveProperty('oneDayRetention');
+            expect(data.retention).toHaveProperty('sevenDayRetention');
+
+            // Verify average guesses structure
+            expect(data).toHaveProperty('averageGuesses');
+            expect(data.averageGuesses).toHaveProperty('overall');
+            expect(data.averageGuesses).toHaveProperty('byDifficulty');
+            expect(data.averageGuesses.byDifficulty).toHaveProperty('easy');
+            expect(data.averageGuesses.byDifficulty).toHaveProperty('medium');
+            expect(data.averageGuesses.byDifficulty).toHaveProperty('hard');
+            expect(data.averageGuesses.byDifficulty).toHaveProperty('extreme');
         });
 
-        it('should return non-negative values for user and game counts', async () => {
+        it('should return non-negative values for all metrics', async () => {
             const response = await fetch(
                 `${API_BASE_URL}/api/analytics?user_id=${ADMIN_USER_ID}`
             );
             const data = await response.json();
 
-            // Check daily
+            // Check daily/weekly/monthly
             expect(data.daily.newUsers).toBeGreaterThanOrEqual(0);
             expect(data.daily.newGames).toBeGreaterThanOrEqual(0);
-            expect(data.daily.previousUsers).toBeGreaterThanOrEqual(0);
-            expect(data.daily.previousGames).toBeGreaterThanOrEqual(0);
-
-            // Check weekly
             expect(data.weekly.newUsers).toBeGreaterThanOrEqual(0);
             expect(data.weekly.newGames).toBeGreaterThanOrEqual(0);
-
-            // Check monthly
             expect(data.monthly.newUsers).toBeGreaterThanOrEqual(0);
             expect(data.monthly.newGames).toBeGreaterThanOrEqual(0);
+
+            // Check totals
+            expect(data.totals.totalUsers).toBeGreaterThanOrEqual(0);
+            expect(data.totals.totalGames).toBeGreaterThanOrEqual(0);
+            expect(data.totals.gamesByDifficulty.easy).toBeGreaterThanOrEqual(0);
+            expect(data.totals.gamesByDifficulty.medium).toBeGreaterThanOrEqual(0);
+            expect(data.totals.gamesByDifficulty.hard).toBeGreaterThanOrEqual(0);
+            expect(data.totals.gamesByDifficulty.extreme).toBeGreaterThanOrEqual(0);
+
+            // Check retention metrics
+            expect(data.retention.averageStreak).toBeGreaterThanOrEqual(0);
+            expect(data.retention.oneDayRetention).toBeGreaterThanOrEqual(0);
+            expect(data.retention.oneDayRetention).toBeLessThanOrEqual(100);
+            expect(data.retention.sevenDayRetention).toBeGreaterThanOrEqual(0);
+            expect(data.retention.sevenDayRetention).toBeLessThanOrEqual(100);
+
+            // Check average guesses
+            expect(data.averageGuesses.overall).toBeGreaterThanOrEqual(0);
+            expect(data.averageGuesses.byDifficulty.easy).toBeGreaterThanOrEqual(0);
+            expect(data.averageGuesses.byDifficulty.medium).toBeGreaterThanOrEqual(0);
+            expect(data.averageGuesses.byDifficulty.hard).toBeGreaterThanOrEqual(0);
+            expect(data.averageGuesses.byDifficulty.extreme).toBeGreaterThanOrEqual(0);
         });
 
         it('should return percentage changes in valid range', async () => {
