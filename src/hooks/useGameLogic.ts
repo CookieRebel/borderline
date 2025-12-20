@@ -316,7 +316,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         const candidates = potentialTargets.map((f: any) => f.properties['ISO3166-1-Alpha-3']);
 
         // Pick target via API (Unique Selection Logic)
-        fetch('/api/pick-target', {
+        fetch('/api/pick_target', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user_id: userId, candidates })
