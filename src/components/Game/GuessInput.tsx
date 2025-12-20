@@ -40,15 +40,69 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
     // Normalize text to remove diacritics (e.g., Å -> A)
     const normalize = (str: string) => str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
+    // Calculate fuzzy match score with ordered priority
+    const calculateMatchScore = (country: string, input: string): number => {
+        const normalizedCountry = normalize(country);
+        const normalizedInput = normalize(input);
+
+        let score = 0;
+        let lastMatchIndex = -1;
+        let consecutiveMatches = 0;
+
+        for (let i = 0; i < normalizedInput.length; i++) {
+            const char = normalizedInput[i];
+            // Find the character in the country name, starting after the last match
+            const index = normalizedCountry.indexOf(char, lastMatchIndex + 1);
+
+            if (index !== -1) {
+                score += 1; // Base score for finding the character
+
+                // Bonus for consecutive order (current match is exactly one position after previous)
+                if (lastMatchIndex !== -1 && index === lastMatchIndex + 1) {
+                    consecutiveMatches++;
+                    score += (consecutiveMatches * 0.5); // Increasing bonus for longer strings of consecutive data
+                } else {
+                    consecutiveMatches = 0;
+                }
+
+                // Bonus for earlier matches (closer to start of string)
+                // max bonus of 1, decreasing as position increases
+                score += Math.max(0, (10 - index) / 20);
+
+                lastMatchIndex = index;
+            }
+        }
+
+        // Additional bonuses
+
+        // Start of string match bonus
+        if (normalizedCountry.startsWith(normalizedInput.charAt(0))) {
+            score += 2;
+        }
+
+        // Full substring match bonus (very strong signal)
+        if (normalizedCountry.includes(normalizedInput)) {
+            score += 5;
+        }
+
+        return score;
+    };
+
     const updateSuggestions = (input: string) => {
         if (input.trim().length > 0) {
             const normalizedHistory = guessHistory.map(g => normalize(g.name));
-            const normalizedInput = normalize(input);
-            const filtered = allCountries.filter(
-                country =>
-                    normalize(country).includes(normalizedInput) &&
-                    !normalizedHistory.includes(normalize(country))
-            );
+
+            // Filter out already guessed countries and calculate scores
+            const scoredCountries = allCountries
+                .filter(country => !normalizedHistory.includes(normalize(country)))
+                .map(country => ({
+                    name: country,
+                    score: calculateMatchScore(country, input)
+                }))
+                .filter(item => item.score > 0) // Only show countries with at least one matching character
+                .sort((a, b) => b.score - a.score); // Sort by score descending
+
+            const filtered = scoredCountries.map(item => item.name);
             setSuggestions(filtered);
             setShowSuggestions(filtered.length > 0);
         } else {

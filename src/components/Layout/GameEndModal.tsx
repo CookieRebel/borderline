@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, Fragment } from 'react';
 import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useUsername } from '../../hooks/useUsername';
 import { useDifficulty } from '../../hooks/useDifficulty';
 import countryFacts from '../../data/countryFacts.json';
@@ -51,17 +52,29 @@ const GameEndModal = ({
 
     const flag = getFlag(countryCode);
 
-    // Pick a random fact for the country
-    const randomFact = useMemo(() => {
+    // Get all facts for the country
+    const countryFactsList = useMemo(() => {
         const countryData = (countryFacts as CountryFact[]).find(
             c => c.country.toLowerCase() === countryName.toLowerCase()
         );
-        if (!countryData || countryData.facts.length === 0) {
-            return null;
-        }
-        const randomIndex = Math.floor(Math.random() * countryData.facts.length);
-        return countryData.facts[randomIndex];
+        return countryData?.facts || [];
     }, [countryName]);
+
+    // Track current fact index
+    const [factIndex, setFactIndex] = useState(0);
+
+    // Reset index when country changes
+    useEffect(() => {
+        setFactIndex(0);
+    }, [countryName]);
+
+    const handlePrevFact = () => {
+        setFactIndex(prev => (prev === 0 ? countryFactsList.length - 1 : prev - 1));
+    };
+
+    const handleNextFact = () => {
+        setFactIndex(prev => (prev === countryFactsList.length - 1 ? 0 : prev + 1));
+    };
 
     useEffect(() => {
         if (!isOpen) return;
@@ -99,13 +112,38 @@ const GameEndModal = ({
                         </h4>
                     </div>
 
-                    {/* Fun Fact Section - only show if facts available */}
-                    {randomFact && (
+                    {/* Fun Facts Carousel - only show if facts available */}
+                    {countryFactsList.length > 0 && (
                         <div className="text-start mb-4 p-3 bg-light rounded">
-                            <h6 className="text-dark mb-2">{flag} Fun fact about {countryName}</h6>
-                            <p className="text-muted small mb-0">
-                                {randomFact}
-                            </p>
+                            <h6 className="text-dark mb-2 text-center">{flag} Fun facts about {countryName}</h6>
+                            <div className="d-flex align-items-center justify-content-between">
+                                <Button
+                                    color="link"
+                                    className="text-muted p-0"
+                                    onClick={handlePrevFact}
+                                    aria-label="Previous fact"
+                                >
+                                    <ChevronLeft size={20} />
+                                </Button>
+
+                                <div className="flex-grow-1 px-3 text-center">
+                                    <p className="text-muted small mb-1" style={{ minHeight: '3em' }}>
+                                        {countryFactsList[factIndex]}
+                                    </p>
+                                    <small className="text-muted opacity-50" style={{ fontSize: '0.7rem' }}>
+                                        {factIndex + 1} / {countryFactsList.length}
+                                    </small>
+                                </div>
+
+                                <Button
+                                    color="link"
+                                    className="text-muted p-0"
+                                    onClick={handleNextFact}
+                                    aria-label="Next fact"
+                                >
+                                    <ChevronRight size={20} />
+                                </Button>
+                            </div>
                         </div>
                     )}
 
