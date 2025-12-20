@@ -109,6 +109,7 @@ const submitGameResult = async (
     timeSeconds: number,
     score: number,
     won: boolean,
+    targetCode?: string,
     onComplete?: () => void
 ) => {
     if (!userId) return;
@@ -124,6 +125,7 @@ const submitGameResult = async (
                 time: timeSeconds,
                 score,
                 won,
+                target_code: targetCode
             }),
         });
         // Call callback after successful submission
@@ -310,29 +312,69 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
             potentialTargets = features;
         }
 
-        // 1. Pick a random country from the filtered list
-        const randomIndex = Math.floor(Math.random() * potentialTargets.length);
-        const target = potentialTargets[randomIndex];
-        const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
+        // Get candidate ISO codes to send to backend
+        const candidates = potentialTargets.map((f: any) => f.properties['ISO3166-1-Alpha-3']);
 
-        const highScoreMessage = highScore > 0
-            ? `Can you beat your high score of ${highScore}?`
-            : 'Can you guess the country or territory?';
+        // Pick target via API (Unique Selection Logic)
+        fetch('/api/pick-target', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: userId, candidates })
+        })
+            .then(res => res.json())
+            .then(data => {
+                let target;
+                if (data.target) {
+                    target = potentialTargets.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === data.target);
+                }
 
-        setGameState({
-            targetCountry: target,
-            revealedNeighbors: [],
-            score: 0,
-            roundScore: 0,
-            status: 'ready', // Start in ready state, waiting for Go!
-            message: highScoreMessage,
-            wrongGuesses: 0,
-            guessHistory: [],
-            difficulty: difficulty
-        });
+                // Fallback to local random if API fails or returns invalid
+                if (!target) {
+                    console.warn('API target selection failed, falling back to local random.');
+                    const randomIndex = Math.floor(Math.random() * potentialTargets.length);
+                    target = potentialTargets[randomIndex];
+                }
 
-        console.log(`Difficulty: ${difficulty}`);
-        console.log(`Target: ${target.properties?.name} (${targetIso})`);
+                const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
+                const highScoreMessage = highScore > 0
+                    ? `Can you beat your high score of ${highScore}?`
+                    : 'Can you guess the country or territory?';
+
+                setGameState({
+                    targetCountry: target,
+                    revealedNeighbors: [],
+                    score: 0,
+                    roundScore: 0,
+                    status: 'ready',
+                    message: highScoreMessage,
+                    wrongGuesses: 0,
+                    guessHistory: [],
+                    difficulty: difficulty
+                });
+
+                console.log(`Difficulty: ${difficulty}`);
+                console.log(`Target: ${target.properties?.name} (${targetIso})`);
+            })
+            .catch(err => {
+                console.error('Failed to pick target:', err);
+                // Fail gracefully - pick random locally
+                const randomIndex = Math.floor(Math.random() * potentialTargets.length);
+                const target = potentialTargets[randomIndex];
+                const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
+
+                setGameState({
+                    targetCountry: target,
+                    revealedNeighbors: [],
+                    score: 0,
+                    roundScore: 0,
+                    status: 'ready',
+                    message: 'Can you guess the country?',
+                    wrongGuesses: 0,
+                    guessHistory: [],
+                    difficulty: difficulty
+                });
+                console.log(`Target (Fallback): ${target.properties?.name} (${targetIso})`);
+            });
     };
 
     // Start the game (called when user clicks Go! or Play Again)
@@ -367,7 +409,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
         const guessCount = gameState.guessHistory.length;
         if (userId) {
-            submitGameResult(userId, difficulty, guessCount, elapsedSeconds, 0, false, onGameEnd);
+            const targetIso = gameState.targetCountry?.properties?.['ISO3166-1-Alpha-3'];
+            submitGameResult(userId, difficulty, guessCount, elapsedSeconds, 0, false, targetIso, onGameEnd);
         }
     };
 
@@ -436,7 +479,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
             // Submit to backend
             const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
             if (userId) {
-                submitGameResult(userId, difficulty, guessCount, elapsedSeconds, roundScore, true, onGameEnd);
+                submitGameResult(userId, difficulty, guessCount, elapsedSeconds, roundScore, true, targetIso, onGameEnd);
             }
         } else {
             // Wrong guess
@@ -477,7 +520,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         handleGiveUp,
         difficulty,
         allFeaturesLow: dataLow.features as Feature[],
-        allFeaturesHigh: countriesDataHigh.features as unknown as Feature[],
+        allFeaturesHigh: (countriesDataHigh as FeatureCollection).features as unknown as Feature[],
         allLandLow: (landDataLow as FeatureCollection).features as Feature[],
         allLandHigh: (landDataHigh as FeatureCollection).features as Feature[],
         resetGame: initializeGame,

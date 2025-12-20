@@ -15,6 +15,20 @@
       "when": 1765881169457,
       "tag": "0001_tidy_jetstream",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766230411335,
+      "tag": "0002_wakeful_venom",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1766230691179,
+      "tag": "0003_equal_mysterio",
+      "breakpoints": true
     }
   ]
 }

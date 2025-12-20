@@ -58,7 +58,7 @@ export const handler: Handler = async (event) => {
         const body = JSON.parse(event.body || '{}');
         const { user_id, level, guesses, time, score, won } = body;
 
-        if (!user_id || !level || guesses === undefined || time === undefined || score === undefined || won === undefined) {
+        if (!user_id || !level || guesses === undefined || time === undefined || score === undefined || won === undefined || !body.target_code) {
             return {
                 statusCode: 400,
                 headers,
@@ -93,6 +93,7 @@ export const handler: Handler = async (event) => {
                 won,
                 weekNumber,
                 year,
+                targetCode: body.target_code,
             })
             .returning();
 

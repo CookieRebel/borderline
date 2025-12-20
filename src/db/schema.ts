@@ -3,6 +3,7 @@ import { pgTable, uuid, varchar, integer, timestamp, boolean } from 'drizzle-orm
 export const users = pgTable('users', {
     id: uuid('id').primaryKey().defaultRandom(),
     displayName: varchar('display_name', { length: 50 }).notNull(),
+    email: varchar('email', { length: 255 }).unique(),
     easyGameCount: integer('easy_game_count').default(0).notNull(),
     mediumGameCount: integer('medium_game_count').default(0).notNull(),
     hardGameCount: integer('hard_game_count').default(0).notNull(),
@@ -26,6 +27,7 @@ export const gameResults = pgTable('game_results', {
     won: boolean('won').notNull(),
     weekNumber: integer('week_number').notNull(), // ISO week for leaderboard
     year: integer('year').notNull(),
+    targetCode: varchar('target_code', { length: 3 }), // ISO3 code of the target country
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
