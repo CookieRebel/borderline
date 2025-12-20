@@ -119,11 +119,11 @@ const GameEndModal = ({
                             <div className="d-flex align-items-center justify-content-between">
                                 <Button
                                     color="link"
-                                    className="text-muted p-0"
+                                    className="text-dark p-0"
                                     onClick={handlePrevFact}
                                     aria-label="Previous fact"
                                 >
-                                    <ChevronLeft size={20} />
+                                    <ChevronLeft size={24} />
                                 </Button>
 
                                 <div className="flex-grow-1 px-3 text-center">
@@ -137,11 +137,11 @@ const GameEndModal = ({
 
                                 <Button
                                     color="link"
-                                    className="text-muted p-0"
+                                    className="text-dark p-0"
                                     onClick={handleNextFact}
                                     aria-label="Next fact"
                                 >
-                                    <ChevronRight size={20} />
+                                    <ChevronRight size={24} />
                                 </Button>
                             </div>
                         </div>
