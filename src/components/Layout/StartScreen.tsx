@@ -182,7 +182,7 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                     <SignedOut>
                         <SignInButton mode="modal">
                             <Button color="dark" outline className="w-100">
-                                {usernameData.isLinked ? "Sign In" : "Sign Up"}
+                                {usernameData.isLinked ? "Sign In" : "Sign In / Sign Up"}
                             </Button>
                         </SignInButton>
                     </SignedOut>
