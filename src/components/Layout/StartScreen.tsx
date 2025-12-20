@@ -177,7 +177,7 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                     </Button>
                 )}
 
-                {/* Authentication - Show UserButton if signed in, SignInButton if not */}
+                {/* Authentication - Temporarily Disabled
                 <div className="mt-2 d-flex justify-content-center">
                     <SignedOut>
                         <SignInButton mode="modal">
@@ -188,11 +188,12 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                     </SignedOut>
                     <SignedIn>
                         <div className="d-flex align-items-center gap-2">
-                            <UserButton afterSignOutUrl="/" />
-                            <span className="small text-muted">{user?.primaryEmailAddress?.emailAddress}</span>
+                             <UserButton afterSignOutUrl="/" />
+                             <span className="small text-muted">{user?.primaryEmailAddress?.emailAddress}</span>
                         </div>
                     </SignedIn>
                 </div>
+                */}
             </div>
 
             {/* Copyright */}
