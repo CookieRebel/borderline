@@ -32,6 +32,7 @@ export const useUsername = () => {
     const [highScores, setHighScores] = useState<HighScores>(defaultHighScores);
     const [todayScore, setTodayScore] = useState<number>(0);
     const [bestDayScore, setBestDayScore] = useState<number>(0);
+    const [email, setEmail] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     // Initialize user on mount
@@ -64,6 +65,7 @@ export const useUsername = () => {
                     setPlayedToday(user.playedToday || false);
                     setTodayScore(user.todayScore || 0);
                     setBestDayScore(user.bestDayScore || 0);
+                    setEmail(user.email || null);
                 } else if (response.status === 404) {
                     // User doesn't exist, create new one
                     let attempts = 0;
@@ -119,6 +121,7 @@ export const useUsername = () => {
                 });
                 setTodayScore(user.todayScore || 0);
                 setBestDayScore(user.bestDayScore || 0);
+                setEmail(user.email || null);
             }
         } catch (error) {
             console.error('Failed to refetch user:', error);
@@ -159,5 +162,5 @@ export const useUsername = () => {
         }
     }, [userId, username]);
 
-    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser };
+    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail };
 };

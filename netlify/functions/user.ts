@@ -67,6 +67,7 @@ export const handler: Handler = async (event) => {
                     body: JSON.stringify({
                         ...existing,
                         displayName: display_name,
+                        email: existing.email,
                     }),
                 };
             }
@@ -141,6 +142,7 @@ export const handler: Handler = async (event) => {
                     playedToday,
                     todayScore,
                     bestDayScore,
+                    email: user.email,
                 }),
             };
         }

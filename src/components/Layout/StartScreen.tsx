@@ -156,14 +156,7 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                 >
                     Play
                 </Button>
-                <Button
-                    color="secondary"
-                    outline
-                    disabled
-                    className="opacity-50"
-                >
-                    Sign Up
-                </Button>
+
                 <Button
                     color="secondary"
                     outline
