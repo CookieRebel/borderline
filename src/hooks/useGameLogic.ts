@@ -265,10 +265,18 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
 
         // Reset game when difficulty changes (if playing/ready) or on initial load
-        initializeGame();
-    }, [difficulty, dataLow]);
+        // But WAIT for userId to be ready.
+        if (userId) {
+            initializeGame();
+        }
+    }, [difficulty, dataLow, userId]);
 
     const initializeGame = () => {
+        if (!userId) {
+            console.log("Waiting for user ID...");
+            return;
+        }
+
         const features = dataLow.features;
         if (!features || features.length === 0) return;
 
