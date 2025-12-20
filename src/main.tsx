@@ -5,10 +5,21 @@ import './index.css'
 import App from './App.tsx'
 import { DifficultyProvider } from './hooks/useDifficulty'
 
+import { ClerkProvider } from '@clerk/clerk-react'
+
+// Import your publishable key
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <DifficultyProvider>
-      <App />
-    </DifficultyProvider>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+      <DifficultyProvider>
+        <App />
+      </DifficultyProvider>
+    </ClerkProvider>
   </StrictMode>,
 )

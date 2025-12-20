@@ -2,6 +2,7 @@ import { pgTable, uuid, varchar, integer, timestamp, boolean } from 'drizzle-orm
 
 export const users = pgTable('users', {
     id: uuid('id').primaryKey().defaultRandom(),
+    clerkId: varchar('clerk_id', { length: 255 }).unique(), // Helper column for social auth
     displayName: varchar('display_name', { length: 50 }).notNull(),
     email: varchar('email', { length: 255 }).unique(),
     easyGameCount: integer('easy_game_count').default(0).notNull(),

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
+import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import DifficultySelector from '../Game/DifficultySelector';
 
 interface StartScreenProps {
@@ -13,7 +14,9 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
-    const { username, updateUsername, loading, playedToday } = useUsername();
+    const usernameData = useUsername();
+    const { username, updateUsername, loading, playedToday } = usernameData;
+    const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
@@ -173,6 +176,23 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                         Analytics
                     </Button>
                 )}
+
+                {/* Authentication - Show UserButton if signed in, SignInButton if not */}
+                <div className="mt-2 d-flex justify-content-center">
+                    <SignedOut>
+                        <SignInButton mode="modal">
+                            <Button color="dark" outline className="w-100">
+                                {usernameData.isLinked ? "Sign In" : "Sign Up"}
+                            </Button>
+                        </SignInButton>
+                    </SignedOut>
+                    <SignedIn>
+                        <div className="d-flex align-items-center gap-2">
+                            <UserButton afterSignOutUrl="/" />
+                            <span className="small text-muted">{user?.primaryEmailAddress?.emailAddress}</span>
+                        </div>
+                    </SignedIn>
+                </div>
             </div>
 
             {/* Copyright */}
