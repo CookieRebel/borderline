@@ -1,6 +1,6 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
-import { sql, gte, and, eq } from 'drizzle-orm';
+import { sql, gte, and, lt, count, eq, avg, gt } from 'drizzle-orm';
 
 // Get date in Melbourne timezone (Australia/Melbourne)
 const getMelbourneDate = (): Date => {
@@ -19,22 +19,26 @@ const getMelbourneStartOfDay = (date: Date): Date => {
 // Calculate stats for a given period
 const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
     // Count new users in period
-    const newUsersResult = await db.execute(sql`
-        SELECT COUNT(*) as count
-        FROM users
-        WHERE created_at >= ${startDate.toISOString()}
-          AND created_at < ${endDate.toISOString()}
-    `);
-    const newUsers = Number(newUsersResult.rows[0]?.count || 0);
+    const [newUsersResult] = await db.select({ count: count() })
+        .from(schema.users)
+        .where(
+            and(
+                gte(schema.users.createdAt, startDate),
+                lt(schema.users.createdAt, endDate)
+            )
+        );
+    const newUsers = newUsersResult?.count || 0;
 
     // Count new games in period
-    const newGamesResult = await db.execute(sql`
-        SELECT COUNT(*) as count
-        FROM game_results
-        WHERE created_at >= ${startDate.toISOString()}
-          AND created_at < ${endDate.toISOString()}
-    `);
-    const newGames = Number(newGamesResult.rows[0]?.count || 0);
+    const [newGamesResult] = await db.select({ count: count() })
+        .from(schema.gameResults)
+        .where(
+            and(
+                gte(schema.gameResults.createdAt, startDate),
+                lt(schema.gameResults.createdAt, endDate)
+            )
+        );
+    const newGames = newGamesResult?.count || 0;
 
     return { newUsers, newGames };
 };
@@ -185,24 +189,19 @@ export const handler: Handler = async (event) => {
         };
 
         // Get total statistics
-        const totalUsersResult = await db.execute(sql`
-            SELECT COUNT(*) as count
-            FROM users
-        `);
-        const totalUsers = Number(totalUsersResult.rows[0]?.count || 0);
+        const [totalUsersResult] = await db.select({ count: count() }).from(schema.users);
+        const totalUsers = totalUsersResult?.count || 0;
 
-        const totalGamesResult = await db.execute(sql`
-            SELECT COUNT(*) as count
-            FROM game_results
-        `);
-        const totalGames = Number(totalGamesResult.rows[0]?.count || 0);
+        const [totalGamesResult] = await db.select({ count: count() }).from(schema.gameResults);
+        const totalGames = totalGamesResult?.count || 0;
 
         // Get games by difficulty
-        const gamesByDifficultyResult = await db.execute(sql`
-            SELECT level, COUNT(*) as count
-            FROM game_results
-            GROUP BY level
-        `);
+        const gamesByDifficultyResult = await db.select({
+            level: schema.gameResults.level,
+            count: count(),
+        })
+            .from(schema.gameResults)
+            .groupBy(schema.gameResults.level);
 
         const gamesByDifficulty = {
             easy: 0,
@@ -211,18 +210,17 @@ export const handler: Handler = async (event) => {
             extreme: 0,
         };
 
-        gamesByDifficultyResult.rows.forEach((row: any) => {
+        gamesByDifficultyResult.forEach((row) => {
             const level = row.level as 'easy' | 'medium' | 'hard' | 'extreme';
-            gamesByDifficulty[level] = Number(row.count || 0);
+            gamesByDifficulty[level] = row.count;
         });
 
         // Calculate average streak
-        const avgStreakResult = await db.execute(sql`
-            SELECT AVG(streak) as avg_streak
-            FROM users
-            WHERE streak > 0
-        `);
-        const averageStreak = Math.round(Number(avgStreakResult.rows[0]?.avg_streak || 0) * 10) / 10; // Round to 1 decimal
+        const [avgStreakResult] = await db.select({ avg_streak: avg(schema.users.streak) })
+            .from(schema.users)
+            .where(gt(schema.users.streak, 0));
+
+        const averageStreak = Math.round(Number(avgStreakResult?.avg_streak || 0) * 10) / 10; // Round to 1 decimal
 
         // Calculate 1-day retention
         // For all users, check if they played the day after their first game
@@ -293,18 +291,18 @@ export const handler: Handler = async (event) => {
         const sevenDayRetention = sevenDayTotal > 0 ? Math.round((sevenDayRetained / sevenDayTotal) * 100) : 0;
 
         // Calculate average guesses
-        const avgGuessesResult = await db.execute(sql`
-            SELECT AVG(guesses) as avg_guesses
-            FROM game_results
-        `);
-        const averageGuesses = Math.round(Number(avgGuessesResult.rows[0]?.avg_guesses || 0) * 10) / 10;
+        const [avgGuessesResult] = await db.select({ avg_guesses: avg(schema.gameResults.guesses) })
+            .from(schema.gameResults);
+
+        const averageGuesses = Math.round(Number(avgGuessesResult?.avg_guesses || 0) * 10) / 10;
 
         // Calculate average guesses by difficulty
-        const avgGuessesByDifficultyResult = await db.execute(sql`
-            SELECT level, AVG(guesses) as avg_guesses
-            FROM game_results
-            GROUP BY level
-        `);
+        const avgGuessesByDifficultyResult = await db.select({
+            level: schema.gameResults.level,
+            avg_guesses: avg(schema.gameResults.guesses)
+        })
+            .from(schema.gameResults)
+            .groupBy(schema.gameResults.level);
 
         const averageGuessesByDifficulty = {
             easy: 0,
@@ -313,7 +311,7 @@ export const handler: Handler = async (event) => {
             extreme: 0,
         };
 
-        avgGuessesByDifficultyResult.rows.forEach((row: any) => {
+        avgGuessesByDifficultyResult.forEach((row) => {
             const level = row.level as 'easy' | 'medium' | 'hard' | 'extreme';
             averageGuessesByDifficulty[level] = Math.round(Number(row.avg_guesses || 0) * 10) / 10;
         });
