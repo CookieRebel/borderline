@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
-import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+// import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import DifficultySelector from '../Game/DifficultySelector';
 
 interface StartScreenProps {
@@ -16,7 +16,7 @@ interface StartScreenProps {
 const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
     const usernameData = useUsername();
     const { username, updateUsername, loading, playedToday } = usernameData;
-    const { user } = useUser();
+    // const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
