@@ -271,7 +271,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
     }, [difficulty, dataLow, userId]);
 
-    const initializeGame = () => {
+    const initializeGame = (autoStart: boolean = false) => {
         if (!userId) {
             console.log("Waiting for user ID...");
             return;
@@ -348,12 +348,16 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     ? `Can you beat your high score of ${highScore}?`
                     : 'Can you guess the country or territory?';
 
+                if (autoStart) {
+                    roundStartTime.current = Date.now();
+                }
+
                 setGameState({
                     targetCountry: target,
                     revealedNeighbors: [],
                     score: 0,
                     roundScore: 0,
-                    status: 'ready',
+                    status: autoStart ? 'playing' : 'ready',
                     message: highScoreMessage,
                     wrongGuesses: 0,
                     guessHistory: [],
@@ -375,7 +379,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     revealedNeighbors: [],
                     score: 0,
                     roundScore: 0,
-                    status: 'ready',
+                    status: autoStart ? 'playing' : 'ready',
                     message: 'Can you guess the country?',
                     wrongGuesses: 0,
                     guessHistory: [],

@@ -64,9 +64,7 @@ function App() {
   // Wrapper to reset game, close modal, and start new game
   const playAgain = () => {
     setShowResultsModal(false);
-    resetGameLogic();
-    // Small delay to let state update, then start
-    setTimeout(() => startGame(), 50);
+    resetGameLogic(true);
   };
 
   // Trigger confetti and sound on win
