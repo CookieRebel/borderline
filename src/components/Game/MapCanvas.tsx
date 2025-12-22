@@ -155,7 +155,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                 [[padding, padding], [dimensions.width - padding, dimensions.height - padding]],
                 targetCountry
             );
-        const newScale = Math.min(tempProj.scale(), 20000); // Clamp to max zoom
+        const newScale = Math.min(tempProj.scale(), 5000000); // Clamp to max zoom
         setScale(newScale);
         previousKRef.current = newScale;
 
@@ -226,7 +226,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         let previousY = 0;
 
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
-            .scaleExtent([100, 20000]) // Increased to 20000 for smaller islands
+            .scaleExtent([100, 5000000]) // Increased to 5000000 for smaller islands
             .on('zoom', (event) => {
                 const { transform, sourceEvent } = event;
                 const { k, x, y } = transform;
