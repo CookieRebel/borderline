@@ -11,25 +11,25 @@ import Header from './components/Layout/Header';
 import AdBanner from './components/Layout/AdBanner';
 import GameCard from './components/Layout/GameCard';
 import StartScreen from './components/Layout/StartScreen';
-import InstructionsScreen from './components/Layout/InstructionsScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
 import GameEndModal from './components/Layout/GameEndModal';
+
+const sparkleUrl = new URL('./assets/sparkle.mp3', import.meta.url).href;
 
 // Play sparkle sound
 const playSparkleSound = () => {
   try {
-    const audio = new Audio('/sparkle.mp3');
+    const audio = new Audio(sparkleUrl);
     audio.volume = 0.5;
     audio.play();
   } catch (e) {
-    console.log('Audio not supported');
+    console.log('Audio not supported', e);
   }
 };
 
 function App() {
   const { userId, streak, highScores, refetchUser } = useUsername();
   const [showStartScreen, setShowStartScreen] = useState(true);
-  const [showInstructions, setShowInstructions] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
@@ -92,10 +92,6 @@ function App() {
           setShowStartScreen(false);
           startGame();
         }}
-        onInstructions={() => {
-          setShowStartScreen(false);
-          setShowInstructions(true);
-        }}
         onAnalytics={() => {
           setShowStartScreen(false);
           setShowAnalytics(true);
@@ -107,14 +103,7 @@ function App() {
   }
 
   // Show instructions screen
-  if (showInstructions) {
-    return (
-      <InstructionsScreen onBack={() => {
-        setShowInstructions(false);
-        setShowStartScreen(true);
-      }} />
-    );
-  }
+
 
   // Show analytics screen
   if (showAnalytics) {

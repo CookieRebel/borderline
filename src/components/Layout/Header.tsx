@@ -104,11 +104,6 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
             )}
 
             <div className="position-relative text-center mt-3 fade-in">
-                <img
-                    src="/borderline_logo.png"
-                    alt="BorderLINE"
-                    style={{ height: '50px' }}
-                />
                 {username && (
                     <div className="d-flex align-items-center px-3">
                         {/* Day scores */}

@@ -48,7 +48,8 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
     // Preloaded swoosh audio for instant playback
     const swooshAudioRef = useRef<HTMLAudioElement | null>(null);
     useEffect(() => {
-        swooshAudioRef.current = new Audio('/swoosh.mp3');
+        const swooshUrl = new URL('../../assets/swoosh.mp3', import.meta.url).href;
+        swooshAudioRef.current = new Audio(swooshUrl);
         swooshAudioRef.current.volume = 0.2;
     }, []);
 

@@ -349,7 +349,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     target = potentialTargets[randomIndex];
                 }
 
-                const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
+                // const targetIso = target.properties?.['ISO3166-1-Alpha-3'];
                 const highScoreMessage = highScore > 0
                     ? `Can you beat your high score of ${highScore}?`
                     : 'Can you guess the country or territory?';
@@ -370,8 +370,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     difficulty: difficulty
                 });
 
-                console.log(`Difficulty: ${difficulty} `);
-                console.log(`Target: ${target.properties?.name} (${targetIso})`);
+                // console.log(`Difficulty: ${difficulty} `);
+                // console.log(`Target: ${target.properties?.name} (${targetIso})`);
             })
             .catch(err => {
                 console.error('Failed to pick target:', err);

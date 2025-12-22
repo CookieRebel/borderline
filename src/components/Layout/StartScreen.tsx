@@ -1,29 +1,54 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
 // import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import DifficultySelector from '../Game/DifficultySelector';
+import styles from './StartScreen.module.css';
+import BackgroundGlobe from './BackgroundGlobe';
 
 interface StartScreenProps {
     onPlay: () => void;
-    onInstructions: () => void;
     onAnalytics: () => void;
     userId: string;
     streak?: number;
 }
 
-const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
     const usernameData = useUsername();
     const { username, updateUsername, loading, playedToday } = usernameData;
     // const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [isSnapped, setIsSnapped] = useState(false);
+
+    const audioRef = useRef<HTMLAudioElement | null>(null);
 
     // Admin user ID (hardcoded for now)
     const ADMIN_USER_ID = 'bad83e41-5d35-463d-882f-30633f5301ff';
     const isAdmin = userId === ADMIN_USER_ID;
+
+    // Initialize audio
+    useEffect(() => {
+        const audioUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
+        audioRef.current = new Audio(audioUrl);
+    }, []);
+
+    const handlePlayClick = () => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play().catch(() => { /* Ignore autoplay errors */ });
+        }
+
+        setIsSnapped(true);
+        setTimeout(() => setIsSnapped(false), 150);
+
+        // Slight delay before starting game to allow animation/sound to register
+        setTimeout(() => {
+            onPlay();
+        }, 100);
+    };
 
     // Auto-dismiss error after 3 seconds
     useEffect(() => {
@@ -81,7 +106,9 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
     };
 
     return (
-        <div className="d-flex flex-column align-items-center justify-content-center min-vh-100 text-center px-4 position-relative">
+        <div className={styles.appContainer + " d-flex flex-column align-items-center justify-content-center text-center px-4 position-relative"}>
+            <BackgroundGlobe />
+
             {/* Error Toast */}
             {error && (
                 <div className="position-fixed top-0 start-50 translate-middle-x mt-4" style={{ zIndex: 1050 }}>
@@ -93,16 +120,7 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                 </div>
             )}
 
-            {/* Logo */}
-            <div className="mb-4">
-                <img
-                    src="/borderline_logo.png"
-                    alt="BorderLINE"
-                    style={{ height: '120px' }}
-                    className="mb-3"
-                />
-                <p className="text-muted mb-0">Guess the country or territory from its shape</p>
-            </div>
+
 
             {/* Greeting & Streak */}
             <div className="mb-4">
@@ -112,8 +130,8 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                     </div>
                 ) : (
                     <>
-                        <div className="h5 text-dark mb-2 d-inline-flex align-items-center gap-2">
-                            Hi,{' '}
+                        <div className="h5 text-dark mb-2 d-inline-flex align-items-center">
+                            Hi
                             {isEditing ? (
                                 <input
                                     type="text"
@@ -122,13 +140,13 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                                     onBlur={handleBlur}
                                     onKeyDown={handleKeyDown}
                                     autoFocus
-                                    className="border-0 border-bottom bg-transparent text-dark text-center fw-medium"
+                                    className="ms-1 border-0 border-bottom bg-transparent text-dark text-center fw-medium"
                                     style={{ width: '150px', outline: 'none' }}
                                 />
                             ) : (
                                 <span
                                     onClick={handleClick}
-                                    className="d-inline-flex align-items-center gap-1"
+                                    className="ms-1 d-inline-flex align-items-center gap-1"
                                     style={{ cursor: 'pointer' }}
                                     title="Click to edit"
                                 >
@@ -136,11 +154,11 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                                     <Edit2 size={14} />
                                 </span>
                             )}
-                            .
+
                         </div>
                         {streak > 0 && (
                             <p className="text-success fw-medium mb-0">
-                                🔥 {playedToday ? 'Let\'s play again!' : `Let's continue your ${streak} day streak!`}
+                                🔥 {playedToday ? 'Ready for another round?' : `Continue your ${streak} day streak!`}
                             </p>
                         )}
                     </>
@@ -153,20 +171,18 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
             {/* Buttons */}
             <div className="d-flex flex-column gap-2 mb-5" style={{ width: '200px' }}>
                 <Button
-                    className="btn-gold py-2"
+                    className="btn-gold py-2 pulse-glow"
                     size="lg"
-                    onClick={onPlay}
+                    onClick={handlePlayClick}
+                    style={{
+                        transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        transform: isSnapped ? 'scale(0.9)' : 'scale(1)'
+                    }}
                 >
-                    Play
+                    Play Now!
                 </Button>
 
-                <Button
-                    color="secondary"
-                    outline
-                    onClick={onInstructions}
-                >
-                    Instructions
-                </Button>
+
                 {isAdmin && (
                     <Button
                         color="dark"
@@ -176,29 +192,6 @@ const StartScreen = ({ onPlay, onInstructions, onAnalytics, userId, streak = 0 }
                         Analytics
                     </Button>
                 )}
-
-                {/* Authentication - Temporarily Disabled
-                <div className="mt-2 d-flex justify-content-center">
-                    <SignedOut>
-                        <SignInButton mode="modal">
-                            <Button color="dark" outline className="w-100">
-                                {usernameData.isLinked ? "Sign In" : "Sign In / Sign Up"}
-                            </Button>
-                        </SignInButton>
-                    </SignedOut>
-                    <SignedIn>
-                        <div className="d-flex align-items-center gap-2">
-                             <UserButton afterSignOutUrl="/" />
-                             <span className="small text-muted">{user?.primaryEmailAddress?.emailAddress}</span>
-                        </div>
-                    </SignedIn>
-                </div>
-                */}
-            </div>
-
-            {/* Copyright */}
-            <div className="position-fixed bottom-0 end-0 p-3">
-                <small className="text-muted">© 2025 Enjoy Software</small>
             </div>
 
 
