@@ -21,7 +21,7 @@ export const allCountries = [
     "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
     "Qatar",
     "Romania", "Russia", "Rwanda",
-    "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "São Tomé and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
+    "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "São Tomé and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "Somaliland", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
     "Tajikistan", "Tanzania", "Thailand", "East Timor", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
     "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
     "Vanuatu", "Venezuela", "Vietnam",
@@ -35,6 +35,8 @@ export const allCountries = [
     // --- Requested Territories ---
     "Anguilla",
     "Bermuda",
+    "British Indian Ocean Territory",
+    "Indian Ocean Territories",
     "British Virgin Islands",
     "Cayman Islands",
     "Falkland Islands",
@@ -89,14 +91,11 @@ export const allCountries = [
     "Svalbard and Jan Mayen",
     "Bouvet Island",
 
-    // TODO: Add GeoJSON data for these Spanish/Portuguese territories
-    // "Azores",
-    // "Madeira",
-    // "Canary Islands",
-    // "Ceuta",
-    // "Melilla",
 
     "Åland Islands",
+    "Northern Cyprus",
+    "South Georgia and the Islands",
+    "French Southern and Antarctic Lands",
     "Taiwan",
 
     // --- Crown Dependencies & Others ---

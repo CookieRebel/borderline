@@ -1,6 +1,8 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import type { FeatureCollection, Feature } from 'geojson';
-import { geoCentroid, geoDistance, geoArea } from 'd3-geo';
+import { geoArea, geoCentroid, geoDistance } from 'd3-geo';
+import { allCountries } from '../data/allCountries';
+
 import countriesDataLow from '../data/countries_low.json';
 import countriesDataHigh from '../data/countries_high.json';
 import landDataLow from '../data/land_low.json';
@@ -240,7 +242,10 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
         return {
             ...collection,
-            features: refinedFeatures
+            features: refinedFeatures.filter((f: any) => {
+                // Single Source of Truth: Only include countries present in the dropdown list
+                return allCountries.includes(f.properties.name);
+            })
         };
     }, []);
 
@@ -277,10 +282,11 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
             return;
         }
 
+        // Filter potential targets based on difficulty
         const features = dataLow.features;
+
         if (!features || features.length === 0) return;
 
-        // Filter potential targets based on difficulty
         let potentialTargets = features;
 
         if (difficulty === 'easy') {
@@ -364,7 +370,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     difficulty: difficulty
                 });
 
-                console.log(`Difficulty: ${difficulty}`);
+                console.log(`Difficulty: ${difficulty} `);
                 console.log(`Target: ${target.properties?.name} (${targetIso})`);
             })
             .catch(err => {
@@ -385,7 +391,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     guessHistory: [],
                     difficulty: difficulty
                 });
-                console.log(`Target (Fallback): ${target.properties?.name} (${targetIso})`);
+                console.log(`Target(Fallback): ${target.properties?.name} (${targetIso})`);
             });
     };
 
@@ -476,8 +482,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
             const countryName = gameState.targetCountry?.properties?.name || 'the country';
             const guessWord = guessCount === 1 ? 'guess' : 'guesses';
             const winMessage = isHighScore
-                ? `🏆 ${countryName} in ${guessCount} ${guessWord}! ${praise}`
-                : `${countryName} in ${guessCount} ${guessWord}! ${praise}`;
+                ? `🏆 ${countryName} in ${guessCount} ${guessWord} !${praise} `
+                : `${countryName} in ${guessCount} ${guessWord} !${praise} `;
 
             setGameState(prev => ({
                 ...prev,
