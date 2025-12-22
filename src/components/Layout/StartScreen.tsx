@@ -7,6 +7,7 @@ import DifficultySelector from '../Game/DifficultySelector';
 import styles from './StartScreen.module.css';
 import BackgroundGlobe from './BackgroundGlobe';
 import logo from '../../assets/borderline_logo_no_background.png';
+import { AudioManager } from '../../utils/audioManager';
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
@@ -23,8 +24,6 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
     const [error, setError] = useState<string | null>(null);
     const [isSnapped, setIsSnapped] = useState(false);
 
-    const audioRef = useRef<HTMLAudioElement | null>(null);
-
     // Admin user ID (hardcoded for now)
     const ADMIN_USER_ID = 'bad83e41-5d35-463d-882f-30633f5301ff';
     const isAdmin = userId === ADMIN_USER_ID;
@@ -32,16 +31,12 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
     // Initialize audio
     useEffect(() => {
         const audioUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
-        audioRef.current = new Audio(audioUrl);
-        audioRef.current.preload = 'auto';
-        audioRef.current.load();
+        AudioManager.load(audioUrl);
     }, []);
 
     const handlePlayClick = () => {
-        if (audioRef.current) {
-            audioRef.current.currentTime = 0;
-            audioRef.current.play().catch(() => { /* Ignore autoplay errors */ });
-        }
+        const audioUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
+        AudioManager.play(audioUrl);
 
         setIsSnapped(true);
         setTimeout(() => setIsSnapped(false), 150);

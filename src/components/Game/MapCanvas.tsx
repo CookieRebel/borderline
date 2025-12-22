@@ -3,6 +3,7 @@ import { geoPath, geoOrthographic, geoGraticule, geoCentroid, geoDistance } from
 import { zoom as d3Zoom, zoomIdentity } from 'd3-zoom';
 import { select } from 'd3-selection';
 import type { Feature } from 'geojson';
+import { AudioManager } from '../../utils/audioManager';
 
 interface MapCanvasProps {
     targetCountry: Feature | null;
@@ -45,22 +46,17 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
     const zoomBehaviorRef = useRef<any>(null);
     const previousKRef = useRef<number>(250);
 
-    // Preloaded swoosh audio for instant playback
-    const swooshAudioRef = useRef<HTMLAudioElement | null>(null);
+    // Audio URL
+    const swooshUrl = new URL('../../assets/swoosh.mp3', import.meta.url).href;
+
+    // Preload audio
     useEffect(() => {
-        const swooshUrl = new URL('../../assets/swoosh.mp3', import.meta.url).href;
-        swooshAudioRef.current = new Audio(swooshUrl);
-        swooshAudioRef.current.preload = 'auto'; // Instant playback
-        swooshAudioRef.current.load();
-        swooshAudioRef.current.volume = 0.2;
+        AudioManager.load(swooshUrl);
     }, []);
 
     const playSwoosh = useCallback(() => {
-        if (swooshAudioRef.current) {
-            swooshAudioRef.current.currentTime = 0;
-            swooshAudioRef.current.play().catch(() => { });
-        }
-    }, []);
+        AudioManager.play(swooshUrl, 0.2); // Volume 0.2
+    }, [swooshUrl]);
 
     // Animation helper function
     const animateToCountry = useCallback((country: Feature, shouldPlaySwoosh: boolean = true) => {

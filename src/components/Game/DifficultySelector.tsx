@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useDifficulty, type Difficulty } from '../../hooks/useDifficulty';
+import { AudioManager } from '../../utils/audioManager';
 
 const DifficultySelector = () => {
     const { difficulty, setDifficulty } = useDifficulty();
@@ -8,29 +9,19 @@ const DifficultySelector = () => {
     const [snapped, setSnapped] = useState<string | null>(null);
     const [isShaking, setIsShaking] = useState(false);
 
-    const poingAudioRef = useRef<HTMLAudioElement | null>(null);
-    const gongAudioRef = useRef<HTMLAudioElement | null>(null);
+    // Audio URLs
+    const poingUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
+    const gongUrl = new URL('../../assets/punch.mp3', import.meta.url).href;
 
     // Initialize audio
     useEffect(() => {
-        const poingUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
-        const gongUrl = new URL('../../assets/punch.mp3', import.meta.url).href; // "Gong" variable name kept for logic, playing punch.mp3
-
-        poingAudioRef.current = new Audio(poingUrl);
-        poingAudioRef.current.preload = 'auto';
-        poingAudioRef.current.load();
-
-        gongAudioRef.current = new Audio(gongUrl);
-        gongAudioRef.current.preload = 'auto';
-        gongAudioRef.current.load();
+        AudioManager.load(poingUrl);
+        AudioManager.load(gongUrl);
     }, []);
 
     const playSound = (type: 'poing' | 'gong') => {
-        const audio = type === 'gong' ? gongAudioRef.current : poingAudioRef.current;
-        if (audio) {
-            audio.currentTime = 0;
-            audio.play().catch(() => { /* Ignore autoplay errors */ });
-        }
+        const url = type === 'gong' ? gongUrl : poingUrl;
+        AudioManager.play(url);
     };
 
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
