@@ -33,6 +33,8 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
     useEffect(() => {
         const audioUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
         audioRef.current = new Audio(audioUrl);
+        audioRef.current.preload = 'auto';
+        audioRef.current.load();
     }, []);
 
     const handlePlayClick = () => {

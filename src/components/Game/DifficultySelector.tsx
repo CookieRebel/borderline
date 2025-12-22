@@ -17,7 +17,12 @@ const DifficultySelector = () => {
         const gongUrl = new URL('../../assets/punch.mp3', import.meta.url).href; // "Gong" variable name kept for logic, playing punch.mp3
 
         poingAudioRef.current = new Audio(poingUrl);
+        poingAudioRef.current.preload = 'auto';
+        poingAudioRef.current.load();
+
         gongAudioRef.current = new Audio(gongUrl);
+        gongAudioRef.current.preload = 'auto';
+        gongAudioRef.current.load();
     }, []);
 
     const playSound = (type: 'poing' | 'gong') => {
