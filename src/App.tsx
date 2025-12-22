@@ -8,7 +8,7 @@ import { useUsername } from './hooks/useUsername';
 
 // Layout components
 import Header from './components/Layout/Header';
-import AdBanner from './components/Layout/AdBanner';
+
 import GameCard from './components/Layout/GameCard';
 import StartScreen from './components/Layout/StartScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
@@ -155,6 +155,7 @@ function App() {
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
           onPlayAgain={playAgain}
+          onClose={() => setShowResultsModal(false)}
         />
       )}
     </div>
