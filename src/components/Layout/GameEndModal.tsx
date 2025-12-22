@@ -127,34 +127,36 @@ const GameEndModal = ({
 
                     {/* Fun Facts Carousel - only show if facts available */}
                     {countryFactsList.length > 0 && (
-                        <div className="text-start mb-4 p-3 bg-light rounded">
-                            <h6 className="text-dark mb-2 text-center">{flag} Fun facts about {countryName}</h6>
+                        <div className="text-start mb-3 py-2 bg-light rounded position-relative">
+                            <h6 className="text-dark mb-1 text-center" style={{ fontSize: '0.8rem' }}>{flag} Fun facts about {countryName}</h6>
                             <div className="d-flex align-items-center justify-content-between">
                                 <Button
                                     color="link"
-                                    className="text-dark p-0"
+                                    className="text-dark p-0 text-decoration-none"
+                                    style={{ minWidth: '30px' }}
                                     onClick={handlePrevFact}
                                     aria-label="Previous fact"
                                 >
-                                    <ChevronLeft size={24} />
+                                    <ChevronLeft size={20} />
                                 </Button>
 
-                                <div className="flex-grow-1 px-3 text-center">
-                                    <p className="text-muted small mb-1" style={{ minHeight: '3em' }}>
+                                <div className="flex-grow-1 px-1 text-center">
+                                    <p className="text-muted small mb-1" style={{ fontSize: '0.75rem', lineHeight: '1.2', minHeight: '2.5em' }}>
                                         {countryFactsList[factIndex]}
                                     </p>
-                                    <small className="text-muted opacity-50" style={{ fontSize: '0.7rem' }}>
+                                    <small className="text-muted opacity-50" style={{ fontSize: '0.65rem' }}>
                                         {factIndex + 1} / {countryFactsList.length}
                                     </small>
                                 </div>
 
                                 <Button
                                     color="link"
-                                    className="text-dark p-0"
+                                    className="text-dark p-0 text-decoration-none"
+                                    style={{ minWidth: '30px' }}
                                     onClick={handleNextFact}
                                     aria-label="Next fact"
                                 >
-                                    <ChevronRight size={24} />
+                                    <ChevronRight size={20} />
                                 </Button>
                             </div>
                         </div>

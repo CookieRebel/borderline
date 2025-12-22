@@ -28,7 +28,7 @@ const DifficultySelector = () => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
     const subtitles: Record<string, string> = {
-        easy: "Learn.",
+        easy: "Learn with country outlines.",
         medium: "Continents only.",
         hard: "No outlines. Brutal.",
         extreme: "Tiny islands, big regret.",
@@ -52,7 +52,6 @@ const DifficultySelector = () => {
     return (
         <>
             <div className="mb-4 w-100">
-                <p className="text-muted small mb-2 text-center text-sm-start">Select difficulty:</p>
                 <div className={styles.container}>
                     {difficulties.map((level) => (
                         <Button
@@ -65,8 +64,10 @@ const DifficultySelector = () => {
                                 transform: snapped === level ? 'scale(0.9)' : 'scale(1)'
                             }}
                         >
-                            <span style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{level}</span>
-                            <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>{subtitles[level]}</span>
+                            <div className={styles.buttonText}>
+                                <div style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{level}</div>
+                                <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>{subtitles[level]}</div>
+                            </div>
                         </Button>
                     ))}
 
@@ -89,9 +90,10 @@ const DifficultySelector = () => {
                         style={{
                             transform: snapped === 'nomove' ? 'scale(0.9)' : 'scale(1)'
                         }}
-                    >
-                        <span style={{ fontWeight: 'bold' }}>No Move</span>
-                        <span style={{ fontSize: '0.65rem', opacity: 0.8 }}>Pure suffering.</span>
+                    >   <div className={styles.buttonText}>
+                            <div style={{ fontWeight: 'bold' }}>No Move</div>
+                            <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>Only zoom. Good luck.</div>
+                        </div>
                     </Button>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { Toast, ToastBody } from 'reactstrap';
 import { Edit2 } from 'react-feather';
 import { useUsername } from '../../hooks/useUsername';
 import type { Difficulty } from '../../hooks/useDifficulty';
-
+import logo from '../../assets/borderline_logo_no_background.png';
 interface HeaderProps {
     difficulty: Difficulty;
     refreshKey?: number;
@@ -102,6 +102,8 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                     </Toast>
                 </div>
             )}
+            {/* Borderline Logo */}
+            <img src={logo} alt="Borderline Logo" className="mb-4" />
 
             <div className="position-relative text-center mt-3 fade-in">
                 {username && (
