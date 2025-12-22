@@ -42,6 +42,15 @@ const BackgroundGlobe = () => {
         const startTime = Date.now();
         const startRot = currentRotation;
 
+        // Calculate Longitude spin (X-axis)
+        // We want to go from startRot[0] to targetRotation[0]
+        // But we want to add at least 360 degrees of positive (Eastward) rotation
+        const diffLong = (targetRotation[0] - startRot[0]) % 360;
+        // Normalize to positive 0-360 range (distance to travel forward)
+        const forwardDist = (diffLong + 360) % 360;
+        // Add one full rotation for "vigor"
+        const totalLongDelta = forwardDist + 360;
+
         let frameId: number;
 
         const animate = () => {
@@ -53,7 +62,7 @@ const BackgroundGlobe = () => {
             const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
             const nextRot: [number, number] = [
-                startRot[0] + (targetRotation[0] - startRot[0]) * eased,
+                startRot[0] + totalLongDelta * eased,
                 startRot[1] + (targetRotation[1] - startRot[1]) * eased
             ];
 
