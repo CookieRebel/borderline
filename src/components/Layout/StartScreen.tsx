@@ -6,7 +6,7 @@ import { useUsername } from '../../hooks/useUsername';
 import DifficultySelector from '../Game/DifficultySelector';
 import styles from './StartScreen.module.css';
 import BackgroundGlobe from './BackgroundGlobe';
-
+import logo from '../../assets/borderline_logo_no_background.png';
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
@@ -120,7 +120,8 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
                 </div>
             )}
 
-
+            {/* Borderline Logo */}
+            <img src={logo} alt="Borderline Logo" className="mb-4" />
 
             {/* Greeting & Streak */}
             <div className="mb-4">
