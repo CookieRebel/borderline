@@ -123,7 +123,6 @@ function App() {
   return (
     <div className="app-container">
       <Container className="p-0" style={{ maxWidth: '900px' }}>
-        <AdBanner />
         <Header difficulty={difficulty} refreshKey={statsRefreshKey} />
         <GameCard
           status={gameState.status}

@@ -1,0 +1,66 @@
+.container {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* Default to wrap for desktop */
+    width: 100%;
+}
+
+.button {
+    min-width: 130px;
+    /* Desktop width */
+    transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Mobile optimizations */
+@media (max-width: 576px) {
+    .container {
+        flex-wrap: nowrap;
+        /* Force one row */
+        gap: 2px;
+        /* Tighter gap */
+        overflow-x: auto;
+        /* Allow scroll if absolutely necessary, but flexible items should fit */
+        padding-bottom: 4px;
+        /* Space for scrollbar if it appears */
+        margin-left: -10px;
+        margin-right: -10px;
+        width: calc(100% + 20px);
+        /* Compensate for negative margins */
+    }
+
+    .button {
+        min-width: auto;
+        /* Allow shrinking */
+        flex: 1;
+        /* Distribute space equally */
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        min-width: 0;
+        /* Important for flex shrinking */
+        letter-spacing: -0.5px;
+        /* Squeeze text slightly */
+    }
+
+    /* Hide the subtitle on very small screens if it gets too crowded, 
+       or just let the flex layout handle it. 
+       The user reduced the text length, so it might fit. */
+    .button span:last-child {
+        font-size: 0.55rem !important;
+        /* Slightly smaller text */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+        line-height: 1.1;
+    }
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useDifficulty, type Difficulty } from '../../hooks/useDifficulty';
 import { AudioManager } from '../../utils/audioManager';
+import styles from './DifficultySelector.module.css';
 
 const DifficultySelector = () => {
     const { difficulty, setDifficulty } = useDifficulty();
@@ -27,10 +28,10 @@ const DifficultySelector = () => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
     const subtitles: Record<string, string> = {
-        easy: "Learn the game.",
-        medium: "Continents only. Pretty easy.",
-        hard: "Brutal. No outlines.",
-        extreme: "Tiny islands. Big regret.",
+        easy: "Learn.",
+        medium: "Continents only.",
+        hard: "No outlines. Brutal.",
+        extreme: "Tiny islands, big regret.",
     };
 
     const handleDifficultyClick = (level: Difficulty) => {
@@ -50,19 +51,17 @@ const DifficultySelector = () => {
 
     return (
         <>
-            <div className="mb-4">
-                <p className="text-muted small mb-2">Select difficulty:</p>
-                <div className="d-flex gap-2 justify-content-center flex-wrap">
+            <div className="mb-4 w-100">
+                <p className="text-muted small mb-2 text-center text-sm-start">Select difficulty:</p>
+                <div className={styles.container}>
                     {difficulties.map((level) => (
                         <Button
                             key={level}
                             outline={difficulty !== level}
-                            className={`${difficulty === level ? 'btn-emerald' : ''} ${level === 'extreme' && isShaking ? 'shake' : ''} d-flex flex-column align-items-center justify-content-center py-2 px-3`}
+                            className={`${difficulty === level ? 'btn-emerald' : ''} ${level === 'extreme' && isShaking ? 'shake' : ''} ${styles.button}`}
                             color={difficulty === level ? undefined : 'secondary'}
                             onClick={() => handleDifficultyClick(level)}
                             style={{
-                                minWidth: '130px',
-                                transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)', // Bouncy
                                 transform: snapped === level ? 'scale(0.9)' : 'scale(1)'
                             }}
                         >
@@ -75,7 +74,7 @@ const DifficultySelector = () => {
                     <Button
                         color="secondary"
                         outline
-                        className={`opacity-75 ${snapped === 'nomove' && isShaking ? 'shake' : ''} d-flex flex-column align-items-center justify-content-center py-2 px-3`}
+                        className={`opacity-75 ${snapped === 'nomove' && isShaking ? 'shake' : ''} ${styles.button}`}
                         onClick={() => {
                             playSound('gong');
                             setSnapped('nomove');
@@ -88,8 +87,6 @@ const DifficultySelector = () => {
                             }, 2000);
                         }}
                         style={{
-                            minWidth: '130px',
-                            transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
                             transform: snapped === 'nomove' ? 'scale(0.9)' : 'scale(1)'
                         }}
                     >
