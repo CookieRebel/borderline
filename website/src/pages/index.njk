@@ -8,7 +8,8 @@ fullWidth: true
 {% if env.isDevelopmentMode %}
 <script type="module" src="http://localhost:5174/src/embed_dev.tsx"></script>
 {% else %}
-<script type="module" src="/assets/app/borderline-embed.js"></script>
+<link rel="stylesheet" href="/assets/app/borderline-embed.css ?v={{ env.buildId }}" />
+<script type="module" src="/assets/app/borderline-embed.js?v={{ env.buildId }}"></script>
 <script>
   window.addEventListener("DOMContentLoaded", () => {
     const el = document.getElementById("borderline-app");

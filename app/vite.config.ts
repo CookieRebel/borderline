@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "node:path";
+import type { PreRenderedAsset } from "rollup";
+
 
 export default defineConfig(({ command }) => {
   const isBuild = command === "build";
@@ -40,14 +42,19 @@ export default defineConfig(({ command }) => {
           outDir: path.resolve(__dirname, "../dist/assets/app"),
           emptyOutDir: true,
           sourcemap: false,
-
+          cssCodeSplit: false,
           rollupOptions: {
             input: path.resolve(__dirname, "src/embed.tsx"),
             output: {
               format: "es",
               entryFileNames: "borderline-embed.js",
               chunkFileNames: "assets/[name]-[hash].js",
-              assetFileNames: "assets/[name]-[hash][extname]",
+              assetFileNames: (assetInfo: PreRenderedAsset) => {
+                // make CSS predictable
+                if (assetInfo.name?.endsWith(".css")) return "borderline-embed.css";
+                // keep other assets hashed
+                return "assets/[name]-[hash][extname]";
+              },
             },
           },
         }
