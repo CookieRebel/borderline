@@ -19,6 +19,8 @@ interface PeriodData {
     label: string;
     newUsers: number;
     newGames: number;
+    returningUsers: number;
+    returningGames: number;
 }
 
 interface GamesByDifficulty {
@@ -135,9 +137,28 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
         );
     };
 
-    const renderChart = (title: string, data: PeriodData[], metric: 'newUsers' | 'newGames') => {
-        const metricName = metric === 'newUsers' ? 'New Users' : 'New Games';
-        const color = metric === 'newUsers' ? '#0d6efd' : '#28a745';
+    const renderChart = (title: string, data: PeriodData[], metric: 'newUsers' | 'newGames' | 'returningUsers' | 'returningGames') => {
+        let metricName = '';
+        let color = '';
+
+        switch (metric) {
+            case 'newUsers':
+                metricName = 'New Users';
+                color = '#0d6efd';
+                break;
+            case 'newGames':
+                metricName = 'New Games';
+                color = '#28a745';
+                break;
+            case 'returningUsers':
+                metricName = 'Returning Users';
+                color = '#6610f2'; // Indigo
+                break;
+            case 'returningGames':
+                metricName = 'Returning Games';
+                color = '#fd7e14'; // Orange
+                break;
+        }
 
         return (
             <div className="card shadow-sm">
@@ -427,7 +448,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
 
                 {/* Charts - New Games */}
                 <h4 className="mb-3">New Games Trends</h4>
-                <div className="row g-4">
+                <div className="row g-4 mb-4">
                     <div className="col-12 col-lg-4">
                         {renderChart('Last 10 Days', data.dailyData, 'newGames')}
                     </div>
@@ -436,6 +457,34 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     </div>
                     <div className="col-12 col-lg-4">
                         {renderChart('Last 10 Months', data.monthlyData, 'newGames')}
+                    </div>
+                </div>
+
+                {/* Charts - Returning Users */}
+                <h4 className="mb-3">Returning Users Trends</h4>
+                <div className="row g-4 mb-4">
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Days', data.dailyData, 'returningUsers')}
+                    </div>
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Weeks', data.weeklyData, 'returningUsers')}
+                    </div>
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Months', data.monthlyData, 'returningUsers')}
+                    </div>
+                </div>
+
+                {/* Charts - Returning Games */}
+                <h4 className="mb-3">Returning User Games Trends</h4>
+                <div className="row g-4">
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Days', data.dailyData, 'returningGames')}
+                    </div>
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Weeks', data.weeklyData, 'returningGames')}
+                    </div>
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Months', data.monthlyData, 'returningGames')}
                     </div>
                 </div>
             </div>
