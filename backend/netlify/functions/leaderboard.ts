@@ -65,7 +65,7 @@ export const handler: Handler = async (event) => {
         WHERE gr.level = ${level}
           AND gr.week_number = ${weekNum}
           AND gr.year = ${yearNum}
-          AND gr.won = true
+          AND gr.year = ${yearNum}
       ),
       user_scores AS (
         SELECT 
