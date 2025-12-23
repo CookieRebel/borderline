@@ -40,7 +40,34 @@ const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
         );
     const newGames = newGamesResult?.count || 0;
 
-    return { newUsers, newGames };
+    // Count returning users in period (users who played in this period but created account earlier)
+    // Logic: game date is strictly greater than user creation date (not same day)
+    const [returningUsersResult] = await db.select({ count: count(sql`DISTINCT ${schema.gameResults.userId}`) })
+        .from(schema.gameResults)
+        .innerJoin(schema.users, eq(schema.gameResults.userId, schema.users.id))
+        .where(
+            and(
+                gte(schema.gameResults.createdAt, startDate),
+                lt(schema.gameResults.createdAt, endDate),
+                sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+            )
+        );
+    const returningUsers = returningUsersResult?.count || 0;
+
+    // Count returning user games in period
+    const [returningGamesResult] = await db.select({ count: count() })
+        .from(schema.gameResults)
+        .innerJoin(schema.users, eq(schema.gameResults.userId, schema.users.id))
+        .where(
+            and(
+                gte(schema.gameResults.createdAt, startDate),
+                lt(schema.gameResults.createdAt, endDate),
+                sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+            )
+        );
+    const returningGames = returningGamesResult?.count || 0;
+
+    return { newUsers, newGames, returningUsers, returningGames };
 };
 
 // Calculate percentage change
@@ -114,6 +141,8 @@ export const handler: Handler = async (event) => {
                 label: dateStr,
                 newUsers: stats.newUsers,
                 newGames: stats.newGames,
+                returningUsers: stats.returningUsers,
+                returningGames: stats.returningGames,
             });
         }
 
@@ -138,6 +167,8 @@ export const handler: Handler = async (event) => {
                 label: weekLabel,
                 newUsers: stats.newUsers,
                 newGames: stats.newGames,
+                returningUsers: stats.returningUsers,
+                returningGames: stats.returningGames,
             });
         }
 
@@ -154,6 +185,8 @@ export const handler: Handler = async (event) => {
                 label: monthLabel,
                 newUsers: stats.newUsers,
                 newGames: stats.newGames,
+                returningUsers: stats.returningUsers,
+                returningGames: stats.returningGames,
             });
         }
 
