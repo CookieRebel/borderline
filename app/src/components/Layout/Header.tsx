@@ -103,7 +103,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                 </div>
             )}
             {/* Borderline Logo */}
-            <img src={logo} alt="Borderline Logo" className="mb-4" />
+            {/* <img src={logo} alt="Borderline Logo" className="mb-4" /> */}
 
             <div className="position-relative text-center mt-3 fade-in">
                 {username && (

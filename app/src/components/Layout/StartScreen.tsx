@@ -118,7 +118,7 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
             )}
 
             {/* Borderline Logo */}
-            <img src={logo} alt="Borderline Logo" className="mb-4" />
+            {/* <img src={logo} alt="Borderline Logo" className="mb-4" /> */}
 
             {/* Greeting & Streak */}
             <div className="mb-4">

@@ -1,0 +1,34 @@
+{
+    "name": "borderline-backend",
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "test": "vitest",
+        "netlify:functions": "netlify functions:serve --port 9999 --functions netlify/functions",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "node scripts/confirm_prod_action.js node scripts/migrate.js",
+        "db:push": "drizzle-kit push",
+        "db:studio": "drizzle-kit studio"
+    },
+    "dependencies": {
+        "@neondatabase/serverless": "^1.0.2",
+        "@types/d3-geo": "^3.1.0",
+        "d3-geo": "^3.1.1",
+        "drizzle-orm": "^0.45.1",
+        "pg": "^8.16.3",
+        "uuid": "^13.0.0",
+        "dotenv": "^16.0.0"
+    },
+    "devDependencies": {
+        "@netlify/functions": "^5.1.1",
+        "@types/node": "^24.10.1",
+        "@types/pg": "^8.16.0",
+        "@types/uuid": "^10.0.0",
+        "drizzle-kit": "^0.31.8",
+        "netlify-cli": "^23.12.3",
+        "topojson-client": "^3.1.0",
+        "typescript": "~5.9.3",
+        "vitest": "^4.0.16",
+        "world-atlas": "^2.0.2"
+    }
+}

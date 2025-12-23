@@ -1,0 +1,22 @@
+---
+layout: layout.njk
+title: Borderline
+hideHomeLink: true
+fullWidth: true
+---
+
+{% if env.isDevelopmentMode %}
+<script type="module" src="http://localhost:5174/src/embed_dev.tsx"></script>
+{% else %}
+<script defer src="/assets/app/borderline-embed.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const el = document.getElementById("borderline-app");
+    if (el && window.BorderlineEmbed?.mount) window.BorderlineEmbed.mount(el);
+  });
+</script>
+{% endif %}
+
+<div class="app-shell">
+  <div id="borderline-app"></div>
+</div>
