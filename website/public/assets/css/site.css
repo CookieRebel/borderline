@@ -226,6 +226,17 @@ a:hover {
 /* ---------- App container ---------- */
 .app-shell {
     border: 1px solid #eee;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    /* Ensure it doesn't force scroll if content is small, but fills space */
+    min-height: 0;
+}
+
+#borderline-app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ---------- Utility ---------- */
