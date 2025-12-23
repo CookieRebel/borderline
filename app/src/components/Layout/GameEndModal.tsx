@@ -227,35 +227,15 @@ const GameEndModal = ({
                                             let entry: LeaderboardEntry | undefined;
                                             let isUserRow = false;
 
-                                            // Recalculate ranks for the whole raw list first (handling ties)
-                                            const rankedConnect = (() => {
-                                                const withRanks: (LeaderboardEntry & { calculatedRank: number })[] = [];
-                                                let currentRank = 1;
-
-                                                leaderboard.forEach((item, idx) => {
-                                                    if (idx > 0) {
-                                                        const prev = leaderboard[idx - 1];
-                                                        // If score is different, rank catches up to index + 1
-                                                        if (item.total_score < prev.total_score) {
-                                                            currentRank = idx + 1;
-                                                        }
-                                                        // If score is same, rank stays calculating (1, 2, 2, 4...) is WRONG?
-                                                        // Standard: 1, 2, 2, 4. 
-                                                        // Logic above: 1 (idx 0). Next (idx 1) same score -> rank 1. 
-                                                        // Next (idx 2) lower score -> rank 3 (idx+1). Correct.
-                                                    }
-                                                    withRanks.push({ ...item, calculatedRank: currentRank });
-                                                });
-                                                return withRanks;
-                                            })();
-
-                                            // Current User's Entry from the full list
-                                            const userEntry = rankedConnect.find(e => e.user_id === userId);
-                                            const userInTop10 = userEntry && rankedConnect.indexOf(userEntry) < 10;
+                                            // Current User's Entry from the full list (which is Top 10 + User)
+                                            const userEntry = leaderboard.find(e => e.user_id === userId);
+                                            // Check if user is ALREADY in the Top 10 list
+                                            // Since leaderboard is sorted by rank, if user is in top 10, they are in indices 0-9
+                                            const userInTop10 = userEntry && leaderboard.indexOf(userEntry) < 10;
 
                                             // Slot 0-9: Top 10
                                             if (rowIndex < 10) {
-                                                entry = rankedConnect[rowIndex];
+                                                entry = leaderboard[rowIndex];
                                             }
                                             // Slot 10 (11th row): User if outside top 10
                                             else if (rowIndex === 10) {
@@ -281,8 +261,6 @@ const GameEndModal = ({
                                             const rowClass = isMe || isUserRow ? 'table-warning' : '';
 
                                             // If this is the 11th row (User) and there is a gap, visually separate?
-                                            // User requested "remove ... row", just standard grid.
-                                            // But if I am Rank 55 at row 11, it might look like Rank 11 without a separator line.
                                             // I'll add a thicker top border for the 11th row if it's the user specific row
                                             const isSeparatedUser = rowIndex === 10 && isUserRow;
 
@@ -296,7 +274,7 @@ const GameEndModal = ({
                                                     }}
                                                 >
                                                     <td className="ps-2 text-muted fw-bold">
-                                                        {(entry as any).calculatedRank}
+                                                        {entry.rank}
                                                     </td>
                                                     <td className="text-truncate" style={{ maxWidth: '120px' }}>
                                                         {entry.display_name}
