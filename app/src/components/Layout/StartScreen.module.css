@@ -1,0 +1,6 @@
+.appContainer {
+    flex: 1;
+    width: 100%;
+    /* Ensure it has some height if content is empty, though flex handles it */
+    min-height: 0;
+}
