@@ -11,3 +11,21 @@ export default function AppRoot() {
         </StrictMode>
     );
 }
+
+// Once we continue working on Clerk
+// import { ClerkProvider } from '@clerk/clerk-react'
+
+// Import your publishable key
+// const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+// if (!PUBLISHABLE_KEY) {
+//   throw new Error("Missing Publishable Key")
+// }
+
+// <StrictMode>
+//   <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+//   <DifficultyProvider>
+//     <App />
+//   {/* </DifficultyProvider> */}
+//   {/* </ClerkProvider> */}
+// </StrictMode>,

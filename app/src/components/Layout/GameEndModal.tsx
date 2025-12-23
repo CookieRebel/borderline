@@ -3,8 +3,9 @@ import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useUsername } from '../../hooks/useUsername';
 import { useDifficulty } from '../../hooks/useDifficulty';
-import countryFacts from '../../data/countryFacts.json';
+
 import DifficultySelector from '../Game/DifficultySelector';
+import { getAssetUrl } from '../../utils/assetUtils';
 
 interface LeaderboardEntry {
     rank: number;
@@ -52,15 +53,25 @@ const GameEndModal = ({
     const [loading, setLoading] = useState(true);
     const [weekStartDate, setWeekStartDate] = useState('');
 
+
+    const [countryFacts, setCountryFacts] = useState<CountryFact[]>([]);
+
+    useEffect(() => {
+        fetch(getAssetUrl('/data/countryFacts.json'))
+            .then(res => res.json())
+            .then(data => setCountryFacts(data))
+            .catch(e => console.error("Failed to load facts", e));
+    }, []);
+
     const flag = getFlag(countryCode);
 
     // Get all facts for the country
     const countryFactsList = useMemo(() => {
-        const countryData = (countryFacts as CountryFact[]).find(
+        const countryData = countryFacts.find(
             c => c.country.toLowerCase() === countryName.toLowerCase()
         );
         return countryData?.facts || [];
-    }, [countryName]);
+    }, [countryName, countryFacts]);
 
     // Track current fact index
     const [factIndex, setFactIndex] = useState(0);
@@ -148,6 +159,7 @@ const GameEndModal = ({
                                         {factIndex + 1} / {countryFactsList.length}
                                     </small>
                                 </div>
+
 
                                 <Button
                                     color="link"

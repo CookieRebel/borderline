@@ -25,7 +25,7 @@ export default function (eleventyConfig) {
     dir: {
       input: "src/pages",
       includes: "../_includes",
-      output: "_site"
+      output: "../dist"
     }
   };
 }

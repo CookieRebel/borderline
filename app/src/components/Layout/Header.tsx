@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Toast, ToastBody } from 'reactstrap';
+import { useEffect, useState } from 'react';
 import { Edit2 } from 'react-feather';
-import { useUsername } from '../../hooks/useUsername';
+import { Toast, ToastBody } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useDifficulty';
-import logo from '../../assets/borderline_logo_no_background.png';
+import { useUsername } from '../../hooks/useUsername';
 interface HeaderProps {
     difficulty: Difficulty;
     refreshKey?: number;

@@ -3,11 +3,8 @@ import type { FeatureCollection, Feature } from 'geojson';
 import { geoArea, geoCentroid, geoDistance } from 'd3-geo';
 import { allCountries } from '../data/allCountries';
 
-import countriesDataLow from '../data/countries_low.json';
-import countriesDataHigh from '../data/countries_high.json';
-import landDataLow from '../data/land_low.json';
-import landDataHigh from '../data/land_high.json';
 import { useDifficulty, type Difficulty } from './useDifficulty';
+import { getAssetUrl } from '../utils/assetUtils';
 
 export interface Guess {
     name: string;
@@ -156,6 +153,36 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         difficulty: difficulty
     });
 
+    const [countriesDataLow, setCountriesDataLow] = useState<FeatureCollection | null>(null);
+    const [countriesDataHigh, setCountriesDataHigh] = useState<FeatureCollection | null>(null);
+    const [landDataLow, setLandDataLow] = useState<FeatureCollection | null>(null);
+    const [landDataHigh, setLandDataHigh] = useState<FeatureCollection | null>(null);
+    const [isLoadingData, setIsLoadingData] = useState(true);
+
+    // Fetch data on mount
+    useEffect(() => {
+        const loadData = async () => {
+            try {
+                const [cLow, cHigh, lLow, lHigh] = await Promise.all([
+                    fetch(getAssetUrl('/data/countries_low.json')).then(r => r.json()),
+                    fetch(getAssetUrl('/data/countries_high.json')).then(r => r.json()),
+                    fetch(getAssetUrl('/data/land_low.json')).then(r => r.json()),
+                    fetch(getAssetUrl('/data/land_high.json')).then(r => r.json())
+                ]);
+
+                setCountriesDataLow(cLow);
+                setCountriesDataHigh(cHigh);
+                setLandDataLow(lLow);
+                setLandDataHigh(lHigh);
+                setIsLoadingData(false);
+            } catch (error) {
+                console.error("Failed to load map data:", error);
+            }
+        }
+
+        loadData();
+    }, []);
+
     // High scores from backend (passed in from useUsername)
     const highScores = userHighScores || { easy: 0, medium: 0, hard: 0, extreme: 0 };
 
@@ -189,6 +216,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
     // Process low-detail data (used for game logic and default rendering)
     const dataLow = useMemo(() => {
+        if (!countriesDataLow) return { type: 'FeatureCollection', features: [] } as any;
+
         const collection = countriesDataLow as FeatureCollection;
 
         // Preprocess to refine geometries
@@ -247,10 +276,11 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 return allCountries.includes(f.properties.name);
             })
         };
-    }, []);
+    }, [countriesDataLow]);
 
     // Calculate Taiwan's area for "Hard" threshold
     const taiwanArea = useMemo(() => {
+        if (!dataLow.features.length) return 0.0005;
         const taiwan = dataLow.features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === 'TWN');
         return taiwan ? geoArea(taiwan as any) : 0.0005; // Fallback if not found
     }, [dataLow]);
@@ -270,15 +300,19 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
 
         // Reset game when difficulty changes (if playing/ready) or on initial load
-        // But WAIT for userId to be ready.
-        if (userId) {
+        // But WAIT for userId to be ready and DATA to be loaded.
+        if (userId && !isLoadingData) {
             initializeGame();
         }
-    }, [difficulty, dataLow, userId]);
+    }, [difficulty, dataLow, userId, isLoadingData]);
 
     const initializeGame = (autoStart: boolean = false) => {
         if (!userId) {
             console.log("Waiting for user ID...");
+            return;
+        }
+        if (isLoadingData) {
+            console.log("Waiting for data...");
             return;
         }
 
@@ -433,7 +467,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
     };
 
     const handleGuess = (guess: string) => {
-        if (gameState.status !== 'playing') return;
+        if (gameState.status !== 'playing' || !dataLow.features.length) return;
 
         const normalizedGuess = guess.trim().toLowerCase();
         const targetName = gameState.targetCountry?.properties?.name?.toLowerCase();
@@ -537,13 +571,14 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         handleGuess,
         handleGiveUp,
         difficulty,
-        allFeaturesLow: dataLow.features as Feature[],
-        allFeaturesHigh: (countriesDataHigh as FeatureCollection).features as unknown as Feature[],
-        allLandLow: (landDataLow as FeatureCollection).features as Feature[],
-        allLandHigh: (landDataHigh as FeatureCollection).features as Feature[],
+        allFeaturesLow: countriesDataLow?.features as Feature[] || [],
+        allFeaturesHigh: countriesDataHigh?.features as Feature[] || [],
+        allLandLow: landDataLow?.features as Feature[] || [],
+        allLandHigh: landDataHigh?.features as Feature[] || [],
         resetGame: initializeGame,
         startGame,
         highScore,
-        liveScore
+        liveScore,
+        isLoadingData
     };
 };

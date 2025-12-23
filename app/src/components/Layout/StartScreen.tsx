@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Button, Toast, ToastBody } from 'reactstrap';
+import { useEffect, useState } from 'react';
 import { Edit2 } from 'react-feather';
+import { Button, Toast, ToastBody } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
 // import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
-import DifficultySelector from '../Game/DifficultySelector';
-import styles from './StartScreen.module.css';
-import BackgroundGlobe from './BackgroundGlobe';
-import logo from '../../assets/borderline_logo_no_background.png';
 import { AudioManager } from '../../utils/audioManager';
+import DifficultySelector from '../Game/DifficultySelector';
+import BackgroundGlobe from './BackgroundGlobe';
+import styles from './StartScreen.module.css';
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;

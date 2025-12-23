@@ -1,14 +1,30 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { geoPath, geoOrthographic, geoGraticule, geoCentroid } from 'd3-geo';
 import type { Feature, FeatureCollection } from 'geojson';
-import countriesDataLow from '../../data/countries_low.json';
-import landDataLow from '../../data/land_low.json';
+
+
+import { getAssetUrl } from '../../utils/assetUtils';
+
 
 const BackgroundGlobe = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
     const [targetRotation, setTargetRotation] = useState<[number, number]>([0, 0]);
     const [currentRotation, setCurrentRotation] = useState<[number, number]>([0, 0]);
+
+    const [countriesData, setCountriesData] = useState<FeatureCollection | null>(null);
+    const [landData, setLandData] = useState<FeatureCollection | null>(null);
+
+    // Fetch Data
+    useEffect(() => {
+        Promise.all([
+            fetch(getAssetUrl('/data/countries_low.json')).then(r => r.json()),
+            fetch(getAssetUrl('/data/land_low.json')).then(r => r.json())
+        ]).then(([countries, land]) => {
+            setCountriesData(countries);
+            setLandData(land);
+        }).catch(err => console.error("Failed to load globe data", err));
+    }, []);
 
     // Handle resize
     useEffect(() => {
@@ -21,9 +37,11 @@ const BackgroundGlobe = () => {
 
     // Loop to pick new targets
     useEffect(() => {
-        const features = (countriesDataLow as FeatureCollection).features as Feature[];
+        if (!countriesData) return;
+        const features = (countriesData as FeatureCollection).features as Feature[];
 
         const pickRandom = () => {
+            if (!features || features.length === 0) return;
             const randomFeature = features[Math.floor(Math.random() * features.length)];
             const centroid = geoCentroid(randomFeature);
             setTargetRotation([-centroid[0], -centroid[1]]);
@@ -34,7 +52,7 @@ const BackgroundGlobe = () => {
 
         const interval = setInterval(pickRandom, 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [countriesData]);
 
     // Animation Effect
     useEffect(() => {
@@ -93,6 +111,7 @@ const BackgroundGlobe = () => {
         if (!canvas) return;
         const context = canvas.getContext('2d');
         if (!context) return;
+        if (!landData) return;
 
         const dpr = window.devicePixelRatio || 1;
         canvas.width = dimensions.width * dpr;
@@ -120,7 +139,7 @@ const BackgroundGlobe = () => {
         context.stroke();
 
         // 3. Land (Faint)
-        const landFeatures = (landDataLow as FeatureCollection).features as Feature[];
+        const landFeatures = (landData as FeatureCollection).features as Feature[];
         context.beginPath();
         pathGenerator({ type: 'FeatureCollection', features: landFeatures } as any);
         context.fillStyle = 'rgba(150, 150, 150, 0.1)';
@@ -133,7 +152,7 @@ const BackgroundGlobe = () => {
         context.lineWidth = 1;
         context.stroke();
 
-    }, [dimensions, projection]);
+    }, [dimensions, projection, landData]);
 
     return (
         <canvas
