@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "npm run build:all",
-    "build:all": "npm run build:website -w website && npm run build:app -w app",
+    "build:all": "npm run build -w website && npm run build -w app",
     "db:migrate": "npm run db:migrate -w backend"
   },
   "devDependencies": {
