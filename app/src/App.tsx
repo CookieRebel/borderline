@@ -81,7 +81,19 @@ function App() {
       });
     } else if (gameState.status === 'playing') {
       hasPlayedCelebration.current = false;
+      hasPlayedCelebration.current = false;
     }
+  }, [gameState.status]);
+
+  // Toggle body class for hiding navigation
+  useEffect(() => {
+    if (gameState.status === 'playing') {
+      document.body.classList.add('game-playing');
+    } else {
+      document.body.classList.remove('game-playing');
+    }
+    // Cleanup on unmount
+    return () => document.body.classList.remove('game-playing');
   }, [gameState.status]);
 
   // Show start screen first

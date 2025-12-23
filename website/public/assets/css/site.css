@@ -16,6 +16,22 @@ body {
     flex-direction: column;
 }
 
+/* Hide navigation when game is playing */
+body.game-playing header nav,
+body.game-playing .hamburger,
+body.game-playing footer .links {
+    display: none !important;
+}
+
+body.game-playing .logo {
+    pointer-events: none !important;
+    cursor: default !important;
+}
+
+body.game-playing footer {
+    justify-content: flex-start !important;
+}
+
 /* ---------- Layout ---------- */
 header,
 footer {
@@ -379,5 +395,12 @@ a:hover {
     .text-small {
         font-size: 8px !important;
         line-height: 1.1;
+    }
+
+    .image-container img {
+        width: 100px;
+        /* Reduced from 200px */
+        height: 100px;
+        object-fit: contain;
     }
 }
