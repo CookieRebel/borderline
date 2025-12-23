@@ -159,25 +159,23 @@ a:hover {
 }
 
 /* ---------- Logo ---------- */
-.logo {
+.logo,
+.logo:hover,
+.logo:active,
+.logo:focus,
+.logo:visited {
     display: flex;
     align-items: center;
+    border: none !important;
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 .logo img {
     height: 50px;
     width: auto;
     display: block;
-}
-
-.logo:hover {
-    text-decoration: none !important;
-    border-bottom: 0 !important;
-}
-
-.logo:active {
-    text-decoration: none !important;
-    border-bottom: 0 !important;
 }
 
 /* ---------- App container ---------- */
@@ -248,6 +246,7 @@ a:hover {
 .text-small {
     font-size: 11px;
     line-height: 1.2;
+    margin: 0;
 }
 
 /* ---------- Animations ---------- */
