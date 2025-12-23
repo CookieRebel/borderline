@@ -11,12 +11,15 @@ body {
     line-height: 1.5;
     color: #111;
     background: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ---------- Layout ---------- */
 header,
 footer {
-    padding: 20px;
+    padding: 10px 20px;
 }
 
 header {
@@ -24,8 +27,11 @@ header {
     align-items: center;
     gap: 16px;
     border-bottom: 1px solid #eee;
-    height: 150px;
+    height: auto;
+    min-height: 70px;
     position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 header nav {
@@ -34,24 +40,29 @@ header nav {
     gap: 14px;
 }
 
+header nav a {
+    font-size: 0.8rem;
+    /* ~50% smaller feel relative to standard */
+}
+
 /* Hamburger Button */
 .hamburger {
     display: none;
     flex-direction: column;
     justify-content: space-around;
-    width: 30px;
-    height: 25px;
+    width: 20px;
+    height: 16px;
     background: transparent;
     border: none;
     cursor: pointer;
     padding: 0;
-    z-index: 10;
+    z-index: 10000;
     margin-left: auto;
 }
 
 .hamburger span {
-    width: 30px;
-    height: 3px;
+    width: 20px;
+    height: 2px;
     background: #333;
     border-radius: 10px;
     transition: all 0.3s linear;
@@ -98,16 +109,46 @@ header nav {
         border: 1px solid #eee;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 100;
+        z-index: 9999;
+    }
+
+    header nav a {
+        font-size: 14px;
+        /* Slightly larger targets for touch, but smaller than default */
+        padding: 10px;
+        width: 100%;
+        text-align: center;
     }
 
     header nav.active {
         display: flex;
     }
+
+    footer {
+        font-size: 11px !important;
+        line-height: 1.2;
+        min-height: auto;
+        padding: 5px 10px;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    footer .links {
+        gap: 8px;
+    }
+
+    footer span,
+    footer a {
+        font-size: 11px !important;
+    }
 }
 
 main {
     margin: 0 auto;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .content-container {
@@ -123,17 +164,24 @@ main {
 footer {
     display: flex;
     border-top: 1px solid #eee;
-    display: flex;
-    gap: 20px;
+    gap: 15px;
     flex-wrap: wrap;
     color: #666;
-    height: 30px;
+    min-height: 30px;
+    font-size: 11px !important;
+    align-items: center;
+    padding: 10px 20px;
 }
 
 footer .links {
     display: flex;
     margin-left: auto;
-    gap: 20px;
+    gap: 15px;
+}
+
+footer a,
+footer span {
+    font-size: 11px !important;
 }
 
 /* ---------- Links ---------- */
@@ -160,7 +208,7 @@ a:hover {
 }
 
 .logo img {
-    height: 100px;
+    height: 50px;
     width: auto;
     display: block;
 }
@@ -177,7 +225,6 @@ a:hover {
 
 /* ---------- App container ---------- */
 .app-shell {
-    min-height: calc(100vh - 300px);
     border: 1px solid #eee;
 }
 
@@ -231,7 +278,8 @@ a:hover {
 }
 
 .text-small {
-    font-size: 12px;
+    font-size: 11px;
+    line-height: 1.2;
 }
 
 /* ---------- Animations ---------- */
