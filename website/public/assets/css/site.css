@@ -28,7 +28,6 @@ header {
     gap: 16px;
     border-bottom: 1px solid #eee;
     height: auto;
-    min-height: 70px;
     position: relative;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -83,65 +82,7 @@ header nav a {
     transform: rotate(-45deg);
 }
 
-/* Mobile Navigation */
-@media (max-width: 768px) {
-    header {
-        height: auto;
-        flex-wrap: wrap;
-        padding-bottom: 10px;
-    }
 
-    .hamburger {
-        display: flex;
-    }
-
-    header nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        right: 20px;
-        left: auto;
-        width: 200px;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px 0;
-        background-color: white;
-        border: 1px solid #eee;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        z-index: 9999;
-    }
-
-    header nav a {
-        font-size: 14px;
-        /* Slightly larger targets for touch, but smaller than default */
-        padding: 10px;
-        width: 100%;
-        text-align: center;
-    }
-
-    header nav.active {
-        display: flex;
-    }
-
-    footer {
-        font-size: 11px !important;
-        line-height: 1.2;
-        min-height: auto;
-        padding: 5px 10px;
-        gap: 5px;
-        justify-content: center;
-    }
-
-    footer .links {
-        gap: 8px;
-    }
-
-    footer span,
-    footer a {
-        font-size: 11px !important;
-    }
-}
 
 main {
     margin: 0 auto;
@@ -366,6 +307,77 @@ a:hover {
     }
 }
 
-.pulse-glow {
-    animation: pulse-glow 2s infinite;
+
+/* Mobile Navigation - Moved to end for proper override */
+@media (max-width: 768px) {
+    header {
+        height: auto;
+        flex-wrap: wrap;
+        padding-top: 5px;
+        /* Reduced from 10px */
+        padding-bottom: 5px;
+        /* Reduced from 10px */
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    header nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 20px;
+        left: auto;
+        width: 150px;
+        /* Reduced from 200px */
+        flex-direction: column;
+        align-items: center;
+        padding: 5px 0;
+        background-color: white;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        z-index: 9999;
+        gap: 3px;
+        /* Reduced from 14px inherited */
+    }
+
+    header nav a {
+        font-size: 14px;
+        padding: 8px;
+        width: 100%;
+        text-align: center;
+    }
+
+    header nav.active {
+        display: flex;
+    }
+
+    footer {
+        font-size: 11px !important;
+        line-height: 1.2;
+        min-height: auto;
+        padding: 5px 10px;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    footer .links {
+        gap: 8px;
+    }
+
+    footer a,
+    footer span {
+        font-size: 11px !important;
+    }
+
+    .logo img {
+        height: 30px;
+    }
+
+    .text-small {
+        font-size: 8px !important;
+        line-height: 1.1;
+    }
 }
