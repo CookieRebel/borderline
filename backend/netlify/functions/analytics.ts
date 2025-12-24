@@ -18,54 +18,56 @@ const getMelbourneStartOfDay = (date: Date): Date => {
 
 // Calculate stats for a given period
 const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
-    // Count new users in period
-    const [newUsersResult] = await db.select({ count: count() })
-        .from(schema.users)
-        .where(
-            and(
-                gte(schema.users.createdAt, startDate),
-                lt(schema.users.createdAt, endDate)
-            )
-        );
-    const newUsers = newUsersResult?.count || 0;
+    const [newUsersResult, newGamesResult, returningUsersResult, returningGamesResult] = await Promise.all([
+        // Count new users
+        db.select({ count: count() })
+            .from(schema.users)
+            .where(
+                and(
+                    gte(schema.users.createdAt, startDate),
+                    lt(schema.users.createdAt, endDate)
+                )
+            ),
 
-    // Count new games in period
-    const [newGamesResult] = await db.select({ count: count() })
-        .from(schema.gameResults)
-        .where(
-            and(
-                gte(schema.gameResults.createdAt, startDate),
-                lt(schema.gameResults.createdAt, endDate)
-            )
-        );
-    const newGames = newGamesResult?.count || 0;
+        // Count new games
+        db.select({ count: count() })
+            .from(schema.gameResults)
+            .where(
+                and(
+                    gte(schema.gameResults.createdAt, startDate),
+                    lt(schema.gameResults.createdAt, endDate)
+                )
+            ),
 
-    // Count returning users in period (users who played in this period but created account earlier)
-    // Logic: game date is strictly greater than user creation date (not same day)
-    const [returningUsersResult] = await db.select({ count: count(sql`DISTINCT ${schema.gameResults.userId}`) })
-        .from(schema.gameResults)
-        .innerJoin(schema.users, eq(schema.gameResults.userId, schema.users.id))
-        .where(
-            and(
-                gte(schema.gameResults.createdAt, startDate),
-                lt(schema.gameResults.createdAt, endDate),
-                sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
-            )
-        );
-    const returningUsers = returningUsersResult?.count || 0;
+        // Count returning users
+        db.select({ count: count(sql`DISTINCT ${schema.gameResults.userId}`) })
+            .from(schema.gameResults)
+            .innerJoin(schema.users, eq(schema.gameResults.userId, schema.users.id))
+            .where(
+                and(
+                    gte(schema.gameResults.createdAt, startDate),
+                    lt(schema.gameResults.createdAt, endDate),
+                    sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+                )
+            ),
 
-    // Count returning user games in period
-    const [returningGamesResult] = await db.select({ count: count() })
-        .from(schema.gameResults)
-        .innerJoin(schema.users, eq(schema.gameResults.userId, schema.users.id))
-        .where(
-            and(
-                gte(schema.gameResults.createdAt, startDate),
-                lt(schema.gameResults.createdAt, endDate),
-                sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+        // Count returning user games
+        db.select({ count: count() })
+            .from(schema.gameResults)
+            .innerJoin(schema.users, eq(schema.gameResults.userId, schema.users.id))
+            .where(
+                and(
+                    gte(schema.gameResults.createdAt, startDate),
+                    lt(schema.gameResults.createdAt, endDate),
+                    sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+                )
             )
-        );
-    const returningGames = returningGamesResult?.count || 0;
+    ]);
+
+    const newUsers = newUsersResult[0]?.count || 0;
+    const newGames = newGamesResult[0]?.count || 0;
+    const returningUsers = returningUsersResult[0]?.count || 0;
+    const returningGames = returningGamesResult[0]?.count || 0;
 
     return { newUsers, newGames, returningUsers, returningGames };
 };
@@ -126,9 +128,11 @@ export const handler: Handler = async (event) => {
         const now = getMelbourneDate();
         const todayStart = getMelbourneStartOfDay(now);
 
+        // Helper to generate index array [9, 8, ..., 0]
+        const indices = Array.from({ length: 10 }, (_, i) => 9 - i);
+
         // Calculate last 10 days
-        const dailyData = [];
-        for (let i = 9; i >= 0; i--) {
+        const dailyData = await Promise.all(indices.map(async (i) => {
             const dayStart = new Date(todayStart);
             dayStart.setDate(dayStart.getDate() - i);
             const dayEnd = new Date(dayStart);
@@ -137,24 +141,23 @@ export const handler: Handler = async (event) => {
             const stats = await getStatsForPeriod(dayStart, dayEnd);
             const dateStr = dayStart.toLocaleDateString('en-AU', { month: 'short', day: 'numeric' });
 
-            dailyData.push({
+            return {
                 label: dateStr,
                 newUsers: stats.newUsers,
                 newGames: stats.newGames,
                 returningUsers: stats.returningUsers,
                 returningGames: stats.returningGames,
-            });
-        }
+            };
+        }));
 
         // Calculate last 10 weeks (Monday to Sunday)
-        const weeklyData = [];
         const todayDayOfWeek = now.getDay();
         const daysFromMonday = todayDayOfWeek === 0 ? 6 : todayDayOfWeek - 1;
 
         const thisWeekStart = new Date(todayStart);
         thisWeekStart.setDate(thisWeekStart.getDate() - daysFromMonday);
 
-        for (let i = 9; i >= 0; i--) {
+        const weeklyData = await Promise.all(indices.map(async (i) => {
             const weekStart = new Date(thisWeekStart);
             weekStart.setDate(weekStart.getDate() - (i * 7));
             const weekEnd = new Date(weekStart);
@@ -163,32 +166,31 @@ export const handler: Handler = async (event) => {
             const stats = await getStatsForPeriod(weekStart, weekEnd);
             const weekLabel = weekStart.toLocaleDateString('en-AU', { month: 'short', day: 'numeric' });
 
-            weeklyData.push({
+            return {
                 label: weekLabel,
                 newUsers: stats.newUsers,
                 newGames: stats.newGames,
                 returningUsers: stats.returningUsers,
                 returningGames: stats.returningGames,
-            });
-        }
+            };
+        }));
 
         // Calculate last 10 months
-        const monthlyData = [];
-        for (let i = 9; i >= 0; i--) {
+        const monthlyData = await Promise.all(indices.map(async (i) => {
             const monthStart = new Date(now.getFullYear(), now.getMonth() - i, 1);
             const monthEnd = new Date(now.getFullYear(), now.getMonth() - i + 1, 1);
 
             const stats = await getStatsForPeriod(monthStart, monthEnd);
             const monthLabel = monthStart.toLocaleDateString('en-AU', { month: 'short', year: 'numeric' });
 
-            monthlyData.push({
+            return {
                 label: monthLabel,
                 newUsers: stats.newUsers,
                 newGames: stats.newGames,
                 returningUsers: stats.returningUsers,
                 returningGames: stats.returningGames,
-            });
-        }
+            };
+        }));
 
         // Calculate current period stats for summary cards
         const todayStats = dailyData[9]; // Last item is today
