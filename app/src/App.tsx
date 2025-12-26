@@ -96,6 +96,16 @@ function App() {
     return () => document.body.classList.remove('game-playing');
   }, [gameState.status]);
 
+  // Toggle body class for start screen
+  useEffect(() => {
+    if (showStartScreen) {
+      document.body.classList.add('start-screen');
+    } else {
+      document.body.classList.remove('start-screen');
+    }
+    return () => document.body.classList.remove('start-screen');
+  }, [showStartScreen]);
+
   // Show start screen first
   if (showStartScreen) {
     return (

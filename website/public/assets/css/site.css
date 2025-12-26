@@ -33,6 +33,10 @@ body.game-playing footer {
 }
 
 .description {
+    display: none;
+}
+
+body.start-screen .description {
     margin: 20px;
     display: flex;
     flex-direction: column;
@@ -40,7 +44,7 @@ body.game-playing footer {
     /* max-width: 400px; */
 }
 
-.hook-line {
+body.start-screen .hook-line {
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -49,14 +53,14 @@ body.game-playing footer {
     margin-bottom: 0.75rem;
 }
 
-.country-count {
+body.start-screen .country-count {
     font-size: 0.8rem;
     line-height: 1;
     font-weight: 400;
 
 }
 
-.description h1 {
+body.start-screen .description h1 {
     font-size: 2rem;
     line-height: 1;
     font-weight: 400;
@@ -64,15 +68,12 @@ body.game-playing footer {
     margin-top: 10px;
 }
 
-.description p {
+body.start-screen .description p {
     max-width: 480px;
     font-size: 0.8rem;
     color: grey;
 }
 
-body.game-playing .description {
-    display: none !important;
-}
 
 /* ---------- Layout ---------- */
 header,
