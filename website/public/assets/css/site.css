@@ -459,17 +459,19 @@ a:hover {
         object-fit: contain;
     }
 
-    .description h1 {
+
+
+    body.start-screen .description h1 {
         font-size: 1.4rem;
     }
 
-    .hook-line {
+    body.start-screen .hook-line {
         font-size: 0.6rem;
         font-weight: 400;
         text-transform: uppercase;
     }
 
-    .country-count {
+    body.start-screen .country-count {
         font-size: 0.4rem;
         line-height: 1;
         font-weight: 300;
