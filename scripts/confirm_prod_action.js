@@ -13,6 +13,11 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
+rl.on('SIGINT', () => {
+    console.log('\n\x1b[31m%s\x1b[0m', 'Operation cancelled by user.');
+    process.exit(1);
+});
+
 console.log('\x1b[33m%s\x1b[0m', '⚠  WARNING: You are about to perform a sensitive operation on PRODUCTION.');
 rl.question('You are deploying to PROD. Please respond with "DEPLOY" to confirm.\n> ', (answer) => {
     rl.close();
