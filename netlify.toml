@@ -10,3 +10,11 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+# Old domain → new domain (Host-based)
+[[redirects]]
+  from = "/*"
+  to = "https://borderlinequiz.com/:splat"
+  status = 301
+  force = true
+  conditions = { Host = ["playborderline.com", "www.playborderline.com"] }
