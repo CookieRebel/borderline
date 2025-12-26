@@ -13,6 +13,18 @@
 
 # Old domain → new domain (Host-based)
 [[redirects]]
+  from = "http://playborderline.com/*"
+  to = "https://borderlinequiz.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.playborderline.com/*"
+  to = "https://borderlinequiz.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "https://playborderline.com/*"
   to = "https://borderlinequiz.com/:splat"
   status = 301
