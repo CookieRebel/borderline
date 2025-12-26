@@ -13,28 +13,24 @@
 }
 
 .button {
+    cursor: pointer;
     min-width: auto;
-    /* remove rigid width */
     max-width: 130px;
-    /* Prevent excessive stretching */
     flex: 1;
-    /* Distribute width equally */
     transition: transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    /* Align to top so label stays fixed */
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     height: auto;
-    /* Let flex stretch determine height */
     flex-grow: 1;
     display: flex;
-    /* Ensure it is a flex container for its own content */
 }
+
 
 /* Ensure container stretches children heights */
 .container {

@@ -102,7 +102,7 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
     };
 
     return (
-        <div className={styles.appContainer + " d-flex flex-column align-items-center justify-content-center text-center px-4 position-relative"}>
+        <div className={styles.appContainer + " d-flex flex-column align-items-center mt-6 text-center px-4 position-relative"}>
             <BackgroundGlobe />
 
             {/* Error Toast */}
@@ -116,80 +116,83 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
                 </div>
             )}
 
-            {/* Borderline Logo */}
-            {/* <img src={logo} alt="Borderline Logo" className="mb-4" /> */}
+            <div className={styles.startCard}>
 
-            {/* Greeting & Streak */}
-            <div className="mb-4">
-                {loading ? (
-                    <div className="spinner-border spinner-border-sm text-success" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                ) : (
-                    <>
-                        <div className="h5 text-dark mb-2 d-inline-flex align-items-center">
-                            Hi
-                            {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={editValue}
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onBlur={handleBlur}
-                                    onKeyDown={handleKeyDown}
-                                    autoFocus
-                                    className="ms-1 border-0 border-bottom bg-transparent text-dark text-center fw-medium"
-                                    style={{ width: '150px', outline: 'none' }}
-                                />
-                            ) : (
-                                <span
-                                    onClick={handleClick}
-                                    className="ms-1 d-inline-flex align-items-center gap-1"
-                                    style={{ cursor: 'pointer' }}
-                                    title="Click to edit"
-                                >
-                                    {username}
-                                    <Edit2 size={14} />
-                                </span>
-                            )}
-
+                {/* Greeting & Streak */}
+                <div className="mb-4">
+                    {loading ? (
+                        <div className="spinner-border spinner-border-sm text-success" role="status">
+                            <span className="visually-hidden">Loading...</span>
                         </div>
-                        {streak > 0 && (
-                            <p className="text-success fw-medium mb-0">
-                                🔥 {playedToday ? 'Ready for another round?' : `Continue your ${streak} day streak!`}
-                            </p>
-                        )}
-                    </>
-                )}
-            </div>
+                    ) : (
+                        <>
+                            <div className={styles.startRound}>Start a Round</div>
+                            <div className={styles.username + " h5 mb-2 d-inline-flex align-items-center"}>
 
-            {/* Difficulty Selector */}
-            <DifficultySelector />
+                                Playing as
+                                {isEditing ? (
+                                    <input
+                                        type="text"
+                                        value={editValue}
+                                        onChange={(e) => setEditValue(e.target.value)}
+                                        onBlur={handleBlur}
+                                        onKeyDown={handleKeyDown}
+                                        autoFocus
+                                        className="ms-1 border-0 border-bottom bg-transparent text-dark text-center fw-medium"
+                                        style={{ width: '150px', outline: 'none' }}
+                                    />
+                                ) : (
+                                    <span
+                                        onClick={handleClick}
+                                        className="ms-1 d-inline-flex align-items-center gap-1"
+                                        style={{ cursor: 'pointer' }}
+                                        title="Click to edit"
+                                    >
+                                        {username}
+                                        <Edit2 size={14} />
+                                    </span>
+                                )}
 
-            {/* Buttons */}
-            <div className="d-flex flex-column gap-2 mb-5" style={{ width: '200px' }}>
-                <Button
-                    className="btn-gold py-2 pulse-glow"
-                    size="lg"
-                    onClick={handlePlayClick}
-                    style={{
-                        transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                        transform: isSnapped ? 'scale(0.9)' : 'scale(1)'
-                    }}
-                >
-                    Play Now!
-                </Button>
+                            </div>
+                            {streak > 0 && (
+                                <p className="text-success fw-medium mb-0">
+                                    🔥 {playedToday ? 'Ready for another round?' : `Continue your ${streak} day streak!`}
+                                </p>
+                            )}
+                        </>
+                    )}
+                </div>
 
+                {/* Difficulty Selector */}
+                <DifficultySelector />
 
-                {isAdmin && (
+                {/* Buttons */}
+                <div className="d-flex flex-column gap-2 mb-5" style={{ width: '200px' }}>
                     <Button
-                        color="dark"
-                        outline
-                        onClick={onAnalytics}
+                        className="btn-gold py-2 pulse-glow"
+                        size="lg"
+                        onClick={handlePlayClick}
+                        style={{
+                            transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                            transform: isSnapped ? 'scale(0.9)' : 'scale(1)'
+                        }}
                     >
-                        Analytics
+                        Start -&gt;
                     </Button>
-                )}
+
+
+                    {isAdmin && (
+                        <Button
+                            color="dark"
+                            outline
+                            onClick={onAnalytics}
+                        >
+                            Analytics
+                        </Button>
+                    )}
+                </div>
             </div>
+
 
 
         </div>

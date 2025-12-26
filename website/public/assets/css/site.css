@@ -32,6 +32,48 @@ body.game-playing footer {
     justify-content: flex-start !important;
 }
 
+.description {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* max-width: 400px; */
+}
+
+.hook-line {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.45);
+    margin-bottom: 0.75rem;
+}
+
+.country-count {
+    font-size: 0.8rem;
+    line-height: 1;
+    font-weight: 400;
+
+}
+
+.description h1 {
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 400;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.description p {
+    max-width: 480px;
+    font-size: 0.8rem;
+    color: grey;
+}
+
+body.game-playing .description {
+    display: none !important;
+}
+
 /* ---------- Layout ---------- */
 header,
 footer {
@@ -42,11 +84,23 @@ header {
     display: flex;
     align-items: center;
     gap: 16px;
-    border-bottom: 1px solid #eee;
+    /* border-bottom: 1px solid #eee; */
     height: auto;
     position: relative;
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+header {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+footer {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 header nav {
@@ -120,7 +174,7 @@ main {
 
 footer {
     display: flex;
-    border-top: 1px solid #eee;
+    /* border-top: 1px solid #eee; */
     gap: 15px;
     flex-wrap: wrap;
     color: #666;
@@ -180,7 +234,7 @@ a:hover {
 
 /* ---------- App container ---------- */
 .app-shell {
-    border: 1px solid #eee;
+    /* border: 1px solid #eee; */
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -350,7 +404,7 @@ a:hover {
         align-items: center;
         padding: 5px 0;
         background-color: white;
-        border: 1px solid #eee;
+        /* border: 1px solid #eee; */
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         z-index: 9999;
@@ -402,4 +456,18 @@ a:hover {
         height: 100px;
         object-fit: contain;
     }
+
+    .hook-line {
+        font-size: 0.8rem;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+
+    .country-count {
+        font-size: 0.4rem;
+        line-height: 1;
+        font-weight: 300;
+
+    }
+
 }
