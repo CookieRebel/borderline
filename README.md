@@ -1,74 +1,74 @@
-# New Readme comment 2
-# React + TypeScript + Vite
+# Borderline
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository is a monorepo containing the source code for Borderline, organized into three main workspaces.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **`app/`**: The main game application. Built with React, TypeScript, and Vite.
+- **`backend/`**: Serverless backend functions managed by Netlify Functions. Uses Drizzle ORM for database interactions.
+- **`website/`**: The landing marketing site. Built with Eleventy (11ty).
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+- Node.js (v20+)
+- npm
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Install dependencies for all workspaces from the root:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To run the project locally, you typically need to run the backend (for API functions) alongside either the app or the website.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+#### 1. Backend & App (Game Development)
+
+Start the Netlify Functions server (Backend):
+```bash
+npm run netlify:functions -w backend
+# Runs on http://localhost:9999
+```
+
+Start the Game App:
+```bash
+npm run dev -w app
+# Runs on http://localhost:5174
+```
+
+#### 2. Website Development
+
+Start the Eleventy server:
+```bash
+npm run dev -w website
+# Runs on http://localhost:8080
+```
+
+## Building
+
+To build all packages (useful for deployment):
+
+```bash
+npm run build
+# Runs build:all script which builds website, app, and copies redirects
+```
+
+To build individual workspaces:
+
+```bash
+npm run build -w app
+npm run build -w website
+```
+
+## Database
+
+Database migrations are handled by Drizzle Kit in the backend workspace.
+
+```bash
+npm run db:migrate
 ```
