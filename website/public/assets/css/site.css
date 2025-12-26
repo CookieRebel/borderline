@@ -101,6 +101,7 @@ footer {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    margin-bottom: 10px;
 }
 
 header nav {
@@ -227,7 +228,7 @@ a:hover {
 }
 
 .logo img {
-    height: 50px;
+    height: 60px;
     width: auto;
     display: block;
 }
@@ -442,7 +443,7 @@ a:hover {
     }
 
     .logo img {
-        height: 30px;
+        height: 40px;
     }
 
     .text-small {
@@ -457,8 +458,12 @@ a:hover {
         object-fit: contain;
     }
 
+    .description h1 {
+        font-size: 1.4rem;
+    }
+
     .hook-line {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
         font-weight: 400;
         text-transform: uppercase;
     }

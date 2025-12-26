@@ -51,3 +51,11 @@
     box-shadow:
         0 4px 10px rgba(255, 212, 0, 0.35);
 }
+
+/* Mobile Navigation - Moved to end for proper override */
+@media (max-width: 768px) {
+    .startCard {
+        padding: 20px;
+
+    }
+}

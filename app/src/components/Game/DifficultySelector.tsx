@@ -28,10 +28,10 @@ const DifficultySelector = () => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
     const subtitles: Record<string, string> = {
-        easy: "Learn with country outlines.",
+        easy: "Learn.",
         medium: "Continents only.",
-        hard: "No outlines. Brutal.",
-        extreme: "Tiny islands, big regret.",
+        hard: "No outlines.",
+        extreme: "Tiny islands.",
     };
 
     const handleDifficultyClick = (level: Difficulty) => {
@@ -92,7 +92,7 @@ const DifficultySelector = () => {
                         }}
                     >   <div className={styles.buttonText}>
                             <div style={{ fontWeight: 'bold' }}>No Move</div>
-                            <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>Only zoom. Good luck.</div>
+                            <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>Only zoom.</div>
                         </div>
                     </Button>
                 </div>
