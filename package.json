@@ -1,6 +1,7 @@
 {
   "name": "borderline-monorepo",
   "private": true,
+  "type": "module",
   "workspaces": [
     "app",
     "backend",
@@ -8,7 +9,7 @@
   ],
   "scripts": {
     "build": "npm run build:all",
-    "build:all": "npm run build -w website && npm run build -w app",
+    "build:all": "npm run build -w website && npm run build -w app && cp _redirects dist/_redirects",
     "db:migrate": "npm run db:migrate -w backend"
   },
   "devDependencies": {
