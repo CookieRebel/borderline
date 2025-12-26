@@ -167,15 +167,11 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
                 <DifficultySelector />
 
                 {/* Buttons */}
-                <div className="d-flex flex-column gap-2 mb-5" style={{ width: '200px' }}>
+                <div className="d-flex flex-column gap-2 mb-2" style={{ width: '200px' }}>
                     <Button
-                        className="btn-gold py-2 pulse-glow"
+                        className={"btn-gold py-2 pulse-glow " + styles.startButton}
                         size="lg"
                         onClick={handlePlayClick}
-                        style={{
-                            transition: 'transform 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                            transform: isSnapped ? 'scale(0.9)' : 'scale(1)'
-                        }}
                     >
                         Start -&gt;
                     </Button>
