@@ -172,6 +172,10 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
                         className={"btn-gold py-2 pulse-glow " + styles.startButton}
                         size="lg"
                         onClick={handlePlayClick}
+                        style={{
+                            transform: isSnapped ? 'translateY(-5px)' : 'translateY(0)',
+                            transition: 'transform 0.1s ease-in-out',
+                        }}
                     >
                         Start -&gt;
                     </Button>
