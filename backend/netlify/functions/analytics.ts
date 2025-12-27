@@ -1,6 +1,6 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
-import { sql, gte, and, lt, count, eq, avg, gt, isNull, or } from 'drizzle-orm';
+import { sql, gte, and, lt, count, eq, avg, gt, isNull } from 'drizzle-orm';
 
 // Get date in Melbourne timezone (Australia/Melbourne)
 const getMelbourneDate = (): Date => {
@@ -212,11 +212,8 @@ export const handler: Handler = async (event) => {
                 .from(schema.gameResults)
                 .where(
                     and(
-                        lt(schema.gameResults.startedAt, hourEnd),
-                        or(
-                            isNull(schema.gameResults.endedAt),
-                            gt(schema.gameResults.endedAt, hourStart)
-                        )
+                        gte(schema.gameResults.startedAt, hourStart),
+                        lt(schema.gameResults.startedAt, hourEnd)
                     )
                 );
             return { hour, count: result?.count || 0 };
