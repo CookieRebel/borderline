@@ -193,42 +193,39 @@ export const handler: Handler = async (event) => {
         }));
 
         // -----------------------------------------------------------------
-        // Hourly Active Users (Today)
+        // Hourly Active Users (Today - Melbourne Time)
         // -----------------------------------------------------------------
-        const hourIndices = Array.from({ length: 24 }, (_, i) => i);
+        const hourlyStatsResult = await db.execute(sql`
+            SELECT
+                EXTRACT(HOUR FROM "started_at" AT TIME ZONE 'Australia/Melbourne') as hour,
+                COUNT(DISTINCT "user_id") as count
+            FROM "game_results"
+            WHERE
+                DATE("started_at" AT TIME ZONE 'Australia/Melbourne') = DATE(NOW() AT TIME ZONE 'Australia/Melbourne')
+            GROUP BY 1
+            ORDER BY 1
+        `);
 
-        const hourlyActiveUsers = await Promise.all(hourIndices.map(async (hour) => {
-            const hourStart = new Date(todayStart);
-            hourStart.setHours(hour, 0, 0, 0);
-            const hourEnd = new Date(hourStart);
-            hourEnd.setHours(hour + 1, 0, 0, 0);
+        // Map database results to 0-23 array
+        const hourlyMap = new Map<number, number>();
+        hourlyStatsResult.rows.forEach((row: any) => {
+            hourlyMap.set(Number(row.hour), Number(row.count));
+        });
 
-            // Don't query future hours
-            if (hourStart > now) {
-                return { hour, count: 0 };
-            }
-
-            const [result] = await db.select({ count: count(sql`DISTINCT ${schema.gameResults.userId}`) })
-                .from(schema.gameResults)
-                .where(
-                    and(
-                        gte(schema.gameResults.startedAt, hourStart),
-                        lt(schema.gameResults.startedAt, hourEnd)
-                    )
-                );
-            return { hour, count: result?.count || 0 };
+        const hourlyActiveUsers = Array.from({ length: 24 }, (_, i) => ({
+            hour: i,
+            count: hourlyMap.get(i) || 0
         }));
 
         // -----------------------------------------------------------------
-        // Today's Status Stats (Lost / Unfinished)
+        // Today's Status Stats (Lost / Unfinished - Melbourne Time)
         // -----------------------------------------------------------------
         // Games Lost Today
         const [gamesLostResult] = await db.select({ count: count() })
             .from(schema.gameResults)
             .where(
                 and(
-                    gte(schema.gameResults.startedAt, todayStart),
-                    lt(schema.gameResults.startedAt, new Date(todayStart.getTime() + 86400000)),
+                    sql`DATE(${schema.gameResults.startedAt} AT TIME ZONE 'Australia/Melbourne') = DATE(NOW() AT TIME ZONE 'Australia/Melbourne')`,
                     eq(schema.gameResults.won, false)
                 )
             );
@@ -238,8 +235,7 @@ export const handler: Handler = async (event) => {
             .from(schema.gameResults)
             .where(
                 and(
-                    gte(schema.gameResults.startedAt, todayStart),
-                    lt(schema.gameResults.startedAt, new Date(todayStart.getTime() + 86400000)),
+                    sql`DATE(${schema.gameResults.startedAt} AT TIME ZONE 'Australia/Melbourne') = DATE(NOW() AT TIME ZONE 'Australia/Melbourne')`,
                     isNull(schema.gameResults.endedAt)
                 )
             );
