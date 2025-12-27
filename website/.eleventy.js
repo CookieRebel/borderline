@@ -1,9 +1,17 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
+import pluginSitemap from "@quasibit/eleventy-plugin-sitemap";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy({ public: "/" });
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
-
+  eleventyConfig.addPlugin(pluginSitemap, {
+    sitemap: {
+      hostname: "https://borderlinequiz.com",
+    },
+  });
+  eleventyConfig.addGlobalData("site", {
+    url: "https://borderlinequiz.com",
+  });
   eleventyConfig.setServerOptions({
     middleware: [
       (req, res, next) => {
