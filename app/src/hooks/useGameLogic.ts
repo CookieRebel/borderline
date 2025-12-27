@@ -150,7 +150,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         revealedNeighbors: [],
         score: 0,
         roundScore: 0,
-        status: 'playing',
+        status: 'ready',
         message: 'Guess the country or territory!',
         wrongGuesses: 0,
         guessHistory: [],
@@ -269,6 +269,16 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
     }, [difficulty, dataLow, userId, isLoadingData]);
 
+    // Toggle body class for hiding navigation (moved from App.tsx)
+    useEffect(() => {
+        if (gameState.status === 'playing') {
+            document.body.classList.add('game-playing');
+        } else {
+            document.body.classList.remove('game-playing');
+        }
+        return () => document.body.classList.remove('game-playing');
+    }, [gameState.status]);
+
     // Start a new game session on backend
     const startBackendGame = async () => {
         if (!userId) return;
@@ -291,7 +301,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
     };
 
-    const initializeGame = (autoStart: boolean = false) => {
+    const initializeGame = () => {
         if (!userId || isLoadingData) return;
 
         const features = dataLow.features;
@@ -329,14 +339,10 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
                 const highScoreMessage = highScore > 0 ? `Can you beat your high score of ${highScore}?` : 'Can you guess the country or territory?';
 
-                if (autoStart) {
-                    roundStartTime.current = Date.now();
-                    startBackendGame(); // Start session for auto-start
-                }
-
+                // Always set to ready. App.tsx will switch to playing if needed.
                 setGameState({
                     targetCountry: target, revealedNeighbors: [], score: 0, roundScore: 0,
-                    status: autoStart ? 'playing' : 'ready',
+                    status: 'ready',
                     message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty
                 });
                 setGameId(null); // Reset ID for new game (will be set by startBackendGame)
@@ -347,10 +353,9 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 const target = potentialTargets[randomIndex];
                 setGameState({
                     targetCountry: target, revealedNeighbors: [], score: 0, roundScore: 0,
-                    status: autoStart ? 'playing' : 'ready',
+                    status: 'ready',
                     message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty
                 });
-                if (autoStart) startBackendGame();
             });
     };
 

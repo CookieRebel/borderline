@@ -5,6 +5,7 @@ import type { MapCanvasRef } from './components/Game/MapCanvas';
 import type { GuessInputRef } from './components/Game/GuessInput';
 import { useGameLogic } from './hooks/useGameLogic';
 import { useUsername } from './hooks/useUsername';
+import { useDifficulty, type Difficulty } from './hooks/useDifficulty';
 
 // Layout components
 import Header from './components/Layout/Header';
@@ -61,11 +62,30 @@ function App() {
   // Detect mobile device
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
 
-  // Wrapper to reset game, close modal, and start new game
+  // wrapper to reset game, close modal, and start new game
   const playAgain = () => {
     setShowResultsModal(false);
-    resetGameLogic(true);
+    resetGameLogic();
+    startGame();
   };
+
+  const { setDifficulty } = useDifficulty();
+
+  // Auto-start if level param is present AND game is ready
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const level = params.get('level');
+    const isValidLevel = level === 'easy' || level === 'medium' || level === 'hard' || level === 'extreme';
+
+    if (isValidLevel && gameState.status === 'ready') {
+      // Ensure difficulty matches URL before starting
+      if (difficulty !== level) {
+        setDifficulty(level as Difficulty);
+      }
+      setShowStartScreen(false);
+      startGame();
+    }
+  }, [gameState.status, startGame, difficulty, setDifficulty]);
 
   // Trigger confetti and sound on win
   useEffect(() => {
@@ -85,29 +105,6 @@ function App() {
     }
   }, [gameState.status]);
 
-  // Toggle body class for hiding navigation
-  useEffect(() => {
-    if (gameState.status === 'playing') {
-      document.body.classList.add('game-playing');
-    } else {
-      document.body.classList.remove('game-playing');
-    }
-    // Cleanup on unmount
-    return () => document.body.classList.remove('game-playing');
-  }, [gameState.status]);
-
-  // Toggle body class for start screen
-  useEffect(() => {
-    if (showStartScreen) {
-      document.body.classList.add('start-screen');
-    } else {
-      document.body.classList.remove('start-screen');
-    }
-    return () => document.body.classList.remove('start-screen');
-  }, [showStartScreen]);
-
-
-
   // Show start screen first
   if (showStartScreen) {
     return (
@@ -125,9 +122,6 @@ function App() {
       />
     );
   }
-
-  // Show instructions screen
-
 
   // Show analytics screen
   if (showAnalytics) {
