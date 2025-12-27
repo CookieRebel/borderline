@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button, Spinner, Alert } from 'reactstrap';
-import { ArrowLeft, TrendingUp, TrendingDown, Users, Gamepad2 } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, Users, Gamepad2, RefreshCcw } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface AnalyticsScreenProps {
@@ -76,28 +76,28 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchAnalytics = async () => {
-            try {
-                setLoading(true);
-                setError(null);
-                const response = await fetch(`/api/analytics?user_id=${userId}`);
+    const fetchAnalytics = useCallback(async () => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = await fetch(`/api/analytics?user_id=${userId}`);
 
-                if (!response.ok) {
-                    throw new Error('Failed to fetch analytics data');
-                }
-
-                const analyticsData = await response.json();
-                setData(analyticsData);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'An error occurred');
-            } finally {
-                setLoading(false);
+            if (!response.ok) {
+                throw new Error('Failed to fetch analytics data');
             }
-        };
 
-        fetchAnalytics();
+            const analyticsData = await response.json();
+            setData(analyticsData);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'An error occurred');
+        } finally {
+            setLoading(false);
+        }
     }, [userId]);
+
+    useEffect(() => {
+        fetchAnalytics();
+    }, [fetchAnalytics]);
 
     const renderStatCard = (
         title: string,
@@ -271,10 +271,19 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     >
                         <ArrowLeft size={24} />
                     </Button>
-                    <div>
+                    <div className="flex-grow-1">
                         <h2 className="mb-0">Analytics Dashboard</h2>
                         <p className="text-muted mb-0 small">BorderLINE Statistics</p>
                     </div>
+                    <Button
+                        color="light"
+                        className="d-flex align-items-center"
+                        onClick={fetchAnalytics}
+                        disabled={loading}
+                    >
+                        <RefreshCcw size={18} className={`me-2 ${loading ? 'spin-animation' : ''}`} />
+                        Refresh
+                    </Button>
                 </div>
 
                 {/* Live Status Section */}
