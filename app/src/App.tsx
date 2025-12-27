@@ -106,6 +106,8 @@ function App() {
     return () => document.body.classList.remove('start-screen');
   }, [showStartScreen]);
 
+
+
   // Show start screen first
   if (showStartScreen) {
     return (
