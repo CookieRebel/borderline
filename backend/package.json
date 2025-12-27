@@ -6,7 +6,8 @@
         "test": "vitest",
         "netlify:functions": "netlify functions:serve --port 9999 --functions netlify/functions",
         "db:generate": "drizzle-kit generate",
-        "db:migrate": "node scripts/confirm_prod_action.js node scripts/migrate.js",
+        "db:migrate": "drizzle-kit migrate",
+        "db:migrate:prod": "MIGRATE_ENV=prod node scripts/confirm_prod_action.js drizzle-kit migrate",
         "db:push": "drizzle-kit push",
         "db:studio": "drizzle-kit studio"
     },

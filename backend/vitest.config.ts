@@ -3,7 +3,7 @@ import { loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
     // Load environment variables (including those without VITE_ prefix)
-    const env = loadEnv(mode, process.cwd(), '');
+    const env = loadEnv(mode, process.cwd() + '/../', '');
 
     return {
         test: {

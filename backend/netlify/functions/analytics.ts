@@ -1,6 +1,6 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
-import { sql, gte, and, lt, count, eq, avg, gt } from 'drizzle-orm';
+import { sql, gte, and, lt, count, eq, avg, gt, isNull, or } from 'drizzle-orm';
 
 // Get date in Melbourne timezone (Australia/Melbourne)
 const getMelbourneDate = (): Date => {
@@ -192,6 +192,61 @@ export const handler: Handler = async (event) => {
             };
         }));
 
+        // -----------------------------------------------------------------
+        // Hourly Active Users (Today)
+        // -----------------------------------------------------------------
+        const hourIndices = Array.from({ length: 24 }, (_, i) => i);
+
+        const hourlyActiveUsers = await Promise.all(hourIndices.map(async (hour) => {
+            const hourStart = new Date(todayStart);
+            hourStart.setHours(hour, 0, 0, 0);
+            const hourEnd = new Date(hourStart);
+            hourEnd.setHours(hour + 1, 0, 0, 0);
+
+            // Don't query future hours
+            if (hourStart > now) {
+                return { hour, count: 0 };
+            }
+
+            const [result] = await db.select({ count: count(sql`DISTINCT ${schema.gameResults.userId}`) })
+                .from(schema.gameResults)
+                .where(
+                    and(
+                        lt(schema.gameResults.startedAt, hourEnd),
+                        or(
+                            isNull(schema.gameResults.endedAt),
+                            gt(schema.gameResults.endedAt, hourStart)
+                        )
+                    )
+                );
+            return { hour, count: result?.count || 0 };
+        }));
+
+        // -----------------------------------------------------------------
+        // Today's Status Stats (Lost / Unfinished)
+        // -----------------------------------------------------------------
+        // Games Lost Today
+        const [gamesLostResult] = await db.select({ count: count() })
+            .from(schema.gameResults)
+            .where(
+                and(
+                    gte(schema.gameResults.startedAt, todayStart),
+                    lt(schema.gameResults.startedAt, new Date(todayStart.getTime() + 86400000)),
+                    eq(schema.gameResults.won, false)
+                )
+            );
+
+        // Unfinished Games Today
+        const [unfinishedGamesResult] = await db.select({ count: count() })
+            .from(schema.gameResults)
+            .where(
+                and(
+                    gte(schema.gameResults.startedAt, todayStart),
+                    lt(schema.gameResults.startedAt, new Date(todayStart.getTime() + 86400000)),
+                    isNull(schema.gameResults.endedAt)
+                )
+            );
+
         // Calculate current period stats for summary cards
         const todayStats = dailyData[9]; // Last item is today
         const yesterdayStats = dailyData[8];
@@ -361,6 +416,11 @@ export const handler: Handler = async (event) => {
                 dailyData,
                 weeklyData,
                 monthlyData,
+                hourlyActiveUsers, // New
+                todayStatus: { // New
+                    gamesLost: gamesLostResult?.count || 0,
+                    unfinishedGames: unfinishedGamesResult?.count || 0,
+                },
                 totals: {
                     totalUsers,
                     totalGames,

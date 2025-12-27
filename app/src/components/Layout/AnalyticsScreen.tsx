@@ -47,6 +47,16 @@ interface AverageGuesses {
     byDifficulty: GamesByDifficulty;
 }
 
+interface HourlyData {
+    hour: number;
+    count: number;
+}
+
+interface TodayStatus {
+    gamesLost: number;
+    unfinishedGames: number;
+}
+
 interface AnalyticsData {
     daily: PeriodStats;
     weekly: PeriodStats;
@@ -54,6 +64,8 @@ interface AnalyticsData {
     dailyData: PeriodData[];
     weeklyData: PeriodData[];
     monthlyData: PeriodData[];
+    hourlyActiveUsers: HourlyData[];
+    todayStatus: TodayStatus;
     totals: Totals;
     retention: Retention;
     averageGuesses: AverageGuesses;
@@ -132,6 +144,34 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        );
+    };
+
+    const renderHourlyChart = (data: HourlyData[]) => {
+        return (
+            <div className="card shadow-sm">
+                <div className="card-body">
+                    <h6 className="card-title mb-3">Today's Hourly Activity</h6>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <BarChart data={data}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis
+                                dataKey="hour"
+                                tickFormatter={(tick) => `${tick}:00`}
+                                tick={{ fontSize: 11 }}
+                            />
+                            <YAxis />
+                            <Tooltip labelFormatter={(label) => `${label}:00 - ${label}:59`} />
+                            <Legend />
+                            <Bar
+                                dataKey="count"
+                                fill="#20c997" // Teal
+                                name="Active Users"
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
                 </div>
             </div>
         );
@@ -222,6 +262,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
             <div className="container" style={{ maxWidth: '1200px' }}>
                 {/* Header */}
                 <div className="d-flex align-items-center mb-4">
+                    {/* ... (existing header content) */}
                     <Button
                         color="link"
                         className="p-0 me-3 text-dark"
@@ -236,7 +277,57 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     </div>
                 </div>
 
-                {/* Stats Cards */}
+                {/* Live Status Section */}
+                <div className="row g-4 mb-4">
+                    <div className="col-12 col-md-4">
+                        <div className="card shadow-sm h-100">
+                            <div className="card-body">
+                                <div className="d-flex align-items-center mb-3">
+                                    <div className="p-2 rounded-circle bg-danger bg-opacity-10 me-2">
+                                        <TrendingDown size={24} className="text-danger" />
+                                    </div>
+                                    <h5 className="card-title mb-0">Games Lost Today</h5>
+                                </div>
+                                <div className="h2 mb-0">{data.todayStatus.gamesLost}</div>
+                                <div className="text-muted small">Games ended in defeat</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                        <div className="card shadow-sm h-100">
+                            <div className="card-body">
+                                <div className="d-flex align-items-center mb-3">
+                                    <div className="p-2 rounded-circle bg-warning bg-opacity-10 me-2">
+                                        <Gamepad2 size={24} className="text-warning" />
+                                    </div>
+                                    <h5 className="card-title mb-0">Unfinished Games</h5>
+                                </div>
+                                <div className="h2 mb-0">{data.todayStatus.unfinishedGames}</div>
+                                <div className="text-muted small">Started today, not ended</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-4">
+                        {/* Placeholder or Hourly Summary? Let's put Hourly Chart below and maybe another metric here or just leave 2? 
+                             Let's actually put the Hourly Chart in a full width row below this.
+                             And use the 3rd column for something else or stretch? 
+                             Let's stretch the Hourly Chart to be full width in its own row.
+                             So here, maybe just 2 columns? Or add "Active Now"? We don't have real-time socket.
+                             "Hourly Active Peak"?
+                             Let's stick to 2 columns for status or just use the header Stats Cards row for periods.
+                             I'll insert this Live Status row ABOVE the Stats Cards.
+                         */}
+                    </div>
+                </div>
+
+                {/* Hourly Activity Chart */}
+                <div className="row g-4 mb-4">
+                    <div className="col-12">
+                        {renderHourlyChart(data.hourlyActiveUsers)}
+                    </div>
+                </div>
+
+                {/* Stats Cards (Periods) */}
                 <div className="row g-4 mb-4">
                     <div className="col-12 col-md-4">
                         {renderStatCard(
@@ -246,6 +337,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                             'primary'
                         )}
                     </div>
+                    {/* ... (rest of period cards) */}
                     <div className="col-12 col-md-4">
                         {renderStatCard(
                             'This Week',
@@ -265,6 +357,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                 </div>
 
                 {/* Totals Section */}
+
                 <div className="row g-4 mb-4">
                     <div className="col-12">
                         <div className="card shadow-sm">

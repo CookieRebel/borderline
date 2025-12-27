@@ -69,6 +69,19 @@ npm run build -w website
 
 Database migrations are handled by Drizzle Kit in the backend workspace.
 
+### Development Migration
+Apply changes to your **local/development** database (uses `.env` in root):
+
 ```bash
-npm run db:migrate
+npm run db:migrate -w backend
 ```
+
+### Production Migration
+Apply changes to the **production** database.
+1. Create a `.env.prod` file in the project root with production credentials.
+2. Run the production migration command (uses `.env.prod`):
+
+```bash
+npm run db:migrate:prod -w backend
+```
+*Note: This will prompt for a "DEPLOY" confirmation.*

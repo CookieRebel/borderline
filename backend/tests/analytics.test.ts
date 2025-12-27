@@ -109,6 +109,24 @@ describe('Analytics API', () => {
             expect(data.averageGuesses.byDifficulty).toHaveProperty('medium');
             expect(data.averageGuesses.byDifficulty).toHaveProperty('hard');
             expect(data.averageGuesses.byDifficulty).toHaveProperty('extreme');
+            expect(data.averageGuesses.byDifficulty).toHaveProperty('extreme');
+
+            // Verify hourly active users
+            // Counts UNIQUE users active in each hour, not total games
+            expect(data).toHaveProperty('hourlyActiveUsers');
+            expect(Array.isArray(data.hourlyActiveUsers)).toBe(true);
+            // Should have 24 hours
+            if (data.hourlyActiveUsers.length > 0) {
+                expect(data.hourlyActiveUsers[0]).toHaveProperty('hour');
+                expect(data.hourlyActiveUsers[0]).toHaveProperty('count');
+            }
+
+            // Verify today's status (live metrics)
+            expect(data).toHaveProperty('todayStatus');
+            expect(data.todayStatus).toHaveProperty('gamesLost');
+            expect(data.todayStatus).toHaveProperty('unfinishedGames');
+            expect(typeof data.todayStatus.gamesLost).toBe('number');
+            expect(typeof data.todayStatus.unfinishedGames).toBe('number');
         });
 
         it('should return non-negative values for all metrics', async () => {

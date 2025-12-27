@@ -14,22 +14,24 @@ export const users = pgTable('users', {
     hardHighScore: integer('hard_high_score').default(0).notNull(),
     extremeHighScore: integer('extreme_high_score').default(0).notNull(),
     streak: integer('streak').default(0).notNull(),
-    lastPlayedAt: timestamp('last_played_at'),
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    lastPlayedAt: timestamp('last_played_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
 export const gameResults = pgTable('game_results', {
     id: uuid('id').primaryKey().defaultRandom(),
     userId: uuid('user_id').references(() => users.id).notNull(),
     level: varchar('level', { length: 10 }).notNull(), // easy, medium, hard, extreme
-    guesses: integer('guesses').notNull(),
-    timeSeconds: integer('time_seconds').notNull(),
-    score: integer('score').notNull(),
-    won: boolean('won').notNull(),
+    guesses: integer('guesses'),
+    timeSeconds: integer('time_seconds'),
+    score: integer('score'),
+    won: boolean('won'),
     weekNumber: integer('week_number').notNull(), // ISO week for leaderboard
     year: integer('year').notNull(),
     targetCode: varchar('target_code', { length: 3 }), // ISO3 code of the target country
-    createdAt: timestamp('created_at').defaultNow().notNull(),
+    startedAt: timestamp('started_at', { withTimezone: true }).defaultNow().notNull(),
+    endedAt: timestamp('ended_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 
 export type User = typeof users.$inferSelect;
