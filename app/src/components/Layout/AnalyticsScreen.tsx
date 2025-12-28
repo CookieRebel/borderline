@@ -21,6 +21,7 @@ interface PeriodData {
     newGames: number;
     returningUsers: number;
     returningGames: number;
+    unfinishedGames: number;
 }
 
 interface GamesByDifficulty {
@@ -188,7 +189,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
         );
     };
 
-    const renderChart = (title: string, data: PeriodData[], metric: 'newUsers' | 'newGames' | 'returningUsers' | 'returningGames') => {
+    const renderChart = (title: string, data: PeriodData[], metric: 'newUsers' | 'newGames' | 'returningUsers' | 'returningGames' | 'unfinishedGames') => {
         let metricName = '';
         let color = '';
 
@@ -208,6 +209,10 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
             case 'returningGames':
                 metricName = 'Returning Games';
                 color = '#0d6efd'; // Blue
+                break;
+            case 'unfinishedGames':
+                metricName = 'Unfinished Games';
+                color = '#0dcaf0'; // Light Blue
                 break;
         }
 
@@ -273,7 +278,6 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
             <div className="container" style={{ maxWidth: '1200px' }}>
                 {/* Header */}
                 <div className="d-flex align-items-center mb-4">
-                    {/* ... (existing header content) */}
                     <Button
                         color="link"
                         className="p-0 me-3 text-dark"
@@ -328,15 +332,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                         </div>
                     </div>
                     <div className="col-12 col-md-4">
-                        {/* Placeholder or Hourly Summary? Let's put Hourly Chart below and maybe another metric here or just leave 2? 
-                             Let's actually put the Hourly Chart in a full width row below this.
-                             And use the 3rd column for something else or stretch? 
-                             Let's stretch the Hourly Chart to be full width in its own row.
-                             So here, maybe just 2 columns? Or add "Active Now"? We don't have real-time socket.
-                             "Hourly Active Peak"?
-                             Let's stick to 2 columns for status or just use the header Stats Cards row for periods.
-                             I'll insert this Live Status row ABOVE the Stats Cards.
-                         */}
+                        {/* Placeholder for future metric */}
                     </div>
                 </div>
 
@@ -357,7 +353,6 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                             'primary'
                         )}
                     </div>
-                    {/* ... (rest of period cards) */}
                     <div className="col-12 col-md-4">
                         {renderStatCard(
                             'This Week',
@@ -377,7 +372,6 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                 </div>
 
                 {/* Totals Section */}
-
                 <div className="row g-4 mb-4">
                     <div className="col-12">
                         <div className="card shadow-sm">
@@ -589,7 +583,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
 
                 {/* Charts - Returning Games */}
                 <h4 className="mb-3">Returning User Games Trends</h4>
-                <div className="row g-4">
+                <div className="row g-4 mb-4">
                     <div className="col-12 col-lg-4">
                         {renderChart('Last 10 Days', data.dailyData, 'returningGames')}
                     </div>
@@ -598,6 +592,20 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     </div>
                     <div className="col-12 col-lg-4">
                         {renderChart('Last 10 Months', data.monthlyData, 'returningGames')}
+                    </div>
+                </div>
+
+                {/* Charts - Unfinished Games */}
+                <h4 className="mb-3">Unfinished Games Trends</h4>
+                <div className="row g-4">
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Days', data.dailyData, 'unfinishedGames')}
+                    </div>
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Weeks', data.weeklyData, 'unfinishedGames')}
+                    </div>
+                    <div className="col-12 col-lg-4">
+                        {renderChart('Last 10 Months', data.monthlyData, 'unfinishedGames')}
                     </div>
                 </div>
             </div>
