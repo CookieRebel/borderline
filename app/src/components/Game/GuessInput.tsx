@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
-import { Input, Button, InputGroup, ListGroup, ListGroupItem } from 'reactstrap';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { Button, Input, InputGroup, ListGroup, ListGroupItem } from 'reactstrap';
 import { allCountries } from '../../data/allCountries';
 import type { Guess } from '../../hooks/useGameLogic';
-import { Dumbbell } from 'lucide-react';
 
 interface GuessInputProps {
     onGuess: (guess: string) => void;

@@ -70,7 +70,7 @@ export const handler: Handler = async (event) => {
       user_scores AS (
         SELECT 
           user_id,
-          SUM(score) as total_score,
+          COALESCE(SUM(score), 0) as total_score,
           COUNT(*) as games_played
         FROM ranked_games
         WHERE game_num <= 20
