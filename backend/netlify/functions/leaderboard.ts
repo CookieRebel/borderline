@@ -75,6 +75,7 @@ export const handler: Handler = async (event) => {
         FROM ranked_games
         WHERE game_num <= 20
         GROUP BY user_id
+        HAVING COALESCE(SUM(score), 0) > 0
       ),
       ranked_users AS (
         SELECT 

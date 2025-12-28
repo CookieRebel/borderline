@@ -118,14 +118,9 @@ const Leaderboard = ({ refreshKey = 0, compact = false }: LeaderboardProps) => {
                                     // Otherwise empty
                                 }
 
-                                // If no entry for this slot, render empty row to maintain height (unless it's the extra user slot)
+                                // If no entry for this slot, return null (do not show empty rows)
                                 if (!entry) {
-                                    if (rowIndex === limit) return null;
-                                    return (
-                                        <tr key={`empty-${rowIndex}`} style={{ height: '31px' }}>
-                                            <td colSpan={4}>&nbsp;</td>
-                                        </tr>
-                                    );
+                                    return null;
                                 }
 
                                 // Render populated row

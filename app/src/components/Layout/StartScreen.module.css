@@ -52,6 +52,10 @@
         0 4px 10px rgba(255, 212, 0, 0.35);
 }
 
+.leaderboard {
+    width: 350px;
+}
+
 /* Mobile Navigation - Moved to end for proper override */
 @media (max-width: 768px) {
     .startCard {

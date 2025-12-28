@@ -197,7 +197,7 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
                     )}
                 </div>
 
-                <div className="mt-4 w-100">
+                <div className={"mt-2 " + styles.leaderboard}>
                     <Leaderboard />
                 </div>
             </div>
