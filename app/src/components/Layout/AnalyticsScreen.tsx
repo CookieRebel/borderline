@@ -49,7 +49,8 @@ interface AverageGuesses {
 
 interface HourlyData {
     hour: number;
-    count: number;
+    newUsers: number;
+    returningUsers: number;
 }
 
 interface TodayStatus {
@@ -163,12 +164,22 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                 tick={{ fontSize: 11 }}
                             />
                             <YAxis />
-                            <Tooltip labelFormatter={(label) => `${label}:00 - ${label}:59`} />
+                            <Tooltip
+                                labelFormatter={(label) => `${label}:00 - ${label}:59`}
+                                formatter={(value, name) => [value, name]}
+                            />
                             <Legend />
                             <Bar
-                                dataKey="count"
-                                fill="#20c997" // Teal
-                                name="Active Users"
+                                dataKey="newUsers"
+                                stackId="a"
+                                fill="#198754" // Green
+                                name="New Users"
+                            />
+                            <Bar
+                                dataKey="returningUsers"
+                                stackId="a"
+                                fill="#ffc107" // Yellow
+                                name="Returning Users"
                             />
                         </BarChart>
                     </ResponsiveContainer>
@@ -184,19 +195,19 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
         switch (metric) {
             case 'newUsers':
                 metricName = 'New Users';
-                color = '#0d6efd';
+                color = '#198754'; // Green
                 break;
             case 'newGames':
                 metricName = 'New Games';
-                color = '#28a745';
+                color = '#dc3545'; // Red
                 break;
             case 'returningUsers':
                 metricName = 'Returning Users';
-                color = '#6610f2'; // Indigo
+                color = '#ffc107'; // Yellow
                 break;
             case 'returningGames':
                 metricName = 'Returning Games';
-                color = '#fd7e14'; // Orange
+                color = '#0d6efd'; // Blue
                 break;
         }
 

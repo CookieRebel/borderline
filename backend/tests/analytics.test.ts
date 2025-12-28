@@ -112,13 +112,15 @@ describe('Analytics API', () => {
             expect(data.averageGuesses.byDifficulty).toHaveProperty('extreme');
 
             // Verify hourly active users
-            // Counts UNIQUE users active in each hour, not total games
+            // Counts UNIQUE users active in each hour, split by New vs Returning
             expect(data).toHaveProperty('hourlyActiveUsers');
             expect(Array.isArray(data.hourlyActiveUsers)).toBe(true);
             // Should have 24 hours
             if (data.hourlyActiveUsers.length > 0) {
                 expect(data.hourlyActiveUsers[0]).toHaveProperty('hour');
-                expect(data.hourlyActiveUsers[0]).toHaveProperty('count');
+                expect(data.hourlyActiveUsers[0]).toHaveProperty('newUsers');
+                expect(data.hourlyActiveUsers[0]).toHaveProperty('returningUsers');
+                expect(data.hourlyActiveUsers[0]).not.toHaveProperty('count'); // "count" is replaced
             }
 
             // Verify today's status (live metrics)

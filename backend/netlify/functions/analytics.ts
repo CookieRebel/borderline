@@ -194,27 +194,34 @@ export const handler: Handler = async (event) => {
 
         // -----------------------------------------------------------------
         // Hourly Active Users (Today - Melbourne Time)
+        // Split by New Users (Created Today) vs Returning Users (Created Before Today)
         // -----------------------------------------------------------------
         const hourlyStatsResult = await db.execute(sql`
             SELECT
-                EXTRACT(HOUR FROM "started_at" AT TIME ZONE 'Australia/Melbourne') as hour,
-                COUNT(DISTINCT "user_id") as count
-            FROM "game_results"
+                EXTRACT(HOUR FROM gr.started_at AT TIME ZONE 'Australia/Melbourne') as hour,
+                COUNT(DISTINCT CASE WHEN DATE(u.created_at AT TIME ZONE 'Australia/Melbourne') = DATE(NOW() AT TIME ZONE 'Australia/Melbourne') THEN gr.user_id END) as new_users,
+                COUNT(DISTINCT CASE WHEN DATE(u.created_at AT TIME ZONE 'Australia/Melbourne') < DATE(NOW() AT TIME ZONE 'Australia/Melbourne') THEN gr.user_id END) as returning_users
+            FROM game_results gr
+            JOIN users u ON gr.user_id = u.id
             WHERE
-                DATE("started_at" AT TIME ZONE 'Australia/Melbourne') = DATE(NOW() AT TIME ZONE 'Australia/Melbourne')
+                DATE(gr.started_at AT TIME ZONE 'Australia/Melbourne') = DATE(NOW() AT TIME ZONE 'Australia/Melbourne')
             GROUP BY 1
             ORDER BY 1
         `);
 
         // Map database results to 0-23 array
-        const hourlyMap = new Map<number, number>();
+        const hourlyMap = new Map<number, { newUsers: number, returningUsers: number }>();
         hourlyStatsResult.rows.forEach((row: any) => {
-            hourlyMap.set(Number(row.hour), Number(row.count));
+            hourlyMap.set(Number(row.hour), {
+                newUsers: Number(row.new_users),
+                returningUsers: Number(row.returning_users)
+            });
         });
 
         const hourlyActiveUsers = Array.from({ length: 24 }, (_, i) => ({
             hour: i,
-            count: hourlyMap.get(i) || 0
+            newUsers: hourlyMap.get(i)?.newUsers || 0,
+            returningUsers: hourlyMap.get(i)?.returningUsers || 0
         }));
 
         // -----------------------------------------------------------------
