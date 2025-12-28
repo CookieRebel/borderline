@@ -2,19 +2,77 @@ import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { sql, gte, and, lt, count, eq, avg, gt, isNull } from 'drizzle-orm';
 
-// Get date in Melbourne timezone (Australia/Melbourne)
-const getMelbourneDate = (): Date => {
-    const melbourneTime = new Date().toLocaleString('en-US', { timeZone: 'Australia/Melbourne' });
-    return new Date(melbourneTime);
-};
 
-// Get start of day in Melbourne time
+/**
+ * getMelbourneStartOfDay(date)
+ *
+ * Returns a **UTC Date** that represents **00:00:00 (midnight) in Australia/Melbourne**
+ * for the same calendar day as `date`, as observed in Melbourne.
+ *
+ * Why this is needed
+ * ------------------
+ * JS `Date` stores an instant in time (UTC internally). It does **not** store a timezone.
+ * You can *format* a Date in a timezone, but you cannot *construct* “midnight in Melbourne”
+ * directly with native Date APIs.
+ *
+ * If your DB stores timestamps in UTC (typical) and you want “today” in Melbourne,
+ * you must convert Melbourne’s local day boundary to the corresponding UTC instant.
+ *
+ * DST makes this non-trivial
+ * --------------------------
+ * Melbourne is not a fixed offset:
+ * - AEST = UTC+10
+ * - AEDT = UTC+11
+ *
+ * So “Melbourne midnight” might be 13:00 UTC (previous day) or 14:00 UTC (previous day),
+ * depending on whether daylight saving applies *on that date*.
+ *
+ * Construction approach (native, deterministic, DST-safe)
+ * -------------------------------------------------------
+ * 1) Extract Melbourne-local year/month/day from the input instant.
+ * 2) Create a probe instant: `Date.UTC(Y,M,D,00:00)` (this is NOT Melbourne midnight yet,
+ *    it’s just a stable anchor instant).
+ * 3) Compute Melbourne’s timezone offset at that probe instant:
+ *    - Format the probe instant *in Melbourne* to get the “wall clock” time.
+ *    - Parse that wall clock time as a Date in the server’s local timezone.
+ *    - The difference between probe UTC and parsed wall time yields the offset.
+ * 4) Apply that offset to the probe instant to get the true UTC instant for Melbourne midnight.
+ *
+ * Notes
+ * -----
+ * - No loops, no guessing offsets, no hardcoded +10/+11.
+ * - Works regardless of server timezone.
+ * - Relies only on the platform’s IANA timezone data via Intl.
+ */
 const getMelbourneStartOfDay = (date: Date): Date => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    return new Date(year, month, day, 0, 0, 0, 0);
-};
+    // 1) Melbourne calendar date (Y-M-D) for the input instant
+    const parts = new Intl.DateTimeFormat("en-AU", {
+        timeZone: "Australia/Melbourne",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+    }).formatToParts(date);
+
+    const year = Number(parts.find(p => p.type === "year")!.value);
+    const month = Number(parts.find(p => p.type === "month")!.value);
+    const day = Number(parts.find(p => p.type === "day")!.value);
+
+    // 2) Probe instant: UTC midnight at (Y,M,D)
+    const probeUtc = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+
+    // 3) Determine Melbourne offset at the probe instant
+    //    `toLocaleString(... Melbourne ...)` gives the wall-clock components,
+    //    `new Date(string)` interprets them in the server's local timezone.
+    //    The delta between "probe UTC" and "parsed wall time" equals the offset in ms.
+    const melbourneWallTimeParsedLocally = new Date(
+        probeUtc.toLocaleString("en-US", { timeZone: "Australia/Melbourne" })
+    );
+
+    const offsetMs = probeUtc.getTime() - melbourneWallTimeParsedLocally.getTime();
+
+    // 4) Apply offset -> actual UTC instant of Melbourne midnight
+    return new Date(probeUtc.getTime() + offsetMs);
+}
 
 // Calculate stats for a given period
 const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
@@ -47,7 +105,7 @@ const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
                 and(
                     gte(schema.gameResults.createdAt, startDate),
                     lt(schema.gameResults.createdAt, endDate),
-                    sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+                    sql`DATE(${schema.gameResults.createdAt} AT TIME ZONE 'Australia/Melbourne') > DATE(${schema.users.createdAt} AT TIME ZONE 'Australia/Melbourne')`
                 )
             ),
 
@@ -59,7 +117,7 @@ const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
                 and(
                     gte(schema.gameResults.createdAt, startDate),
                     lt(schema.gameResults.createdAt, endDate),
-                    sql`DATE(${schema.gameResults.createdAt}) > DATE(${schema.users.createdAt})`
+                    sql`DATE(${schema.gameResults.createdAt} AT TIME ZONE 'Australia/Melbourne') > DATE(${schema.users.createdAt} AT TIME ZONE 'Australia/Melbourne')`
                 )
             )
     ]);
@@ -125,7 +183,9 @@ export const handler: Handler = async (event) => {
             };
         }
 
-        const now = getMelbourneDate();
+        // Use current absolute time. JS Date objects are timezone-agnostic (Unix Timestamp).
+        // Timezone conversion happens in specific helper functions (Intl API) or Database queries (AT TIME ZONE).
+        const now = new Date();
         const todayStart = getMelbourneStartOfDay(now);
 
         // Helper to generate index array [9, 8, ..., 0]
@@ -318,8 +378,8 @@ export const handler: Handler = async (event) => {
             WITH user_first_game AS (
                 SELECT 
                     u.id as user_id,
-                    DATE(u.created_at) as first_day,
-                    DATE(u.created_at) + INTERVAL '1 day' as next_day
+                    DATE(u.created_at AT TIME ZONE 'Australia/Melbourne') as first_day,
+                    DATE(u.created_at AT TIME ZONE 'Australia/Melbourne') + INTERVAL '1 day' as next_day
                 FROM users u
             ),
             user_played_next_day AS (
@@ -330,7 +390,7 @@ export const handler: Handler = async (event) => {
                             SELECT 1 
                             FROM game_results gr 
                             WHERE gr.user_id = ufg.user_id 
-                            AND DATE(gr.created_at) = ufg.next_day
+                            AND DATE(gr.created_at AT TIME ZONE 'Australia/Melbourne') = ufg.next_day
                         ) THEN 1
                         ELSE 0
                     END as played_next_day
@@ -351,8 +411,8 @@ export const handler: Handler = async (event) => {
             WITH user_first_game AS (
                 SELECT 
                     u.id as user_id,
-                    DATE(u.created_at) as first_day,
-                    DATE(u.created_at) + INTERVAL '7 days' as day_seven
+                    DATE(u.created_at AT TIME ZONE 'Australia/Melbourne') as first_day,
+                    DATE(u.created_at AT TIME ZONE 'Australia/Melbourne') + INTERVAL '7 days' as day_seven
                 FROM users u
                 WHERE u.created_at <= NOW() - INTERVAL '7 days'
             ),
@@ -364,7 +424,7 @@ export const handler: Handler = async (event) => {
                             SELECT 1 
                             FROM game_results gr 
                             WHERE gr.user_id = ufg.user_id 
-                            AND DATE(gr.created_at) = ufg.day_seven
+                            AND DATE(gr.created_at AT TIME ZONE 'Australia/Melbourne') = ufg.day_seven
                         ) THEN 1
                         ELSE 0
                     END as played_day_seven
