@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useImperativeHandle, forwardRef } f
 import { Input, Button, InputGroup, ListGroup, ListGroupItem } from 'reactstrap';
 import { allCountries } from '../../data/allCountries';
 import type { Guess } from '../../hooks/useGameLogic';
+import { Dumbbell } from 'lucide-react';
 
 interface GuessInputProps {
     onGuess: (guess: string) => void;
@@ -201,6 +202,7 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
             <form onSubmit={handleSubmit}>
                 <InputGroup>
                     <Input
+                        className="bg-light text-dark position-relative flex-grow-1"
                         innerRef={inputRef}
                         type="text"
                         placeholder="Enter country..."
@@ -208,11 +210,33 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
                         onChange={handleChange}
                         onKeyDown={handleKeyDown}
                         disabled={disabled}
-                        className="bg-dark text-light border-secondary"
                         autoComplete="off"
                         readOnly={isMobile} // Prevent native keyboard on mobile only
-                        style={{ padding: '0.25rem 0.5rem', fontSize: '0.875rem', height: '32px' }}
+                        style={{
+                            padding: '0.25rem 2rem 0.25rem 0.5rem', // Added padding-right
+                            fontSize: '0.875rem',
+                            height: '32px',
+                        }}
                     />
+                    <Button
+                        onClick={() => { setValue(''); updateSuggestions(''); }}
+                        disabled={!value || disabled}
+                        className="bg-light text-dark"
+                        style={{
+                            padding: '0.25rem 0.5rem',
+                            fontSize: '0.875rem',
+                            height: '32px',
+                            fontWeight: '600',
+                            backgroundColor: 'rgb(248, 249, 250)',
+                            borderBottomColor: 'rgb(222, 226, 230)',
+                            borderTopColor: 'rgb(222, 226, 230)',
+                            borderLeft: '0',
+                            borderRight: '0',
+
+                        }}
+                    >
+                        X
+                    </Button>
                     <Button
                         type="submit"
                         style={{
@@ -232,25 +256,27 @@ const GuessInput = forwardRef<GuessInputRef, GuessInputProps>(({ onGuess, disabl
             </form>
 
             {/* Dropdown above input */}
-            {showSuggestions && suggestions.length > 0 && (
-                <ListGroup className="position-absolute w-100" style={{ zIndex: 1000, maxHeight: '200px', overflowY: 'auto', bottom: '100%', marginBottom: '4px' }}>
-                    {suggestions.map((suggestion, index) => (
-                        <ListGroupItem
-                            key={index}
-                            action
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            className="text-light border-secondary"
-                            style={{
-                                cursor: 'pointer',
-                                backgroundColor: index === selectedIndex ? '#6c757d' : '#343a40'
-                            }}
-                        >
-                            {suggestion}
-                        </ListGroupItem>
-                    ))}
-                </ListGroup>
-            )}
-        </div>
+            {
+                showSuggestions && suggestions.length > 0 && (
+                    <ListGroup className="position-absolute w-100" style={{ zIndex: 1000, maxHeight: '200px', overflowY: 'auto', bottom: '100%', marginBottom: '4px' }}>
+                        {suggestions.map((suggestion, index) => (
+                            <ListGroupItem
+                                key={index}
+                                action
+                                onClick={() => handleSuggestionClick(suggestion)}
+                                className="text-light border-secondary"
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: index === selectedIndex ? '#6c757d' : '#343a40'
+                                }}
+                            >
+                                {suggestion}
+                            </ListGroupItem>
+                        ))}
+                    </ListGroup>
+                )
+            }
+        </div >
     );
 });
 

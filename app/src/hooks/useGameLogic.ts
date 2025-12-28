@@ -27,7 +27,7 @@ export interface GameState {
     revealedNeighbors: Feature[];
     score: number;
     roundScore: number;
-    status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
+    status: 'loading' | 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
     wrongGuesses: number;
     guessHistory: Guess[];
@@ -150,7 +150,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         revealedNeighbors: [],
         score: 0,
         roundScore: 0,
-        status: 'ready',
+        status: 'loading',
         message: 'Guess the country or territory!',
         wrongGuesses: 0,
         guessHistory: [],
@@ -162,7 +162,6 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
     const [countriesDataHigh, setCountriesDataHigh] = useState<FeatureCollection | null>(null);
     const [landDataLow, setLandDataLow] = useState<FeatureCollection | null>(null);
     const [landDataHigh, setLandDataHigh] = useState<FeatureCollection | null>(null);
-    const [isLoadingData, setIsLoadingData] = useState(true);
 
     // Fetch data on mount
     useEffect(() => {
@@ -179,7 +178,6 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 setCountriesDataHigh(cHigh);
                 setLandDataLow(lLow);
                 setLandDataHigh(lHigh);
-                setIsLoadingData(false);
             } catch (error) {
                 console.error("Failed to load map data:", error);
             }
@@ -255,20 +253,6 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         return taiwan ? geoArea(taiwan as any) : 0.0005;
     }, [dataLow]);
 
-    const gameStatusRef = useRef(gameState.status);
-    useEffect(() => {
-        gameStatusRef.current = gameState.status;
-    }, [gameState.status]);
-
-    useEffect(() => {
-        if (['won', 'lost', 'given_up'].includes(gameStatusRef.current)) {
-            return;
-        }
-        if (userId && !isLoadingData) {
-            initializeGame();
-        }
-    }, [difficulty, dataLow, userId, isLoadingData]);
-
     // Toggle body class for hiding navigation (moved from App.tsx)
     useEffect(() => {
         if (gameState.status === 'playing') {
@@ -301,11 +285,17 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
     };
 
-    const initializeGame = () => {
-        if (!userId || isLoadingData) return;
+    const resetGame = (): Promise<void> => {
+        console.log('Resetting game...');
+        setGameState({
+            targetCountry: null, revealedNeighbors: [], score: 0, roundScore: 0,
+            status: 'loading',
+            message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty
+        });
+        if (!userId) return Promise.resolve();
 
         const features = dataLow.features;
-        if (!features || features.length === 0) return;
+        if (!features || features.length === 0) return Promise.resolve();
 
         let potentialTargets = features;
         // ... (Filtering Logic same as before) ...
@@ -324,8 +314,9 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         if (potentialTargets.length === 0) potentialTargets = features;
         const candidates = potentialTargets.map((f: any) => f.properties['ISO3166-1-Alpha-3']);
 
-        fetch('/api/pick_target', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
+        return fetch('/api/pick_target', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ user_id: userId, candidates })
         })
             .then(res => res.json())
@@ -339,16 +330,17 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
                 const highScoreMessage = highScore > 0 ? `Can you beat your high score of ${highScore}?` : 'Can you guess the country or territory?';
 
-                // Always set to ready. App.tsx will switch to playing if needed.
+                // Transition from loading (or whatever) to ready
                 setGameState({
                     targetCountry: target, revealedNeighbors: [], score: 0, roundScore: 0,
                     status: 'ready',
                     message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty
                 });
-                setGameId(null); // Reset ID for new game (will be set by startBackendGame)
+                setGameId(null);
+                console.log('Game reset');
             })
             .catch(err => {
-                console.error('Failed to pick target:', err);
+                console.error('Failed to pick target. Selecting a fallback target locally:', err);
                 const randomIndex = Math.floor(Math.random() * potentialTargets.length);
                 const target = potentialTargets[randomIndex];
                 setGameState({
@@ -356,10 +348,22 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                     status: 'ready',
                     message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty
                 });
+                console.log('Game error');
             });
     };
 
+    // Trigger reset when data is finally ready and userId is present
+    useEffect(() => {
+        console.log('Triggering reset...');
+        // Only reset if we have data and user.
+        if (userId && dataLow.features.length > 0) {
+            console.log('Resetting game...');
+            resetGame();
+        }
+    }, [dataLow, userId]);
+
     const startGame = () => {
+        console.log('Starting game...');
         roundStartTime.current = Date.now();
         startBackendGame(); // Start session on manual start
         setGameState(prev => {
@@ -452,6 +456,6 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         allFeaturesHigh: countriesDataHigh?.features as Feature[] || [],
         allLandLow: landDataLow?.features as Feature[] || [],
         allLandHigh: landDataHigh?.features as Feature[] || [],
-        resetGame: initializeGame, startGame, highScore, liveScore, isLoadingData
+        resetGame, startGame, highScore, liveScore
     };
 };

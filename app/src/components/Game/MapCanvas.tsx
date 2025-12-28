@@ -8,7 +8,7 @@ import { AudioManager } from '../../utils/audioManager';
 interface MapCanvasProps {
     targetCountry: Feature | null;
     revealedNeighbors: Feature[];
-    gameStatus: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
+    gameStatus: 'loading' | 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     difficulty: 'easy' | 'medium' | 'hard' | 'extreme';
     allFeaturesLow: Feature[];
     allFeaturesHigh: Feature[];

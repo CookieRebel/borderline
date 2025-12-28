@@ -41,13 +41,13 @@ const InputBar = forwardRef<GuessInputRef, InputBarProps>(
                     </div>
                     <Button
                         outline
-                        color="secondary"
+                        color="danger"
                         onClick={handleGiveUpClick}
                         disabled={disabled}
-                        title="Give Up"
+                        title="Pass"
                         className={`d-flex align-items-center justify-content-center ${styles.giveUpBtn}`}
                     >
-                        ✕
+                        Pass
                     </Button>
                 </div>
 
@@ -60,7 +60,7 @@ const InputBar = forwardRef<GuessInputRef, InputBarProps>(
                     className="modal-dialog-centered"
                 >
                     <ModalBody className="text-center py-4">
-                        <h5 className="mb-0">Give up?</h5>
+                        <h5 className="mb-0">Do you want to pass this country?</h5>
                     </ModalBody>
                     <ModalFooter className="justify-content-center border-0 pt-0 pb-3">
                         <Button color="secondary" outline onClick={() => setShowGiveUpConfirm(false)} className="px-4">

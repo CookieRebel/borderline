@@ -11,8 +11,9 @@ import type { Difficulty } from '../../hooks/useDifficulty';
 import styles from './GameCard.module.css';
 
 interface GameCardProps {
-    status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
+    status: 'loading' | 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
+    /* ... */
     targetCountry: Feature | null;
     revealedNeighbors: Feature[];
     guessHistory: Guess[];
@@ -51,6 +52,7 @@ const GameCard = ({
     mapCanvasRef,
     guessInputRef
 }: GameCardProps) => {
+    console.log("status", status);
     return (
         <Card className="mb-2 border-0 fade-in">
             <CardBody className="p-0">

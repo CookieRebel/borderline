@@ -3,7 +3,7 @@ import { Modal, ModalBody, Button, Spinner } from 'reactstrap';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { useUsername } from '../../hooks/useUsername';
 import { useDifficulty } from '../../hooks/useDifficulty';
-
+import styles from './GameEndModal.module.css';
 import DifficultySelector from '../Game/DifficultySelector';
 import { getAssetUrl } from '../../utils/assetUtils';
 
@@ -126,14 +126,14 @@ const GameEndModal = ({
                         aria-label="Close"
                         style={{ zIndex: 10 }}
                     >
-                        <X size={24} />
+                        <X size={18} />
                     </Button>
 
                     {/* Result message */}
-                    <div className="mb-4 mt-2">
-                        <h4 className={won ? 'text-dark' : 'text-muted'}>
+                    <div className="mb-2 mt-2">
+                        <div className={styles.resultMessage + " " + won ? 'text-dark' : 'text-muted'}>
                             {resultMessage}
-                        </h4>
+                        </div>
                     </div>
 
                     {/* Fun Facts Carousel - only show if facts available */}

@@ -45,7 +45,7 @@ function App() {
     gameState,
     handleGuess,
     handleGiveUp,
-    resetGame: resetGameLogic,
+    resetGame,
     startGame,
     difficulty,
     allFeaturesLow,
@@ -62,10 +62,15 @@ function App() {
   // Detect mobile device
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
 
+  const params = new URLSearchParams(window.location.search);
+
+  const level = params.get('level');
+
   // wrapper to reset game, close modal, and start new game
-  const playAgain = () => {
+  const playAgain = async () => {
+    console.log('Playing again...');
     setShowResultsModal(false);
-    resetGameLogic();
+    await resetGame();
     startGame();
   };
 
@@ -73,19 +78,27 @@ function App() {
 
   // Auto-start if level param is present AND game is ready
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const level = params.get('level');
+    console.log('Trying to auto-start game...');
     const isValidLevel = level === 'easy' || level === 'medium' || level === 'hard' || level === 'extreme';
 
     if (isValidLevel && gameState.status === 'ready') {
+      console.log('Auto-starting game...');
+      setShowStartScreen(false);
       // Ensure difficulty matches URL before starting
       if (difficulty !== level) {
+        console.log('Difficulty does not match URL. Setting difficulty...');
         setDifficulty(level as Difficulty);
+        return; // Wait for re-render
       }
-      setShowStartScreen(false);
       startGame();
+      // Remove search param
+      window.history.replaceState(null, '', window.location.pathname);
+    } else {
+      console.log('Cannot auto-start now.');
+      console.log('Game state:', gameState.status);
+      console.log('Level:', level);
     }
-  }, [gameState.status, startGame, difficulty, setDifficulty]);
+  }, [gameState.status, level, startGame, difficulty, setDifficulty]);
 
   // Trigger confetti and sound on win
   useEffect(() => {
@@ -104,6 +117,8 @@ function App() {
       hasPlayedCelebration.current = false;
     }
   }, [gameState.status]);
+
+  const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
   // Show start screen first
   if (showStartScreen) {
@@ -135,8 +150,6 @@ function App() {
       />
     );
   }
-
-  const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
   return (
     <div className="app-container">

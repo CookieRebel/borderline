@@ -20,7 +20,7 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick, onCe
             top: '5px',
             right: '5px',
             zIndex: 100,
-            maxWidth: '180px'
+            maxWidth: '220px'
         }}>
             {/* Button row */}
             <div style={{ display: 'flex', gap: '4px', justifyContent: 'flex-end' }}>
@@ -37,10 +37,10 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick, onCe
                         fontWeight: '600',
                         color: '#374151',
                         cursor: 'pointer',
-                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
                     }}
                 >
-                    ⌖
+                    ⌖&nbsp;Re&#8209;Centre
                 </button>
                 {/* Toggle button */}
                 <button
@@ -68,65 +68,67 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, onGuessClick, onCe
             </div>
 
             {/* Collapsible list */}
-            {isExpanded && (
-                <div style={{
-                    marginTop: '4px',
-                    backgroundColor: 'rgba(255,255,255,0.95)',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '4px',
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                    maxHeight: '150px',
-                    overflowY: 'auto'
-                }}>
-                    {reversedGuesses.map((guess, index) => {
-                        const originalIndex = guesses.length - 1 - index;
-                        return (
-                            <div
-                                key={originalIndex}
-                                onClick={() => onGuessClick?.(guess.name)}
-                                style={{
-                                    padding: '3px 6px',
-                                    fontSize: '0.65rem',
-                                    borderBottom: index < reversedGuesses.length - 1 ? '1px solid #f3f4f6' : 'none',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '4px',
-                                    cursor: onGuessClick ? 'pointer' : 'default',
-                                    transition: 'background-color 0.15s ease'
-                                }}
-                                onMouseEnter={(e) => onGuessClick && (e.currentTarget.style.backgroundColor = '#f3f4f6')}
-                                onMouseLeave={(e) => onGuessClick && (e.currentTarget.style.backgroundColor = 'transparent')}
-                            >
-                                <span style={{
-                                    width: '14px',
-                                    height: '14px',
-                                    borderRadius: '50%',
-                                    backgroundColor: '#f3f4f6',
-                                    color: '#6b7280',
-                                    fontSize: '0.55rem',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    flexShrink: 0
-                                }}>
-                                    {originalIndex + 1}
-                                </span>
-                                <span style={{
-                                    color: guess.color || '#374151',
-                                    fontWeight: '500',
-                                    whiteSpace: 'nowrap',
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    flex: 1
-                                }}>
-                                    {guess.name}
-                                </span>
-                            </div>
-                        );
-                    })}
-                </div>
-            )}
-        </div>
+            {
+                isExpanded && (
+                    <div style={{
+                        marginTop: '4px',
+                        backgroundColor: 'rgba(255,255,255,0.95)',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '4px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                        maxHeight: '150px',
+                        overflowY: 'auto'
+                    }}>
+                        {reversedGuesses.map((guess, index) => {
+                            const originalIndex = guesses.length - 1 - index;
+                            return (
+                                <div
+                                    key={originalIndex}
+                                    onClick={() => onGuessClick?.(guess.name)}
+                                    style={{
+                                        padding: '3px 6px',
+                                        fontSize: '0.65rem',
+                                        borderBottom: index < reversedGuesses.length - 1 ? '1px solid #f3f4f6' : 'none',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '4px',
+                                        cursor: onGuessClick ? 'pointer' : 'default',
+                                        transition: 'background-color 0.15s ease'
+                                    }}
+                                    onMouseEnter={(e) => onGuessClick && (e.currentTarget.style.backgroundColor = '#f3f4f6')}
+                                    onMouseLeave={(e) => onGuessClick && (e.currentTarget.style.backgroundColor = 'transparent')}
+                                >
+                                    <span style={{
+                                        width: '14px',
+                                        height: '14px',
+                                        borderRadius: '50%',
+                                        backgroundColor: '#f3f4f6',
+                                        color: '#6b7280',
+                                        fontSize: '0.55rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0
+                                    }}>
+                                        {originalIndex + 1}
+                                    </span>
+                                    <span style={{
+                                        color: guess.color || '#374151',
+                                        fontWeight: '500',
+                                        whiteSpace: 'nowrap',
+                                        overflow: 'hidden',
+                                        textOverflow: 'ellipsis',
+                                        flex: 1
+                                    }}>
+                                        {guess.name}
+                                    </span>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )
+            }
+        </div >
     );
 };
 

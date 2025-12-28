@@ -1,7 +1,7 @@
 import styles from './MessageBar.module.css';
 
 interface MessageBarProps {
-    status: 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
+    status: 'loading' | 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
     message: string;
 }
 
