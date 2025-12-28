@@ -83,6 +83,7 @@ describe('Analytics API', () => {
                 expect(item).toHaveProperty('newGames');
                 expect(item).toHaveProperty('returningUsers');
                 expect(item).toHaveProperty('returningGames');
+                expect(item).toHaveProperty('unfinishedGames');
             });
 
             // Verify totals structure

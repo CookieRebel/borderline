@@ -76,10 +76,17 @@ const getMelbourneStartOfDay = (date: Date): Date => {
 
 // Calculate stats for a given period
 const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
-    const [newUsersResult, newGamesResult, returningUsersResult, returningGamesResult] = await Promise.all([
+    const [
+        newUsersResult,
+        newGamesResult,
+        returningUsersResult,
+        returningGamesResult,
+        unfinishedGamesResult
+    ] = await Promise.all([
         // Count new users
         db.select({ count: count() })
             .from(schema.users)
+
             .where(
                 and(
                     gte(schema.users.createdAt, startDate),
@@ -119,6 +126,17 @@ const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
                     lt(schema.gameResults.createdAt, endDate),
                     sql`DATE(${schema.gameResults.createdAt} AT TIME ZONE 'Australia/Melbourne') > DATE(${schema.users.createdAt} AT TIME ZONE 'Australia/Melbourne')`
                 )
+            ),
+
+        // Count unfinished games (created but not ended)
+        db.select({ count: count() })
+            .from(schema.gameResults)
+            .where(
+                and(
+                    gte(schema.gameResults.createdAt, startDate),
+                    lt(schema.gameResults.createdAt, endDate),
+                    isNull(schema.gameResults.endedAt)
+                )
             )
     ]);
 
@@ -126,8 +144,9 @@ const getStatsForPeriod = async (startDate: Date, endDate: Date) => {
     const newGames = newGamesResult[0]?.count || 0;
     const returningUsers = returningUsersResult[0]?.count || 0;
     const returningGames = returningGamesResult[0]?.count || 0;
+    const unfinishedGames = unfinishedGamesResult[0]?.count || 0;
 
-    return { newUsers, newGames, returningUsers, returningGames };
+    return { newUsers, newGames, returningUsers, returningGames, unfinishedGames };
 };
 
 // Calculate percentage change
@@ -145,7 +164,6 @@ export const handler: Handler = async (event) => {
         'Access-Control-Allow-Headers': 'Content-Type',
     };
 
-    // Handle CORS preflight
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }
@@ -159,7 +177,6 @@ export const handler: Handler = async (event) => {
     }
 
     try {
-        // Get admin userId from query params
         const adminUserId = event.queryStringParameters?.user_id;
 
         if (!adminUserId) {
@@ -170,7 +187,6 @@ export const handler: Handler = async (event) => {
             };
         }
 
-        // Verify user exists (basic check - you can add more sophisticated admin verification)
         const user = await db.query.users.findFirst({
             where: eq(schema.users.id, adminUserId),
         });
@@ -183,12 +199,8 @@ export const handler: Handler = async (event) => {
             };
         }
 
-        // Use current absolute time. JS Date objects are timezone-agnostic (Unix Timestamp).
-        // Timezone conversion happens in specific helper functions (Intl API) or Database queries (AT TIME ZONE).
         const now = new Date();
         const todayStart = getMelbourneStartOfDay(now);
-
-        // Helper to generate index array [9, 8, ..., 0]
         const indices = Array.from({ length: 10 }, (_, i) => 9 - i);
 
         // Calculate last 10 days
@@ -207,6 +219,7 @@ export const handler: Handler = async (event) => {
                 newGames: stats.newGames,
                 returningUsers: stats.returningUsers,
                 returningGames: stats.returningGames,
+                unfinishedGames: stats.unfinishedGames,
             };
         }));
 
@@ -232,6 +245,7 @@ export const handler: Handler = async (event) => {
                 newGames: stats.newGames,
                 returningUsers: stats.returningUsers,
                 returningGames: stats.returningGames,
+                unfinishedGames: stats.unfinishedGames,
             };
         }));
 
@@ -249,6 +263,7 @@ export const handler: Handler = async (event) => {
                 newGames: stats.newGames,
                 returningUsers: stats.returningUsers,
                 returningGames: stats.returningGames,
+                unfinishedGames: stats.unfinishedGames,
             };
         }));
 
