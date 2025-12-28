@@ -7,6 +7,7 @@ import { AudioManager } from '../../utils/audioManager';
 import DifficultySelector from '../Game/DifficultySelector';
 import BackgroundGlobe from './BackgroundGlobe';
 import styles from './StartScreen.module.css';
+import Leaderboard from '../Game/Leaderboard';
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
@@ -106,7 +107,7 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
     };
 
     return (
-        <div className={styles.appContainer + " d-flex flex-column align-items-center mt-6 text-center px-4 position-relative"}>
+        <div className={styles.appContainer + " d-flex flex-column align-items-center mt-2 text-center px-4 position-relative"}>
             <BackgroundGlobe />
 
             {/* Error Toast */}
@@ -123,7 +124,7 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
             <div className={styles.startCard}>
 
                 {/* Greeting & Streak */}
-                <div className="mb-4">
+                <div className="mb-2">
                     {loading ? (
                         <div className="spinner-border spinner-border-sm text-success" role="status">
                             <span className="visually-hidden">Loading...</span>
@@ -194,6 +195,10 @@ const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenPro
                             Analytics
                         </Button>
                     )}
+                </div>
+
+                <div className="mt-4 w-100">
+                    <Leaderboard />
                 </div>
             </div>
 

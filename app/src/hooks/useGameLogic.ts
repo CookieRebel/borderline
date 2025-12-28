@@ -424,8 +424,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
             const countryName = gameState.targetCountry?.properties?.name || 'the country';
             const guessWord = guessCount === 1 ? 'guess' : 'guesses';
             const winMessage = isHighScore
-                ? `🏆 ${countryName} in ${guessCount} ${guessWord} !${praise} `
-                : `${countryName} in ${guessCount} ${guessWord} !${praise} `;
+                ? `🏆 ${countryName} in ${guessCount} ${guessWord}!${praise} `
+                : `${countryName} in ${guessCount} ${guessWord}!${praise} `;
 
             setGameState(prev => ({
                 ...prev, status: 'won', message: winMessage, guessHistory: newGuessHistory, roundScore: roundScore, score: roundScore
