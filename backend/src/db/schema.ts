@@ -15,6 +15,7 @@ export const users = pgTable('users', {
     extremeHighScore: integer('extreme_high_score').default(0).notNull(),
     streak: integer('streak').default(0).notNull(),
     lastPlayedAt: timestamp('last_played_at', { withTimezone: true }),
+    timezone: varchar('timezone', { length: 50 }),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 });
 

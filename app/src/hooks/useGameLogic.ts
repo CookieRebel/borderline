@@ -128,7 +128,8 @@ const submitGameResult = async (
                 time: timeSeconds,
                 score,
                 won,
-                target_code: targetCode
+                target_code: targetCode,
+                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
             }),
         });
         // Call callback after successful submission
@@ -272,8 +273,9 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     user_id: userId,
-                    level: difficulty
+                    level: difficulty,
                     // week/year calculated on backend
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
                 })
             });
             const data = await res.json();

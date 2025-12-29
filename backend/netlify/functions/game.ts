@@ -56,7 +56,7 @@ export const handler: Handler = async (event) => {
         // POST: Start Game
         // -----------------------------------------------------------------
         if (event.httpMethod === 'POST') {
-            const { user_id, level, week, year } = body;
+            const { user_id, level, week, year, timezone } = body;
 
             if (!user_id || !level) {
                 return {
@@ -64,6 +64,22 @@ export const handler: Handler = async (event) => {
                     headers,
                     body: JSON.stringify({ error: 'Missing required fields: user_id, level' }),
                 };
+            }
+
+            // Update user's timezone if provided
+            if (timezone) {
+                let safeTimezone = timezone;
+                try {
+                    Intl.DateTimeFormat(undefined, { timeZone: safeTimezone });
+                } catch (e) {
+                    safeTimezone = null; // Ignore invalid timezones
+                }
+
+                if (safeTimezone) {
+                    await db.update(schema.users)
+                        .set({ timezone: safeTimezone })
+                        .where(eq(schema.users.id, user_id));
+                }
             }
 
             // Calculate week/year if not provided (Server authoritative fallback)
@@ -103,7 +119,7 @@ export const handler: Handler = async (event) => {
         if (event.httpMethod === 'PUT') {
             // Check for ID in path (legacy-style or REST) or body
             // We'll support body 'id' for simplicity
-            const { id, user_id, level, guesses, time, score, won, target_code } = body;
+            const { id, user_id, level, guesses, time, score, won, target_code, timezone } = body;
 
             if (!id || !user_id || !level || guesses === undefined || time === undefined || score === undefined || won === undefined || !target_code) {
                 return {
@@ -140,22 +156,49 @@ export const handler: Handler = async (event) => {
 
             const isNewHighScore = score > (user[`${level}HighScore` as keyof typeof user] as number || 0);
 
-            // Streak logic
-            let newStreak = user.streak;
-            const playedToday = user.lastPlayedAt ? isSameDay(user.lastPlayedAt, now) : false;
-            const playedYesterday = isYesterday(user.lastPlayedAt, now);
+            // Streak logic (Timezone Aware)
+            // Use provided timezone -> stored timezone -> fallback 'Australia/Melbourne'
+            const targetTimezone = timezone || user.timezone || 'Australia/Melbourne';
 
-            if (playedToday) {
+            // Limit generic check to ensure valid IANA string, otherwise fallback
+            let safeTimezone = targetTimezone;
+            try {
+                Intl.DateTimeFormat(undefined, { timeZone: safeTimezone });
+            } catch (e) {
+                safeTimezone = 'Australia/Melbourne';
+            }
+
+            const getLocalYMD = (date: Date, tz: string) => {
+                return date.toLocaleDateString('en-CA', { timeZone: tz }); // Returns YYYY-MM-DD
+            };
+
+            const localToday = getLocalYMD(now, safeTimezone);
+            const localLastPlayed = user.lastPlayedAt ? getLocalYMD(user.lastPlayedAt, safeTimezone) : null;
+
+            let newStreak = user.streak;
+
+            if (localLastPlayed === localToday) {
+                // Already played today in local time, streak maintenance
                 newStreak = user.streak;
-            } else if (playedYesterday || user.lastPlayedAt === null) {
-                newStreak = won ? user.streak + 1 : 0;
             } else {
-                newStreak = won ? 1 : 0;
+                // Check if yesterday
+                // Create dates from YYYY-MM-DD strings to compare purely on calendar days
+                const todayDate = new Date(localToday);
+                const lastDate = localLastPlayed ? new Date(localLastPlayed) : null;
+
+                const isConsecutive = lastDate && (todayDate.getTime() - lastDate.getTime() === 86400000); // Exactly 1 day diff
+
+                if (isConsecutive || user.lastPlayedAt === null) {
+                    newStreak = won ? user.streak + 1 : 0;
+                } else {
+                    newStreak = won ? 1 : 0; // Streak broken
+                }
             }
 
             const updates: Record<string, unknown> = {
                 lastPlayedAt: now,
                 streak: newStreak,
+                timezone: safeTimezone, // Store the authoritative timezone
             };
 
             // Increment game count

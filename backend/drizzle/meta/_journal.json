@@ -57,6 +57,13 @@
       "when": 1766805647493,
       "tag": "0008_backfill_timestamps",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1766968350615,
+      "tag": "0009_silent_taskmaster",
+      "breakpoints": true
     }
   ]
 }
