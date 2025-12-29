@@ -1,0 +1,81 @@
+.leaderboardTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    color: var(--bs-dark);
+}
+
+.weekLabel {
+    color: var(--bs-secondary);
+    font-weight: normal;
+    font-size: 0.75rem;
+}
+
+.tableContainer {
+    overflow-x: auto;
+}
+
+.table {
+    font-size: 0.8rem;
+    vertical-align: middle;
+    margin-bottom: 0;
+}
+
+.headerRow {
+    color: var(--bs-secondary);
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.rankCol {
+    width: 15%;
+    padding-left: 0.5rem;
+}
+
+.playerCol {
+    width: 45%;
+}
+
+.scoreCol {
+    width: 20%;
+    text-align: right;
+}
+
+.gamesCol {
+    width: 20%;
+    text-align: right;
+    padding-right: 0.5rem;
+}
+
+.row {
+    height: 31px;
+}
+
+.flag {
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+    line-height: 0.8rem;
+    /* fs-4 equivalent approx */
+    display: inline-flex;
+    align-items: center;
+}
+
+.separator {
+    border-top: 2px solid #dee2e6;
+}
+
+.youLabel {
+    font-weight: bold;
+    margin-left: 0.25rem;
+    color: var(--bs-dark);
+}
+
+.rankText {
+    padding-left: 0.5rem;
+    color: var(--bs-secondary);
+    font-weight: bold;
+}
+
+.playerName {
+    max-width: 120px;
+}

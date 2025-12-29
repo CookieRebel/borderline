@@ -81,6 +81,7 @@ export const handler: Handler = async (event) => {
         SELECT 
           us.user_id,
           u.display_name,
+          u.timezone,
           us.total_score,
           us.games_played,
           RANK() OVER (ORDER BY us.total_score DESC) as player_rank
@@ -90,6 +91,7 @@ export const handler: Handler = async (event) => {
       SELECT 
         user_id,
         display_name,
+        timezone,
         total_score,
         games_played,
         player_rank
@@ -129,6 +131,7 @@ export const handler: Handler = async (event) => {
           rank: Number(row.player_rank),
           user_id: row.user_id,
           display_name: row.display_name,
+          timezone: row.timezone,
           total_score: row.total_score,
           games_played: row.games_played,
         })),
