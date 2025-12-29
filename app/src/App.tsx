@@ -6,34 +6,50 @@ import type { GuessInputRef } from './components/Game/GuessInput';
 import { useGameLogic } from './hooks/useGameLogic';
 import { useUsername } from './hooks/useUsername';
 import { useDifficulty, type Difficulty } from './hooks/useDifficulty';
+import { AudioManager } from './utils/audioManager';
 
 // Layout components
 import Header from './components/Layout/Header';
-
 import GameCard from './components/Layout/GameCard';
 import StartScreen from './components/Layout/StartScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
 import GameEndModal from './components/Layout/GameEndModal';
 
+import styles from './App.module.css';
+
 const sparkleUrl = new URL('./assets/sparkle.mp3', import.meta.url).href;
 
-// Play sparkle sound
+/**
+ * Plays a sparkle sound effect using the shared AudioManager.
+ */
 const playSparkleSound = () => {
-  try {
-    const audio = new Audio(sparkleUrl);
-    audio.volume = 0.5;
-    audio.play();
-  } catch (e) {
-    console.log('Audio not supported', e);
-  }
+  AudioManager.play(sparkleUrl, 0.5);
 };
 
+/**
+ * Main Application Component
+ * Manages the top-level game state, routing between screens (Start, Cloud, Analytics),
+ * and initializing the game session.
+ */
 function App() {
-  const { userId, streak, highScores, refetchUser } = useUsername();
+  // 1. State Variables
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
+
+  // 2. Hooks
+  const { userId, streak, highScores, refetchUser } = useUsername();
+  const guessInputRef = useRef<GuessInputRef>(null);
+  const mapCanvasRef = useRef<MapCanvasRef>(null);
+  const hasPlayedCelebration = useRef(false);
+
+  const { setDifficulty } = useDifficulty();
+
+  // Preload sparkle sound
+  useEffect(() => {
+    AudioManager.load(sparkleUrl);
+  }, []);
 
   // Callback to refresh stats and high scores after game ends
   const onGameEnd = () => {
@@ -55,26 +71,11 @@ function App() {
     highScore
   } = useGameLogic(userId, highScores, onGameEnd);
 
-  const guessInputRef = useRef<GuessInputRef>(null);
-  const mapCanvasRef = useRef<MapCanvasRef>(null);
-  const hasPlayedCelebration = useRef(false);
-
-  // Detect mobile device
+  // Detect mobile device (could use a hook, but currently logic)
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
 
   const params = new URLSearchParams(window.location.search);
-
   const level = params.get('level');
-
-  // wrapper to reset game, close modal, and start new game
-  const playAgain = async () => {
-    console.log('Playing again...');
-    setShowResultsModal(false);
-    await resetGame();
-    startGame();
-  };
-
-  const { setDifficulty } = useDifficulty();
 
   // Auto-start if level param is present AND game is ready
   useEffect(() => {
@@ -118,6 +119,18 @@ function App() {
     }
   }, [gameState.status]);
 
+  // 3. Normal Methods
+  /**
+   * Resets the game state and starts a new session.
+   * Called when the user clicks "Play Again" in the modal.
+   */
+  const playAgain = async () => {
+    console.log('Playing again...');
+    setShowResultsModal(false);
+    await resetGame();
+    startGame();
+  };
+
   const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
   // Show start screen first
@@ -152,8 +165,8 @@ function App() {
   }
 
   return (
-    <div className="app-container">
-      <Container className="p-0" style={{ maxWidth: '900px' }}>
+    <div>
+      <Container className={`p-0 ${styles.gameContainer}`}>
         <Header difficulty={difficulty} refreshKey={statsRefreshKey} />
         <GameCard
           status={gameState.status}
