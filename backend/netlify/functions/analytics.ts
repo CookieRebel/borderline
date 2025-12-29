@@ -332,6 +332,18 @@ export const handler: Handler = async (event) => {
         const thisMonthStats = monthlyData[9];
         const lastMonthStats = monthlyData[8];
 
+        // Enrich trend data with percentages
+        const enrichWithPercentages = (item: any) => ({
+            ...item,
+            unfinishedPercentage: item.newGames > 0
+                ? Math.round((item.unfinishedGames / item.newGames) * 100)
+                : 0
+        });
+
+        const dailyDataWithPercentages = dailyData.map(enrichWithPercentages);
+        const weeklyDataWithPercentages = weeklyData.map(enrichWithPercentages);
+        const monthlyDataWithPercentages = monthlyData.map(enrichWithPercentages);
+
         const dailyStats = {
             newUsers: todayStats.newUsers,
             newGames: todayStats.newGames,
@@ -488,13 +500,19 @@ export const handler: Handler = async (event) => {
                 daily: dailyStats,
                 weekly: weeklyStats,
                 monthly: monthlyStats,
-                dailyData,
-                weeklyData,
-                monthlyData,
+                dailyData: dailyDataWithPercentages,
+                weeklyData: weeklyDataWithPercentages,
+                monthlyData: monthlyDataWithPercentages,
                 hourlyActiveUsers, // New
                 todayStatus: { // New
                     gamesLost: gamesLostResult?.count || 0,
+                    gamesLostPercentage: todayStats.newGames > 0
+                        ? Math.round(((gamesLostResult?.count || 0) / todayStats.newGames) * 100)
+                        : 0,
                     unfinishedGames: unfinishedGamesResult?.count || 0,
+                    unfinishedPercentage: todayStats.newGames > 0
+                        ? Math.round(((unfinishedGamesResult?.count || 0) / todayStats.newGames) * 100)
+                        : 0
                 },
                 totals: {
                     totalUsers,

@@ -84,6 +84,8 @@ describe('Analytics API', () => {
                 expect(item).toHaveProperty('returningUsers');
                 expect(item).toHaveProperty('returningGames');
                 expect(item).toHaveProperty('unfinishedGames');
+                expect(item).toHaveProperty('unfinishedPercentage');
+                expect(typeof item.unfinishedPercentage).toBe('number');
             });
 
             // Verify totals structure
@@ -127,9 +129,13 @@ describe('Analytics API', () => {
             // Verify today's status (live metrics)
             expect(data).toHaveProperty('todayStatus');
             expect(data.todayStatus).toHaveProperty('gamesLost');
+            expect(data.todayStatus).toHaveProperty('gamesLostPercentage');
             expect(data.todayStatus).toHaveProperty('unfinishedGames');
+            expect(data.todayStatus).toHaveProperty('unfinishedPercentage');
             expect(typeof data.todayStatus.gamesLost).toBe('number');
             expect(typeof data.todayStatus.unfinishedGames).toBe('number');
+            expect(typeof data.todayStatus.gamesLostPercentage).toBe('number');
+            expect(typeof data.todayStatus.unfinishedPercentage).toBe('number');
         });
 
         it('should return non-negative values for all metrics', async () => {

@@ -22,6 +22,7 @@ interface PeriodData {
     returningUsers: number;
     returningGames: number;
     unfinishedGames: number;
+    unfinishedPercentage: number;
 }
 
 interface GamesByDifficulty {
@@ -56,7 +57,9 @@ interface HourlyData {
 
 interface TodayStatus {
     gamesLost: number;
+    gamesLostPercentage: number;
     unfinishedGames: number;
+    unfinishedPercentage: number;
 }
 
 interface AnalyticsData {
@@ -245,6 +248,40 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
         );
     };
 
+    const renderPercentageChart = (title: string, data: PeriodData[], color: string) => {
+        // No transformation needed, data already has percentage
+
+        return (
+            <div className="card shadow-sm">
+                <div className="card-body">
+                    <h6 className="card-title mb-3">{title}</h6>
+                    <ResponsiveContainer width="100%" height={250}>
+                        <BarChart data={data}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis
+                                dataKey="label"
+                                tick={{ fontSize: 11 }}
+                                angle={-45}
+                                textAnchor="end"
+                                height={60}
+                            />
+                            <YAxis unit="%" />
+                            <Tooltip
+                                formatter={(value: number | undefined) => [`${value}%`, 'Unfinished']}
+                            />
+                            <Legend />
+                            <Bar
+                                dataKey="unfinishedPercentage"
+                                fill={color}
+                                name="Unfinished Games %"
+                            />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        );
+    };
+
     if (loading) {
         return (
             <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
@@ -312,7 +349,12 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                     </div>
                                     <h5 className="card-title mb-0">Games Lost Today</h5>
                                 </div>
-                                <div className="h2 mb-0">{data.todayStatus.gamesLost}</div>
+                                <div className="d-flex align-items-baseline">
+                                    <div className="h2 mb-0 me-2">{data.todayStatus.gamesLost}</div>
+                                    <div className="text-danger fw-medium">
+                                        ({data.todayStatus.gamesLostPercentage}%)
+                                    </div>
+                                </div>
                                 <div className="text-muted small">Games ended in defeat</div>
                             </div>
                         </div>
@@ -326,7 +368,12 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                     </div>
                                     <h5 className="card-title mb-0">Unfinished Games</h5>
                                 </div>
-                                <div className="h2 mb-0">{data.todayStatus.unfinishedGames}</div>
+                                <div className="d-flex align-items-baseline">
+                                    <div className="h2 mb-0 me-2">{data.todayStatus.unfinishedGames}</div>
+                                    <div className="text-warning fw-medium">
+                                        ({data.todayStatus.unfinishedPercentage}%)
+                                    </div>
+                                </div>
                                 <div className="text-muted small">Started today, not ended</div>
                             </div>
                         </div>
@@ -595,17 +642,17 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     </div>
                 </div>
 
-                {/* Charts - Unfinished Games */}
-                <h4 className="mb-3">Unfinished Games Trends</h4>
+                {/* Charts - Unfinished Games (Percentages) */}
+                <h4 className="mb-3">Unfinished Games Trends (%)</h4>
                 <div className="row g-4">
                     <div className="col-12 col-lg-4">
-                        {renderChart('Last 10 Days', data.dailyData, 'unfinishedGames')}
+                        {renderPercentageChart('Last 10 Days', data.dailyData, '#0dcaf0')}
                     </div>
                     <div className="col-12 col-lg-4">
-                        {renderChart('Last 10 Weeks', data.weeklyData, 'unfinishedGames')}
+                        {renderPercentageChart('Last 10 Weeks', data.weeklyData, '#0dcaf0')}
                     </div>
                     <div className="col-12 col-lg-4">
-                        {renderChart('Last 10 Months', data.monthlyData, 'unfinishedGames')}
+                        {renderPercentageChart('Last 10 Months', data.monthlyData, '#0dcaf0')}
                     </div>
                 </div>
             </div>
