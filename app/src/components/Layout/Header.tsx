@@ -3,13 +3,16 @@ import { Edit2 } from 'react-feather';
 import { Toast, ToastBody } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useDifficulty';
 import { useUsername } from '../../hooks/useUsername';
+import { getFlagFromTimezone } from '../../utils/flagUtils';
+import styles from './Header.module.css';
+
 interface HeaderProps {
     difficulty: Difficulty;
     refreshKey?: number;
 }
 
 const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
-    const { userId, username, updateUsername } = useUsername();
+    const { userId, username, updateUsername, timezone } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [todayScore, setTodayScore] = useState(0);
@@ -89,6 +92,8 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
         }
     };
 
+    const userFlag = timezone ? getFlagFromTimezone(timezone) : '';
+
     return (
         <>
             {/* Error Toast */}
@@ -114,16 +119,19 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                         {/* Username with edit */}
                         <div className="ms-auto">
                             {isEditing ? (
-                                <input
-                                    type="text"
-                                    value={editValue}
-                                    onChange={(e) => setEditValue(e.target.value)}
-                                    onBlur={handleBlur}
-                                    onKeyDown={handleKeyDown}
-                                    autoFocus
-                                    className="border-0 text-muted text-start"
-                                    style={{ fontSize: '0.7rem', width: '100px', outline: 'none' }}
-                                />
+                                <div className="d-flex align-items-center">
+                                    {userFlag && <span className="me-2 fs-2 d-flex align-items-center" style={{ height: '100%' }}>{userFlag}</span>}
+                                    <input
+                                        type="text"
+                                        value={editValue}
+                                        onChange={(e) => setEditValue(e.target.value)}
+                                        onBlur={handleBlur}
+                                        onKeyDown={handleKeyDown}
+                                        autoFocus
+                                        className="border-0 text-muted text-start"
+                                        style={{ fontSize: '0.7rem', width: '100px', outline: 'none' }}
+                                    />
+                                </div>
                             ) : (
                                 <span
                                     onClick={handleClick}
@@ -131,6 +139,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                                     style={{ cursor: 'pointer', fontSize: '0.7rem' }}
                                     title="Click to edit"
                                 >
+                                    {userFlag && <span className={"me-2 fs-4 " + styles.flag} > {userFlag}</span>}
                                     {username}
                                     <Edit2 size={10} />
                                 </span>
@@ -138,7 +147,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
                         </div>
                     </div>
                 )}
-            </div>
+            </div >
         </>
     );
 };

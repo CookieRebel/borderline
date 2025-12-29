@@ -25,7 +25,7 @@ export const handler: Handler = async (event) => {
         // POST /api/user - Create or get user
         if (event.httpMethod === 'POST') {
             const body = JSON.parse(event.body || '{}');
-            const { id, display_name } = body;
+            const { id, display_name, timezone } = body;
 
             if (!id || !display_name) {
                 return {
@@ -55,10 +55,13 @@ export const handler: Handler = async (event) => {
             }
 
             if (existing) {
-                // Update display name if changed
-                if (existing.displayName !== display_name) {
+                const updates: any = {};
+                if (existing.displayName !== display_name) updates.displayName = display_name;
+                if (timezone && existing.timezone !== timezone) updates.timezone = timezone;
+
+                if (Object.keys(updates).length > 0) {
                     await db.update(schema.users)
-                        .set({ displayName: display_name })
+                        .set(updates)
                         .where(eq(schema.users.id, id));
                 }
                 return {
@@ -66,7 +69,7 @@ export const handler: Handler = async (event) => {
                     headers,
                     body: JSON.stringify({
                         ...existing,
-                        displayName: display_name,
+                        ...updates,
                         email: existing.email,
                     }),
                 };
@@ -74,7 +77,7 @@ export const handler: Handler = async (event) => {
 
             // Create new user
             const [newUser] = await db.insert(schema.users)
-                .values({ id, displayName: display_name })
+                .values({ id, displayName: display_name, timezone })
                 .returning();
 
             return {

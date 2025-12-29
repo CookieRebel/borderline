@@ -23,13 +23,7 @@ export interface MapCanvasRef {
 
 const LOD_THRESHOLD = 500; // Scale threshold for switching to high detail
 
-// Convert ISO Alpha-2 code to emoji flag
-const getFlag = (alpha2: string | undefined): string => {
-    if (!alpha2 || alpha2.length !== 2) return '';
-    return String.fromCodePoint(
-        ...alpha2.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
-    );
-};
+import { getFlag } from '../../utils/flagUtils';
 
 const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, revealedNeighbors, gameStatus, difficulty, allFeaturesLow, allFeaturesHigh, allLandLow, allLandHigh }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);

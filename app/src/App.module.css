@@ -1,0 +1,13 @@
+/* Game Container Override */
+.gameContainer {
+  max-width: 900px !important;
+}
+
+@media (max-width: 768px) {
+
+  /* Remove border radius on mobile for the main card if we want it flush */
+  .gameCard {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+}

@@ -47,10 +47,9 @@ export const useUsername = () => {
     const [todayScore, setTodayScore] = useState<number>(0);
     const [bestDayScore, setBestDayScore] = useState<number>(0);
     const [email, setEmail] = useState<string | null>(null);
+    const [timezone, setTimezone] = useState<string | null>(null);
     const [isLinked] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
-
-    // const { user, isSignedIn } = useUser();
 
     // Initialize user on mount
     useEffect(() => {
@@ -94,6 +93,7 @@ export const useUsername = () => {
                 setTodayScore(userData.todayScore || 0);
                 setBestDayScore(userData.bestDayScore || 0);
                 setEmail(userData.email || null);
+                setTimezone(userData.timezone || null);
                 // setIsLinked(!!userData.clerkId || !!userData.clerk_id);
             } else if (response.status === 404) {
                 // User doesn't exist, create new one
@@ -122,9 +122,9 @@ export const useUsername = () => {
 
             if (createResponse.ok) {
                 const newUser = await createResponse.json();
-                setUsername(newUser.displayName || newUser.display_name);
                 setStreak(newUser.streak || 0);
                 setHighScores(defaultHighScores);
+                setTimezone(newUser.timezone || null);
                 created = true;
             } else if (createResponse.status === 409) {
                 // Name taken, retry
@@ -210,5 +210,5 @@ export const useUsername = () => {
         }
     }, [userId, username]);
 
-    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail, isLinked };
+    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail, isLinked, timezone };
 };
