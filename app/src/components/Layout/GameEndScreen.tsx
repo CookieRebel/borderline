@@ -78,7 +78,7 @@ const GameEndScreen = ({
     };
 
     if (!isOpen) return null;
-    console.log("GameENdModal rankMessage", rankMessage);
+    // console.log("GameENdModal rankMessage", rankMessage);
     return (
         <Container className={`p-0 ${styles.gameEndContainer}`}>
 

@@ -43,15 +43,7 @@
         flex-wrap: nowrap;
         /* Force one row */
         gap: 2px;
-        /* Tighter gap */
-        overflow-x: auto;
-        /* Allow scroll if absolutely necessary, but flexible items should fit */
         padding-bottom: 4px;
-        /* Space for scrollbar if it appears */
-        margin-left: -10px;
-        margin-right: -10px;
-        width: calc(100% + 20px);
-        /* Compensate for negative margins */
     }
 
     .button {

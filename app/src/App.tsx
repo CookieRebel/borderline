@@ -82,11 +82,11 @@ function App() {
     const isValidLevel = level === 'easy' || level === 'medium' || level === 'hard' || level === 'extreme';
 
     if (isValidLevel && gameState.status === 'ready') {
-      console.log('Auto-starting game...');
+      // console.log('Auto-starting game...');
       setShowStartScreen(false);
       // Ensure difficulty matches URL before starting
       if (difficulty !== level) {
-        console.log('Difficulty does not match URL. Setting difficulty...');
+        // console.log('Difficulty does not match URL. Setting difficulty...');
         setDifficulty(level as Difficulty);
         return; // Wait for re-render
       }
@@ -120,7 +120,7 @@ function App() {
    * Called when the user clicks "Play Again" in the modal.
    */
   const playAgain = async () => {
-    console.log('Playing again...');
+    // console.log('Playing again...');
     setShowResultsModal(false);
     await resetGame();
     startGame();
@@ -128,7 +128,7 @@ function App() {
 
   const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
-  console.log("App gameState rankMessage", gameState.rankMessage);
+  // console.log("App gameState rankMessage", gameState.rankMessage);
   // Show start screen first
   if (showStartScreen) {
     return (

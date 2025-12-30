@@ -136,7 +136,7 @@ const submitGameResult = async (gameId: string | null, userId: string, level: st
 
 
 export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
-    console.log('useGameLogic isAdmin', isAdmin);
+    // console.log('useGameLogic isAdmin', isAdmin);
     const { difficulty } = useDifficulty();
 
     const [gameState, setGameState] = useState<GameState>({
@@ -282,7 +282,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
     };
 
     const resetGame = (): Promise<void> => {
-        console.log('Resetting game...');
+        // console.log('Resetting game...');
         setGameState({
             targetCountry: null, revealedNeighbors: [], score: 0, roundScore: 0,
             status: 'loading',
@@ -320,12 +320,12 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
         // ADMIN OVERRIDE CHECK
         const params = new URLSearchParams(window.location.search);
         const forcedCountry = params.get('country')?.toUpperCase();
-        console.log('forcedCountry', forcedCountry);
-        console.log('isAdmin', isAdmin);
+        // console.log('forcedCountry', forcedCountry);
+        // console.log('isAdmin', isAdmin);
         if (isAdmin && forcedCountry) {
             const forcedTarget = features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === forcedCountry);
             if (forcedTarget) {
-                console.log('Admin override: Setting target to', forcedCountry);
+                // console.log('Admin override: Setting target to', forcedCountry);
                 const highScoreMessage = `ADMIN OVERRIDE: ${forcedCountry}`;
                 setGameState({
                     targetCountry: forcedTarget, revealedNeighbors: [], score: 0, roundScore: 0,
@@ -361,7 +361,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
                     message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
                 });
                 setGameId(null);
-                console.log('Game reset');
+                // console.log('Game reset');
             })
             .catch(err => {
                 console.error('Failed to pick target. Selecting a fallback target locally:', err);
@@ -378,9 +378,9 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
 
     // Trigger reset when data is finally ready and userId is present
     useEffect(() => {
-        console.log('useEffect dataLow', dataLow);
-        console.log('useEffect userId', userId);
-        console.log('useEffect userIsLoading', userIsLoading);
+        // console.log('useEffect dataLow', dataLow);   
+        // console.log('useEffect userId', userId); 
+        // console.log('useEffect userIsLoading', userIsLoading);
         // Only reset if we have data and user.
         if (!userIsLoading && userId && dataLow.features.length > 0) {
             resetGame();
@@ -388,7 +388,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
     }, [dataLow, userId, userIsLoading]);
 
     const startGame = () => {
-        console.log('Starting game...');
+        // console.log('Starting game...');
         roundStartTime.current = Date.now();
         startBackendGame(); // Start session on manual start
         setGameState(prev => {
@@ -458,7 +458,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
                 submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, roundScore, true, targetIso)
                     .then(data => {
                         if (data && data.rankMessage) {
-                            console.log("Setting Game State rankMessage", data.rankMessage);
+                            // console.log("Setting Game State rankMessage", data.rankMessage);
                             setGameState(prev => ({ ...prev, rankMessage: data.rankMessage }));
                         }
                         if (onGameEnd) onGameEnd();
