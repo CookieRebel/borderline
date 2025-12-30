@@ -8,6 +8,7 @@ import DifficultySelector from '../Game/DifficultySelector';
 import BackgroundGlobe from './BackgroundGlobe';
 import styles from './StartScreen.module.css';
 import Leaderboard from '../Game/Leaderboard';
+
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
@@ -17,16 +18,12 @@ interface StartScreenProps {
 
 const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
     const usernameData = useUsername();
-    const { username, updateUsername, loading, playedToday } = usernameData;
+    const { username, updateUsername, loading, playedToday, isAdmin } = usernameData;
     // const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isSnapped, setIsSnapped] = useState(false);
-
-    // Admin user ID (hardcoded for now)
-    const ADMIN_USER_ID = 'bad83e41-5d35-463d-882f-30633f5301ff';
-    const isAdmin = userId === ADMIN_USER_ID;
 
     // Initialize audio
     useEffect(() => {

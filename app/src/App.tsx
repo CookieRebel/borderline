@@ -39,7 +39,7 @@ function App() {
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // 2. Hooks
-  const { userId, streak, highScores, refetchUser } = useUsername();
+  const { userId, streak, highScores, refetchUser, isAdmin } = useUsername();
   const guessInputRef = useRef<GuessInputRef>(null);
   const mapCanvasRef = useRef<MapCanvasRef>(null);
   const hasPlayedCelebration = useRef(false);
@@ -69,7 +69,7 @@ function App() {
     allLandLow,
     allLandHigh,
     highScore
-  } = useGameLogic(userId, highScores, onGameEnd);
+  } = useGameLogic(userId, highScores, onGameEnd, isAdmin);
 
   // Detect mobile device (could use a hook, but currently logic)
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
@@ -79,7 +79,6 @@ function App() {
 
   // Auto-start if level param is present AND game is ready
   useEffect(() => {
-    console.log('Trying to auto-start game...');
     const isValidLevel = level === 'easy' || level === 'medium' || level === 'hard' || level === 'extreme';
 
     if (isValidLevel && gameState.status === 'ready') {
@@ -94,10 +93,6 @@ function App() {
       startGame();
       // Remove search param
       window.history.replaceState(null, '', window.location.pathname);
-    } else {
-      console.log('Cannot auto-start now.');
-      console.log('Game state:', gameState.status);
-      console.log('Level:', level);
     }
   }, [gameState.status, level, startGame, difficulty, setDifficulty]);
 

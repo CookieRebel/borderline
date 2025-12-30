@@ -49,6 +49,7 @@ export const useUsername = () => {
     const [email, setEmail] = useState<string | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
     const [isLinked] = useState<boolean>(false);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [loading, setLoading] = useState(true);
 
     // Initialize user on mount
@@ -94,6 +95,7 @@ export const useUsername = () => {
                 setBestDayScore(userData.bestDayScore || 0);
                 setEmail(userData.email || null);
                 setTimezone(userData.timezone || null);
+                setIsAdmin(userData.isAdmin || userData.is_admin || false);
                 // setIsLinked(!!userData.clerkId || !!userData.clerk_id);
             } else if (response.status === 404) {
                 // User doesn't exist, create new one
@@ -125,6 +127,7 @@ export const useUsername = () => {
                 setStreak(newUser.streak || 0);
                 setHighScores(defaultHighScores);
                 setTimezone(newUser.timezone || null);
+                setIsAdmin(false);
                 created = true;
             } else if (createResponse.status === 409) {
                 // Name taken, retry
@@ -210,5 +213,5 @@ export const useUsername = () => {
         }
     }, [userId, username]);
 
-    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail, isLinked, timezone };
+    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail, isLinked, timezone, isAdmin };
 };

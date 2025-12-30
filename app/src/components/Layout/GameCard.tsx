@@ -52,7 +52,7 @@ const GameCard = ({
     mapCanvasRef,
     guessInputRef
 }: GameCardProps) => {
-    console.log("status", status);
+    // console.log("status", status);
     return (
         <Card className="mb-2 border-0 fade-in">
             <CardBody className="p-0">

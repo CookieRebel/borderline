@@ -17,6 +17,7 @@ export const users = pgTable('users', {
     lastPlayedAt: timestamp('last_played_at', { withTimezone: true }),
     timezone: varchar('timezone', { length: 50 }),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
+    isAdmin: boolean('is_admin').default(false).notNull(),
 });
 
 export const gameResults = pgTable('game_results', {

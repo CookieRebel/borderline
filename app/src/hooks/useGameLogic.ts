@@ -143,7 +143,7 @@ const submitGameResult = async (
 
 import type { HighScores } from './useUsername';
 
-export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
+export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void, isAdmin: boolean = false) => {
     const { difficulty } = useDifficulty();
 
     const [gameState, setGameState] = useState<GameState>({
@@ -298,7 +298,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
         const features = dataLow.features;
         if (!features || features.length === 0) return Promise.resolve();
-
+        // const allCountryCodes = features.map((f: any) => f.properties['ISO3166-1-Alpha-3']);
+        // console.log('allCountryCodes', allCountryCodes);
         let potentialTargets = features;
         // ... (Filtering Logic same as before) ...
         if (difficulty === 'easy') {
@@ -314,6 +315,24 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         }
 
         if (potentialTargets.length === 0) potentialTargets = features;
+
+        // ADMIN OVERRIDE CHECK
+        const params = new URLSearchParams(window.location.search);
+        const forcedCountry = params.get('country')?.toUpperCase();
+        if (isAdmin && forcedCountry) {
+            const forcedTarget = features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === forcedCountry);
+            if (forcedTarget) {
+                console.log('Admin override: Setting target to', forcedCountry);
+                const highScoreMessage = `ADMIN OVERRIDE: ${forcedCountry}`;
+                setGameState({
+                    targetCountry: forcedTarget, revealedNeighbors: [], score: 0, roundScore: 0,
+                    status: 'ready',
+                    message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty
+                });
+                setGameId(null);
+                return Promise.resolve();
+            }
+        }
         const candidates = potentialTargets.map((f: any) => f.properties['ISO3166-1-Alpha-3']);
 
         return fetch('/api/pick_target', {
@@ -356,10 +375,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
     // Trigger reset when data is finally ready and userId is present
     useEffect(() => {
-        console.log('Triggering reset...');
         // Only reset if we have data and user.
         if (userId && dataLow.features.length > 0) {
-            console.log('Resetting game...');
             resetGame();
         }
     }, [dataLow, userId]);
