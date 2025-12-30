@@ -28,7 +28,7 @@ const DifficultySelector = () => {
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
     const subtitles: Record<string, string> = {
-        easy: "Learn with outlines.",
+        easy: "Country outlines.",
         medium: "Continents only.",
         hard: "No outlines.",
         extreme: "Tiny islands.",

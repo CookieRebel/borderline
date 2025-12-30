@@ -126,7 +126,11 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
                         </div>
                     ) : (
                         <>
-                            <div className={styles.startRound}>Start a Round</div>
+                            {streak > 0 && (
+                                <p className={styles.startRound}>
+                                    {playedToday ? 'Continue another game ...' : `Continue your ${streak} day streak.`}
+                                </p>
+                            )}
                             <div className={styles.username + " h5 mb-2 d-inline-flex align-items-center"}>
 
                                 Playing as
@@ -154,11 +158,6 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
                                 )}
 
                             </div>
-                            {streak > 0 && (
-                                <p className="text-success fw-medium mb-0">
-                                    🔥 {playedToday ? 'Ready for another round?' : `Continue your ${streak} day streak!`}
-                                </p>
-                            )}
                         </>
                     )}
                 </div>
