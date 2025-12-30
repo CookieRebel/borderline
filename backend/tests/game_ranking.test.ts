@@ -1,10 +1,9 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { PGlite } from '@electric-sql/pglite';
-import * as schema from '../src/db/schema';
-import { handler } from '../netlify/functions/game';
 import { v4 as uuidv4 } from 'uuid';
-import { eq } from 'drizzle-orm';
-import { setupTestDb, dbHolder } from './test_utils';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { handler } from '../netlify/functions/game';
+import * as schema from '../src/db/schema';
+import { dbHolder, setupTestDb } from './test_utils';
 // Note: dbHolder is imported from test_utils (which re-exports from setup), 
 // but we just need dbHolder for seeding if we want, or we can use the returned testDb.
 // Let's use dbHolder.current for consistency with seeding helper.
@@ -96,7 +95,7 @@ describe('Game Ranking Logic (PGLite)', () => {
 
         console.log("Response:", body);
         expect(res.statusCode).toBe(200);
-        expect(body.rankMessage).toBe('You are the best player for this country!');
+        expect(body.rankMessage).toBe('You have the best score for this country!');
     });
 
     it('should return "second best" message when rank is 2', async () => {
@@ -127,7 +126,7 @@ describe('Game Ranking Logic (PGLite)', () => {
 
         const res = await handler(event, {} as any, () => { });
         const body = JSON.parse(res.body);
-        expect(body.rankMessage).toBe('You are the second best player for this country.');
+        expect(body.rankMessage).toBe('You have the second best score for this country.');
     });
 
     it('should return specific rank for small pool (<10 games)', async () => {
@@ -216,9 +215,9 @@ describe('Game Ranking Logic (PGLite)', () => {
 
         // Rank 1 out of 21.
         // Percentile = ceil(1/21 * 100) = 5%.
-        // Expect: "You are the best player for this country!" (Because Rank 1 logic overrides percentile logic!)
+        // Expect: "You have the best score  for this country!" (Because Rank 1 logic overrides percentile logic!)
         // Oh right, logic says if (playerRank === 1) ... else ...
-        expect(bodyGood.rankMessage).toBe('You are the best player for this country!');
+        expect(bodyGood.rankMessage).toBe('You have the best score for this country!');
 
         // Let's test Rank 3 out of 20 (Top 15%).
         // Seed 2 better players.

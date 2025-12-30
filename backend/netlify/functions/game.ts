@@ -249,9 +249,9 @@ export const handler: Handler = async (event) => {
             console.log("playerRank", playerRank);
             let rankMessage = '';
             if (playerRank === 1) {
-                rankMessage = 'You are the best player for this country!';
+                rankMessage = 'You have the best score for this country!';
             } else if (playerRank === 2) {
-                rankMessage = 'You are the second best player for this country.';
+                rankMessage = 'You have the second best score for this country.';
             } else {
                 // If there are less than 10 games, create a message based on the player rank
                 if (totalGamesAtLevel < 10) {
