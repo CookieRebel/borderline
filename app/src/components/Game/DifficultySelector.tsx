@@ -1,29 +1,11 @@
-import { useState, useEffect } from 'react';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useDifficulty, type Difficulty } from '../../hooks/useDifficulty';
-import { AudioManager } from '../../utils/audioManager';
 import styles from './DifficultySelector.module.css';
+import { useState } from 'react';
 
 const DifficultySelector = () => {
     const { difficulty, setDifficulty } = useDifficulty();
     const [showNoMoveToast, setShowNoMoveToast] = useState(false);
-    const [snapped, setSnapped] = useState<string | null>(null);
-    const [isShaking, setIsShaking] = useState(false);
-
-    // Audio URLs
-    const poingUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
-    const gongUrl = new URL('../../assets/punch.mp3', import.meta.url).href;
-
-    // Initialize audio
-    useEffect(() => {
-        AudioManager.load(poingUrl);
-        AudioManager.load(gongUrl);
-    }, []);
-
-    const playSound = (type: 'poing' | 'gong') => {
-        const url = type === 'gong' ? gongUrl : poingUrl;
-        AudioManager.play(url);
-    };
 
     const difficulties: Difficulty[] = ['easy', 'medium', 'hard', 'extreme'];
 
@@ -35,18 +17,8 @@ const DifficultySelector = () => {
     };
 
     const handleDifficultyClick = (level: Difficulty) => {
-        setSnapped(level);
         setDifficulty(level);
 
-        if (level === 'extreme') {
-            playSound('gong');
-            setIsShaking(true);
-            setTimeout(() => setIsShaking(false), 1000);
-        } else {
-            playSound('poing');
-        }
-
-        setTimeout(() => setSnapped(null), 150);
     };
 
     return (
@@ -57,12 +29,9 @@ const DifficultySelector = () => {
                         <Button
                             key={level}
                             outline={difficulty !== level}
-                            className={`${difficulty === level ? 'btn-emerald' : ''} ${level === 'extreme' && isShaking ? 'shake' : ''} ${styles.button}`}
+                            className={`${difficulty === level ? 'btn-emerald' : ''} ${styles.button}`}
                             color={difficulty === level ? undefined : 'secondary'}
                             onClick={() => handleDifficultyClick(level)}
-                            style={{
-                                transform: snapped === level ? 'scale(0.9)' : 'scale(1)'
-                            }}
                         >
                             <div className={styles.buttonText}>
                                 <div style={{ textTransform: 'capitalize', fontWeight: 'bold' }}>{level}</div>
@@ -75,24 +44,16 @@ const DifficultySelector = () => {
                     <Button
                         color="secondary"
                         outline
-                        className={`opacity-75 ${snapped === 'nomove' && isShaking ? 'shake' : ''} ${styles.button}`}
+                        className={`opacity-75 ${styles.button}`}
                         onClick={() => {
-                            playSound('gong');
-                            setSnapped('nomove');
-                            setIsShaking(true);
                             setShowNoMoveToast(true);
                             setTimeout(() => {
                                 setShowNoMoveToast(false);
-                                setSnapped(null);
-                                setIsShaking(false);
                             }, 2000);
                         }}
-                        style={{
-                            transform: snapped === 'nomove' ? 'scale(0.9)' : 'scale(1)'
-                        }}
                     >   <div className={styles.buttonText}>
-                            <div style={{ fontWeight: 'bold' }}>No Move</div>
-                            <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>Only zoom.</div>
+                            <div style={{ fontWeight: 'bold' }}>Impossible</div>
+                            <div style={{ fontSize: '0.65rem', opacity: 0.8 }}>No move, no zoom.</div>
                         </div>
                     </Button>
                 </div>
@@ -105,8 +66,7 @@ const DifficultySelector = () => {
             >
                 <Toast isOpen={showNoMoveToast} style={{ opacity: 1, backgroundColor: 'white' }}>
                     <ToastBody className="text-center">
-                        New "No Move" level coming soon to BorderLINE.
-                        Stay tuned!
+                        "Impossible" level coming soon to Borderline.
                     </ToastBody>
                 </Toast>
             </div>
