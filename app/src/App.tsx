@@ -140,7 +140,6 @@ function App() {
           setShowStartScreen(false);
           setShowAnalytics(true);
         }}
-        userId={userId}
         streak={streak}
       />
     );

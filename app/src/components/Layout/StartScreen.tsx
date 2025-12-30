@@ -12,11 +12,10 @@ import Leaderboard from '../Game/Leaderboard';
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
-    userId: string;
     streak?: number;
 }
 
-const StartScreen = ({ onPlay, onAnalytics, userId, streak = 0 }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
     const usernameData = useUsername();
     const { username, updateUsername, loading, playedToday, isAdmin } = usernameData;
     // const { user } = useUser();
