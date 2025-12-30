@@ -28,7 +28,7 @@
 }
 
 .rankCol {
-    width: 15%;
+    width: 10px;
     padding-left: 0.5rem;
 }
 
@@ -74,8 +74,13 @@
     padding-left: 0.5rem;
     color: var(--bs-secondary);
     font-weight: bold;
+    width: 10px;
 }
 
-.playerName {
-    max-width: 120px;
+
+
+@media (max-width: 768px) {
+    h5 {
+        font-size: 1rem;
+    }
 }

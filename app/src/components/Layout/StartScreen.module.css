@@ -59,7 +59,11 @@
 /* Mobile Navigation - Moved to end for proper override */
 @media (max-width: 768px) {
     .startCard {
-        padding: 20px;
+        padding: 5px;
 
+    }
+
+    .leaderboard {
+        width: 100%;
     }
 }
