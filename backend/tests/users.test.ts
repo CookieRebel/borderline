@@ -1,21 +1,26 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { db } from '../src/db';
 import { users } from '../src/db/schema';
 import { eq } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
+import { setupTestDb } from './test_utils';
 
-// Helper to clean up
-const cleanupUser = async (id: string) => {
-    await db.delete(users).where(eq(users.id, id));
-};
+describe('User Management (PGLite)', () => {
+    let client: any;
 
-describe('User Management', () => {
+    beforeEach(async () => {
+        const setup = await setupTestDb();
+        client = setup.client;
+    });
+
+    afterEach(async () => {
+        await client.close();
+    });
+
     it('should create a new user with default isAdmin=false', async () => {
         const userId = uuidv4();
         const displayName = `TestUser_${userId.substring(0, 8)}`;
 
-        // Simulate creating a user (direct DB insert for test speed, or mimic API)
-        // Here we test the DB schema default
         await db.insert(users).values({
             id: userId,
             displayName: displayName,
@@ -28,8 +33,6 @@ describe('User Management', () => {
 
         expect(user).toBeDefined();
         expect(user?.isAdmin).toBe(false);
-
-        await cleanupUser(userId);
     });
 
     it('should allow setting isAdmin to true', async () => {
@@ -48,7 +51,5 @@ describe('User Management', () => {
 
         expect(user).toBeDefined();
         expect(user?.isAdmin).toBe(true);
-
-        await cleanupUser(userId);
     });
 });

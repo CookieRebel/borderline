@@ -5,6 +5,7 @@ import { allCountries } from '../data/allCountries';
 
 import { useDifficulty, type Difficulty } from './useDifficulty';
 import { getAssetUrl } from '../utils/assetUtils';
+import type { HighScores } from './useUsername';
 
 export interface Guess {
     name: string;
@@ -32,6 +33,7 @@ export interface GameState {
     wrongGuesses: number;
     guessHistory: Guess[];
     difficulty: Difficulty;
+    rankMessage: string;
 }
 
 // Scoring system: Start 2000, -200 per guess, -10 per second
@@ -103,47 +105,38 @@ const EASY_COUNTRIES = [
 // ... (Define submitGameResult outside or inside? It was outside. Updating it to use PUT)
 
 // Submit game result to backend
-const submitGameResult = async (
-    gameId: string | null, // Changed from userId to gameId (or require both?)
-    userId: string,
-    level: Difficulty,
-    guesses: number,
-    timeSeconds: number,
-    score: number,
-    won: boolean,
-    targetCode?: string,
-    onComplete?: () => void
-) => {
-    if (!userId || !gameId) return; // Require gameId now
+const submitGameResult = async (gameId: string | null, userId: string, level: string, guesses: number, time: number, score: number, won: boolean, targetIso?: string) => {
+    if (!userId || !gameId) return null; // Require gameId now
 
     try {
-        await fetch('/api/game', {
-            method: 'PUT', // Changed to PUT
+        const res = await fetch('/api/game', {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: gameId,
                 user_id: userId,
                 level,
                 guesses,
-                time: timeSeconds,
+                time,
                 score,
                 won,
-                target_code: targetCode,
+                target_code: targetIso,
                 timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            }),
+            })
         });
-        // Call callback after successful submission
-        if (onComplete) {
-            onComplete();
-        }
-    } catch (error) {
-        console.error('Failed to submit game result:', error);
+        const data = await res.json();
+        // onGameEnd is now called by the caller to handle race conditions or ordering
+        return data;
+    } catch (e) {
+        console.error("Failed to submit game result:", e);
+        return null;
     }
 };
 
-import type { HighScores } from './useUsername';
 
-export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGameEnd?: () => void, isAdmin: boolean = false) => {
+
+export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: string, userHighScores?: HighScores, onGameEnd?: () => void) => {
+    console.log('useGameLogic isAdmin', isAdmin);
     const { difficulty } = useDifficulty();
 
     const [gameState, setGameState] = useState<GameState>({
@@ -155,7 +148,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         message: 'Guess the country or territory!',
         wrongGuesses: 0,
         guessHistory: [],
-        difficulty: difficulty
+        difficulty: difficulty,
+        rankMessage: '',
     });
 
     const [gameId, setGameId] = useState<string | null>(null); // New state for game session ID
@@ -292,12 +286,19 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         setGameState({
             targetCountry: null, revealedNeighbors: [], score: 0, roundScore: 0,
             status: 'loading',
-            message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty
+            message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty,
+            rankMessage: '',
         });
-        if (!userId) return Promise.resolve();
+        if (!userId) {
+            console.error('No user ID found');
+            return Promise.resolve();
+        }
 
         const features = dataLow.features;
-        if (!features || features.length === 0) return Promise.resolve();
+        if (!features || features.length === 0) {
+            console.error('No features found in dataLow');
+            return Promise.resolve();
+        }
         // const allCountryCodes = features.map((f: any) => f.properties['ISO3166-1-Alpha-3']);
         // console.log('allCountryCodes', allCountryCodes);
         let potentialTargets = features;
@@ -319,6 +320,8 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         // ADMIN OVERRIDE CHECK
         const params = new URLSearchParams(window.location.search);
         const forcedCountry = params.get('country')?.toUpperCase();
+        console.log('forcedCountry', forcedCountry);
+        console.log('isAdmin', isAdmin);
         if (isAdmin && forcedCountry) {
             const forcedTarget = features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === forcedCountry);
             if (forcedTarget) {
@@ -327,7 +330,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 setGameState({
                     targetCountry: forcedTarget, revealedNeighbors: [], score: 0, roundScore: 0,
                     status: 'ready',
-                    message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty
+                    message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
                 });
                 setGameId(null);
                 return Promise.resolve();
@@ -355,7 +358,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 setGameState({
                     targetCountry: target, revealedNeighbors: [], score: 0, roundScore: 0,
                     status: 'ready',
-                    message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty
+                    message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
                 });
                 setGameId(null);
                 console.log('Game reset');
@@ -367,7 +370,7 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
                 setGameState({
                     targetCountry: target, revealedNeighbors: [], score: 0, roundScore: 0,
                     status: 'ready',
-                    message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty
+                    message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
                 });
                 console.log('Game error');
             });
@@ -375,11 +378,14 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
 
     // Trigger reset when data is finally ready and userId is present
     useEffect(() => {
+        console.log('useEffect dataLow', dataLow);
+        console.log('useEffect userId', userId);
+        console.log('useEffect userIsLoading', userIsLoading);
         // Only reset if we have data and user.
-        if (userId && dataLow.features.length > 0) {
+        if (!userIsLoading && userId && dataLow.features.length > 0) {
             resetGame();
         }
-    }, [dataLow, userId]);
+    }, [dataLow, userId, userIsLoading]);
 
     const startGame = () => {
         console.log('Starting game...');
@@ -403,7 +409,9 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
         const guessCount = gameState.guessHistory.length;
         if (userId) {
             const targetIso = gameState.targetCountry?.properties?.['ISO3166-1-Alpha-3'];
-            submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, 0, false, targetIso, onGameEnd);
+            submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, 0, false, targetIso).then(() => {
+                if (onGameEnd) onGameEnd();
+            });
         }
     };
 
@@ -434,25 +442,27 @@ export const useGameLogic = (userId?: string, userHighScores?: HighScores, onGam
             const isHighScore = roundScore > highScore;
             const guessCount = newGuessHistory.length;
 
-            // ... (Praise logic) ...
-            let praise = '';
-            if (guessCount === 1) praise = "You're amazing!";
-            else if (guessCount <= 3) praise = 'Fantastic!';
-            else if (guessCount <= 5) praise = 'Good!';
-
             const countryName = gameState.targetCountry?.properties?.name || 'the country';
             const guessWord = guessCount === 1 ? 'guess' : 'guesses';
             const winMessage = isHighScore
-                ? `🏆 ${countryName} in ${guessCount} ${guessWord}!${praise} `
-                : `${countryName} in ${guessCount} ${guessWord}!${praise} `;
+                ? `🏆 ${countryName} in ${guessCount} ${guessWord}.`
+                : `${countryName} in ${guessCount} ${guessWord}.`;
 
+            // Set won state immediately for UI responsiveness
             setGameState(prev => ({
                 ...prev, status: 'won', message: winMessage, guessHistory: newGuessHistory, roundScore: roundScore, score: roundScore
             }));
 
             const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
             if (userId) {
-                submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, roundScore, true, targetIso, onGameEnd);
+                submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, roundScore, true, targetIso)
+                    .then(data => {
+                        if (data && data.rankMessage) {
+                            console.log("Setting Game State rankMessage", data.rankMessage);
+                            setGameState(prev => ({ ...prev, rankMessage: data.rankMessage }));
+                        }
+                        if (onGameEnd) onGameEnd();
+                    });
             }
         } else {
             // ... (Wrong guess logic) ...

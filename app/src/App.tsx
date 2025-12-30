@@ -13,7 +13,7 @@ import Header from './components/Layout/Header';
 import GameCard from './components/Layout/GameCard';
 import StartScreen from './components/Layout/StartScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
-import GameEndModal from './components/Layout/GameEndModal';
+import GameEndScreen from './components/Layout/GameEndScreen';
 
 import styles from './App.module.css';
 
@@ -39,7 +39,7 @@ function App() {
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // 2. Hooks
-  const { userId, streak, highScores, refetchUser, isAdmin } = useUsername();
+  const { userId, userIsLoading, streak, highScores, refetchUser, isAdmin } = useUsername();
   const guessInputRef = useRef<GuessInputRef>(null);
   const mapCanvasRef = useRef<MapCanvasRef>(null);
   const hasPlayedCelebration = useRef(false);
@@ -69,7 +69,7 @@ function App() {
     allLandLow,
     allLandHigh,
     highScore
-  } = useGameLogic(userId, highScores, onGameEnd, isAdmin);
+  } = useGameLogic(isAdmin, userIsLoading, userId, highScores, onGameEnd);
 
   // Detect mobile device (could use a hook, but currently logic)
   const isMobile = 'ontouchstart' in window || window.matchMedia('(max-width: 768px)').matches;
@@ -128,6 +128,7 @@ function App() {
 
   const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
+  console.log("App gameState rankMessage", gameState.rankMessage);
   // Show start screen first
   if (showStartScreen) {
     return (
@@ -158,6 +159,22 @@ function App() {
     );
   }
 
+  {/* Game End Modal - only show when user clicks Results */ }
+  if (isGameOver && showResultsModal) {
+    return (
+      <GameEndScreen
+        isOpen={true}
+        countryName={gameState.targetCountry?.properties?.name || ''}
+        countryCode={gameState.targetCountry?.properties?.['ISO3166-1-Alpha-2']}
+        resultMessage={gameState.message}
+        won={gameState.status === 'won'}
+        onPlayAgain={playAgain}
+        onClose={() => setShowResultsModal(false)}
+        rankMessage={gameState.rankMessage}
+      />
+    )
+  }
+
   return (
     <div>
       <Container className={`p-0 ${styles.gameContainer}`}>
@@ -184,18 +201,6 @@ function App() {
         />
       </Container>
 
-      {/* Game End Modal - only show when user clicks Results */}
-      {isGameOver && showResultsModal && (
-        <GameEndModal
-          isOpen={true}
-          countryName={gameState.targetCountry?.properties?.name || ''}
-          countryCode={gameState.targetCountry?.properties?.['ISO3166-1-Alpha-2']}
-          resultMessage={gameState.message}
-          won={gameState.status === 'won'}
-          onPlayAgain={playAgain}
-          onClose={() => setShowResultsModal(false)}
-        />
-      )}
     </div>
   );
 }

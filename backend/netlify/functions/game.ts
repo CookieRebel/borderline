@@ -219,6 +219,54 @@ export const handler: Handler = async (event) => {
                 .set(updates)
                 .where(eq(schema.users.id, user_id));
 
+
+
+            // I want to rank the score of the player for this game against all games for the same country and level
+            const [gamesAtLevel] = await db.select({ count: sql<number>`count(*)` })
+                .from(schema.gameResults)
+                .where(and(
+                    eq(schema.gameResults.targetCode, target_code),
+                    eq(schema.gameResults.level, level),
+                    eq(schema.gameResults.won, true)
+                ));
+
+            // Count how many people have a BETTER score (higher is better in our scoring, so strictly greater than my score)
+            // rank = (count of better scores) + 1
+            const [betterGames] = await db.select({ count: sql<number>`count(*)` })
+                .from(schema.gameResults)
+                .where(and(
+                    eq(schema.gameResults.targetCode, target_code),
+                    eq(schema.gameResults.level, level),
+                    eq(schema.gameResults.won, true),
+                    sql`${schema.gameResults.score} > ${score}`
+                ));
+
+            const totalGamesAtLevel = Number(gamesAtLevel.count);
+
+            const playerRank = Number(betterGames.count) + 1;
+
+            console.log("totalGamesAtLevel", totalGamesAtLevel);
+            console.log("playerRank", playerRank);
+            let rankMessage = '';
+            if (playerRank === 1) {
+                rankMessage = 'You are the best player for this country!';
+            } else if (playerRank === 2) {
+                rankMessage = 'You are the second best player for this country.';
+            } else {
+                // If there are less than 10 games, create a message based on the player rank
+                if (totalGamesAtLevel < 10) {
+                    if (playerRank <= 4) {
+                        rankMessage = `You are ranked #${playerRank} out of ${totalGamesAtLevel} rounds for this country.`;
+                    }
+                } else {
+                    // We have more than 10 games, calculate percentile
+                    const topPercent = Math.ceil((playerRank / totalGamesAtLevel) * 100);
+                    if (topPercent <= 50) {
+                        rankMessage = `You are in the top ${topPercent}% of players for this country.`;
+                    }
+                }
+            }
+            console.log("rankMessage", rankMessage);
             return {
                 statusCode: 200,
                 headers,
@@ -226,6 +274,7 @@ export const handler: Handler = async (event) => {
                     id,
                     new_high_score: isNewHighScore,
                     streak: newStreak,
+                    rankMessage,
                     message: 'Game finished'
                 }),
             };

@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
             testTimeout: 30000,
             // Inject env vars into process.env
             env: env,
+            setupFiles: ['./tests/setup_vitest.ts'],
         },
     };
 });

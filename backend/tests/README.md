@@ -1,59 +1,67 @@
-# API Tests
+# Backend Testing
 
-This directory contains automated API tests for the Borderline backend.
+This directory contains automated tests for the Borderline backend using **Vitest** and **PGLite** (In-Memory PostgreSQL).
 
-## Running Tests
+## 🚀 Running Tests
 
-### Prerequisites
+### Fast & Isolated
+All tests run against an in-memory database. You do **NOT** need to run the Netlify dev server or have a local Postgres instance running.
 
-1. The tests require the Netlify dev server to be running
-2. Make sure your database is set up and accessible
+```bash
+# Run all tests
+npm test
 
-### Steps
+# Run specific test file
+npx vitest tests/users.test.ts
+```
 
-1. Start the Netlify dev server in one terminal:
-   ```bash
-   npm run netlify:dev
+## 🛠️ Testing Strategy (PGLite)
+
+We use `@electric-sql/pglite` to create a lightweight, in-memory PostgreSQL instance for **every single test case**. This ensures complete isolation.
+
+### Key Utilities (`tests/test_utils.ts`)
+
+- **`setupTestDb()`**: Creates a fresh PGLite instance, applies Drizzle migrations, and returns the client.
+- **`dbHolder`**: A global holder used by the mocked `src/db` module to route queries to the current test's in-memory DB.
+
+### Writing a New Test
+
+1. **Import Setup**:
+   ```typescript
+   import { setupTestDb } from './test_utils';
    ```
 
-2. In a separate terminal, run the tests:
-   ```bash
-   npm test
+2. **Setup in `beforeEach`**:
+   ```typescript
+   let client: any;
+   beforeEach(async () => {
+       const setup = await setupTestDb();
+       client = setup.client;
+       // Seed data here using regular db.insert() ...
+   });
+   
+   afterEach(async () => {
+       await client.close();
+   });
    ```
 
-   Or run with UI:
-   ```bash
-   npm run test:ui
-   ```
+3. **Write Tests**: 
+   - Use `db` imported from `../src/db` (it is mocked automatically).
+   - Use handlers imported from `../netlify/functions/...`.
+   - **Do NOT use `fetch()`** to localhost. Call handlers directly.
 
 ## Test Coverage
 
-### Analytics API (`analytics.test.ts`)
-
-Tests for the `/api/analytics` endpoint:
-
-- ✅ Authentication validation (missing user_id)
-- ✅ Authorization (invalid user_id)
-- ✅ Successful data retrieval for valid admin user
-- ✅ Data structure validation (daily, weekly, monthly stats)
-- ✅ Data type validation
-- ✅ Value range validation (non-negative counts)
-- ✅ Percentage change calculations
-- ✅ CORS handling
-- ✅ HTTP method validation
-
-## Adding More Tests
-
-To add tests for other API endpoints:
-
-1. Create a new test file in the `tests/` directory (e.g., `user.test.ts`)
-2. Follow the same pattern as `analytics.test.ts`
-3. Import vitest testing utilities: `describe`, `it`, `expect`
-4. Make sure the Netlify dev server is running before executing tests
+| Test Suite | Focus |
+| :--- | :--- |
+| **`game_ranking.test.ts`** | Ranking logic (Best player, Top X%) |
+| **`users.test.ts`** | User creation, admin flags |
+| **`leaderboard.test.ts`** | End-to-end flow of stats and rendering |
+| **`pick_target.test.ts`** | Target selection algorithms |
+| **`streaks.test.ts`** | Timezone-aware streak logic |
+| **`analytics.test.ts`** | Admin analytics endpoints |
 
 ## Configuration
 
-Test configuration is in `vitest.config.ts`:
-- Test timeout: 30 seconds (to allow for network requests)
-- Environment: Node
-- Test file pattern: `tests/**/*.test.ts`
+- **`vitest.config.ts`**: Configures global setup file.
+- **`tests/setup_vitest.ts`**: Handles the global `vi.mock` for the database module.
