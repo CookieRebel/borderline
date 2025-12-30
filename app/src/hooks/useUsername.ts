@@ -50,7 +50,7 @@ export const useUsername = () => {
     const [timezone, setTimezone] = useState<string | null>(null);
     const [isLinked] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
-    const [loading, setLoading] = useState(true);
+    const [userIsLoading, setUserIsLoading] = useState(true);
 
     // Initialize user on mount
     useEffect(() => {
@@ -85,18 +85,19 @@ export const useUsername = () => {
                 setUsername(userData.displayName || userData.display_name);
                 setStreak(userData.streak || 0);
                 setHighScores({
-                    easy: userData.easyHighScore || userData.easy_high_score || 0,
-                    medium: userData.mediumHighScore || userData.medium_high_score || 0,
-                    hard: userData.hardHighScore || userData.hard_high_score || 0,
-                    extreme: userData.extremeHighScore || userData.extreme_high_score || 0,
+                    easy: userData.easyHighScore || 0,
+                    medium: userData.mediumHighScore || 0,
+                    hard: userData.hardHighScore || 0,
+                    extreme: userData.extremeHighScore || 0,
                 });
                 setPlayedToday(userData.playedToday || false);
                 setTodayScore(userData.todayScore || 0);
                 setBestDayScore(userData.bestDayScore || 0);
                 setEmail(userData.email || null);
                 setTimezone(userData.timezone || null);
-                setIsAdmin(userData.isAdmin || userData.is_admin || false);
+                setIsAdmin(userData.isAdmin || false);
                 // setIsLinked(!!userData.clerkId || !!userData.clerk_id);
+                // console.log('User data loaded', userData);
             } else if (response.status === 404) {
                 // User doesn't exist, create new one
                 // ONLY create if valid ID format (uuid)
@@ -106,7 +107,7 @@ export const useUsername = () => {
         } catch (error) {
             console.error('Failed to fetch user:', error);
         } finally {
-            setLoading(false);
+            setUserIsLoading(false);
         }
     }
 
@@ -213,5 +214,5 @@ export const useUsername = () => {
         }
     }, [userId, username]);
 
-    return { userId, username, updateUsername, loading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail, isLinked, timezone, isAdmin };
+    return { userId, username, updateUsername, userIsLoading, streak, playedToday, highScores, todayScore, bestDayScore, refetchUser, email, setEmail, isLinked, timezone, isAdmin };
 };

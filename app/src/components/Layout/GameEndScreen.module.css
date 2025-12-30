@@ -1,0 +1,14 @@
+.resultMessage {
+    font-size: 1.2rem;
+}
+
+.gameEndContainer {
+    max-width: 500px !important;
+    padding: 10px !important;
+}
+
+@media (max-width: 768px) {
+    .gameEndContainer {
+        max-width: 100% !important;
+    }
+}

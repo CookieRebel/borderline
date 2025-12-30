@@ -16,8 +16,7 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
-    const usernameData = useUsername();
-    const { username, updateUsername, loading, playedToday, isAdmin } = usernameData;
+    const { username, updateUsername, userIsLoading, playedToday, isAdmin } = useUsername();
     // const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
@@ -121,7 +120,7 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
 
                 {/* Greeting & Streak */}
                 <div className="mb-2">
-                    {loading ? (
+                    {userIsLoading ? (
                         <div className="spinner-border spinner-border-sm text-success" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>

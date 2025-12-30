@@ -1,12 +1,21 @@
-
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { db, schema } from '../src/db';
 import { eq } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
+import { handler as gameHandler } from '../netlify/functions/game';
+import { setupTestDb } from './test_utils';
 
-const API_BASE_URL = 'http://localhost:9999/.netlify/functions';
+describe('Streak Logic (Timezone Aware - PGLite)', () => {
+    let client: any;
 
-describe('Streak Logic (Timezone Aware)', () => {
+    beforeEach(async () => {
+        const setup = await setupTestDb();
+        client = setup.client;
+    });
+
+    afterEach(async () => {
+        await client.close();
+    });
 
     const createUser = async () => {
         const id = uuidv4();
@@ -21,16 +30,17 @@ describe('Streak Logic (Timezone Aware)', () => {
 
     const submitGame = async (userId: string, won: boolean, timezone: string, score = 1000) => {
         // 1. Start Game
-        const startRes = await fetch(`${API_BASE_URL}/game`, {
-            method: 'POST',
+        const startEvent = {
+            httpMethod: 'POST',
             body: JSON.stringify({ user_id: userId, level: 'easy' })
-        });
-        const startData = await startRes.json();
+        } as any; // Cast to any to simplify mock event structure
+        const startRes = await gameHandler(startEvent, {} as any);
+        const startData = JSON.parse(startRes?.body || '{}');
         const gameId = startData.id;
 
         // 2. End Game
-        const endRes = await fetch(`${API_BASE_URL}/game`, {
-            method: 'PUT',
+        const endEvent = {
+            httpMethod: 'PUT',
             body: JSON.stringify({
                 id: gameId,
                 user_id: userId,
@@ -42,8 +52,9 @@ describe('Streak Logic (Timezone Aware)', () => {
                 target_code: 'AUS',
                 timezone
             })
-        });
-        return endRes.json();
+        } as any; // Cast to any to simplify mock event structure
+        const endRes = await gameHandler(endEvent, {} as any);
+        return JSON.parse(endRes?.body || '{}');
     };
 
     it('should maintain streak if played on the same calendar day (Same Timezone)', async () => {
@@ -177,14 +188,15 @@ describe('Streak Logic (Timezone Aware)', () => {
         const newTimezone = 'Asia/Tokyo';
 
         // Start game with new timezone
-        await fetch(`${API_BASE_URL}/game`, {
-            method: 'POST',
+        const startEvent = {
+            httpMethod: 'POST',
             body: JSON.stringify({
                 user_id: userId,
                 level: 'easy',
                 timezone: newTimezone
             })
-        });
+        } as any;
+        await gameHandler(startEvent, {} as any);
 
         // Verify user record updated
         const user = await db.query.users.findFirst({

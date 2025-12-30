@@ -1,11 +1,13 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { db, schema } from '../src/db';
 import { eq } from 'drizzle-orm';
 import { handler } from '../netlify/functions/pick_target';
+import { setupTestDb } from './test_utils';
 
-describe('Unique Country Selection Integration Test', () => {
+describe('Unique Country Selection Integration Test (PGLite)', () => {
     let testUserId: string;
     const candidates = ['FRA', 'GBR', 'ITA']; // France, UK, Italy
+    let client: any;
 
     // Helper to call the Netlify Function handler
     const callPickTarget = async (userId: string, candidateList: string[]) => {
@@ -17,7 +19,10 @@ describe('Unique Country Selection Integration Test', () => {
         return JSON.parse(response?.body || '{}');
     };
 
-    beforeAll(async () => {
+    beforeEach(async () => {
+        const setup = await setupTestDb();
+        client = setup.client;
+
         // Create a temporary test user
         const [user] = await db.insert(schema.users)
             .values({
@@ -28,12 +33,8 @@ describe('Unique Country Selection Integration Test', () => {
         testUserId = user.id;
     });
 
-    afterAll(async () => {
-        // Cleanup: Delete test user and their results
-        if (testUserId) {
-            await db.delete(schema.gameResults).where(eq(schema.gameResults.userId, testUserId));
-            await db.delete(schema.users).where(eq(schema.users.id, testUserId));
-        }
+    afterEach(async () => {
+        await client.close();
     });
 
     it('should pick any country when no history exists (all counts 0)', async () => {
@@ -68,18 +69,31 @@ describe('Unique Country Selection Integration Test', () => {
     });
 
     it('should prioritize least played countries when multiple rounds exist', async () => {
-        // Seed history: User plays GBR once. Now FRA=1, GBR=1, ITA=0.
-        await db.insert(schema.gameResults).values({
-            userId: testUserId,
-            level: 'easy',
-            guesses: 1,
-            timeSeconds: 10,
-            score: 1000,
-            won: true,
-            weekNumber: 1,
-            year: 2024,
-            targetCode: 'GBR'
-        });
+        // Seed history: FRA=1, GBR=1, ITA=0
+        await db.insert(schema.gameResults).values([
+            {
+                userId: testUserId,
+                level: 'easy',
+                guesses: 1,
+                timeSeconds: 10,
+                score: 1000,
+                won: true,
+                weekNumber: 1,
+                year: 2024,
+                targetCode: 'FRA'
+            },
+            {
+                userId: testUserId,
+                level: 'easy',
+                guesses: 1,
+                timeSeconds: 10,
+                score: 1000,
+                won: true,
+                weekNumber: 1,
+                year: 2024,
+                targetCode: 'GBR'
+            }
+        ]);
 
         const result = await callPickTarget(testUserId, candidates);
 
@@ -90,18 +104,42 @@ describe('Unique Country Selection Integration Test', () => {
     });
 
     it('should cycle back to random when all have been played equally', async () => {
-        // Seed history: User plays ITA once. Now all are at 1.
-        await db.insert(schema.gameResults).values({
-            userId: testUserId,
-            level: 'easy',
-            guesses: 1,
-            timeSeconds: 10,
-            score: 1000,
-            won: true,
-            weekNumber: 1,
-            year: 2024,
-            targetCode: 'ITA'
-        });
+        // Seed history: FRA=1, GBR=1, ITA=1
+        await db.insert(schema.gameResults).values([
+            {
+                userId: testUserId,
+                level: 'easy',
+                guesses: 1,
+                timeSeconds: 10,
+                score: 1000,
+                won: true,
+                weekNumber: 1,
+                year: 2024,
+                targetCode: 'FRA'
+            },
+            {
+                userId: testUserId,
+                level: 'easy',
+                guesses: 1,
+                timeSeconds: 10,
+                score: 1000,
+                won: true,
+                weekNumber: 1,
+                year: 2024,
+                targetCode: 'GBR'
+            },
+            {
+                userId: testUserId,
+                level: 'easy',
+                guesses: 1,
+                timeSeconds: 10,
+                score: 1000,
+                won: true,
+                weekNumber: 1,
+                year: 2024,
+                targetCode: 'ITA'
+            }
+        ]);
 
         const result = await callPickTarget(testUserId, candidates);
 

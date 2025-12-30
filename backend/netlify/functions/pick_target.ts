@@ -38,6 +38,7 @@ export const handler: Handler = async (event) => {
             )
             .groupBy(schema.gameResults.targetCode);
 
+
         // Map to efficient lookup: { 'FRA': 5, 'USA': 2 }
         const countMap = new Map<string, number>();
         playCounts.forEach(r => {

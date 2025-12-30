@@ -1,21 +1,29 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { handler as leaderboardHandler } from '../netlify/functions/leaderboard';
 import { handler as userHandler } from '../netlify/functions/user';
 import { handler as gameHandler } from '../netlify/functions/game';
 import { db } from '../src/db';
 import { sql } from 'drizzle-orm';
 import { v4 as uuidv4 } from 'uuid';
+import { setupTestDb } from './test_utils';
 
-describe('Debug Flag Feature', () => {
+describe('Debug Flag Feature (PGLite)', () => {
+    let client: any;
+
+    // Test data
     const testUserId = uuidv4();
     const testUsername = 'FlagTester';
     const testTimezone = 'Australia/Sydney';
     const testWeek = 50;
     const testYear = 2025;
 
-    afterAll(async () => {
-        await db.execute(sql`DELETE FROM game_results WHERE user_id = ${testUserId}`);
-        await db.execute(sql`DELETE FROM users WHERE id = ${testUserId}`);
+    beforeEach(async () => {
+        const setup = await setupTestDb();
+        client = setup.client;
+    });
+
+    afterEach(async () => {
+        await client.close();
     });
 
     it('should flow end-to-end: Create User -> Play Game -> Check Leaderboard', async () => {
@@ -32,6 +40,7 @@ describe('Debug Flag Feature', () => {
         expect(userRes.statusCode).toBe(201);
 
         // Verify User in DB
+        // db is the proxy, accessing current testDb
         const userDb = await db.execute(sql`SELECT * FROM users WHERE id = ${testUserId}`);
         console.log('User in DB:', userDb.rows[0]);
         expect(userDb.rows[0]).toBeDefined();
