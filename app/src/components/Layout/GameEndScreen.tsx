@@ -102,7 +102,7 @@ const GameEndScreen = ({
             {/* Fun Facts Carousel - only show if facts available */}
             {countryFactsList.length > 0 && (
                 <div className="text-start mb-3 py-2 bg-light rounded position-relative">
-                    <h6 className="text-dark mb-1 text-center" style={{ fontSize: '0.8rem' }}>{flag} Fun facts about {countryName}</h6>
+                    <h6 className="text-dark mb-1 text-center" style={{ fontSize: '0.8rem' }}>{flag} Facts about {countryName}</h6>
                     <div className="d-flex align-items-center justify-content-between">
                         <Button
                             color="link"

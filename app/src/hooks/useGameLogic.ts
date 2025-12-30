@@ -46,7 +46,7 @@ function scoreRound(guessNumber: number, timeSeconds: number, difficulty: Diffic
         return Math.max(0, baseScore - guessPenalty);
     }
 
-    const timePenalty = Math.floor(timeSeconds) * 10;
+    const timePenalty = Math.floor(timeSeconds * 10);
     return Math.max(0, baseScore - guessPenalty - timePenalty);
 }
 
@@ -198,7 +198,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
     // Live score that updates as timer ticks
     const [liveScore, setLiveScore] = useState<number>(0);
 
-    // Update live score every 100ms while playing
+    // Update live score every 1000ms while playing
     useEffect(() => {
         if (gameState.status !== 'playing') return;
 
@@ -207,7 +207,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
             const guessNumber = gameState.guessHistory.length + 1; // Next guess number
             const potentialScore = scoreRound(guessNumber, timeSeconds, difficulty);
             setLiveScore(potentialScore);
-        }, 100);
+        }, 1000);
 
         return () => clearInterval(interval);
     }, [gameState.status, gameState.guessHistory.length, difficulty]);

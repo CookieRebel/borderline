@@ -68,7 +68,8 @@ function App() {
     allFeaturesHigh,
     allLandLow,
     allLandHigh,
-    highScore
+    highScore,
+    liveScore
   } = useGameLogic(isAdmin, userIsLoading, userId, highScores, onGameEnd);
 
   // Detect mobile device (could use a hook, but currently logic)
@@ -185,7 +186,7 @@ function App() {
           targetCountry={gameState.targetCountry}
           revealedNeighbors={gameState.revealedNeighbors}
           guessHistory={gameState.guessHistory}
-          score={gameState.score}
+          score={liveScore}
           highScore={highScore}
           difficulty={difficulty}
           allFeaturesLow={allFeaturesLow}

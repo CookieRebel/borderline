@@ -74,18 +74,14 @@ const GameCard = ({
                         allLandHigh={allLandHigh}
                     />
 
-                    {(status === 'won' || status === 'given_up') && (
-                        <div className={`position-absolute top-0 start-0 m-1 d-flex gap-1 ${styles.scoreOverlay}`}>
-                            <Badge color="warning" className={`text-dark fw-semibold ${styles.badgeText}`}>
-                                🏆 Best: {highScore}
-                            </Badge>
-                            {status === 'won' && (
-                                <Badge className={`bg-emerald fw-semibold ${styles.badgeText}`}>
-                                    Score: {score}
-                                </Badge>
-                            )}
-                        </div>
-                    )}
+                    <div className={`position-absolute top-0 start-0 m-1 d-flex gap-1 ${styles.scoreOverlay}`}>
+                        <Badge color="warning" className={`text-dark fw-semibold ${styles.badgeText}`}>
+                            🏆 Best: {highScore}
+                        </Badge>
+                        <Badge className={`bg-emerald fw-semibold ${styles.badgeText} ps-2`}>
+                            Score: {score}
+                        </Badge>
+                    </div>
 
                     <GuessHistory
                         guesses={guessHistory}

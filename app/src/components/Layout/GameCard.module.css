@@ -9,4 +9,6 @@
 
 .badgeText {
     font-size: 0.7rem;
+    width: 85px;
+    text-align: left;
 }
