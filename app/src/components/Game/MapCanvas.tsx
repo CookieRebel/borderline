@@ -349,6 +349,13 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         context.stroke();
 
         // 4. Faint World Map (Easy & Medium Mode) - with LOD switching
+        // Calculate dynamic line width globally for this frame
+        const minDimension = Math.min(dimensions.width, dimensions.height);
+        // Threshold: Globe diameter (2*scale) < 2 * minDimension
+        // => scale < minDimension
+        const isZoomedOut = scale < minDimension;
+        const dynamicLineWidth = isZoomedOut ? 0.25 : 0.5;
+
         if (difficulty === 'easy' || difficulty === 'medium') {
             const isHighDetail = scale > LOD_THRESHOLD;
             const viewCenter: [number, number] = [-rotation[0], -rotation[1]];
@@ -386,7 +393,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                     context.beginPath();
                     pathGenerator({ type: 'FeatureCollection', features: visibleBorders } as any);
                     context.strokeStyle = '#d1d5db'; // Gray-300
-                    context.lineWidth = 0.5;
+                    context.lineWidth = dynamicLineWidth;
                     context.stroke();
                 }
             } else if (difficulty === 'medium') {
@@ -396,7 +403,7 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
                     context.beginPath();
                     pathGenerator({ type: 'FeatureCollection', features: visibleLand } as any);
                     context.strokeStyle = 'rgba(209, 213, 219, 1)';
-                    context.lineWidth = 0.5;
+                    context.lineWidth = dynamicLineWidth;
                     context.stroke();
                 }
             }
@@ -424,7 +431,8 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             context.fill();
             // Stroke border in red
             context.strokeStyle = 'rgba(220, 38, 38, 0.9)';
-            context.lineWidth = 1.5;
+            // Dynamic width for target: 2x the base width (0.5 zoomed out, 1.0 zoomed in)
+            context.lineWidth = dynamicLineWidth * 2;
             context.stroke();
         }
 
