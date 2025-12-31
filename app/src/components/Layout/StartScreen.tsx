@@ -168,9 +168,10 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
                 {/* Buttons */}
                 <div className="d-flex flex-column gap-2 mb-2" style={{ width: '200px' }}>
                     <Button
-                        className={"btn-gold py-2 pulse-glow " + styles.startButton}
+                        className={"btn-red py-2 pulse-glow " + styles.startButton}
                         size="lg"
                         onClick={handlePlayClick}
+                        disabled={userIsLoading}
                         style={{
                             transform: isSnapped ? 'translateY(-5px)' : 'translateY(0)',
                             transition: 'transform 0.1s ease-in-out',

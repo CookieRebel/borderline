@@ -93,10 +93,10 @@ const GameCard = ({
                     {(status === 'won' || status === 'given_up') && onShowResults && (
                         <div
                             className="position-absolute start-50 translate-middle-x"
-                            style={{ top: '30px', zIndex: 100 }}
+                            style={{ bottom: '50px', zIndex: 100 }}
                         >
                             <Button
-                                className="btn-gold px-4 py-2 shadow"
+                                className="btn-red px-4 py-2 shadow"
                                 onClick={onShowResults}
                             >
                                 Results

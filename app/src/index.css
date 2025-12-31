@@ -222,6 +222,19 @@ body {
   color: #1a1a1a;
 }
 
+.btn-red {
+  background-color: #C62828;
+  color: white;
+  border-color: #C62828;
+  font-weight: 600;
+}
+
+.btn-red:hover {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+  color: white;
+}
+
 .btn-emerald {
   background-color: #046307;
   color: white;

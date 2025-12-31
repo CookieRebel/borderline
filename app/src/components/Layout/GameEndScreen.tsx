@@ -141,7 +141,7 @@ const GameEndScreen = ({
             {/* Play Again button */}
             <div className="d-flex justify-content-center">
                 <Button
-                    className="btn-gold px-5 py-2"
+                    className="btn-red px-5 py-2"
                     size="lg"
                     onClick={onPlayAgain}
                 >
