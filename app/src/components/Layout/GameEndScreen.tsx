@@ -139,7 +139,7 @@ const GameEndScreen = ({
             <DifficultySelector />
 
             {/* Play Again button */}
-            <div className="d-flex justify-content-center">
+            <div className="d-flex justify-content-center mb-2">
                 <Button
                     className="btn-red px-5 py-2"
                     size="lg"
