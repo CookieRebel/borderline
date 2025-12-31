@@ -135,10 +135,6 @@ const GameEndScreen = ({
                     </div>
                 </div>
             )}
-
-            {/* Leaderboard */}
-            {isOpen && <Leaderboard />}
-
             {/* Difficulty Selector */}
             <DifficultySelector />
 
@@ -152,6 +148,10 @@ const GameEndScreen = ({
                     Play Again
                 </Button>
             </div>
+
+            {/* Leaderboard */}
+            {isOpen && <Leaderboard />}
+
         </Container>
     );
 };
