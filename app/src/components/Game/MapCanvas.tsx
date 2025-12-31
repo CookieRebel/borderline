@@ -438,13 +438,24 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
 
         // 6. Visible Neighbors
         revealedNeighbors.forEach(feature => {
+            let featureToRender = feature;
+
+            // LOD Handling: High-Res Swap
+            if (scale > LOD_THRESHOLD) {
+                const name = feature.properties?.name;
+                const highRes = allFeaturesHigh.find(f => f.properties?.name === name);
+                if (highRes) {
+                    featureToRender = highRes;
+                }
+            }
+
             // Check visibility (clipping)
             // d3-geo's path generator handles clipping for drawing, 
             // but we might want to skip invisible ones for slight perf gain if needed.
             // For now, just draw them.
 
             context.beginPath();
-            pathGenerator(feature);
+            pathGenerator(featureToRender);
             context.strokeStyle = feature.properties?.color || "#6b7280";
             context.lineWidth = 1;
             context.stroke();
