@@ -217,8 +217,10 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
         let previousX = 0;
         let previousY = 0;
 
+        const initialMinScale = Math.min(dimensions.width, dimensions.height) / 2 - 20;
+
         const zoomBehavior = d3Zoom<HTMLCanvasElement, unknown>()
-            .scaleExtent([100, 5000000]) // Increased to 5000000 for smaller islands
+            .scaleExtent([initialMinScale, 5000000]) // Initial extent
             .on('zoom', (event) => {
                 const { transform, sourceEvent } = event;
                 const { k, x, y } = transform;
@@ -264,6 +266,24 @@ const MapCanvas = forwardRef<MapCanvasRef, MapCanvasProps>(({ targetCountry, rev
             canvas.on('.zoom', null);
         };
     }, []); // Empty dependency - only run once
+
+    // Update scale extent when dimensions change
+    useEffect(() => {
+        if (zoomBehaviorRef.current) {
+            const minScale = Math.min(dimensions.width, dimensions.height) / 2 - 20; // 20px padding
+            zoomBehaviorRef.current.scaleExtent([minScale, 5000000]);
+
+            // Optional: If current scale is less than new min, zoom in?
+            // D3 zoom doesn't auto-snap, but next gesture will enforce it.
+            // We can check and manual clamp if needed.
+            if (scale < minScale) {
+                // Forcing a zoom update might be jarring, usually better to let the user scroll back in 
+                // or just clamp on next interaction.
+                // But strictly speaking, if we resize window smaller, minScale decreases (allowed).
+                // If we resize window larger, minScale increases. We might be "under-zoomed".
+            }
+        }
+    }, [dimensions]);
 
     // Projection
     const projection = useMemo(() => {
