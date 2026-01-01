@@ -29,8 +29,8 @@ const DifficultySelector = () => {
                         <Button
                             key={level}
                             outline={difficulty !== level}
-                            className={`${difficulty === level ? 'btn-emerald' : ''} ${styles.button}`}
-                            color={difficulty === level ? undefined : 'secondary'}
+                            className={`${difficulty === level ? 'btn-gray' : ''} ${styles.button}`}
+                            color={"primary"}
                             onClick={() => handleDifficultyClick(level)}
                         >
                             <div className={styles.buttonText}>
@@ -40,9 +40,9 @@ const DifficultySelector = () => {
                         </Button>
                     ))}
 
-                    {/* No Move Button */}
+                    {/* Impossible Button */}
                     <Button
-                        color="secondary"
+                        color="primary"
                         outline
                         className={`opacity-75 ${styles.button}`}
                         onClick={() => {

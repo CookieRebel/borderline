@@ -1,6 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
+  /* Borderline colour scheme */
+  --background: #F9F9F9;
+  --background-text: #1F1F1F;
+  --primary: #666666;
+  --primary-text: #FFFFFF;
+  --primary-hover: #808080;
+  /* --secondary: #4A4A4A;
+  --secondary-text: #FFFFFF;
+  --tertiary: #999999;
+  --tertiary-text: #FFFFFF; */
+  --accent: #C62828;
+  --accent-text: #FFFFFF;
+  --accent-hover: #b71c1c;
+
   /* Light theme color palette */
   --color-bg-primary: #ffffff;
   --color-bg-card: #f9fafb;
@@ -36,8 +50,10 @@
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -48,12 +64,97 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  background-color: var(--color-bg-primary);
-  color: var(--color-text-primary);
+  background-color: var(--background);
+  color: var(--background-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+/* Buttons */
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  color: white;
+  border-color: var(--primary-hover);
+}
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-hover);
+  color: white;
+  border-color: var(--primary-hover);
+}
+
+.btn-gold {
+  background-color: #FFD700;
+  color: #1a1a1a;
+  border-color: #FFD700;
+  font-weight: 600;
+}
+
+.btn-gold:hover {
+  background-color: #e6c200;
+  border-color: #e6c200;
+  color: #1a1a1a;
+}
+
+.btn-accent {
+  background-color: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.btn-accent:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--accent-text);
+}
+
+.btn-accent:disabled {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--accent-text);
+}
+
+.btn-emerald {
+  background-color: #046307;
+  color: white;
+  border-color: #046307;
+}
+
+.btn-emerald:hover {
+  background-color: #034f05;
+  border-color: #034f05;
+  color: white;
+}
+
+/* App-specific colors */
+.text-emerald {
+  color: #046307;
+}
+
+.bg-emerald {
+  background-color: #046307;
+}
+
+.border-emerald {
+  border-color: #046307 !important;
+}
+
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
@@ -196,56 +297,8 @@ body {
   color: var(--color-text-secondary);
 }
 
-/* App-specific colors */
-.text-emerald {
-  color: #046307;
-}
 
-.bg-emerald {
-  background-color: #046307;
-}
 
-.border-emerald {
-  border-color: #046307 !important;
-}
-
-.btn-gold {
-  background-color: #FFD700;
-  color: #1a1a1a;
-  border-color: #FFD700;
-  font-weight: 600;
-}
-
-.btn-gold:hover {
-  background-color: #e6c200;
-  border-color: #e6c200;
-  color: #1a1a1a;
-}
-
-.btn-red {
-  background-color: #C62828;
-  color: white;
-  border-color: #C62828;
-  font-weight: 600;
-}
-
-.btn-red:hover {
-  background-color: #b71c1c;
-  border-color: #b71c1c;
-  color: white;
-}
-
-.btn-emerald {
-  background-color: #046307;
-  color: white;
-  border-color: #046307;
-}
-
-.btn-emerald:hover {
-  background-color: #034f05;
-  border-color: #034f05;
-  color: white;
-}
 
 @keyframes spin {
   from {
