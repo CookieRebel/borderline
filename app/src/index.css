@@ -4,16 +4,23 @@
   /* Borderline colour scheme */
   --background: #F9F9F9;
   --background-text: #1F1F1F;
+  /* Primary = your default button (neutral, not competing with accent red) */
   --primary: #666666;
   --primary-text: #FFFFFF;
   --primary-hover: #808080;
-  /* --secondary: #4A4A4A;
+  --secondary: #046307;
   --secondary-text: #FFFFFF;
-  --tertiary: #999999;
-  --tertiary-text: #FFFFFF; */
+  --secondary-hover: #034F05;
+  --tertiary: #D1D5DB;
+  --tertiary-text: #FFFFFF;
+  /* This is the star of the show. Use sparingly */
   --accent: #C62828;
   --accent-text: #FFFFFF;
   --accent-hover: #b71c1c;
+  --gold: #FFD700;
+  --gold-text: #1a1a1a;
+  --gold-hover: #e6c200;
+
 
   /* Light theme color palette */
   --color-bg-primary: #ffffff;
@@ -98,17 +105,41 @@ body {
   border-color: var(--primary-hover);
 }
 
+.btn-secondary {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-hover);
+  color: white;
+  border-color: var(--secondary-hover);
+}
+
+.btn-outline-secondary {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  background-color: transparent;
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--secondary-hover);
+  color: white;
+  border-color: var(--secondary-hover);
+}
+
 .btn-gold {
-  background-color: #FFD700;
-  color: #1a1a1a;
-  border-color: #FFD700;
+  background-color: var(--gold);
+  color: var(--gold-text);
+  border-color: var(--gold);
   font-weight: 600;
 }
 
 .btn-gold:hover {
-  background-color: #e6c200;
-  border-color: #e6c200;
-  color: #1a1a1a;
+  background-color: var(--gold-hover);
+  border-color: var(--gold-hover);
+  color: var(--gold-text);
 }
 
 .btn-accent {
@@ -131,15 +162,15 @@ body {
 }
 
 .btn-emerald {
-  background-color: #046307;
-  color: white;
-  border-color: #046307;
+  background-color: var(--emerald);
+  color: var(--emerald-text);
+  border-color: var(--emerald);
 }
 
 .btn-emerald:hover {
-  background-color: #034f05;
-  border-color: #034f05;
-  color: white;
+  background-color: var(--emerald-hover);
+  border-color: var(--emerald-hover);
+  color: var(--emerald-text);
 }
 
 /* App-specific colors */

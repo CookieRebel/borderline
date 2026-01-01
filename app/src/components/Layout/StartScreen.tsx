@@ -183,7 +183,7 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
 
                     {isAdmin && (
                         <Button
-                            color="primary"
+                            color="secondary"
                             outline
                             onClick={onAnalytics}
                         >
