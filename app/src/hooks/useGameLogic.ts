@@ -326,11 +326,10 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
             const forcedTarget = features.find((f: any) => f.properties['ISO3166-1-Alpha-3'] === forcedCountry);
             if (forcedTarget) {
                 // console.log('Admin override: Setting target to', forcedCountry);
-                const highScoreMessage = `ADMIN OVERRIDE: ${forcedCountry}`;
                 setGameState({
                     targetCountry: forcedTarget, revealedNeighbors: [], score: 0, roundScore: 0,
                     status: 'ready',
-                    message: highScoreMessage, wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
+                    message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
                 });
                 setGameId(null);
                 return Promise.resolve();
