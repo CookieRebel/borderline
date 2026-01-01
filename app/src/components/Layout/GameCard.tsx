@@ -96,7 +96,7 @@ const GameCard = ({
                             style={{ bottom: '50px', zIndex: 100 }}
                         >
                             <Button
-                                className="btn-red px-4 py-2 shadow"
+                                className="btn-accent px-4 py-2 shadow"
                                 onClick={onShowResults}
                             >
                                 Results
