@@ -351,7 +351,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
                     target = potentialTargets[randomIndex];
                 }
 
-                const highScoreMessage = highScore > 0 ? `Can you beat your high score of ${highScore}?` : 'Can you guess the country or territory?';
+                const highScoreMessage = highScore > 0 ? `Can you beat your all-time level high score of ${highScore}?` : 'Can you guess the country or territory?';
 
                 // Transition from loading (or whatever) to ready
                 setGameState({
