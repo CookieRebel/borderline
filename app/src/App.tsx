@@ -182,7 +182,7 @@ function App() {
         <Header difficulty={difficulty} refreshKey={statsRefreshKey} />
         <GameCard
           status={gameState.status}
-          message={gameState.message}
+          message={gameState.message + gameState.rankMessage}
           targetCountry={gameState.targetCountry}
           revealedNeighbors={gameState.revealedNeighbors}
           guessHistory={gameState.guessHistory}

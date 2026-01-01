@@ -1,14 +1,14 @@
-import { Card, CardBody, Badge, Button } from 'reactstrap';
 import type { Feature } from 'geojson';
-import MapCanvas from '../Game/MapCanvas';
-import type { MapCanvasRef } from '../Game/MapCanvas';
-import GuessHistory from '../Game/GuessHistory';
-import MessageBar from './MessageBar';
-import InputBar from './InputBar';
-import type { GuessInputRef } from '../Game/GuessInput';
-import type { Guess } from '../../hooks/useGameLogic';
+import { Badge, Button, Card, CardBody } from 'reactstrap';
 import type { Difficulty } from '../../hooks/useDifficulty';
+import type { Guess } from '../../hooks/useGameLogic';
+import GuessHistory from '../Game/GuessHistory';
+import type { GuessInputRef } from '../Game/GuessInput';
+import type { MapCanvasRef } from '../Game/MapCanvas';
+import MapCanvas from '../Game/MapCanvas';
+import FloatingMessageOverlay from './FloatingMessageOverlay';
 import styles from './GameCard.module.css';
+import InputBar from './InputBar';
 
 interface GameCardProps {
     status: 'loading' | 'ready' | 'playing' | 'won' | 'lost' | 'given_up';
@@ -56,13 +56,10 @@ const GameCard = ({
     return (
         <Card className="mb-2 border-0 fade-in">
             <CardBody className="p-0">
-                <MessageBar
-                    status={status}
-                    message={message}
-                />
 
                 <div className={`bg-white mb-1 position-relative ${styles.mapFrame}`}>
                     <MapCanvas
+
                         ref={mapCanvasRef}
                         targetCountry={targetCountry}
                         revealedNeighbors={revealedNeighbors}
@@ -74,9 +71,11 @@ const GameCard = ({
                         allLandHigh={allLandHigh}
                     />
 
-                    <div className={`position-absolute top-0 start-0 m-1 d-flex gap-1 ${styles.scoreOverlay}`}>
-                        <Badge color="warning" className={`text-dark fw-semibold ${styles.badgeText}`}>
-                            🏆 Best: {highScore}
+                    <FloatingMessageOverlay message={message} />
+
+                    <div className={`position-absolute top-0 start-0 m-1 d-flex gap-3 ${styles.scoreOverlay}`}>
+                        <Badge color="warning" className={`text-dark fw-semibold  ${styles.badgeTextGame} ${styles.badgeText}`}>
+                            Best Game: {highScore}
                         </Badge>
                         <Badge className={`bg-emerald fw-semibold ${styles.badgeText} ps-2`}>
                             Score: {score}

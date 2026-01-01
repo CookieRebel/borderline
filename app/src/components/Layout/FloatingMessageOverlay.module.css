@@ -1,0 +1,44 @@
+.overlayContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 1050;
+}
+
+.floatingMessage {
+    position: absolute;
+    color: var(--emerald);
+    font-weight: 800;
+    font-size: 16px;
+    text-shadow:
+        -1px -1px 0 #fff,
+        1px -1px 0 #fff,
+        -1px 1px 0 #fff,
+        1px 1px 0 #fff,
+        0px 1px 2px rgba(0, 0, 0, 0.2);
+    left: 10px;
+    /* Offset from left edge */
+    bottom: 0px;
+    /* Start position */
+    opacity: 0;
+    /* Use 'will-change' to promote to layer for smoother animation */
+    will-change: bottom, opacity;
+    animation: floatUpLeft 5s ease forwards;
+    /* Slowed down to 4s for readability */
+}
+
+@keyframes floatUpLeft {
+    0% {
+        bottom: 0%;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 50%;
+        opacity: 0;
+    }
+}

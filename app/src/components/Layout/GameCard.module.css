@@ -3,12 +3,13 @@
     width: 100%;
 }
 
-.scoreOverlay {
-    z-index: 100;
-}
 
 .badgeText {
     font-size: 0.7rem;
     width: 85px;
     text-align: left;
+}
+
+.badgeTextGame {
+    width: 105px;
 }

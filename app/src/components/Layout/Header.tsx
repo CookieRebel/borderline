@@ -111,11 +111,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
 
             <div className="position-relative text-center mt-3 fade-in">
                 {username && (
-                    <div className="d-flex align-items-center px-3">
-                        {/* Day scores */}
-                        <div className="text-muted" style={{ fontSize: '0.7rem' }}>
-                            Today: {todayScore.toLocaleString()} | Best Day: {bestDayScore.toLocaleString()}
-                        </div>
+                    <div className="d-flex align-items-center px-2">
                         {/* Username with edit */}
                         <div className="ms-auto">
                             {isEditing ? (

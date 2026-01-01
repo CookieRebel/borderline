@@ -473,7 +473,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
             }
             setGameState(prev => ({
                 ...prev, wrongGuesses: newWrongGuesses, revealedNeighbors: newRevealedNeighbors,
-                score: Math.max(0, prev.score - 500), message: 'Guess again', guessHistory: newGuessHistory
+                score: Math.max(0, prev.score - 500), message: `Guess #${newWrongGuesses}: ${guess}. Incorrect. `, guessHistory: newGuessHistory
             }));
         }
     };
