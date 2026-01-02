@@ -1,7 +1,7 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { eq } from 'drizzle-orm';
-import { getUserId } from '../../src/utils/auth';
+import { getUserId, setUserIdCookie } from '../../src/utils/auth';
 
 // Reusing generic name generator for bootstrapping if needed
 
@@ -24,7 +24,11 @@ export const handler: Handler = async (event) => {
                 if (user) {
                     return {
                         statusCode: 200,
-                        headers,
+                        headers: {
+                            ...headers,
+                            // TODO: Migration logic - upgrade return users to Secure cookies. Remove later.
+                            'Set-Cookie': setUserIdCookie(user.id),
+                        },
                         body: JSON.stringify(user),
                     };
                 }

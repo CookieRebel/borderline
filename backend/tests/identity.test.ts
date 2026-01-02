@@ -60,6 +60,11 @@ describe('Identity Flow (Cookie Auth)', () => {
         expect(res?.statusCode).toBe(200);
         const body = JSON.parse(res?.body || '{}');
         expect(body.id).toBe(userId);
+
+        // Verify Upgraded Cookie is set
+        const setCookieHeader = String(res?.headers?.['Set-Cookie'] || '');
+        expect(setCookieHeader).toContain(`borderline_user_id=${userId}`);
+        expect(setCookieHeader).toContain('Path=/');
     });
 
     it('POST /api/identity should migrate legacy_id if cookie missing', async () => {
@@ -101,6 +106,11 @@ describe('Me Endpoint (/api/me)', () => {
         const res = await meHandler(mockEvent('GET', {}, { cookie: cookieVal }), mockContext);
         expect(res?.statusCode).toBe(200);
         expect(JSON.parse(res?.body || '{}').id).toBe(user.id);
+
+        // Verify Upgraded Cookie is set
+        const setCookieHeader = String(res?.headers?.['Set-Cookie'] || '');
+        expect(setCookieHeader).toContain(`borderline_user_id=${user.id}`);
+        expect(setCookieHeader).toContain('Path=/');
     });
 
     it('GET /api/me should return 401 if cookie missing (Bootstrapping Removed)', async () => {
