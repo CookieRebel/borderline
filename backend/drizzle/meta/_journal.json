@@ -71,6 +71,13 @@
       "when": 1766993880715,
       "tag": "0010_gray_beast",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1767317631760,
+      "tag": "0011_striped_shaman",
+      "breakpoints": true
     }
   ]
 }

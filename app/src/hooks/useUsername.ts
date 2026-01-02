@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { Difficulty } from './useDifficulty';
-// import { useUser } from '@clerk/clerk-react';
 
 const usernameWords = {
     first: [
@@ -96,8 +95,6 @@ export const useUsername = () => {
                 setEmail(userData.email || null);
                 setTimezone(userData.timezone || null);
                 setIsAdmin(userData.isAdmin || false);
-                // setIsLinked(!!userData.clerkId || !!userData.clerk_id);
-                // console.log('User data loaded', userData);
             } else if (response.status === 404) {
                 // User doesn't exist, create new one
                 // ONLY create if valid ID format (uuid)
@@ -140,39 +137,6 @@ export const useUsername = () => {
         }
     }
 
-    // Merge Logic: Watch for Sign In
-    // useEffect(() => {
-    //     const handleMerge = async () => {
-    //         if (isSignedIn && user && userId) {
-    //             // We have a logged in Clerk user AND a local user ID.
-    //             // Trigger merge.
-    //             try {
-    //                 const res = await fetch('/api/merge_user', {
-    //                     method: 'POST',
-    //                     headers: { 'Content-Type': 'application/json' },
-    //                     body: JSON.stringify({ anonymousId: userId, clerkId: user.id })
-    //                 });
-
-    //                 if (res.ok) {
-    //                     const data = await res.json();
-    //                     // If the server says "Use this ID instead", we update.
-    //                     if (data.userId && data.userId !== userId) {
-    //                         console.log('Switching to merged user ID:', data.userId);
-    //                         setUserId(data.userId);
-    //                         localStorage.setItem('borderline_user_id', data.userId);
-    //                         // Reload data for the new ID
-    //                         setLoading(true);
-    //                         await fetchUserData(data.userId);
-    //                     }
-    //                 }
-    //             } catch (e) {
-    //                 console.error("Merge failed", e);
-    //             }
-    //         }
-    //     }
-
-    //     handleMerge();
-    // }, [isSignedIn, user, userId]); // Dependencies: if user signs in, or userId changes initially.
 
     // Refetch user data (call after game ends to update scores)
     const refetchUser = useCallback(async () => {

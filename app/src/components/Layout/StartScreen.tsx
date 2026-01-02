@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Edit2 } from 'react-feather';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
-// import { SignedIn, SignedOut, SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { AudioManager } from '../../utils/audioManager';
 import DifficultySelector from '../Game/DifficultySelector';
 import BackgroundGlobe from './BackgroundGlobe';
@@ -18,7 +17,6 @@ interface StartScreenProps {
 
 const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: StartScreenProps) => {
     const { username, updateUsername, userIsLoading, playedToday, isAdmin } = useUsername();
-    // const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
