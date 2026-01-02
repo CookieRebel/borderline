@@ -10,12 +10,12 @@ import { AudioManager } from './utils/audioManager';
 
 // Layout components
 import Header from './components/Layout/Header';
-import GameCard from './components/Layout/GameCard';
 import StartScreen from './components/Layout/StartScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
 import GameEndScreen from './components/Layout/GameEndScreen';
 
 import styles from './App.module.css';
+import GameCard from './components/Layout/GameCard';
 
 const sparkleUrl = new URL('./assets/sparkle.mp3', import.meta.url).href;
 
@@ -35,7 +35,7 @@ function App() {
   // 1. State Variables
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showAnalytics, setShowAnalytics] = useState(false);
-  const [showResultsModal, setShowResultsModal] = useState(false);
+  const [showResultsScreen, setShowResultsScreen] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // 2. Hooks
@@ -77,6 +77,8 @@ function App() {
 
   const params = new URLSearchParams(window.location.search);
   const level = params.get('level');
+
+  const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
   // Auto-start if level param is present AND game is ready
   useEffect(() => {
@@ -122,12 +124,10 @@ function App() {
    */
   const playAgain = async () => {
     // console.log('Playing again...');
-    setShowResultsModal(false);
+    setShowResultsScreen(false);
     await resetGame();
     startGame();
   };
-
-  const isGameOver = gameState.status === 'won' || gameState.status === 'lost' || gameState.status === 'given_up';
 
   // console.log("App gameState rankMessage", gameState.rankMessage);
   // Show start screen first
@@ -143,6 +143,7 @@ function App() {
           setShowAnalytics(true);
         }}
         streak={streak}
+        disabled={gameState.status !== 'ready'}
       />
     );
   }
@@ -161,7 +162,7 @@ function App() {
   }
 
   {/* Game End Modal - only show when user clicks Results */ }
-  if (isGameOver && showResultsModal) {
+  if (isGameOver && showResultsScreen) {
     return (
       <GameEndScreen
         isOpen={true}
@@ -170,7 +171,7 @@ function App() {
         resultMessage={gameState.message}
         won={gameState.status === 'won'}
         onPlayAgain={playAgain}
-        onClose={() => setShowResultsModal(false)}
+        onClose={() => setShowResultsScreen(false)}
         rankMessage={gameState.rankMessage}
       />
     )
@@ -195,7 +196,7 @@ function App() {
           allLandHigh={allLandHigh}
           onGuess={handleGuess}
           onGiveUp={handleGiveUp}
-          onShowResults={() => setShowResultsModal(true)}
+          onShowResults={() => setShowResultsScreen(true)}
           isMobile={isMobile}
           mapCanvasRef={mapCanvasRef}
           guessInputRef={guessInputRef}

@@ -13,9 +13,10 @@ interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
     streak?: number;
+    disabled?: boolean;
 }
 
-const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: StartScreenProps) => {
     const { username, updateUsername, userIsLoading, playedToday, isAdmin } = useUsername();
     // const { user } = useUser();
     const [isEditing, setIsEditing] = useState(false);
@@ -171,7 +172,7 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0 }: StartScreenProps) => {
                         className={"btn-accent py-2 pulse-glow " + styles.startButton}
                         size="lg"
                         onClick={handlePlayClick}
-                        disabled={userIsLoading}
+                        disabled={userIsLoading || disabled}
                         style={{
                             transform: isSnapped ? 'translateY(-5px)' : 'translateY(0)',
                             transition: 'transform 0.1s ease-in-out',

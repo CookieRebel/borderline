@@ -29,6 +29,9 @@
     will-change: bottom, opacity;
     animation: floatUpLeft 5s ease forwards;
     /* Slowed down to 4s for readability */
+    border-radius: 5px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
 }
 
 @keyframes floatUpLeft {

@@ -248,7 +248,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
         return taiwan ? geoArea(taiwan as any) : 0.0005;
     }, [dataLow]);
 
-    // Toggle body class for hiding navigation (moved from App.tsx)
+    // Toggle body class for hiding navigation
     useEffect(() => {
         if (gameState.status === 'playing') {
             document.body.classList.add('game-playing');
@@ -304,20 +304,24 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
         let potentialTargets = features;
         // ... (Filtering Logic same as before) ...
         if (difficulty === 'easy') {
+            // Only include easy countries
             potentialTargets = features.filter((f: any) => EASY_COUNTRIES.includes(f.properties['ISO3166-1-Alpha-3']));
         } else if (difficulty === 'extreme') {
+            // Only include countries smaller than Taiwan
             potentialTargets = features.filter((f: any) => { const area = geoArea(f as any); return area <= taiwanArea && area > 0; });
         } else if (difficulty === 'hard') {
+            // Exclude very recognisable countries
             const HARD_EXCLUSIONS = ['USA', 'CAN', 'AUS', 'RUS', 'CHN', 'IND', 'ITA', 'ZAF', 'GBR', 'BRA', 'CHL', 'ARG', 'DEU', 'FRA', 'ESP'];
             potentialTargets = features.filter((f: any) => { const iso = f.properties['ISO3166-1-Alpha-3']; const area = geoArea(f as any); return area > taiwanArea && !HARD_EXCLUSIONS.includes(iso); });
         } else {
+            // Exclude obvious countries
             const MEDIUM_EXCLUSIONS = ['USA', 'AUS', 'ITA', 'CHL'];
             potentialTargets = features.filter((f: any) => { const iso = f.properties['ISO3166-1-Alpha-3']; const area = geoArea(f as any); return area > taiwanArea && !MEDIUM_EXCLUSIONS.includes(iso); });
         }
 
         if (potentialTargets.length === 0) potentialTargets = features;
 
-        // ADMIN OVERRIDE CHECK
+        // Admins can overrride the country using ?country=IDN (for Indonesia)
         const params = new URLSearchParams(window.location.search);
         const forcedCountry = params.get('country')?.toUpperCase();
         // console.log('forcedCountry', forcedCountry);
@@ -371,7 +375,6 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
                     status: 'ready',
                     message: 'Can you guess the country?', wrongGuesses: 0, guessHistory: [], difficulty: difficulty, rankMessage: ''
                 });
-                console.log('Game error');
             });
     };
 
