@@ -1,8 +1,7 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { eq } from 'drizzle-orm';
-import { getUserId, setUserIdCookie } from '../../src/utils/auth';
-import { generateFantasyName } from '../../src/utils/username';
+import { getUserId } from '../../src/utils/auth';
 
 // Reusing generic name generator for bootstrapping if needed
 

@@ -104,6 +104,7 @@
 - **Environment Variables**:
   - **Single Source**: Root `.env` is the source of truth for Dev.
   - `drizzle.config.ts` and `vitest.config.ts` in `backend/` are explicitly configured to load from `../.env`.
+  - **Secure Cookies**: Production cookies are `Secure` by default. To disable this for local development (http), ensure `DEV=true` or `NETLIFY_DEV=true` is set.
 
 ## Security
 - **Identity**:
