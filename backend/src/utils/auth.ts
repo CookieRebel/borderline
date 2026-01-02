@@ -2,8 +2,8 @@ import { parse, serialize } from 'cookie';
 import type { HandlerEvent } from '@netlify/functions';
 
 const COOKIE_NAME = 'borderline_user_id';
-// Secure by default (Prod), unless explicitly in Dev mode via env vars
-const IS_DEV = process.env.DEV === 'true' || process.env.NETLIFY_DEV === 'true';
+// Secure by default (Prod), unless explicitly in Netlify Dev mode
+const IS_DEV = process.env.NETLIFY_DEV === 'true';
 const USE_SECURE_COOKIES = !IS_DEV;
 
 export const getUserId = (event: HandlerEvent): string | null => {
