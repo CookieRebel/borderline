@@ -1,6 +1,5 @@
 
-import { vi, beforeAll, afterAll } from 'vitest';
-import * as schema from '../src/db/schema';
+import { vi } from 'vitest';
 import type * as DbModule from '../src/db';
 
 // Global DB Holder

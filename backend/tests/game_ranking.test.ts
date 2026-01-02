@@ -80,22 +80,23 @@ describe('Game Ranking Logic (PGLite)', () => {
             httpMethod: 'PUT',
             body: JSON.stringify({
                 id: game.id,
-                user_id: uid,
+                // user_id removed
                 level: 'medium',
                 guesses: 1,
                 time: 10,
                 score: 5000, // Amazing score
                 won: true,
                 target_code: 'FRA'
-            })
+            }),
+            headers: { cookie: `borderline_user_id=${uid}` }
         } as any;
 
         const res = await handler(event, {} as any, () => { });
-        const body = JSON.parse(res.body);
+        const body = JSON.parse(res?.body || '{}');
 
         console.log("Response:", body);
-        expect(res.statusCode).toBe(200);
-        expect(body.rankMessage).toBe('You have the best score for this country!');
+        expect(res?.statusCode).toBe(200);
+        expect(body.rankMessage).toBe('You have the best score for this country with a score of 5000.');
     });
 
     it('should return "second best" message when rank is 2', async () => {
@@ -114,19 +115,20 @@ describe('Game Ranking Logic (PGLite)', () => {
             httpMethod: 'PUT',
             body: JSON.stringify({
                 id: game.id,
-                user_id: uid,
+                // user_id removed
                 level: 'medium',
                 guesses: 2,
                 time: 20,
                 score: 4000, // Less than 5000
                 won: true,
                 target_code: 'FRA'
-            })
+            }),
+            headers: { cookie: `borderline_user_id=${uid}` }
         } as any;
 
         const res = await handler(event, {} as any, () => { });
-        const body = JSON.parse(res.body);
-        expect(body.rankMessage).toBe('You have the second best score for this country.');
+        const body = JSON.parse(res?.body || '{}');
+        expect(body.rankMessage).toBe('You have the second best score for this country with a score of 4000.');
     });
 
     it('should return specific rank for small pool (<10 games)', async () => {
@@ -145,12 +147,13 @@ describe('Game Ranking Logic (PGLite)', () => {
         const event = {
             httpMethod: 'PUT',
             body: JSON.stringify({
-                id: game.id, gameId: game.id, user_id: uid, level: 'medium', guesses: 5, time: 50, score: 3000, won: true, target_code: 'FRA'
-            })
+                id: game.id, gameId: game.id, level: 'medium', guesses: 5, time: 50, score: 3000, won: true, target_code: 'FRA'
+            }),
+            headers: { cookie: `borderline_user_id=${uid}` }
         } as any;
 
         const res = await handler(event, {} as any, () => { });
-        const body = JSON.parse(res.body);
+        const body = JSON.parse(res?.body || '{}');
 
         // Total games = 3 existing + 1 current = 4
         // Rank = 4 (because 3 are better)
@@ -178,12 +181,13 @@ describe('Game Ranking Logic (PGLite)', () => {
         const event = {
             httpMethod: 'PUT',
             body: JSON.stringify({
-                id: game.id, user_id: uid, level: 'medium', guesses: 10, time: 999, score: 100, won: true, target_code: 'FRA'
-            })
+                id: game.id, level: 'medium', guesses: 10, time: 999, score: 100, won: true, target_code: 'FRA'
+            }),
+            headers: { cookie: `borderline_user_id=${uid}` }
         } as any;
 
         let res = await handler(event, {} as any, () => { });
-        expect(JSON.parse(res.body).rankMessage).toBe(''); // Empty because > 50%
+        expect(JSON.parse(res?.body || '{}').rankMessage).toBe(''); // Empty because > 50%
 
         // NOW: Test a GOOD percentile.
         // Reset DB or just use a new country 'DEU'.
@@ -206,18 +210,19 @@ describe('Game Ranking Logic (PGLite)', () => {
         const eventGood = {
             httpMethod: 'PUT',
             body: JSON.stringify({
-                id: gameGood.id, user_id: uidGood, level: 'medium', guesses: 1, time: 10, score: 5000, won: true, target_code: 'DEU'
-            })
+                id: gameGood.id, level: 'medium', guesses: 1, time: 10, score: 5000, won: true, target_code: 'DEU'
+            }),
+            headers: { cookie: `borderline_user_id=${uidGood}` }
         } as any;
 
         res = await handler(eventGood, {} as any, () => { });
-        const bodyGood = JSON.parse(res.body);
+        const bodyGood = JSON.parse(res?.body || '{}');
 
         // Rank 1 out of 21.
         // Percentile = ceil(1/21 * 100) = 5%.
         // Expect: "You have the best score  for this country!" (Because Rank 1 logic overrides percentile logic!)
         // Oh right, logic says if (playerRank === 1) ... else ...
-        expect(bodyGood.rankMessage).toBe('You have the best score for this country!');
+        expect(bodyGood.rankMessage).toBe('You have the best score for this country with a score of 5000.');
 
         // Let's test Rank 3 out of 20 (Top 15%).
         // Seed 2 better players.
@@ -238,12 +243,13 @@ describe('Game Ranking Logic (PGLite)', () => {
         const event3 = {
             httpMethod: 'PUT',
             body: JSON.stringify({
-                id: game3.id, user_id: uid3, level: 'medium', guesses: 2, time: 20, score: 5800, won: true, target_code: 'USA'
-            })
+                id: game3.id, level: 'medium', guesses: 2, time: 20, score: 5800, won: true, target_code: 'USA'
+            }),
+            headers: { cookie: `borderline_user_id=${uid3}` }
         } as any; // Rank 3
 
         res = await handler(event3, {} as any, () => { });
-        const body3 = JSON.parse(res.body);
+        const body3 = JSON.parse(res?.body || '{}');
 
         // Total 2 + 17 + 1 = 20.
         // Rank 3.

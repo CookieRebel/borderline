@@ -1,6 +1,7 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { eq, and, sql } from 'drizzle-orm';
+import { getUserId } from '../../src/utils/auth';
 
 // Get date in Melbourne timezone (Australia/Melbourne)
 const getMelbourneDate = (): Date => {
@@ -20,21 +21,6 @@ const getISOWeek = (): { week: number; year: number } => {
     return { week, year: d.getUTCFullYear() };
 };
 
-// Check if dates are the same calendar day
-const isSameDay = (date1: Date, date2: Date): boolean => {
-    return date1.getUTCFullYear() === date2.getUTCFullYear() &&
-        date1.getUTCMonth() === date2.getUTCMonth() &&
-        date1.getUTCDate() === date2.getUTCDate();
-};
-
-// Check if lastPlayed was yesterday (consecutive days)
-const isYesterday = (lastPlayed: Date | null, now: Date): boolean => {
-    if (!lastPlayed) return false;
-    const yesterday = new Date(now);
-    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
-    return isSameDay(lastPlayed, yesterday);
-};
-
 // ... helpers remain the same ...
 
 export const handler: Handler = async (event) => {
@@ -50,19 +36,31 @@ export const handler: Handler = async (event) => {
     }
 
     try {
-        const body = JSON.parse(event.body || '{}');
 
         // -----------------------------------------------------------------
         // POST: Start Game
         // -----------------------------------------------------------------
         if (event.httpMethod === 'POST') {
-            const { user_id, level, week, year, timezone } = body;
+            const body = JSON.parse(event.body || '{}');
+            const { level, week, year, timezone, user_id: illegalUserId } = body;
 
-            if (!user_id || !level) {
+            // Enforce cookie auth
+            const userId = getUserId(event);
+            if (!userId) {
+                return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+            }
+
+            // Guardrail: Reject requests carrying user_id in body
+            // This is legacy: we used to pass the user_id in the body 
+            if (illegalUserId) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Legacy user_id param is forbidden' }) };
+            }
+
+            if (!level) {
                 return {
                     statusCode: 400,
                     headers,
-                    body: JSON.stringify({ error: 'Missing required fields: user_id, level' }),
+                    body: JSON.stringify({ error: 'Missing level' }),
                 };
             }
 
@@ -76,9 +74,11 @@ export const handler: Handler = async (event) => {
                 }
 
                 if (safeTimezone) {
-                    await db.update(schema.users)
-                        .set({ timezone: safeTimezone })
-                        .where(eq(schema.users.id, user_id));
+                    if (safeTimezone) {
+                        await db.update(schema.users)
+                            .set({ timezone: safeTimezone })
+                            .where(eq(schema.users.id, userId));
+                    }
                 }
             }
 
@@ -94,7 +94,7 @@ export const handler: Handler = async (event) => {
             // Insert new game row
             const [gameResult] = await db.insert(schema.gameResults)
                 .values({
-                    userId: user_id,
+                    userId: userId,
                     level,
                     weekNumber,
                     year: yearNumber,
@@ -117,11 +117,24 @@ export const handler: Handler = async (event) => {
         // PUT: End Game (Update Result)
         // -----------------------------------------------------------------
         if (event.httpMethod === 'PUT') {
+            const body = JSON.parse(event.body || '{}');
             // Check for ID in path (legacy-style or REST) or body
             // We'll support body 'id' for simplicity
-            const { id, user_id, level, guesses, time, score, won, target_code, timezone } = body;
+            const { id, level, guesses, time, score, won, target_code, timezone, user_id: illegalUserId } = body;
 
-            if (!id || !user_id || !level || guesses === undefined || time === undefined || score === undefined || won === undefined || !target_code) {
+            // Enforce cookie auth
+            const userId = getUserId(event);
+            if (!userId) {
+                return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+            }
+
+            // Guardrail: Reject requests carrying user_id in body
+            // This is legacy: we used to pass the user_id in the body 
+            if (illegalUserId) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Legacy user_id param is forbidden' }) };
+            }
+
+            if (!id || !level || guesses === undefined || time === undefined || score === undefined || won === undefined || !target_code) {
                 return {
                     statusCode: 400,
                     headers,
@@ -147,7 +160,7 @@ export const handler: Handler = async (event) => {
             // User Stats Logic (Streak, High Score)
             // -----------------------------------------------------------------
             const user = await db.query.users.findFirst({
-                where: eq(schema.users.id, user_id),
+                where: eq(schema.users.id, userId),
             });
 
             if (!user) {
@@ -217,7 +230,7 @@ export const handler: Handler = async (event) => {
 
             await db.update(schema.users)
                 .set(updates)
-                .where(eq(schema.users.id, user_id));
+                .where(eq(schema.users.id, userId));
 
 
 
@@ -249,9 +262,9 @@ export const handler: Handler = async (event) => {
             console.log("playerRank", playerRank);
             let rankMessage = '';
             if (playerRank === 1) {
-                rankMessage = 'You have the best score for this country!';
+                rankMessage = 'You have the best score for this country with a score of ' + score + '.';
             } else if (playerRank === 2) {
-                rankMessage = 'You have the second best score for this country.';
+                rankMessage = 'You have the second best score for this country with a score of ' + score + '.';
             } else {
                 // If there are less than 10 games, create a message based on the player rank
                 if (totalGamesAtLevel < 10) {

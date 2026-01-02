@@ -1,6 +1,7 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { eq, inArray, count, and } from 'drizzle-orm';
+import { getUserId } from '../../src/utils/auth';
 
 export const handler: Handler = async (event) => {
     const headers = {
@@ -16,10 +17,23 @@ export const handler: Handler = async (event) => {
     }
 
     try {
-        const { user_id, candidates } = JSON.parse(event.body || '{}');
+        const body = JSON.parse(event.body || '{}');
+        const { candidates, user_id: illegalUserId } = body;
 
-        if (!user_id || !candidates || !Array.isArray(candidates) || candidates.length === 0) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing user_id or candidates' }) };
+        // Enforce cookie auth
+        const userId = getUserId(event);
+        if (!userId) {
+            return { statusCode: 401, headers, body: JSON.stringify({ error: 'Unauthorized' }) };
+        }
+
+        // Guardrail: Reject requests carrying user_id in body
+        // Legacy param: we used to pass user_id in body
+        if (illegalUserId) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Legacy user_id param is forbidden' }) };
+        }
+
+        if (!candidates || !Array.isArray(candidates) || candidates.length === 0) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing candidates' }) };
         }
 
         // 1. Get play counts for all candidate countries for this user
@@ -32,7 +46,7 @@ export const handler: Handler = async (event) => {
             .from(schema.gameResults)
             .where(
                 and(
-                    eq(schema.gameResults.userId, user_id),
+                    eq(schema.gameResults.userId, userId),
                     inArray(schema.gameResults.targetCode, candidates)
                 )
             )

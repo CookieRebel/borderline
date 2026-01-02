@@ -75,6 +75,8 @@
     2. Hook methods
     3. Normal methods
 - **Icons**: Use **react-feather** where possible.
+- **Architecture**:
+  - **AppProvider**: Use `src/context/AppProvider.tsx` to wrap global providers (`UserProvider`, `DifficultyProvider`). Avoid nesting in `AppRoot`.
 
 ## Critical Decisions (Frontend)
 - **Known Issues**: Sint Maarten / Saint Martin high-res geometry is complex due to close borders; kept low-res for stability.
@@ -102,3 +104,10 @@
 - **Environment Variables**:
   - **Single Source**: Root `.env` is the source of truth for Dev.
   - `drizzle.config.ts` and `vitest.config.ts` in `backend/` are explicitly configured to load from `../.env`.
+
+## Security
+- **Identity**:
+  - Always use `getUserId(event)` to extract identity from HttpOnly cookies.
+  - **NEVER** accept `user_id` or similar identifiers from Query Parameters or Request Bodies. Explicitly **reject** (400) any such attempts.
+- **Timezone**:
+  - Strict validation: New users MUST have a timezone. Reject creation if missing.

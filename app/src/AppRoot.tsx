@@ -1,13 +1,13 @@
 import { StrictMode } from "react";
 import App from "./App";
-import { DifficultyProvider } from "./hooks/useDifficulty";
+import { AppProvider } from "./context/AppProvider";
 
 export default function AppRoot() {
     return (
         <StrictMode>
-            <DifficultyProvider>
+            <AppProvider>
                 <App />
-            </DifficultyProvider>
+            </AppProvider>
         </StrictMode>
     );
 }

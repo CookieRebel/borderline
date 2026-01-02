@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { db, schema } from '../src/db';
-import { eq } from 'drizzle-orm';
 import { handler } from '../netlify/functions/pick_target';
 import { setupTestDb } from './test_utils';
 
@@ -13,7 +12,8 @@ describe('Unique Country Selection Integration Test (PGLite)', () => {
     const callPickTarget = async (userId: string, candidateList: string[]) => {
         const event = {
             httpMethod: 'POST',
-            body: JSON.stringify({ user_id: userId, candidates: candidateList }),
+            body: JSON.stringify({ candidates: candidateList }),
+            headers: { cookie: `borderline_user_id=${userId}` }
         } as any;
         const response = await handler(event, {} as any);
         return JSON.parse(response?.body || '{}');

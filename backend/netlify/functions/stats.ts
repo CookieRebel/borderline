@@ -1,6 +1,7 @@
 import type { Handler } from '@netlify/functions';
 import { db } from '../../src/db';
 import { sql } from 'drizzle-orm';
+import { getUserId } from '../../src/utils/auth';
 
 export const handler: Handler = async (event) => {
     const headers = {
@@ -17,14 +18,30 @@ export const handler: Handler = async (event) => {
     try {
         // GET /api/stats?user_id=xxx&level=easy
         if (event.httpMethod === 'GET') {
-            const userId = event.queryStringParameters?.user_id;
-            const level = event.queryStringParameters?.level;
-
-            if (!userId || !level) {
+            if (event.queryStringParameters?.user_id) {
                 return {
                     statusCode: 400,
                     headers,
-                    body: JSON.stringify({ error: 'user_id and level required' }),
+                    body: JSON.stringify({ error: 'user_id param is forbidden. Use cookies.' }),
+                };
+            }
+
+            const userId = getUserId(event);
+            const level = event.queryStringParameters?.level;
+
+            if (!userId) {
+                return {
+                    statusCode: 401,
+                    headers,
+                    body: JSON.stringify({ error: 'Unauthorized' }),
+                };
+            }
+
+            if (!level) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'level required' }),
                 };
             }
 

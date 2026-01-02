@@ -7,11 +7,11 @@ import styles from './Leaderboard.module.css';
 
 interface LeaderboardEntry {
     rank: number;
-    user_id: string;
-    display_name: string;
+    userId: string;
+    displayName: string;
     timezone?: string;
-    total_score: number;
-    games_played: number;
+    totalScore: number;
+    gamesPlayed: number;
 }
 
 interface LeaderboardProps {
@@ -31,7 +31,7 @@ const Leaderboard = ({ refreshKey = 0, compact = false }: LeaderboardProps) => {
             setLoading(true);
             try {
                 const params = new URLSearchParams({ level: selectedDifficulty });
-                if (userId) params.append('user_id', userId);
+                // Note: user_id is now handled strictly via HttpOnly cookie
 
                 const response = await fetch(`/api/leaderboard?${params.toString()}`);
                 if (response.ok) {
@@ -98,7 +98,7 @@ const Leaderboard = ({ refreshKey = 0, compact = false }: LeaderboardProps) => {
                                 let entry: LeaderboardEntry | undefined;
                                 let isUserRow = false;
 
-                                const userEntry = leaderboard.find(e => e.user_id === userId);
+                                const userEntry = leaderboard.find(e => e.userId === userId);
                                 const limit = compact ? 5 : 10;
                                 const userInDisplayed = userEntry && leaderboard.indexOf(userEntry) < limit;
 
@@ -116,14 +116,14 @@ const Leaderboard = ({ refreshKey = 0, compact = false }: LeaderboardProps) => {
                                     return null;
                                 }
 
-                                const isMe = entry.user_id === userId;
+                                const isMe = entry.userId === userId;
                                 const rowClass = isMe || isUserRow ? 'table-warning' : '';
                                 const isSeparatedUser = rowIndex === 10 && isUserRow;
                                 const flag = entry.timezone ? getFlagFromTimezone(entry.timezone) : '';
 
                                 return (
                                     <tr
-                                        key={entry.user_id}
+                                        key={entry.userId}
                                         className={`${rowClass} ${styles.row} ${isSeparatedUser ? styles.separator : ''}`}
                                     >
                                         <td className={styles.rankText}>
@@ -132,15 +132,15 @@ const Leaderboard = ({ refreshKey = 0, compact = false }: LeaderboardProps) => {
                                         <td className={`text-truncate ${styles.playerName}`}>
                                             <div className="d-flex align-items-center">
                                                 {flag && <span className={styles.flag}>{flag}</span>}
-                                                {entry.display_name}
+                                                {entry.displayName}
                                                 {isMe && <span className={styles.youLabel}>(You)</span>}
                                             </div>
                                         </td>
                                         <td className={`fw-medium ${styles.scoreCol}`}>
-                                            {Number(entry.total_score).toLocaleString()}
+                                            {Number(entry.totalScore).toLocaleString()}
                                         </td>
                                         <td className={`text-muted ${styles.gamesCol}`}>
-                                            {entry.games_played}
+                                            {entry.gamesPlayed}
                                         </td>
                                     </tr>
                                 );
