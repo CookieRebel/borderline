@@ -85,7 +85,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
         try {
             setLoading(true);
             setError(null);
-            const response = await fetch(`/api/analytics?user_id=${userId}`);
+            const response = await fetch(`/api/analytics`);
 
             if (!response.ok) {
                 throw new Error('Failed to fetch analytics data');

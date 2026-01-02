@@ -1,6 +1,7 @@
 import type { Handler } from '@netlify/functions';
-import { db, schema } from '../../src/db';
-import { eq, and, sql, desc } from 'drizzle-orm';
+import { db } from '../../src/db';
+import { sql } from 'drizzle-orm';
+import { getUserId } from '../../src/utils/auth';
 
 // Get date in Melbourne timezone (Australia/Melbourne)
 const getMelbourneDate = (): Date => {
@@ -40,6 +41,15 @@ export const handler: Handler = async (event) => {
 
   try {
     const params = event.queryStringParameters || {};
+
+    if (params.user_id) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'user_id param is forbidden. Use cookies.' }),
+      };
+    }
+
     const level = params.level || 'easy';
     let weekNum = parseInt(params.week || '0', 10);
     let yearNum = parseInt(params.year || '0', 10);
@@ -52,7 +62,7 @@ export const handler: Handler = async (event) => {
     }
 
     // Get top 10 by cumulative score (max 20 games per user per week)
-    const userId = params.user_id || '';
+    const userId = getUserId(event) || ''; // Optional: if logged in, we highlight them
 
     // Get top 10 by cumulative score + specific user rank
     const leaderboard = await db.execute(sql`
@@ -129,11 +139,11 @@ export const handler: Handler = async (event) => {
         weekStartDate,
         leaderboard: leaderboard.rows.map((row) => ({
           rank: Number(row.player_rank),
-          user_id: row.user_id,
-          display_name: row.display_name,
+          userId: row.user_id,
+          displayName: row.display_name,
           timezone: row.timezone,
-          total_score: row.total_score,
-          games_played: row.games_played,
+          totalScore: row.total_score,
+          gamesPlayed: row.games_played,
         })),
       }),
     };

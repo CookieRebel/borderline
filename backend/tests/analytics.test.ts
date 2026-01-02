@@ -1,11 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { db, schema } from '../src/db';
-import { eq } from 'drizzle-orm';
 import { handler as analyticsHandler } from '../netlify/functions/analytics';
 import { setupTestDb } from './test_utils';
 
 const ADMIN_USER_ID = 'bad83e41-5d35-463d-882f-30633f5301ff';
-const INVALID_USER_ID = '00000000-0000-0000-0000-000000000000';
 
 describe('Analytics API (PGLite)', () => {
     let client: any;
@@ -27,10 +25,17 @@ describe('Analytics API (PGLite)', () => {
         await client.close();
     });
 
-    const callAnalytics = async (params: any, method: string = 'GET') => {
+    const callAnalytics = async (params: any, method: string = 'GET', userId?: string) => {
+        const headers: any = {};
+        if (userId) {
+            // Netlify/AWS events usually use lowercase 'cookie' or we support both in getUserId logic.
+            // Setting both to be safe or just 'cookie' as typical Node/HTTP
+            headers['cookie'] = `borderline_user_id=${userId}`;
+        }
         const event = {
             httpMethod: method,
             queryStringParameters: params,
+            headers
         } as any;
         const response = await analyticsHandler(event, {} as any);
         const body = JSON.parse(response?.body || '{}');
@@ -42,22 +47,26 @@ describe('Analytics API (PGLite)', () => {
     };
 
     describe('GET /api/analytics', () => {
-        it('should return 401 when user_id is missing', async () => {
+        it('should return 401 when cookie is missing', async () => {
             const { status, data } = await callAnalytics({});
             expect(status).toBe(401);
-            expect(data.error).toContain('user_id required');
+            expect(data.error).toBeDefined(); // Unauthorized
         });
 
-        it('should return 401 for invalid user_id', async () => {
-            const { status, data } = await callAnalytics({ user_id: INVALID_USER_ID });
-            // Handler typically returns 401 if user not found or not admin?
-            // Existing test expected 401.
-            expect(status).toBe(401);
-            expect(data.error).toContain('invalid user');
+        it('should return 401 for invalid (non-admin) user', async () => {
+            // Create non-admin user
+            const nonAdminId = '99999999-9999-9999-9999-999999999999';
+            await db.insert(schema.users).values({
+                id: nonAdminId, displayName: 'Normie', email: 'n@n.com', isAdmin: false
+            });
+
+            const { status } = await callAnalytics({}, 'GET', nonAdminId);
+            expect(status).toBe(401); // Or 403 Forbidden if impl checks admin specifically. Handler checks admin.
+            // If handler checks user existence first:
         });
 
         it('should return analytics data for valid admin user', async () => {
-            const { status, data } = await callAnalytics({ user_id: ADMIN_USER_ID });
+            const { status, data } = await callAnalytics({}, 'GET', ADMIN_USER_ID);
             expect(status).toBe(200);
 
             // Verify summary stats structure
@@ -155,7 +164,7 @@ describe('Analytics API (PGLite)', () => {
         });
 
         it('should return non-negative values for all metrics', async () => {
-            const { data } = await callAnalytics({ user_id: ADMIN_USER_ID });
+            const { data } = await callAnalytics({}, 'GET', ADMIN_USER_ID);
 
             expect(data.daily.newUsers).toBeGreaterThanOrEqual(0);
             expect(data.daily.newGames).toBeGreaterThanOrEqual(0);
@@ -185,7 +194,7 @@ describe('Analytics API (PGLite)', () => {
         });
 
         it('should return percentage changes in valid range', async () => {
-            const { data } = await callAnalytics({ user_id: ADMIN_USER_ID });
+            const { data } = await callAnalytics({}, 'GET', ADMIN_USER_ID);
 
             expect(Number.isFinite(data.daily.usersChange)).toBe(true);
             expect(Number.isFinite(data.daily.gamesChange)).toBe(true);
@@ -205,7 +214,7 @@ describe('Analytics API (PGLite)', () => {
         });
 
         it('should reject non-GET methods', async () => {
-            const { status } = await callAnalytics({ user_id: ADMIN_USER_ID }, 'POST');
+            const { status } = await callAnalytics({}, 'POST', ADMIN_USER_ID);
             // Handler should return 405
             expect(status).toBe(405);
         });

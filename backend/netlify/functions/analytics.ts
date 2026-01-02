@@ -2,6 +2,7 @@ import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
 import { sql, gte, and, lt, count, eq, avg, gt, isNull } from 'drizzle-orm';
 
+import { getUserId } from '../../src/utils/auth';
 
 /**
  * getMelbourneStartOfDay(date)
@@ -177,7 +178,15 @@ export const handler: Handler = async (event) => {
     }
 
     try {
-        const adminUserId = event.queryStringParameters?.user_id;
+        if (event.queryStringParameters?.user_id) {
+            return {
+                statusCode: 400,
+                headers,
+                body: JSON.stringify({ error: 'user_id param is forbidden. Use cookies.' }),
+            };
+        }
+
+        const adminUserId = getUserId(event);
 
         if (!adminUserId) {
             return {
@@ -191,7 +200,7 @@ export const handler: Handler = async (event) => {
             where: eq(schema.users.id, adminUserId),
         });
 
-        if (!user) {
+        if (!user || !user.isAdmin) {
             return {
                 statusCode: 401,
                 headers,

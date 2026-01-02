@@ -32,8 +32,9 @@ describe('Streak Logic (Timezone Aware - PGLite)', () => {
         // 1. Start Game
         const startEvent = {
             httpMethod: 'POST',
-            body: JSON.stringify({ user_id: userId, level: 'easy' })
-        } as any; // Cast to any to simplify mock event structure
+            body: JSON.stringify({ level: 'easy' }),
+            headers: { cookie: `borderline_user_id=${userId}` }
+        } as any;
         const startRes = await gameHandler(startEvent, {} as any);
         const startData = JSON.parse(startRes?.body || '{}');
         const gameId = startData.id;
@@ -43,7 +44,6 @@ describe('Streak Logic (Timezone Aware - PGLite)', () => {
             httpMethod: 'PUT',
             body: JSON.stringify({
                 id: gameId,
-                user_id: userId,
                 level: 'easy',
                 guesses: 1,
                 time: 10,
@@ -51,8 +51,9 @@ describe('Streak Logic (Timezone Aware - PGLite)', () => {
                 won,
                 target_code: 'AUS',
                 timezone
-            })
-        } as any; // Cast to any to simplify mock event structure
+            }),
+            headers: { cookie: `borderline_user_id=${userId}` }
+        } as any;
         const endRes = await gameHandler(endEvent, {} as any);
         return JSON.parse(endRes?.body || '{}');
     };
@@ -191,10 +192,10 @@ describe('Streak Logic (Timezone Aware - PGLite)', () => {
         const startEvent = {
             httpMethod: 'POST',
             body: JSON.stringify({
-                user_id: userId,
                 level: 'easy',
                 timezone: newTimezone
-            })
+            }),
+            headers: { cookie: `borderline_user_id=${userId}` }
         } as any;
         await gameHandler(startEvent, {} as any);
 

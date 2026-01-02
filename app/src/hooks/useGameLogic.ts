@@ -105,8 +105,8 @@ const EASY_COUNTRIES = [
 // ... (Define submitGameResult outside or inside? It was outside. Updating it to use PUT)
 
 // Submit game result to backend
-const submitGameResult = async (gameId: string | null, userId: string, level: string, guesses: number, time: number, score: number, won: boolean, targetIso?: string) => {
-    if (!userId || !gameId) return null; // Require gameId now
+const submitGameResult = async (gameId: string | null, level: string, guesses: number, time: number, score: number, won: boolean, targetIso?: string) => {
+    if (!gameId) return null; // Require gameId now
 
     try {
         const res = await fetch('/api/game', {
@@ -114,7 +114,7 @@ const submitGameResult = async (gameId: string | null, userId: string, level: st
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 id: gameId,
-                user_id: userId,
+                // handled by cookie
                 level,
                 guesses,
                 time,
@@ -260,13 +260,15 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
 
     // Start a new game session on backend
     const startBackendGame = async () => {
-        if (!userId) return;
+        // if (!userId) return; // UserId is now implicit via cookie, but we might want to wait for auth check?
+        // Actually, we should wait until user is loaded to ensure cookie exists. userId prop checks that.
+        if (userIsLoading || !userId) return;
+
         try {
             const res = await fetch('/api/game', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    user_id: userId,
                     level: difficulty,
                     // week/year calculated on backend
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
@@ -344,7 +346,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
         return fetch('/api/pick_target', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ user_id: userId, candidates })
+            body: JSON.stringify({ candidates })
         })
             .then(res => res.json())
             .then(data => {
@@ -355,7 +357,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
                     target = potentialTargets[randomIndex];
                 }
 
-                const highScoreMessage = highScore > 0 ? `Can you beat your all-time level high score of ${highScore}?` : 'Can you guess the country or territory?';
+                const highScoreMessage = highScore > 0 ? highScore < 2000 ? `Can you beat your all-time level high score of ${highScore}?` : `Can you repeat your high score of ${highScore}?` : 'Can you guess the country or territory?';
 
                 // Transition from loading (or whatever) to ready
                 setGameState({
@@ -411,7 +413,7 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
         const guessCount = gameState.guessHistory.length;
         if (userId) {
             const targetIso = gameState.targetCountry?.properties?.['ISO3166-1-Alpha-3'];
-            submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, 0, false, targetIso).then(() => {
+            submitGameResult(gameId, difficulty, guessCount, elapsedSeconds, 0, false, targetIso).then(() => {
                 if (onGameEnd) onGameEnd();
             });
         }
@@ -456,8 +458,8 @@ export const useGameLogic = (isAdmin: boolean, userIsLoading: boolean, userId?: 
             }));
 
             const elapsedSeconds = Math.floor((Date.now() - roundStartTime.current) / 1000);
-            if (userId) {
-                submitGameResult(gameId, userId, difficulty, guessCount, elapsedSeconds, roundScore, true, targetIso)
+            if (userId) { // Still checking userId to ensure we are "logged in" contextually
+                submitGameResult(gameId, difficulty, guessCount, elapsedSeconds, roundScore, true, targetIso)
                     .then(data => {
                         if (data && data.rankMessage) {
                             // console.log("Setting Game State rankMessage", data.rankMessage);

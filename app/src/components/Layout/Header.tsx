@@ -33,7 +33,7 @@ const Header = ({ difficulty, refreshKey = 0 }: HeaderProps) => {
             if (!userId) return;
 
             try {
-                const response = await fetch(`/api/stats?user_id=${userId}&level=${difficulty}`);
+                const response = await fetch(`/api/stats?level=${difficulty}`);
                 if (response.ok) {
                     const data = await response.json();
                     setTodayScore(data.todayScore || 0);
