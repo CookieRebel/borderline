@@ -24,11 +24,7 @@ export const handler: Handler = async (event) => {
                 if (user) {
                     return {
                         statusCode: 200,
-                        headers: {
-                            ...headers,
-                            // TODO: Migration logic - upgrade return users to Secure cookies. Remove later.
-                            'Set-Cookie': setUserIdCookie(user.id),
-                        },
+                        headers,
                         body: JSON.stringify(user),
                     };
                 }

@@ -30,10 +30,7 @@ export const handler: Handler = async (event) => {
             if (existingUser) {
                 return {
                     statusCode: 200,
-                    headers: {
-                        ...headers,
-                        'Set-Cookie': setUserIdCookie(existingUser.id),
-                    },
+                    headers,
                     body: JSON.stringify(existingUser),
                 };
             }
