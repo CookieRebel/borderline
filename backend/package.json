@@ -4,6 +4,8 @@
     "type": "module",
     "scripts": {
         "test": "vitest",
+        "build": "npm run typecheck",
+        "typecheck": "tsc --noEmit",
         "netlify:functions": "netlify functions:serve --port 9999 --functions netlify/functions",
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
