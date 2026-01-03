@@ -4,6 +4,8 @@ export const users = pgTable('users', {
     id: uuid('id').primaryKey().defaultRandom(),
     displayName: varchar('display_name', { length: 50 }).notNull(),
     email: varchar('email', { length: 255 }).unique(),
+    supabaseUserId: uuid('supabase_user_id').unique(),
+    isRegistered: boolean('is_registered').default(false).notNull(),
     easyGameCount: integer('easy_game_count').default(0).notNull(),
     mediumGameCount: integer('medium_game_count').default(0).notNull(),
     hardGameCount: integer('hard_game_count').default(0).notNull(),

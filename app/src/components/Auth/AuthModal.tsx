@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, FormGroup, Label, Alert } from 'reactstrap';
 import { supabase } from '../../utils/supabase';
+import { useUsername } from '../../hooks/useUsername';
 
 interface IProps {
     isOpen: boolean;
@@ -15,6 +16,7 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const { refetchUser } = useUsername();
 
     // Sync internal mode if prop changes when opening
     React.useEffect(() => {
@@ -46,7 +48,24 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
 
             if (result.error) {
                 setError(result.error.message);
-            } else {
+            } else if (result.data.session) {
+                // Link Account
+                const token = result.data.session.access_token;
+                const linkRes = await fetch('/api/account/link', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!linkRes.ok) {
+                    setError('Authentication successful, but account linking failed.');
+                    return;
+                }
+
+                // Refresh user state (cookie might have changed)
+                await refetchUser();
+
                 // Success
                 onSuccess();
                 toggle();
