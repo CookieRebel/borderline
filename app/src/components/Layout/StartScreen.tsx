@@ -7,6 +7,9 @@ import DifficultySelector from '../Game/DifficultySelector';
 import BackgroundGlobe from './BackgroundGlobe';
 import styles from './StartScreen.module.css';
 import Leaderboard from '../Game/Leaderboard';
+import { supabase } from '../../utils/supabase';
+import type { Session } from '@supabase/supabase-js';
+import { AuthModal } from '../Auth/AuthModal';
 
 interface StartScreenProps {
     onPlay: () => void;
@@ -22,6 +25,11 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
     const [error, setError] = useState<string | null>(null);
     const [isSnapped, setIsSnapped] = useState(false);
 
+    // Auth State
+    const [session, setSession] = useState<Session | null>(null);
+    const [authModalOpen, setAuthModalOpen] = useState(false);
+    const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+
     // Initialize audio
     useEffect(() => {
         const audioUrl = new URL('../../assets/poing.mp3', import.meta.url).href;
@@ -30,6 +38,21 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
         // Add start-screen class to body
         document.body.classList.add('start-screen');
         return () => document.body.classList.remove('start-screen');
+    }, []);
+
+    // Auth Session
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+
+        return () => subscription.unsubscribe();
     }, []);
 
     const handlePlayClick = () => {
@@ -191,6 +214,40 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                     )}
                 </div>
 
+                {/* Auth UI */}
+                {!session ? (
+                    <div className="d-flex gap-2 justify-content-center mt-2">
+                        <Button
+                            color="light"
+                            outline
+                            size="sm"
+                            onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
+                        >
+                            Log In
+                        </Button>
+                        <Button
+                            color="light"
+                            outline
+                            size="sm"
+                            onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
+                        >
+                            Sign Up
+                        </Button>
+                    </div>
+                ) : (
+                    <div className="text-center mt-2">
+                        <div className="small text-white-50 mb-1" style={{ fontSize: '0.75rem' }}>{session.user.email}</div>
+                        <Button
+                            color="link"
+                            className="text-white-50 p-0 text-decoration-none"
+                            size="sm"
+                            onClick={() => supabase.auth.signOut()}
+                        >
+                            Log Out
+                        </Button>
+                    </div>
+                )}
+
                 <div className={"mt-2 " + styles.leaderboard}>
                     <Leaderboard />
                 </div>
@@ -198,6 +255,12 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
 
 
 
+            <AuthModal
+                isOpen={authModalOpen}
+                toggle={() => setAuthModalOpen(!authModalOpen)}
+                mode={authMode}
+                onSuccess={() => { }}
+            />
         </div>
     );
 };
