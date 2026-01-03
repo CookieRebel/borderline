@@ -427,7 +427,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                 <h5 className="card-title mb-3">Overall Statistics</h5>
                                 <div className="row g-4">
                                     {/* Total Users */}
-                                    <div className="col-12 col-md-6 col-lg-3">
+                                    <div className="col-12 col-md-4">
                                         <div className="text-center p-3 bg-primary bg-opacity-10 rounded">
                                             <Users size={32} className="text-primary mb-2" />
                                             <div className="h3 mb-0">{data.totals.totalUsers.toLocaleString()}</div>
@@ -436,7 +436,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                     </div>
 
                                     {/* Total Games */}
-                                    <div className="col-12 col-md-6 col-lg-3">
+                                    <div className="col-12 col-md-4">
                                         <div className="text-center p-3 bg-success bg-opacity-10 rounded">
                                             <PlayCircle size={32} className="text-success mb-2" />
                                             <div className="h3 mb-0">{data.totals.totalGames.toLocaleString()}</div>
@@ -445,7 +445,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                     </div>
 
                                     {/* Active Players (Registered) */}
-                                    <div className="col-12 col-md-6 col-lg-3">
+                                    <div className="col-12 col-md-4">
                                         <div className="text-center p-3 bg-info bg-opacity-10 rounded">
                                             <Users size={32} className="text-info mb-2" />
                                             <div className="h3 mb-0">{data.totals.totalRegisteredUsers.toLocaleString()}</div>
@@ -454,29 +454,29 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                     </div>
 
                                     {/* Games by Difficulty */}
-                                    <div className="col-12 col-lg-6">
+                                    <div className="col-12">
                                         <div className="p-3 bg-light rounded">
                                             <div className="text-muted small mb-2">Games by Difficulty</div>
                                             <div className="row g-2">
-                                                <div className="col-6 col-sm-3">
+                                                <div className="col-6 col-md-3">
                                                     <div className="text-center">
                                                         <div className="badge bg-success mb-1">Easy</div>
                                                         <div className="fw-medium">{data.totals.gamesByDifficulty.easy.toLocaleString()}</div>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 col-sm-3">
+                                                <div className="col-6 col-md-3">
                                                     <div className="text-center">
                                                         <div className="badge bg-warning mb-1">Medium</div>
                                                         <div className="fw-medium">{data.totals.gamesByDifficulty.medium.toLocaleString()}</div>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 col-sm-3">
+                                                <div className="col-6 col-md-3">
                                                     <div className="text-center">
                                                         <div className="badge bg-danger mb-1">Hard</div>
                                                         <div className="fw-medium">{data.totals.gamesByDifficulty.hard.toLocaleString()}</div>
                                                     </div>
                                                 </div>
-                                                <div className="col-6 col-sm-3">
+                                                <div className="col-6 col-md-3">
                                                     <div className="text-center">
                                                         <div className="badge bg-dark mb-1">Extreme</div>
                                                         <div className="fw-medium">{data.totals.gamesByDifficulty.extreme.toLocaleString()}</div>
