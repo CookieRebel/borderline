@@ -9,6 +9,7 @@ export default defineConfig(({ command }) => {
 
   return {
     plugins: [react()],
+    envDir: '..',
 
     // DEV ONLY (your current setup)
     server: {

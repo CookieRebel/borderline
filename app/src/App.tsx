@@ -39,7 +39,7 @@ function App() {
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // 2. Hooks
-  const { userId, userIsLoading, streak, highScores, refetchUser, isAdmin } = useUsername();
+  const { userId, userIsLoading, streak, highScores, refetchUser, isAdmin, logout } = useUsername();
   const guessInputRef = useRef<GuessInputRef>(null);
   const mapCanvasRef = useRef<MapCanvasRef>(null);
   const hasPlayedCelebration = useRef(false);
@@ -172,6 +172,12 @@ function App() {
         won={gameState.status === 'won'}
         onPlayAgain={playAgain}
         onClose={() => setShowResultsScreen(false)}
+        onLogout={async () => {
+          await logout();
+          setShowResultsScreen(false);
+          setShowStartScreen(true);
+          await resetGame();
+        }}
         rankMessage={gameState.rankMessage}
       />
     )

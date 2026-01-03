@@ -1,0 +1,169 @@
+import React, { useState } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, FormGroup, Label, Alert } from 'reactstrap';
+import { supabase } from '../../utils/supabase';
+import { useUsername } from '../../hooks/useUsername';
+import styles from './AuthModal.module.css';
+
+interface IProps {
+    isOpen: boolean;
+    toggle: () => void;
+    mode: 'login' | 'signup';
+    onSuccess: () => void;
+}
+
+export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode, onSuccess }) => {
+    const [mode, setMode] = useState<'login' | 'signup'>(initialMode);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [rememberMe, setRememberMe] = useState(false);
+    const { refetchUser } = useUsername();
+
+    // Sync internal mode if prop changes when opening
+    React.useEffect(() => {
+        if (isOpen) {
+            setMode(initialMode);
+            setError(null);
+            setPassword('');
+
+            const savedEmail = localStorage.getItem('remembered_email');
+            if (savedEmail) {
+                setEmail(savedEmail);
+                setRememberMe(true);
+            } else {
+                setEmail('');
+                setRememberMe(false);
+            }
+        }
+    }, [isOpen, initialMode]);
+
+    const handleAuth = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            let result;
+            if (mode === 'signup') {
+                result = await supabase.auth.signUp({
+                    email,
+                    password,
+                });
+            } else {
+                result = await supabase.auth.signInWithPassword({
+                    email,
+                    password,
+                });
+            }
+
+            if (result.error) {
+                setError(result.error.message);
+            } else if (result.data.session) {
+                // Link Account
+                const token = result.data.session.access_token;
+                const linkRes = await fetch('/api/account_link', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!linkRes.ok) {
+                    setError('Authentication successful, but account linking failed.');
+                    return;
+                }
+
+                // Handle Remember Me
+                if (rememberMe) {
+                    localStorage.setItem('remembered_email', email);
+                } else {
+                    localStorage.removeItem('remembered_email');
+                }
+
+                // Refresh user state (cookie might have changed)
+                await refetchUser();
+
+                // Success
+                onSuccess();
+                toggle();
+            }
+        } catch (err: any) {
+            setError(err.message || 'An unexpected error occurred');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const switchMode = () => {
+        setMode(mode === 'login' ? 'signup' : 'login');
+        setError(null);
+    };
+
+    const title = mode === 'login' ? 'Log In' : 'Sign Up';
+    const switchLabel = mode === 'login' ? "Don't have an account? Sign Up" : 'Already have an account? Log In';
+
+    return (
+        <Modal isOpen={isOpen} toggle={toggle} centered>
+            <ModalHeader toggle={toggle}>{title}</ModalHeader>
+            <ModalBody>
+                {error && <Alert color="danger">{error}</Alert>}
+                {mode === 'signup' &&
+                    <div className={styles.message}>
+                        <p><small>Sign up to Borderline to allow you to</small></p>
+                        <ul>
+                            <li><small>play with the same account across different devices</small></li>
+                            <li><small>access extended game statistics</small></li>
+                        </ul>
+                        <p><small>Your existing game statistics on this device will carry over into the new account.</small></p>
+                    </div>
+                }
+                <FormGroup>
+                    <Label for="email">Email</Label>
+                    <Input
+                        type="email"
+                        id="email"
+                        placeholder="example@email.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={loading}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="password">Password</Label>
+                    <Input
+                        type="password"
+                        id="password"
+                        placeholder="********"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={loading}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') handleAuth();
+                        }}
+                    />
+                </FormGroup>
+                <FormGroup check className="mb-3">
+                    <Label check>
+                        <Input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                        />{' '}
+                        Remember email
+                    </Label>
+                </FormGroup>
+                <div className="text-center mt-3">
+                    <Button color="link" onClick={switchMode} className="p-0">
+                        <small>{switchLabel}</small>
+                    </Button>
+                </div>
+            </ModalBody >
+            <ModalFooter>
+                <Button color="secondary" onClick={toggle} disabled={loading}>Cancel</Button>
+                <Button color="primary" onClick={handleAuth} disabled={loading}>
+                    {loading ? 'Processing...' : title}
+                </Button>
+            </ModalFooter>
+        </Modal >
+    );
+};

@@ -78,6 +78,13 @@
       "when": 1767317631760,
       "tag": "0011_striped_shaman",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1767410010632,
+      "tag": "0012_sudden_baron_strucker",
+      "breakpoints": true
     }
   ]
 }

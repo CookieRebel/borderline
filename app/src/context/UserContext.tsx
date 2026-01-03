@@ -1,4 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { supabase } from '../utils/supabase';
+import type { Session } from '@supabase/supabase-js';
 import type { HighScores } from '../hooks/useUsername';
 
 // Duplicate types locally or export from a shared types file would be better, 
@@ -21,6 +23,9 @@ interface UserContextType {
     isLinked: boolean;
     timezone: string | null;
     isAdmin: boolean;
+    isLoggedIn: boolean;
+    session: Session | null;
+    logout: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -37,9 +42,25 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [bestDayScore, setBestDayScore] = useState<number>(0);
     const [email, setEmail] = useState<string | null>(null);
     const [timezone, setTimezone] = useState<string | null>(null);
-    const [isLinked] = useState<boolean>(false);
+    const [isLinked, setIsLinked] = useState<boolean>(false);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [userIsLoading, setUserIsLoading] = useState(true);
+    const [session, setSession] = useState<Session | null>(null);
+
+    // Auth Session Listener (Global)
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            setSession(session);
+        });
+
+        const {
+            data: { subscription },
+        } = supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     // Initialize user on mount (ONCE per app load)
     useEffect(() => {
@@ -77,6 +98,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                     setBestDayScore(userData.bestDayScore || 0);
                     setEmail(userData.email || null);
                     setTimezone(userData.timezone || null);
+                    setIsLinked(userData.isRegistered || false);
                     setIsAdmin(userData.isAdmin || false);
 
                     // If migration happened or we just logged in, clear legacy storage
@@ -102,6 +124,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             const res = await fetch('/api/me');
             if (res.ok) {
                 const userData = await res.json();
+                setUserId(userData.id); // Sync ID in case it changed (Account Wins)
                 setUsername(userData.displayName);
                 setStreak(userData.streak || 0);
                 setHighScores({
@@ -114,6 +137,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 setTodayScore(userData.todayScore || 0);
                 setBestDayScore(userData.bestDayScore || 0);
                 setTimezone(userData.timezone || null);
+                setIsLinked(userData.isRegistered || false);
                 setIsAdmin(userData.isAdmin || false);
             }
         } catch (e) {
@@ -154,6 +178,50 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [userId, username]);
 
+    // Logout and create new anonymous user
+    const logout = useCallback(async () => {
+        try {
+            setUserIsLoading(true);
+
+            // 1. Supabase Sign Out (Frontend)
+            await supabase.auth.signOut();
+
+            // 2. Clear Backend Cookie
+            await fetch('/api/logout', { method: 'POST' });
+
+            // 3. Create NEW Anonymous User immediately
+            const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const res = await fetch('/api/identity', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ timezone: currentTimezone }) // No legacy_id, forces new user
+            });
+
+            if (res.ok) {
+                const userData = await res.json();
+
+                // Update State with new anonymous user
+                setUserId(userData.id);
+                setUsername(userData.displayName);
+                setStreak(0); // Reset stats for new user
+                setHighScores(defaultHighScores);
+                setPlayedToday(false);
+                setTodayScore(0);
+                setBestDayScore(0);
+                setEmail(null);
+                setTimezone(userData.timezone);
+                setIsLinked(false);
+                setIsAdmin(false); // Reset admin status
+            } else {
+                console.error('Failed to create new anonymous identity after logout');
+            }
+        } catch (e) {
+            console.error('Logout error', e);
+        } finally {
+            setUserIsLoading(false);
+        }
+    }, []);
+
     const value = {
         userId,
         username,
@@ -169,7 +237,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setEmail,
         isLinked,
         timezone,
-        isAdmin
+        isAdmin,
+        logout,
+        session,
+        isLoggedIn: !!session
     };
 
     return (

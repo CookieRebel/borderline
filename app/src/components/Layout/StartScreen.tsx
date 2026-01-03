@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Edit2 } from 'react-feather';
+import { Edit2, LogOut } from 'react-feather';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
 import { AudioManager } from '../../utils/audioManager';
@@ -7,6 +7,7 @@ import DifficultySelector from '../Game/DifficultySelector';
 import BackgroundGlobe from './BackgroundGlobe';
 import styles from './StartScreen.module.css';
 import Leaderboard from '../Game/Leaderboard';
+import { AuthModal } from '../Auth/AuthModal';
 
 interface StartScreenProps {
     onPlay: () => void;
@@ -16,11 +17,15 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: StartScreenProps) => {
-    const { username, updateUsername, userIsLoading, playedToday, isAdmin } = useUsername();
+    const { username, updateUsername, userIsLoading, playedToday, isAdmin, logout, isLoggedIn } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isSnapped, setIsSnapped] = useState(false);
+
+    // Auth State
+    const [authModalOpen, setAuthModalOpen] = useState(false);
+    const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
     // Initialize audio
     useEffect(() => {
@@ -156,10 +161,41 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                                     </span>
                                 )}
 
+                                {isLoggedIn && (
+                                    <span
+                                        onClick={() => logout()}
+                                        className="ms-2 d-inline-flex align-items-center text-muted"
+                                        style={{ cursor: 'pointer' }}
+                                        title="Log Out"
+                                    >
+                                        <LogOut size={14} />
+                                    </span>
+                                )}
+
                             </div>
                         </>
                     )}
                 </div>
+                {/* Auth UI */}
+                {!isLoggedIn ? (
+                    <div className="d-flex gap-2 justify-content-center mt-2 mb-2">
+                        <Button
+                            color="secondary"
+                            outline
+                            onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
+                        >
+                            Log In
+                        </Button>
+                        <Button
+                            color="secondary"
+                            outline
+                            onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
+                        >
+                            Sign Up
+                        </Button>
+                    </div>
+                ) : null}
+
 
                 {/* Difficulty Selector */}
                 <DifficultySelector />
@@ -180,16 +216,16 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                     </Button>
 
 
-                    {isAdmin && (
-                        <Button
-                            color="secondary"
-                            outline
-                            onClick={onAnalytics}
-                        >
-                            Analytics
-                        </Button>
-                    )}
                 </div>
+                {isAdmin && (
+                    <Button
+                        color="secondary"
+                        outline
+                        onClick={onAnalytics}
+                    >
+                        Analytics
+                    </Button>
+                )}
 
                 <div className={"mt-2 " + styles.leaderboard}>
                     <Leaderboard />
@@ -198,6 +234,12 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
 
 
 
+            <AuthModal
+                isOpen={authModalOpen}
+                toggle={() => setAuthModalOpen(!authModalOpen)}
+                mode={authMode}
+                onSuccess={() => { }}
+            />
         </div>
     );
 };

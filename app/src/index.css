@@ -8,6 +8,7 @@
   --primary: #666666;
   --primary-text: #FFFFFF;
   --primary-hover: #808080;
+  --primary-disabled: #808080;
   --secondary: #046307;
   --secondary-text: #FFFFFF;
   --secondary-hover: #034F05;
@@ -20,6 +21,9 @@
   --gold: #FFD700;
   --gold-text: #1a1a1a;
   --gold-hover: #e6c200;
+  --emerald: #046307;
+  --emerald-text: #FFFFFF;
+  --emerald-hover: #034F05;
 
 
   /* Light theme color palette */
@@ -93,6 +97,12 @@ body {
   border-color: var(--primary-hover);
 }
 
+.btn-primary:disabled {
+  background-color: var(--primary-disabled);
+  color: white;
+  border-color: var(--primary-disabled);
+}
+
 .btn-outline-primary {
   color: var(--primary);
   border-color: var(--primary);
@@ -103,6 +113,12 @@ body {
   background-color: var(--primary-hover);
   color: white;
   border-color: var(--primary-hover);
+}
+
+.btn-outline-primary:disabled {
+  background-color: var(--primary-disabled);
+  color: white;
+  border-color: var(--primary-disabled);
 }
 
 .btn-secondary {
@@ -128,6 +144,17 @@ body {
   color: white;
   border-color: var(--secondary-hover);
 }
+
+.btn-link {
+  color: var(--emerald);
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  color: var(--emerald-hover);
+  text-decoration: underline;
+}
+
 
 .btn-gold {
   background-color: var(--gold);

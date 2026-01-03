@@ -10,6 +10,7 @@
         "generate-atlas": "node scripts/generate-land-atlas.cjs"
     },
     "dependencies": {
+        "@supabase/supabase-js": "^2.89.0",
         "@types/d3-zoom": "^3.0.8",
         "bootstrap": "^5.3.8",
         "canvas-confetti": "^1.9.4",
