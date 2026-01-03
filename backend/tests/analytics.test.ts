@@ -218,5 +218,23 @@ describe('Analytics API (PGLite)', () => {
             // Handler should return 405
             expect(status).toBe(405);
         });
+        it('should return correct totalRegisteredUsers count', async () => {
+            // Seed mixed users
+            // 1. Registered Admin (Already seeded in beforeEach)
+            // 2. Unregistered Anon
+            await db.insert(schema.users).values({
+                id: '11111111-1111-1111-1111-111111111111', displayName: 'Anon', isRegistered: false
+            });
+            // 3. Registered User
+            await db.insert(schema.users).values({
+                id: '22222222-2222-2222-2222-222222222222', displayName: 'Reg', isRegistered: true
+            });
+
+            const { data } = await callAnalytics({}, 'GET', ADMIN_USER_ID);
+
+            // Expect 1 registered user (Reg), Admin is unregistered by default, Anon is unregistered
+            expect(data.totals.totalRegisteredUsers).toBe(1);
+            expect(data.totals.totalUsers).toBe(3); // Admin + Anon + Reg
+        });
     });
 });

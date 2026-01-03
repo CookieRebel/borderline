@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Button, Spinner, Alert } from 'reactstrap';
-import { ArrowLeft, TrendingUp, TrendingDown, Users, Gamepad2, RefreshCcw } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, Users, PlayCircle, RefreshCcw } from 'react-feather';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface AnalyticsScreenProps {
@@ -138,7 +138,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
 
                         <div className="col-6">
                             <div className="d-flex align-items-start">
-                                <Gamepad2 size={20} className="text-success me-2 mt-1" />
+                                <PlayCircle size={20} className="text-success me-2 mt-1" />
                                 <div>
                                     <div className="text-muted small">New Games</div>
                                     <div className="h4 mb-1">{period.newGames}</div>
@@ -365,7 +365,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                             <div className="card-body">
                                 <div className="d-flex align-items-center mb-3">
                                     <div className="p-2 rounded-circle bg-warning bg-opacity-10 me-2">
-                                        <Gamepad2 size={24} className="text-warning" />
+                                        <PlayCircle size={24} className="text-warning" />
                                     </div>
                                     <h5 className="card-title mb-0">Unfinished Games</h5>
                                 </div>
@@ -438,7 +438,7 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                     {/* Total Games */}
                                     <div className="col-12 col-md-6 col-lg-3">
                                         <div className="text-center p-3 bg-success bg-opacity-10 rounded">
-                                            <Gamepad2 size={32} className="text-success mb-2" />
+                                            <PlayCircle size={32} className="text-success mb-2" />
                                             <div className="h3 mb-0">{data.totals.totalGames.toLocaleString()}</div>
                                             <div className="text-muted small">Total Games</div>
                                         </div>
