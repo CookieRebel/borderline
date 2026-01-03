@@ -137,7 +137,8 @@ describe('Account Linking (POST /api/account/link)', () => {
         expect(body.displayName).toBe('Existing User');
 
         // Should set cookie to the existing user
-        const setCookie = String(res?.headers?.['Set-Cookie'] || '');
+        // Should set cookie to the existing user
+        const setCookie = String(res?.multiValueHeaders?.['Set-Cookie']?.[0] || '');
         expect(setCookie).toContain(`borderline_user_id=${existingUserId}`);
     });
 });

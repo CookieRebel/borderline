@@ -135,7 +135,8 @@ describe('Auth Lifecycle Flows (REAL SUPABASE)', () => {
         expect(body.displayName).toBe('Main Account');
 
         // Verify Cookie set to Main Account
-        const setCookie = String(res?.headers?.['Set-Cookie'] || '');
+        // Verify Cookie set to Main Account
+        const setCookie = String(res?.multiValueHeaders?.['Set-Cookie']?.[0] || '');
         expect(setCookie).toContain(`borderline_user_id=${existingAccountId}`);
     });
 
