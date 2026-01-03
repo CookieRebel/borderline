@@ -16,6 +16,7 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [rememberMe, setRememberMe] = useState(false);
     const { refetchUser } = useUsername();
 
     // Sync internal mode if prop changes when opening
@@ -23,8 +24,16 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
         if (isOpen) {
             setMode(initialMode);
             setError(null);
-            setEmail('');
             setPassword('');
+
+            const savedEmail = localStorage.getItem('remembered_email');
+            if (savedEmail) {
+                setEmail(savedEmail);
+                setRememberMe(true);
+            } else {
+                setEmail('');
+                setRememberMe(false);
+            }
         }
     }, [isOpen, initialMode]);
 
@@ -61,6 +70,13 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
                 if (!linkRes.ok) {
                     setError('Authentication successful, but account linking failed.');
                     return;
+                }
+
+                // Handle Remember Me
+                if (rememberMe) {
+                    localStorage.setItem('remembered_email', email);
+                } else {
+                    localStorage.removeItem('remembered_email');
                 }
 
                 // Refresh user state (cookie might have changed)
@@ -114,6 +130,16 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
                             if (e.key === 'Enter') handleAuth();
                         }}
                     />
+                </FormGroup>
+                <FormGroup check className="mb-3">
+                    <Label check>
+                        <Input
+                            type="checkbox"
+                            checked={rememberMe}
+                            onChange={(e) => setRememberMe(e.target.checked)}
+                        />{' '}
+                        Remember email
+                    </Label>
                 </FormGroup>
                 <div className="text-center mt-3">
                     <Button color="link" onClick={switchMode} className="p-0">

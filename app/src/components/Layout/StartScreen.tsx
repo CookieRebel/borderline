@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Edit2 } from 'react-feather';
+import { Edit2, LogOut } from 'react-feather';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
 import { AudioManager } from '../../utils/audioManager';
@@ -7,8 +7,6 @@ import DifficultySelector from '../Game/DifficultySelector';
 import BackgroundGlobe from './BackgroundGlobe';
 import styles from './StartScreen.module.css';
 import Leaderboard from '../Game/Leaderboard';
-import { supabase } from '../../utils/supabase';
-import type { Session } from '@supabase/supabase-js';
 import { AuthModal } from '../Auth/AuthModal';
 
 interface StartScreenProps {
@@ -19,14 +17,13 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: StartScreenProps) => {
-    const { username, updateUsername, userIsLoading, playedToday, isAdmin, logout } = useUsername();
+    const { username, updateUsername, userIsLoading, playedToday, isAdmin, logout, isLoggedIn } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [isSnapped, setIsSnapped] = useState(false);
 
     // Auth State
-    const [session, setSession] = useState<Session | null>(null);
     const [authModalOpen, setAuthModalOpen] = useState(false);
     const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
@@ -38,21 +35,6 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
         // Add start-screen class to body
         document.body.classList.add('start-screen');
         return () => document.body.classList.remove('start-screen');
-    }, []);
-
-    // Auth Session
-    useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-        });
-
-        const {
-            data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-        });
-
-        return () => subscription.unsubscribe();
     }, []);
 
     const handlePlayClick = () => {
@@ -179,10 +161,41 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                                     </span>
                                 )}
 
+                                {isLoggedIn && (
+                                    <span
+                                        onClick={() => logout()}
+                                        className="ms-2 d-inline-flex align-items-center text-muted"
+                                        style={{ cursor: 'pointer' }}
+                                        title="Log Out"
+                                    >
+                                        <LogOut size={14} />
+                                    </span>
+                                )}
+
                             </div>
                         </>
                     )}
                 </div>
+                {/* Auth UI */}
+                {!isLoggedIn ? (
+                    <div className="d-flex gap-2 justify-content-center mt-2 mb-2">
+                        <Button
+                            color="secondary"
+                            outline
+                            onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
+                        >
+                            Log In
+                        </Button>
+                        <Button
+                            color="secondary"
+                            outline
+                            onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
+                        >
+                            Sign Up
+                        </Button>
+                    </div>
+                ) : null}
+
 
                 {/* Difficulty Selector */}
                 <DifficultySelector />
@@ -204,37 +217,6 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
 
 
                 </div>
-                {/* Auth UI */}
-                {!session ? (
-                    <div className="d-flex gap-2 justify-content-center mt-2 mb-2">
-                        <Button
-                            color="secondary"
-                            outline
-                            onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
-                        >
-                            Log In
-                        </Button>
-                        <Button
-                            color="secondary"
-                            outline
-                            onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
-                        >
-                            Sign Up
-                        </Button>
-                    </div>
-                ) : (
-                    <div className="text-center mt-2 mb-2">
-                        <div className="small mb-1" style={{ fontSize: '0.75rem' }}>{session.user.email}</div>
-                        <Button
-                            color="secondary"
-                            outline
-                            onClick={() => logout()}
-                        >
-                            Log Out
-                        </Button>
-                    </div>
-                )}
-
                 {isAdmin && (
                     <Button
                         color="secondary"

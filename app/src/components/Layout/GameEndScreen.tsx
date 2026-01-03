@@ -1,7 +1,8 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, LogOut } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Container } from 'reactstrap';
 import { getAssetUrl } from '../../utils/assetUtils';
+import { useUsername } from '../../hooks/useUsername';
 import DifficultySelector from '../Game/DifficultySelector';
 import Leaderboard from '../Game/Leaderboard';
 import styles from './GameEndScreen.module.css';
@@ -19,6 +20,7 @@ interface IProps {
     won: boolean;
     onPlayAgain: () => void;
     onClose: () => void;
+    onLogout: () => void; // New prop for external handling
     rankMessage: string;
 }
 
@@ -38,10 +40,10 @@ const GameEndScreen = ({
     won,
     onPlayAgain,
     onClose,
+    onLogout,
     rankMessage
 }: IProps) => {
-    // const { userId } = useUsername(); // Leaderboard handles this internally now
-    // const { difficulty: selectedDifficulty } = useDifficulty(); // Leaderboard handles this
+    const { isLoggedIn } = useUsername(); // Check if logged in
     const [countryFacts, setCountryFacts] = useState<CountryFact[]>([]);
 
     useEffect(() => {
@@ -83,14 +85,28 @@ const GameEndScreen = ({
         <Container className={`p-0 ${styles.gameEndContainer}`}>
 
             {/* Close Button */}
-            <Button
-                color="link"
-                className="ps-0 text-muted text-decoration-none"
-                onClick={onClose}
-                aria-label="Close"
-            >
-                &lt;- Back to game
-            </Button>
+            {/* Top Bar: Back button + Logout */}
+            <div className="d-flex justify-content-between align-items-center w-100">
+                <Button
+                    color="link"
+                    className="ps-0 text-muted text-decoration-none"
+                    onClick={onClose}
+                    aria-label="Close"
+                >
+                    &lt;- Back to game
+                </Button>
+
+                {isLoggedIn && (
+                    <Button
+                        color="link"
+                        className="pe-0 text-muted text-decoration-none d-flex align-items-center gap-1"
+                        onClick={onLogout}
+                        size="sm"
+                    >
+                        Log Out <LogOut size={14} />
+                    </Button>
+                )}
+            </div>
 
             <div className="mb-2 mt-2">
                 <div className={`${styles.resultMessage} ${won ? 'text-dark' : 'text-muted'}`}>
