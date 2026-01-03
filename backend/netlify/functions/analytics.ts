@@ -381,6 +381,12 @@ export const handler: Handler = async (event) => {
         const [totalGamesResult] = await db.select({ count: count() }).from(schema.gameResults);
         const totalGames = totalGamesResult?.count || 0;
 
+        // Total Active Players (Registered Users)
+        const [totalRegisteredResult] = await db.select({ count: count() })
+            .from(schema.users)
+            .where(eq(schema.users.isRegistered, true));
+        const totalRegisteredUsers = totalRegisteredResult?.count || 0;
+
         // Get games by difficulty
         const gamesByDifficultyResult = await db.select({
             level: schema.gameResults.level,
@@ -525,6 +531,7 @@ export const handler: Handler = async (event) => {
                 },
                 totals: {
                     totalUsers,
+                    totalRegisteredUsers, // New "Active Players" metric
                     totalGames,
                     gamesByDifficulty,
                 },

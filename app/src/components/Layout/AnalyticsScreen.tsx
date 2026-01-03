@@ -34,6 +34,7 @@ interface GamesByDifficulty {
 
 interface Totals {
     totalUsers: number;
+    totalRegisteredUsers: number;
     totalGames: number;
     gamesByDifficulty: GamesByDifficulty;
 }
@@ -440,6 +441,15 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                                             <Gamepad2 size={32} className="text-success mb-2" />
                                             <div className="h3 mb-0">{data.totals.totalGames.toLocaleString()}</div>
                                             <div className="text-muted small">Total Games</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Active Players (Registered) */}
+                                    <div className="col-12 col-md-6 col-lg-3">
+                                        <div className="text-center p-3 bg-info bg-opacity-10 rounded">
+                                            <Users size={32} className="text-info mb-2" />
+                                            <div className="h3 mb-0">{data.totals.totalRegisteredUsers.toLocaleString()}</div>
+                                            <div className="text-muted small">Active Players</div>
                                         </div>
                                     </div>
 
