@@ -51,7 +51,7 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
             } else if (result.data.session) {
                 // Link Account
                 const token = result.data.session.access_token;
-                const linkRes = await fetch('/api/account/link', {
+                const linkRes = await fetch('/api/account_link', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`

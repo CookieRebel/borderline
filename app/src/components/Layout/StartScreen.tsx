@@ -228,7 +228,7 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                         <Button
                             color="secondary"
                             outline
-                            onClick={() => supabase.auth.signOut()}
+                            onClick={() => logout()}
                         >
                             Log Out
                         </Button>

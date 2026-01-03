@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
+import { supabase } from '../utils/supabase';
 import type { HighScores } from '../hooks/useUsername';
 
 // Duplicate types locally or export from a shared types file would be better, 
@@ -21,6 +22,7 @@ interface UserContextType {
     isLinked: boolean;
     timezone: string | null;
     isAdmin: boolean;
+    logout: () => Promise<void>;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -154,6 +156,49 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [userId, username]);
 
+    // Logout and create new anonymous user
+    const logout = useCallback(async () => {
+        try {
+            setUserIsLoading(true);
+
+            // 1. Supabase Sign Out (Frontend)
+            await supabase.auth.signOut();
+
+            // 2. Clear Backend Cookie
+            await fetch('/api/logout', { method: 'POST' });
+
+            // 3. Create NEW Anonymous User immediately
+            const currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const res = await fetch('/api/identity', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ timezone: currentTimezone }) // No legacy_id, forces new user
+            });
+
+            if (res.ok) {
+                const userData = await res.json();
+
+                // Update State with new anonymous user
+                setUserId(userData.id);
+                setUsername(userData.displayName);
+                setStreak(0); // Reset stats for new user
+                setHighScores(defaultHighScores);
+                setPlayedToday(false);
+                setTodayScore(0);
+                setBestDayScore(0);
+                setEmail(null);
+                setTimezone(userData.timezone);
+                setIsAdmin(false); // Reset admin status
+            } else {
+                console.error('Failed to create new anonymous identity after logout');
+            }
+        } catch (e) {
+            console.error('Logout error', e);
+        } finally {
+            setUserIsLoading(false);
+        }
+    }, []);
+
     const value = {
         userId,
         username,
@@ -169,7 +214,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setEmail,
         isLinked,
         timezone,
-        isAdmin
+        isAdmin,
+        logout
     };
 
     return (

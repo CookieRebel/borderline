@@ -21,3 +21,13 @@ export const setUserIdCookie = (userId: string): string => {
         maxAge: 60 * 60 * 24 * 365, // 1 year
     });
 }
+
+export const clearUserIdCookie = (): string => {
+    return serialize(COOKIE_NAME, '', {
+        httpOnly: true,
+        secure: USE_SECURE_COOKIES,
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 0, // Expire immediately
+    });
+}
