@@ -6,7 +6,7 @@ import { useUsername } from '../../hooks/useUsername';
 import DifficultySelector from '../Game/DifficultySelector';
 import Leaderboard from '../Game/Leaderboard';
 import styles from './GameEndScreen.module.css';
-import { Edit2, User } from 'react-feather';
+import { User } from 'react-feather';
 
 interface CountryFact {
     country: string;

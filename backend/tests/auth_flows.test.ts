@@ -5,7 +5,6 @@ import { handler as identityHandler } from '../netlify/functions/identity';
 import { db, schema } from '../src/db';
 import { v4 as uuidv4 } from 'uuid';
 import { setupTestDb } from './test_utils';
-import { parse } from 'cookie';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import path from 'path';

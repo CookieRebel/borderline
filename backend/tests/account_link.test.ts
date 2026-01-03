@@ -1,7 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { handler } from '../netlify/functions/account_link'; // We'll need to export handler
 import { db, schema } from '../src/db';
-import { setUserIdCookie } from '../src/utils/auth';
 import { v4 as uuidv4 } from 'uuid';
 import { eq } from 'drizzle-orm';
 import { setupTestDb } from './test_utils';

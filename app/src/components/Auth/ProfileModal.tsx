@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Form, FormGroup, Label, Input, Alert, Spinner } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
 import { supabase } from '../../utils/supabase';
-import { User, Lock, Mail, Save, X } from 'lucide-react';
 
 interface ProfileModalProps {
     isOpen: boolean;

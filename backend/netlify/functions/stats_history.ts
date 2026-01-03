@@ -1,6 +1,6 @@
 import type { Handler } from '@netlify/functions';
 import { db, schema } from '../../src/db';
-import { eq, and, gte, desc } from 'drizzle-orm';
+import { eq, and, gte } from 'drizzle-orm';
 import { getUserId } from '../../src/utils/auth';
 
 // Helper to get Year/Month/Day relative to a Timezone

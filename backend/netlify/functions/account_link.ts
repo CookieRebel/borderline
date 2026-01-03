@@ -38,12 +38,15 @@ export const handler: Handler = async (event) => {
             // If the Supabase account is already linked to a row, that row becomes the active user.
             // We switch the cookie to point to this canonical row.
             // (Note: We are NOT merging stats from the anonymous session in this v1. The anonymous history is orphaned.)
+            const cookieHeader: string = setUserIdCookie(existingAccount.id) || '';
 
             return {
                 statusCode: 200,
                 headers: {
-                    'Set-Cookie': setUserIdCookie(existingAccount.id),
                     'Content-Type': 'application/json'
+                },
+                multiValueHeaders: {
+                    'Set-Cookie': [cookieHeader]
                 },
                 body: JSON.stringify(existingAccount)
             };
