@@ -19,7 +19,7 @@ interface StartScreenProps {
 }
 
 const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: StartScreenProps) => {
-    const { username, updateUsername, userIsLoading, playedToday, isAdmin } = useUsername();
+    const { username, updateUsername, userIsLoading, playedToday, isAdmin, logout } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
     const [error, setError] = useState<string | null>(null);
