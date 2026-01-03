@@ -201,9 +201,9 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                 <DifficultySelector />
 
                 {/* Buttons */}
-                <div className="d-flex flex-column mb-2" >
+                <div className="d-flex flex-column" >
                     <Button
-                        className={"py-2 pulse-glow " + styles.startButton}
+                        className={" mb-2 py-2 pulse-glow " + styles.startButton}
                         color="accent"
                         onClick={handlePlayClick}
                         disabled={userIsLoading || disabled}
@@ -215,7 +215,7 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                         Start -&gt;
                     </Button>
                     {isLoggedIn && !userIsLoading && (
-                        <div className="mt-2 text-center">
+                        <div className=" mb-2 text-center">
                             <Button
                                 color="success"
                                 outline
@@ -232,6 +232,7 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                             color="secondary"
                             outline
                             onClick={onAnalytics}
+                            className="mb-2"
                         >
                             Analytics
                         </Button>
