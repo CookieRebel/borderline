@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Input, FormGroup, Label, Alert } from 'reactstrap';
 import { supabase } from '../../utils/supabase';
 import { useUsername } from '../../hooks/useUsername';
+import styles from './AuthModal.module.css';
 
 interface IProps {
     isOpen: boolean;
@@ -106,6 +107,16 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
             <ModalHeader toggle={toggle}>{title}</ModalHeader>
             <ModalBody>
                 {error && <Alert color="danger">{error}</Alert>}
+                {mode === 'signup' &&
+                    <div className={styles.message}>
+                        <p><small>Sign up to Borderline to allow you to</small></p>
+                        <ul>
+                            <li><small>play with the same account across different devices</small></li>
+                            <li><small>access extended game statistics</small></li>
+                        </ul>
+                        <p><small>Your existing game statistics on this device will carry over into the new account.</small></p>
+                    </div>
+                }
                 <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
@@ -146,13 +157,13 @@ export const AuthModal: React.FC<IProps> = ({ isOpen, toggle, mode: initialMode,
                         <small>{switchLabel}</small>
                     </Button>
                 </div>
-            </ModalBody>
+            </ModalBody >
             <ModalFooter>
                 <Button color="secondary" onClick={toggle} disabled={loading}>Cancel</Button>
                 <Button color="primary" onClick={handleAuth} disabled={loading}>
                     {loading ? 'Processing...' : title}
                 </Button>
             </ModalFooter>
-        </Modal>
+        </Modal >
     );
 };

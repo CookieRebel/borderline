@@ -37,7 +37,7 @@ npm run netlify:functions -w backend
 
 Start the Game App:
 ```bash
-npm run dev -w app
+npm run watch -w app
 # Runs on http://localhost:5174
 ```
 

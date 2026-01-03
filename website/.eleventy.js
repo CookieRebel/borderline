@@ -12,6 +12,10 @@ export default function (eleventyConfig) {
   eleventyConfig.addGlobalData("site", {
     url: "https://borderlinequiz.com",
   });
+
+  // Watch Vite build output for changes
+  eleventyConfig.addWatchTarget("../dist/assets/app/");
+
   eleventyConfig.setServerOptions({
     middleware: [
       (req, res, next) => {
