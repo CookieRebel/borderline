@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Edit2, LogOut } from 'react-feather';
+import { Edit2, LogOut, User } from 'react-feather';
 import { Button, Toast, ToastBody } from 'reactstrap';
 import { useUsername } from '../../hooks/useUsername';
 import { AudioManager } from '../../utils/audioManager';
@@ -13,11 +13,12 @@ interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
     onStatistics: () => void;
+    onProfile: () => void;
     streak?: number;
     disabled?: boolean;
 }
 
-const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled = false }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onAnalytics, onStatistics, onProfile, streak = 0, disabled = false }: StartScreenProps) => {
     const { username, updateUsername, userIsLoading, playedToday, isAdmin, logout, isLoggedIn } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
@@ -138,7 +139,7 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                             )}
                             <div className={styles.username + " h5 mb-2 d-inline-flex align-items-center"}>
 
-                                Playing as
+                                Playing as&nbsp;
                                 {isEditing ? (
                                     <input
                                         type="text"
@@ -151,26 +152,33 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                                         style={{ width: '150px', outline: 'none' }}
                                     />
                                 ) : (
-                                    <span
-                                        onClick={handleClick}
-                                        className="ms-1 d-inline-flex align-items-center gap-1"
-                                        style={{ cursor: 'pointer' }}
-                                        title="Click to edit"
-                                    >
+                                    <>
                                         {username}
-                                        <Edit2 size={14} />
-                                    </span>
+                                        <Button
+                                            color="light"
+                                            outline
+                                            size="sm"
+                                            onClick={isLoggedIn ? onProfile : handleClick}
+                                            className="ms-2 d-inline-flex align-items-center gap-2 fw-bold text-dark"
+                                            title={isLoggedIn ? "Edit Profile" : "Click to edit"}
+                                            style={{ border: '1px solid #dee2e6' }}
+                                        >
+                                            {isLoggedIn ? <User size={14} /> : <Edit2 size={14} />}
+                                        </Button>
+                                    </>
                                 )}
 
                                 {isLoggedIn && (
-                                    <span
+                                    <Button
+                                        color="light"
+                                        outline
+                                        size="sm"
                                         onClick={() => logout()}
                                         className="ms-2 d-inline-flex align-items-center text-muted"
-                                        style={{ cursor: 'pointer' }}
-                                        title="Log Out"
+                                        style={{ border: '1px solid #dee2e6' }}
                                     >
                                         <LogOut size={14} />
-                                    </span>
+                                    </Button>
                                 )}
 
                             </div>
@@ -203,7 +211,7 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                 {/* Buttons */}
                 <div className="d-flex flex-column" >
                     <Button
-                        className={" mb-2 py-2 pulse-glow " + styles.startButton}
+                        className={" mb-2 py-2 pulse-glow " + styles.startButton + " " + styles.button}
                         color="accent"
                         onClick={handlePlayClick}
                         disabled={userIsLoading || disabled}
@@ -220,6 +228,7 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                                 color="success"
                                 outline
                                 onClick={onStatistics}
+                                className={styles.button}
                             >
                                 My Statistics
                             </Button>
@@ -227,12 +236,13 @@ const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled =
                     )}
 
 
+
                     {isAdmin && (
                         <Button
                             color="secondary"
                             outline
                             onClick={onAnalytics}
-                            className="mb-2"
+                            className={styles.button + " mb-2"}
                         >
                             Analytics
                         </Button>

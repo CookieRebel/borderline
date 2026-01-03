@@ -14,6 +14,7 @@ import StartScreen from './components/Layout/StartScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
 import StatisticsScreen from './components/Stats/StatisticsScreen';
 import GameEndScreen from './components/Layout/GameEndScreen';
+import { ProfileModal } from './components/Auth/ProfileModal';
 
 import styles from './App.module.css';
 import GameCard from './components/Layout/GameCard';
@@ -38,6 +39,7 @@ function App() {
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
   const [showResultsScreen, setShowResultsScreen] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
   // 2. Hooks
@@ -135,22 +137,29 @@ function App() {
   // Show start screen first
   if (showStartScreen) {
     return (
-      <StartScreen
-        onPlay={() => {
-          setShowStartScreen(false);
-          startGame();
-        }}
-        onAnalytics={() => {
-          setShowStartScreen(false);
-          setShowAnalytics(true);
-        }}
-        onStatistics={() => {
-          setShowStartScreen(false);
-          setShowStatistics(true);
-        }}
-        streak={streak}
-        disabled={gameState.status !== 'ready'}
-      />
+      <>
+        <StartScreen
+          onPlay={() => {
+            setShowStartScreen(false);
+            startGame();
+          }}
+          onAnalytics={() => {
+            setShowStartScreen(false);
+            setShowAnalytics(true);
+          }}
+          onStatistics={() => {
+            setShowStartScreen(false);
+            setShowStatistics(true);
+          }}
+          onProfile={() => setShowProfileModal(true)}
+          streak={streak}
+          disabled={gameState.status !== 'ready'}
+        />
+        <ProfileModal
+          isOpen={showProfileModal}
+          toggle={() => setShowProfileModal(!showProfileModal)}
+        />
+      </>
     );
   }
 
@@ -187,26 +196,35 @@ function App() {
   {/* Game End Modal - only show when user clicks Results */ }
   if (isGameOver && showResultsScreen) {
     return (
-      <GameEndScreen
-        isOpen={true}
-        countryName={gameState.targetCountry?.properties?.name || ''}
-        countryCode={gameState.targetCountry?.properties?.['ISO3166-1-Alpha-2']}
-        resultMessage={gameState.message}
-        won={gameState.status === 'won'}
-        onPlayAgain={playAgain}
-        onClose={() => setShowResultsScreen(false)}
-        onLogout={async () => {
-          await logout();
-          setShowResultsScreen(false);
-          setShowStartScreen(true);
-          await resetGame();
-        }}
-        onStatistics={() => {
-          setShowResultsScreen(false);
-          setShowStatistics(true);
-        }}
-        rankMessage={gameState.rankMessage}
-      />
+      <>
+        <GameEndScreen
+          isOpen={true}
+          countryName={gameState.targetCountry?.properties?.name || ''}
+          countryCode={gameState.targetCountry?.properties?.['ISO3166-1-Alpha-2']}
+          resultMessage={gameState.message}
+          won={gameState.status === 'won'}
+          onPlayAgain={playAgain}
+          onClose={() => setShowResultsScreen(false)}
+          onLogout={async () => {
+            await logout();
+            setShowResultsScreen(false);
+            setShowStartScreen(true);
+            await resetGame();
+          }}
+          onStatistics={() => {
+            setShowResultsScreen(false);
+            setShowStatistics(true);
+          }}
+          rankMessage={gameState.rankMessage}
+          onProfile={() => {
+            setShowProfileModal(true);
+          }}
+        />
+        <ProfileModal
+          isOpen={showProfileModal}
+          toggle={() => setShowProfileModal(!showProfileModal)}
+        />
+      </>
     )
   }
 
@@ -236,6 +254,10 @@ function App() {
         />
       </Container>
 
+      <ProfileModal
+        isOpen={showProfileModal}
+        toggle={() => setShowProfileModal(!showProfileModal)}
+      />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { useUsername } from '../../hooks/useUsername';
 import DifficultySelector from '../Game/DifficultySelector';
 import Leaderboard from '../Game/Leaderboard';
 import styles from './GameEndScreen.module.css';
+import { Edit2, User } from 'react-feather';
 
 interface CountryFact {
     country: string;
@@ -22,7 +23,8 @@ interface IProps {
     onClose: () => void;
     onLogout: () => void; // New prop for external handling
     onStatistics: () => void;
-    rankMessage: string;
+    rankMessage?: string;
+    onProfile: () => void;
 }
 
 // Convert ISO Alpha-2 code to emoji flag
@@ -43,9 +45,10 @@ const GameEndScreen = ({
     onClose,
     onLogout,
     onStatistics,
-    rankMessage
+    rankMessage,
+    onProfile
 }: IProps) => {
-    const { isLoggedIn } = useUsername(); // Check if logged in
+    const { isLoggedIn, username } = useUsername(); // Check if logged in
     const [countryFacts, setCountryFacts] = useState<CountryFact[]>([]);
 
     useEffect(() => {
@@ -98,15 +101,33 @@ const GameEndScreen = ({
                     &lt;- Back to game
                 </Button>
 
+
+
                 {isLoggedIn && (
-                    <Button
-                        color="link"
-                        className="pe-0 text-muted text-decoration-none d-flex align-items-center gap-1"
-                        onClick={onLogout}
-                        size="sm"
-                    >
-                        Log Out <LogOut size={14} />
-                    </Button>
+                    <div>
+                        {username}
+                        <Button
+                            color="light"
+                            outline
+                            size="sm"
+                            onClick={onProfile}
+                            className="ms-2 d-inline-flex align-items-center gap-2 fw-bold text-dark"
+                            title="Edit Profile"
+                            style={{ border: '1px solid #dee2e6' }}
+                        >
+                            <User size={14} />
+                        </Button>
+                        <Button
+                            color="light"
+                            outline
+                            size="sm"
+                            onClick={onLogout}
+                            className="ms-2 d-inline-flex align-items-center text-muted"
+                            style={{ border: '1px solid #dee2e6' }}
+                        >
+                            <LogOut size={14} />
+                        </Button>
+                    </div>
                 )}
             </div>
 
@@ -167,14 +188,16 @@ const GameEndScreen = ({
                     Play Again
                 </Button>
                 {isLoggedIn && (
-                    <Button
-                        color="secondary"
-                        outline
-                        onClick={onStatistics}
-                        className="mb-2"
-                    >
-                        My Statistics
-                    </Button>
+                    <>
+                        <Button
+                            color="secondary"
+                            outline
+                            onClick={onStatistics}
+                            className="mb-2"
+                        >
+                            My Statistics
+                        </Button>
+                    </>
                 )}
             </div>
 

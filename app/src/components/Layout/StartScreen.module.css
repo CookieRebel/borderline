@@ -57,6 +57,10 @@
     width: 350px;
 }
 
+.button {
+    width: 150px;
+}
+
 /* Mobile Navigation - Moved to end for proper override */
 @media (max-width: 768px) {
     .startCard {
