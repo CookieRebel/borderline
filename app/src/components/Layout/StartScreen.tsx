@@ -203,49 +203,46 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                     </Button>
 
 
-                    {isAdmin && (
+                </div>
+                {/* Auth UI */}
+                {!session ? (
+                    <div className="d-flex gap-2 justify-content-center mt-2 mb-2">
                         <Button
                             color="secondary"
                             outline
-                            onClick={onAnalytics}
-                        >
-                            Analytics
-                        </Button>
-                    )}
-                </div>
-
-                {/* Auth UI */}
-                {!session ? (
-                    <div className="d-flex gap-2 justify-content-center mt-2">
-                        <Button
-                            color="light"
-                            outline
-                            size="sm"
                             onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
                         >
                             Log In
                         </Button>
                         <Button
-                            color="light"
+                            color="secondary"
                             outline
-                            size="sm"
                             onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
                         >
                             Sign Up
                         </Button>
                     </div>
                 ) : (
-                    <div className="text-center mt-2">
-                        <div className="small text-white-50 mb-1" style={{ fontSize: '0.75rem' }}>{session.user.email}</div>
+                    <div className="text-center mt-2 mb-2">
+                        <div className="small mb-1" style={{ fontSize: '0.75rem' }}>{session.user.email}</div>
                         <Button
-                            color="link"
-                            className="text-white-50 p-0 text-decoration-none"
-                            size="sm"
+                            color="secondary"
+                            outline
                             onClick={() => supabase.auth.signOut()}
                         >
                             Log Out
                         </Button>
                     </div>
+                )}
+
+                {isAdmin && (
+                    <Button
+                        color="secondary"
+                        outline
+                        onClick={onAnalytics}
+                    >
+                        Analytics
+                    </Button>
                 )}
 
                 <div className={"mt-2 " + styles.leaderboard}>
