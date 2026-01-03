@@ -12,6 +12,7 @@ import { AudioManager } from './utils/audioManager';
 import Header from './components/Layout/Header';
 import StartScreen from './components/Layout/StartScreen';
 import AnalyticsScreen from './components/Layout/AnalyticsScreen';
+import StatisticsScreen from './components/Stats/StatisticsScreen';
 import GameEndScreen from './components/Layout/GameEndScreen';
 
 import styles from './App.module.css';
@@ -35,6 +36,7 @@ function App() {
   // 1. State Variables
   const [showStartScreen, setShowStartScreen] = useState(true);
   const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [showResultsScreen, setShowResultsScreen] = useState(false);
   const [statsRefreshKey, setStatsRefreshKey] = useState(0);
 
@@ -142,6 +144,10 @@ function App() {
           setShowStartScreen(false);
           setShowAnalytics(true);
         }}
+        onStatistics={() => {
+          setShowStartScreen(false);
+          setShowStatistics(true);
+        }}
         streak={streak}
         disabled={gameState.status !== 'ready'}
       />
@@ -156,6 +162,23 @@ function App() {
         onBack={() => {
           setShowAnalytics(false);
           setShowStartScreen(true);
+        }}
+      />
+    );
+  }
+
+  // Show personal statistics screen
+  if (showStatistics) {
+    return (
+      <StatisticsScreen
+        userId={userId}
+        onBack={() => {
+          setShowStatistics(false);
+          setShowStartScreen(true);
+          // If coming from a finished game, reset so we can play new one
+          if (gameState.status !== 'ready') {
+            resetGame();
+          }
         }}
       />
     );
@@ -177,6 +200,10 @@ function App() {
           setShowResultsScreen(false);
           setShowStartScreen(true);
           await resetGame();
+        }}
+        onStatistics={() => {
+          setShowResultsScreen(false);
+          setShowStatistics(true);
         }}
         rankMessage={gameState.rankMessage}
       />

@@ -21,6 +21,7 @@ interface IProps {
     onPlayAgain: () => void;
     onClose: () => void;
     onLogout: () => void; // New prop for external handling
+    onStatistics: () => void;
     rankMessage: string;
 }
 
@@ -41,6 +42,7 @@ const GameEndScreen = ({
     onPlayAgain,
     onClose,
     onLogout,
+    onStatistics,
     rankMessage
 }: IProps) => {
     const { isLoggedIn } = useUsername(); // Check if logged in
@@ -108,6 +110,7 @@ const GameEndScreen = ({
                 )}
             </div>
 
+
             <div className="mb-2 mt-2">
                 <div className={`${styles.resultMessage} ${won ? 'text-dark' : 'text-muted'}`}>
                     {resultMessage}
@@ -155,14 +158,24 @@ const GameEndScreen = ({
             <DifficultySelector />
 
             {/* Play Again button */}
-            <div className="d-flex justify-content-center mb-2">
+            <div className="d-flex flex-column align-items-center">
                 <Button
-                    className="btn-accent px-5 py-2"
-                    size="lg"
+                    color="accent"
                     onClick={onPlayAgain}
+                    className="mb-2"
                 >
                     Play Again
                 </Button>
+                {isLoggedIn && (
+                    <Button
+                        color="secondary"
+                        outline
+                        onClick={onStatistics}
+                        className="mb-2"
+                    >
+                        My Statistics
+                    </Button>
+                )}
             </div>
 
             {/* Leaderboard */}

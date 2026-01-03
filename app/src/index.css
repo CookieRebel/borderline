@@ -213,6 +213,10 @@ body {
   border-color: #046307 !important;
 }
 
+.form-check-input:checked {
+  background-color: var(--emerald);
+  border-color: var(--emerald);
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {

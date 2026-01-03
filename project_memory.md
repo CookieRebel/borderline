@@ -41,7 +41,7 @@
   - `backend`: Backend (Netlify Functions + Drizzle/Postgres), Port 9999.
   - `website`: Marketing Site (Eleventy), Port 8080.
 - **Proxy**: `app` proxies `/api` requests to `localhost:9999` (backend).
-- **Timezone**: All analytics and metrics assume **Australia/Melbourne** timezone.
+- **Timezone**: Global analytics use **Australia/Melbourne**. Personal statistics use the **User's** timezone.
 
 # Coding Standards
 - **Language**: TypeScript.
@@ -61,12 +61,8 @@
 - **Styling**:
   - Use **CSS Modules** for custom styles.
   - Use **Bootstrap** classes for layout and standard styling.
+  - Use <Button> colors primary, secondary, tertiary, and accent(red) for very important buttons.
   - **Map Rendering**: D3-geo with Orthographic projection. Dynamic detail based on zoom (LOD swap for neighbors).
-  - **Target Exclusion**: Filtered non-sovereign entities (glaciers, bases) from target list.
-  - **Geometry Updates**: Manually patched high-res geometry for VAT, GIB, CPP using OpenStreetMap Relations (Land Only).
-  - **Map Patching**: Used `patch_replace_geometry.js` strategy to swap geometries.
-  - **Zoom Constraint**: Limit zoom to prevent clipping.
-  - **Line Width**: Dynamic line width based on zoom level.
 - **Components**:
   - Always use **ReactStrap** components when suitable.
   - Use modular design to structure components.

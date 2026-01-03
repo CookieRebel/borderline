@@ -12,11 +12,12 @@ import { AuthModal } from '../Auth/AuthModal';
 interface StartScreenProps {
     onPlay: () => void;
     onAnalytics: () => void;
+    onStatistics: () => void;
     streak?: number;
     disabled?: boolean;
 }
 
-const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: StartScreenProps) => {
+const StartScreen = ({ onPlay, onAnalytics, onStatistics, streak = 0, disabled = false }: StartScreenProps) => {
     const { username, updateUsername, userIsLoading, playedToday, isAdmin, logout, isLoggedIn } = useUsername();
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState('');
@@ -196,15 +197,14 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                     </div>
                 ) : null}
 
-
                 {/* Difficulty Selector */}
                 <DifficultySelector />
 
                 {/* Buttons */}
-                <div className="d-flex flex-column gap-2 mb-2" style={{ width: '200px' }}>
+                <div className="d-flex flex-column mb-2" >
                     <Button
-                        className={"btn-accent py-2 pulse-glow " + styles.startButton}
-                        size="lg"
+                        className={"py-2 pulse-glow " + styles.startButton}
+                        color="accent"
                         onClick={handlePlayClick}
                         disabled={userIsLoading || disabled}
                         style={{
@@ -214,18 +214,31 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                     >
                         Start -&gt;
                     </Button>
+                    {isLoggedIn && !userIsLoading && (
+                        <div className="mt-2 text-center">
+                            <Button
+                                color="success"
+                                outline
+                                onClick={onStatistics}
+                            >
+                                My Statistics
+                            </Button>
+                        </div>
+                    )}
+
+
+                    {isAdmin && (
+                        <Button
+                            color="secondary"
+                            outline
+                            onClick={onAnalytics}
+                        >
+                            Analytics
+                        </Button>
+                    )}
 
 
                 </div>
-                {isAdmin && (
-                    <Button
-                        color="secondary"
-                        outline
-                        onClick={onAnalytics}
-                    >
-                        Analytics
-                    </Button>
-                )}
 
                 <div className={"mt-2 " + styles.leaderboard}>
                     <Leaderboard />
@@ -240,7 +253,7 @@ const StartScreen = ({ onPlay, onAnalytics, streak = 0, disabled = false }: Star
                 mode={authMode}
                 onSuccess={() => { }}
             />
-        </div>
+        </div >
     );
 };
 
