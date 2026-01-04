@@ -133,7 +133,13 @@ function App() {
     // console.log('Playing again - showing ad...');
     setShowResultsScreen(false);
     await resetGame();
-    setShowAdScreen(true);
+
+    const ENABLE_ADS = false; // Disabled pending Google approval
+    if (ENABLE_ADS) {
+      setShowAdScreen(true);
+    } else {
+      startGame();
+    }
   };
 
   /**
@@ -141,7 +147,13 @@ function App() {
    */
   const handleStartFlow = () => {
     setShowStartScreen(false);
-    setShowAdScreen(true);
+
+    const ENABLE_ADS = false; // Disabled pending Google approval
+    if (ENABLE_ADS) {
+      setShowAdScreen(true);
+    } else {
+      startGame();
+    }
   };
 
   const onAdContinue = () => {
