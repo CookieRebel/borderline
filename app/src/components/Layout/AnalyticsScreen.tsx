@@ -326,7 +326,6 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     </Button>
                     <div className="flex-grow-1">
                         <h2 className="mb-0">Analytics Dashboard</h2>
-                        <p className="text-muted mb-0 small">BorderLINE Statistics</p>
                     </div>
                     <Button
                         color="light"
@@ -337,6 +336,34 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                         <RefreshCcw size={18} className={`me-2 ${loading ? 'spin-animation' : ''}`} />
                         Refresh
                     </Button>
+                </div>
+
+                {/* Stats Cards (Periods) */}
+                <div className="row g-4 mb-4">
+                    <div className="col-12 col-md-4">
+                        {renderStatCard(
+                            'Today',
+                            data.daily,
+                            <Users size={24} className="text-primary" />,
+                            'primary'
+                        )}
+                    </div>
+                    <div className="col-12 col-md-4">
+                        {renderStatCard(
+                            'This Week',
+                            data.weekly,
+                            <Users size={24} className="text-info" />,
+                            'info'
+                        )}
+                    </div>
+                    <div className="col-12 col-md-4">
+                        {renderStatCard(
+                            'This Month',
+                            data.monthly,
+                            <Users size={24} className="text-success" />,
+                            'success'
+                        )}
+                    </div>
                 </div>
 
                 {/* Live Status Section */}
@@ -391,33 +418,6 @@ const AnalyticsScreen = ({ onBack, userId }: AnalyticsScreenProps) => {
                     </div>
                 </div>
 
-                {/* Stats Cards (Periods) */}
-                <div className="row g-4 mb-4">
-                    <div className="col-12 col-md-4">
-                        {renderStatCard(
-                            'Today',
-                            data.daily,
-                            <Users size={24} className="text-primary" />,
-                            'primary'
-                        )}
-                    </div>
-                    <div className="col-12 col-md-4">
-                        {renderStatCard(
-                            'This Week',
-                            data.weekly,
-                            <Users size={24} className="text-info" />,
-                            'info'
-                        )}
-                    </div>
-                    <div className="col-12 col-md-4">
-                        {renderStatCard(
-                            'This Month',
-                            data.monthly,
-                            <Users size={24} className="text-success" />,
-                            'success'
-                        )}
-                    </div>
-                </div>
 
                 {/* Totals Section */}
                 <div className="row g-4 mb-4">
