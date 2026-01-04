@@ -8,6 +8,8 @@ import { useUsername } from './hooks/useUsername';
 import { useDifficulty, type Difficulty } from './hooks/useDifficulty';
 import { AudioManager } from './utils/audioManager';
 
+import AdScreen from './components/Layout/AdScreen';
+
 // Layout components
 import Header from './components/Layout/Header';
 import StartScreen from './components/Layout/StartScreen';
@@ -36,6 +38,7 @@ const playSparkleSound = () => {
 function App() {
   // 1. State Variables
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showAdScreen, setShowAdScreen] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showStatistics, setShowStatistics] = useState(false);
   const [showResultsScreen, setShowResultsScreen] = useState(false);
@@ -126,23 +129,38 @@ function App() {
    * Resets the game state and starts a new session.
    * Called when the user clicks "Play Again" in the modal.
    */
-  const playAgain = async () => {
-    // console.log('Playing again...');
+  const handlePlayAgainFlow = async () => {
+    // console.log('Playing again - showing ad...');
     setShowResultsScreen(false);
     await resetGame();
+    setShowAdScreen(true);
+  };
+
+  /**
+   * Handles the flow from Start Screen -> Ad -> Game
+   */
+  const handleStartFlow = () => {
+    setShowStartScreen(false);
+    setShowAdScreen(true);
+  };
+
+  const onAdContinue = () => {
+    setShowAdScreen(false);
     startGame();
   };
 
   // console.log("App gameState rankMessage", gameState.rankMessage);
+
+  if (showAdScreen) {
+    return <AdScreen onContinue={onAdContinue} />;
+  }
+
   // Show start screen first
   if (showStartScreen) {
     return (
       <>
         <StartScreen
-          onPlay={() => {
-            setShowStartScreen(false);
-            startGame();
-          }}
+          onPlay={handleStartFlow}
           onAnalytics={() => {
             setShowStartScreen(false);
             setShowAnalytics(true);
@@ -203,7 +221,7 @@ function App() {
           countryCode={gameState.targetCountry?.properties?.['ISO3166-1-Alpha-2']}
           resultMessage={gameState.message}
           won={gameState.status === 'won'}
-          onPlayAgain={playAgain}
+          onPlayAgain={handlePlayAgainFlow}
           onClose={() => setShowResultsScreen(false)}
           onLogout={async () => {
             await logout();
