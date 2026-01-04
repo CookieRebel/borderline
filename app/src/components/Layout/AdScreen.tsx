@@ -1,16 +1,30 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Container, Button } from 'reactstrap';
 
 interface AdScreenProps {
     onContinue: () => void;
 }
 
+declare global {
+    interface Window {
+        adsbygoogle?: unknown[];
+    }
+}
+
 const AdScreen: React.FC<AdScreenProps> = ({ onContinue }) => {
-    const [showButton, setShowButton] = useState(false);
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const adRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.warn("AdSense failed to load", e);
+        }
+    }, []);
+    useEffect(() => {
         const timer = setTimeout(() => {
-            setShowButton(true);
+            setIsButtonEnabled(true);
         }, 3000);
 
         return () => clearTimeout(timer);
@@ -19,24 +33,26 @@ const AdScreen: React.FC<AdScreenProps> = ({ onContinue }) => {
     return (
         <div className="d-flex align-items-center justify-content-center vh-100 bg-white">
             <Container className="text-center">
-                {/* 
-                  The page is intentionally blank (white background) 
-                  until the button appears. 
-                  This is per the "Ad Page" requirement.
-                */}
+                <div className="ad-container" ref={adRef}>
+                    <ins className="adsbygoogle"
+                        style={{ display: "block" }}
+                        data-ad-client="ca-pub-3667383077241340"
+                        data-ad-slot="3324187743"
+                        data-ad-format="auto"
+                        data-full-width-responsive="true"></ins>
+                </div>
 
-                {showButton && (
-                    <div className="fixed-bottom p-4 text-center">
-                        <Button
-                            color="primary"
-                            size="lg"
-                            onClick={onContinue}
-                            className="px-5"
-                        >
-                            Continue
-                        </Button>
-                    </div>
-                )}
+
+                <div className="fixed-bottom p-4 text-center">
+                    <Button
+                        color="primary"
+                        onClick={onContinue}
+                        className="px-5"
+                        disabled={!isButtonEnabled}
+                    >
+                        Continue
+                    </Button>
+                </div>
             </Container>
         </div>
     );
